@@ -16,19 +16,29 @@
 package net.entropysoft.transmorph.signature;
 
 import java.lang.reflect.Type;
+import java.util.Collections;
+import java.util.Map;
+
+import net.entropysoft.transmorph.cache.LRUMap;
 
 public class TypeSignatureFactory {
 	private static JavaTypeToTypeSignature javaTypeToTypeSignature = new JavaTypeToTypeSignature();
+	private static Map<String, TypeSignature> typeSignatureCache = Collections.synchronizedMap(new LRUMap<String, TypeSignature>(100));
 	
 	/**
 	 * get TypeSignature given the signature
 	 * @param typeSignature
 	 * @return
 	 */
-	public static TypeSignature getTypeSignature(String typeSignature) {
-		TypeSignatureParser typeSignatureParser = new TypeSignatureParser(
-				typeSignature);
-		return typeSignatureParser.parseTypeSignature();
+	public static TypeSignature getTypeSignature(String typeSignatureString) {
+		TypeSignature typeSignature = typeSignatureCache.get(typeSignatureString);
+		if (typeSignature == null) {
+			TypeSignatureParser typeSignatureParser = new TypeSignatureParser(
+				typeSignatureString);
+			typeSignature = typeSignatureParser.parseTypeSignature();
+			typeSignatureCache.put(typeSignatureString, typeSignature);
+		}
+		return typeSignature;
 	}
 
 	/**

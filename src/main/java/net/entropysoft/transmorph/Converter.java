@@ -117,9 +117,7 @@ public class Converter implements IConverter {
 	 */
 	public Object convert(Object source, String parameterizedTypeSignature)
 			throws ConverterException {
-		TypeSignatureParser typeSignatureParser = new TypeSignatureParser(
-				parameterizedTypeSignature);
-		TypeSignature typeSignature = typeSignatureParser.parseTypeSignature();
+		TypeSignature typeSignature = TypeSignatureFactory.getTypeSignature(parameterizedTypeSignature);
 		Type destinationType = typeFactory.getType(typeSignature);
 
 		return convert(this, source, destinationType);

@@ -110,9 +110,7 @@ public class JavaTypeToTypeSignature {
 			sb.append(clazz.getName().replace('.', '/').replace('$', '.'));
 			sb.append(';');
 		}
-		TypeSignatureParser typeSignatureParser = new TypeSignatureParser(sb
-				.toString());
-		return typeSignatureParser.parseTypeSignature();
+		return TypeSignatureFactory.getTypeSignature(sb.toString());
 
 	}
 

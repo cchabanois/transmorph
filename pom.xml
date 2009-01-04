@@ -40,6 +40,32 @@
 		</developer>
 	</developers>
 
+	<licenses>
+		<license>
+			<name>The Apache Software License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt
+			</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+
+	<organization>
+		<name>EntropySoft</name>
+		<url>http://www.entropysoft.net</url>
+	</organization>
+
+	<scm>
+		<developerConnection>
+			scm:svn:https://transmorph.svn.sourceforge.net/svnroot/transmorph/trunk
+		</developerConnection>
+		<connection>
+			scm:svn:http://transmorph.svn.sourceforge.net/svnroot/transmorph/trunk
+		</connection>
+		<url>http://transmorph.svn.sourceforge.net/viewvc/transmorph/trunk
+		</url>
+	</scm>
+
+
 	<dependencies>
 		<dependency>
 			<groupId>junit</groupId>
@@ -120,6 +146,23 @@
 					<targetJdk>${compileSource}</targetJdk>
 				</configuration>
 			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<configuration>
+					<links>
+						<link>http://java.sun.com/j2se/1.5.0/docs/api
+						</link>
+					</links>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-changelog-plugin
+				</artifactId>
+			</plugin>
+
 		</plugins>
 	</reporting>
 </project>

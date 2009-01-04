@@ -15,6 +15,10 @@
  */
 package net.entropysoft.transmorph.type;
 
+import java.util.Collections;
+import java.util.Map;
+
+import net.entropysoft.transmorph.cache.LRUMap;
 import net.entropysoft.transmorph.signature.ArrayTypeSignature;
 import net.entropysoft.transmorph.signature.ClassFactory;
 import net.entropysoft.transmorph.signature.ClassTypeSignature;
@@ -26,19 +30,17 @@ import net.entropysoft.transmorph.signature.TypeSignatureFactory;
  * Factory that creates types from their signatures
  * 
  * @author Cedric Chabanois (cchabanois at gmail.com)
- *
+ * 
  */
 public class TypeFactory {
-
+	private Map<TypeSignature, Type> typesCache = Collections
+			.synchronizedMap(new LRUMap<TypeSignature, Type>(200));
 	private ClassFactory classFactory;
 
-	private ClassType objectType;
-	private ClassType stringType;
-	
 	public TypeFactory(ClassLoader classLoader) {
 		this(new ClassFactory(classLoader));
 	}
-	
+
 	public TypeFactory(ClassFactory classFactory) {
 		this.classFactory = classFactory;
 	}
@@ -50,38 +52,36 @@ public class TypeFactory {
 	public Type getType(Class clazz) {
 		return getType(TypeSignatureFactory.getTypeSignature(clazz));
 	}
-	
+
 	public Type getType(TypeSignature typeSignature) {
-		if (typeSignature.isArrayType()) {
-			return new ArrayType(this, (ArrayTypeSignature) typeSignature);
+		Type type = typesCache.get(typeSignature);
+
+		if (type == null) {
+			if (typeSignature.isArrayType()) {
+				type = new ArrayType(this, (ArrayTypeSignature) typeSignature);
+			} else
+			if (typeSignature.isPrimitiveType()) {
+				type = new PrimitiveType(this,
+						(PrimitiveTypeSignature) typeSignature);
+			} else
+			if (typeSignature.isClassType()) {
+				type =  new ClassType(this, (ClassTypeSignature) typeSignature);
+			} else {
+				type = null;
+			}
+			typesCache.put(typeSignature, type);
 		}
-		if (typeSignature.isPrimitiveType()) {
-			return new PrimitiveType(this,
-					(PrimitiveTypeSignature) typeSignature);
-		}
-		if (typeSignature.isClassType()) {
-			return new ClassType(this, (ClassTypeSignature) typeSignature);
-		}
-		return null;
+		return type;
 	}
 
 	public ClassType getObjectType() {
-		if (objectType == null) {
-			objectType = new ClassType(this,
-					(ClassTypeSignature) TypeSignatureFactory
-							.getTypeSignature(Object.class));
-		}
-		return objectType;
+		return (ClassType)getType(TypeSignatureFactory
+				.getTypeSignature(Object.class));
 	}
 
 	public ClassType getStringType() {
-		if (stringType == null) {
-			stringType = new ClassType(this,
-					(ClassTypeSignature) TypeSignatureFactory
-							.getTypeSignature(String.class));
-		}
-		return stringType;
+		return (ClassType)getType(TypeSignatureFactory
+				.getTypeSignature(String.class));
 	}
-	
-	
+
 }

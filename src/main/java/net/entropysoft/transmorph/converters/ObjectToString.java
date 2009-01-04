@@ -49,15 +49,6 @@ public class ObjectToString implements IConverter {
 		return sourceObject.toString();
 	}
 
-	private boolean isHandledSourceClass(Class clazz) {
-		for (Class handledClass : handledSourceClasses) {
-			if (handledClass.isAssignableFrom(clazz)) {
-				return true;
-			}
-		}
-		return false;
-	}
-
 	public boolean canHandleDestinationType(Type destinationType) {
 		try {
 			return destinationType.isType(String.class);

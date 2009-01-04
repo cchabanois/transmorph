@@ -49,7 +49,9 @@ public class TypeArgSignature implements ISignature {
 		if (wildcard != NO_WILDCARD) {
 			sb.append(wildcard);
 		}
-		sb.append(fieldTypeSignature.getSignature());
+		if (fieldTypeSignature != null) {
+			sb.append(fieldTypeSignature.getSignature());
+		}
 		return sb.toString();
 	}
 

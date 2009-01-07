@@ -17,6 +17,14 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
+	
+	<parent>
+		<groupId>net.entropysoft</groupId>
+		<artifactId>transmorph-parent</artifactId>
+		<version>1.0.0</version>
+	</parent>
+
+	
 	<groupId>net.entropysoft</groupId>
 	<artifactId>transmorph</artifactId>
 	<packaging>jar</packaging>
@@ -78,8 +86,7 @@
 	<properties>
 		<compileSource>1.5</compileSource>
 		<compileTarget>1.5</compileTarget>
-	</properties>
-
+	</properties>	
 
 	<build>
 		<plugins>
@@ -93,30 +100,31 @@
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-jar-plugin</artifactId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<configuration>
+					<links>
+						<link>http://java.sun.com/j2se/1.5.0/docs/api
+						</link>
+					</links>
+				</configuration>
 				<executions>
 					<execution>
+						<id>attach-javadocs</id>
 						<goals>
-							<goal>test-jar</goal>
+							<goal>jar</goal>
 						</goals>
 					</execution>
 				</executions>
 			</plugin>
 			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>retrotranslator-maven-plugin
-				</artifactId>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
 				<executions>
 					<execution>
+						<id>attach-sources</id>
 						<goals>
-							<goal>translate-project</goal>
+							<goal>jar</goal>
 						</goals>
-						<configuration>
-							<classifier>jdk14</classifier>
-							<attach>true</attach>
-							<embed>net.entropysoft.embedded.retrotranslator
-							</embed>
-						</configuration>
 					</execution>
 				</executions>
 			</plugin>

@@ -23,8 +23,10 @@ import net.entropysoft.transmorph.converters.StringToDate;
 import net.entropysoft.transmorph.converters.StringToEnum;
 import net.entropysoft.transmorph.converters.StringToFile;
 import net.entropysoft.transmorph.converters.StringToNumber;
+import net.entropysoft.transmorph.converters.StringToQName;
 import net.entropysoft.transmorph.converters.StringToStringBuffer;
 import net.entropysoft.transmorph.converters.StringToStringBuilder;
+import net.entropysoft.transmorph.converters.StringToTimeZone;
 import net.entropysoft.transmorph.converters.StringToURI;
 import net.entropysoft.transmorph.converters.StringToURL;
 import net.entropysoft.transmorph.converters.URIToURL;
@@ -47,7 +49,7 @@ public class Converters {
 	public final static IConverter stringToStringBuffer = new StringToStringBuffer();
 	public final static IConverter stringToStringBuilder = new StringToStringBuilder();
 	public final static IConverter identityConverter = new IdentityConverter();
-
+	
 	public final static IConverter[] defaultConverters = new IConverter[] {
 			numberToNumber, stringToNumber, stringToBoolean, stringToEnum,
 			stringToClass, stringToStringBuffer, stringToStringBuilder,
@@ -59,6 +61,8 @@ public class Converters {
 	public final static IConverter stringToFile = new StringToFile();
 	public final static IConverter stringToURL = new StringToURL();
 	public final static IConverter stringToURI = new StringToURI();
+	public final static IConverter stringToQName = new StringToQName();
+	public final static IConverter stringToTimeZone = new StringToTimeZone();
 	public final static IConverter uriToUrl = new URIToURL();
 	public final static IConverter urlToUri = new URLToURI();
 	public final static IConverter characterArrayToString = new CharacterArrayToString();

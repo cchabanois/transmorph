@@ -21,6 +21,9 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
+import java.util.TimeZone;
+
+import javax.xml.namespace.QName;
 
 import junit.framework.TestCase;
 import net.entropysoft.transmorph.converters.AbstractSimpleConverter;
@@ -50,9 +53,11 @@ public class ConverterTest extends TestCase {
 			Converters.collectionToCollection, Converters.collectionToArray,
 			Converters.stringToFile, Converters.stringToURL,
 			Converters.stringToURI, Converters.uriToUrl, Converters.urlToUri,
-			Converters.characterArrayToString, Converters.stringToCharacterArray,
-			Converters.objectToString, Converters.dateToCalendar,
-			Converters.calendarToDate, Converters.identityConverter };
+			Converters.characterArrayToString,
+			Converters.stringToCharacterArray, Converters.stringToQName,
+			Converters.stringToTimeZone, Converters.objectToString,
+			Converters.dateToCalendar, Converters.calendarToDate,
+			Converters.identityConverter };
 
 	public void testMapToMap() throws Exception {
 		Converter converter = Converter.getConverter(ConverterTest.class
@@ -354,8 +359,8 @@ public class ConverterTest extends TestCase {
 		// int => BigInteger (NumberToNumberConverter)
 		assertEquals(BigInteger.valueOf(55), (BigInteger) converter.convert(55,
 				BigInteger.class));
-		
-		assertEquals((byte)1, converter.convert(257, Byte.TYPE));
+
+		assertEquals((byte) 1, converter.convert(257, Byte.TYPE));
 	}
 
 	public void testStringToFile() throws Exception {
@@ -506,6 +511,26 @@ public class ConverterTest extends TestCase {
 		}
 	}
 
+	public void testStringToQName() throws Exception {
+		Converter converter = Converter.getConverter(ConverterTest.class
+				.getClassLoader(), converters);
+
+		QName qname = (QName) converter.convert(
+				"{http://www.entropysoft.ney}localPart", QName.class);
+		assertNotNull(qname);
+	}
+
+	public void testStringToTimeZone() throws Exception {
+		Converter converter = Converter.getConverter(ConverterTest.class
+				.getClassLoader(), converters);
+
+		String[] ids = TimeZone.getAvailableIDs();
+
+		TimeZone timezone = (TimeZone) converter.convert("Asia/Kuala_Lumpur",
+				TimeZone.class);
+		assertNotNull(timezone);
+	}
+
 	public void testFormattedStringToNumber() throws Exception {
 		FormattedStringToNumber formattedStringToNumberConverter = new FormattedStringToNumber();
 		NumberFormat numberFormat = NumberFormat
@@ -526,7 +551,7 @@ public class ConverterTest extends TestCase {
 		} catch (ConverterException e) {
 
 		}
-		
+
 		try {
 			result = (Float) converter.convert(null, Float.TYPE);
 			fail("Should not convert");
@@ -748,19 +773,22 @@ public class ConverterTest extends TestCase {
 	public void testMapToBean() throws Exception {
 		TypeFactory typeFactory = new TypeFactory(ConverterTest.class
 				.getClassLoader());
-		
+
 		MapToBean mapToBean = new MapToBean();
 		BeanDestinationPropertyTypeProvider beanDestinationPropertyTypeProvider = new BeanDestinationPropertyTypeProvider();
-		beanDestinationPropertyTypeProvider.setPropertyDestinationType(MyBean3.class, "myList", typeFactory.getType(List.class, new Class[] { String.class }));
-		mapToBean.setBeanDestinationPropertyTypeProvider(beanDestinationPropertyTypeProvider);
-		
+		beanDestinationPropertyTypeProvider.setPropertyDestinationType(
+				MyBean3.class, "myList", typeFactory.getType(List.class,
+						new Class[] { String.class }));
+		mapToBean
+				.setBeanDestinationPropertyTypeProvider(beanDestinationPropertyTypeProvider);
+
 		IConverter[] converters = new IConverter[] { Converters.numberToNumber,
 				Converters.stringToNumber, Converters.stringToBoolean,
 				Converters.stringToEnum, Converters.stringToClass,
 				Converters.arrayToArray, Converters.mapToMap,
-				Converters.arrayToCollection, Converters.collectionToCollection,
-				Converters.stringToFile, Converters.stringToURL,
-				Converters.characterArrayToString,
+				Converters.arrayToCollection,
+				Converters.collectionToCollection, Converters.stringToFile,
+				Converters.stringToURL, Converters.characterArrayToString,
 				Converters.stringToCharacterArray, Converters.objectToString,
 				Converters.dateToCalendar, Converters.identityConverter,
 				mapToBean };
@@ -776,9 +804,9 @@ public class ConverterTest extends TestCase {
 		mapBean1.put("myBean2", mapBean2);
 
 		Map<String, Object> mapBean3 = new HashMap<String, Object>();
-		mapBean3.put("myList", new int[] { 1, 2, 3} );
+		mapBean3.put("myList", new int[] { 1, 2, 3 });
 		mapBean1.put("myBean3", mapBean3);
-		
+
 		MyBean1 myBean1 = (MyBean1) converter.convert(mapBean1, MyBean1.class);
 		assertNotNull(myBean1);
 		assertEquals(15, myBean1.getMyInt());
@@ -800,7 +828,7 @@ public class ConverterTest extends TestCase {
 		private List<String> myListOfStrings;
 		private MyBean2 myBean2;
 		private MyBean3 myBean3;
-		
+
 		public int getMyInt() {
 			return myInt;
 		}
@@ -832,7 +860,7 @@ public class ConverterTest extends TestCase {
 		public void setMyBean3(MyBean3 myBean3) {
 			this.myBean3 = myBean3;
 		}
-		
+
 	}
 
 	public static class MyBean2 {
@@ -858,6 +886,6 @@ public class ConverterTest extends TestCase {
 		public void setMyList(List myList) {
 			this.myList = myList;
 		}
-		
+
 	}
 }

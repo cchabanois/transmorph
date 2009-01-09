@@ -53,19 +53,23 @@ public class TypeFactory {
 		return getType(TypeSignatureFactory.getTypeSignature(clazz));
 	}
 
+	public Type getType(Class clazz, Class[] typeArgs) {
+		TypeSignature typeSignature = TypeSignatureFactory.getTypeSignature(
+				clazz, typeArgs);
+		return getType(typeSignature);
+	}
+
 	public Type getType(TypeSignature typeSignature) {
 		Type type = typesCache.get(typeSignature);
 
 		if (type == null) {
 			if (typeSignature.isArrayType()) {
 				type = new ArrayType(this, (ArrayTypeSignature) typeSignature);
-			} else
-			if (typeSignature.isPrimitiveType()) {
+			} else if (typeSignature.isPrimitiveType()) {
 				type = new PrimitiveType(this,
 						(PrimitiveTypeSignature) typeSignature);
-			} else
-			if (typeSignature.isClassType()) {
-				type =  new ClassType(this, (ClassTypeSignature) typeSignature);
+			} else if (typeSignature.isClassType()) {
+				type = new ClassType(this, (ClassTypeSignature) typeSignature);
 			} else {
 				type = null;
 			}
@@ -75,12 +79,12 @@ public class TypeFactory {
 	}
 
 	public ClassType getObjectType() {
-		return (ClassType)getType(TypeSignatureFactory
+		return (ClassType) getType(TypeSignatureFactory
 				.getTypeSignature(Object.class));
 	}
 
 	public ClassType getStringType() {
-		return (ClassType)getType(TypeSignatureFactory
+		return (ClassType) getType(TypeSignatureFactory
 				.getTypeSignature(String.class));
 	}
 

@@ -31,12 +31,27 @@ import net.entropysoft.transmorph.type.Type;
  * 
  * Map keys must be the property names
  * 
- * @author cedric
+ * @author Cedric Chabanois (cchabanois at gmail.com)
  * 
  */
 public class MapToBean implements IConverter {
 
 	private JavaTypeToTypeSignature javaTypeSignature = new JavaTypeToTypeSignature();
+	private IBeanDestinationPropertyTypeProvider beanDestinationPropertyTypeProvider;
+
+	public IBeanDestinationPropertyTypeProvider getBeanDestinationPropertyTypeProvider() {
+		return beanDestinationPropertyTypeProvider;
+	}
+
+	/**
+	 * set the provider for destination bean property types
+	 * 
+	 * @param beanDestinationPropertyTypeProvider
+	 */
+	public void setBeanDestinationPropertyTypeProvider(
+			IBeanDestinationPropertyTypeProvider beanDestinationPropertyTypeProvider) {
+		this.beanDestinationPropertyTypeProvider = beanDestinationPropertyTypeProvider;
+	}
 
 	public Object convert(IConverter elementConverter, Object sourceObject,
 			Type destinationType) throws ConverterException {
@@ -74,10 +89,13 @@ public class MapToBean implements IConverter {
 					.getGenericParameterTypes()[0];
 			TypeSignature parameterTypeSignature = javaTypeSignature
 					.getTypeSignature(parameterType);
-			Type type = destinationType.getTypeFactory().getType(
+			Type originalType = destinationType.getTypeFactory().getType(
 					parameterTypeSignature);
+			Type propertyDestinationType = getPropertyDestinationType(
+					resultBean.getClass(), key, originalType);
+
 			Object valueConverterd = elementConverter.convert(elementConverter,
-					value, type);
+					value, propertyDestinationType);
 
 			try {
 				method.invoke(resultBean, valueConverterd);
@@ -88,6 +106,20 @@ public class MapToBean implements IConverter {
 		}
 
 		return resultBean;
+	}
+
+	protected Type getPropertyDestinationType(Class clazz, String propertyName,
+			Type originalType) {
+		Type propertyDestinationType = null;
+		if (beanDestinationPropertyTypeProvider != null) {
+			propertyDestinationType = beanDestinationPropertyTypeProvider
+					.getPropertyDestinationType(clazz, propertyName,
+							originalType);
+		}
+		if (propertyDestinationType == null) {
+			propertyDestinationType = originalType;
+		}
+		return propertyDestinationType;
 	}
 
 	protected Method getSetterMethod(Map<String, Method> setterMethods,
@@ -123,7 +155,7 @@ public class MapToBean implements IConverter {
 		if (!(sourceObject instanceof Map)) {
 			return false;
 		}
-		for (Object object : ((Map)sourceObject).keySet()) {
+		for (Object object : ((Map) sourceObject).keySet()) {
 			if (!(object instanceof String)) {
 				return false;
 			}

@@ -62,9 +62,7 @@ public class Converter implements IConverter {
 
 	public Object convert(Object source, Class clazz, Class[] typeArgs)
 			throws ConverterException {
-		TypeSignature typeSignature = TypeSignatureFactory.getTypeSignature(
-				clazz, typeArgs);
-		Type destinationType = typeFactory.getType(typeSignature);
+		Type destinationType = typeFactory.getType(clazz, typeArgs);
 
 		return convert(this, source, destinationType);
 	}

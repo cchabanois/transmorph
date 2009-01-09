@@ -24,9 +24,11 @@ import java.util.Set;
 
 import junit.framework.TestCase;
 import net.entropysoft.transmorph.converters.AbstractSimpleConverter;
+import net.entropysoft.transmorph.converters.BeanDestinationPropertyTypeProvider;
 import net.entropysoft.transmorph.converters.CalendarToDate;
 import net.entropysoft.transmorph.converters.DateToCalendar;
 import net.entropysoft.transmorph.converters.FormattedStringToNumber;
+import net.entropysoft.transmorph.converters.MapToBean;
 import net.entropysoft.transmorph.converters.MultiStepConverter;
 import net.entropysoft.transmorph.converters.ObjectToFormattedString;
 import net.entropysoft.transmorph.converters.ObjectToObjectUsingConstructor;
@@ -744,6 +746,14 @@ public class ConverterTest extends TestCase {
 	}
 
 	public void testMapToBean() throws Exception {
+		TypeFactory typeFactory = new TypeFactory(ConverterTest.class
+				.getClassLoader());
+		
+		MapToBean mapToBean = new MapToBean();
+		BeanDestinationPropertyTypeProvider beanDestinationPropertyTypeProvider = new BeanDestinationPropertyTypeProvider();
+		beanDestinationPropertyTypeProvider.setPropertyDestinationType(MyBean3.class, "myList", typeFactory.getType(List.class, new Class[] { String.class }));
+		mapToBean.setBeanDestinationPropertyTypeProvider(beanDestinationPropertyTypeProvider);
+		
 		IConverter[] converters = new IConverter[] { Converters.numberToNumber,
 				Converters.stringToNumber, Converters.stringToBoolean,
 				Converters.stringToEnum, Converters.stringToClass,
@@ -753,7 +763,7 @@ public class ConverterTest extends TestCase {
 				Converters.characterArrayToString,
 				Converters.stringToCharacterArray, Converters.objectToString,
 				Converters.dateToCalendar, Converters.identityConverter,
-				Converters.maptoBean };
+				mapToBean };
 
 		Converter converter = Converter.getConverter(ConverterTest.class
 				.getClassLoader(), converters);
@@ -765,6 +775,10 @@ public class ConverterTest extends TestCase {
 		mapBean2.put("myString", new Float(55.2));
 		mapBean1.put("myBean2", mapBean2);
 
+		Map<String, Object> mapBean3 = new HashMap<String, Object>();
+		mapBean3.put("myList", new int[] { 1, 2, 3} );
+		mapBean1.put("myBean3", mapBean3);
+		
 		MyBean1 myBean1 = (MyBean1) converter.convert(mapBean1, MyBean1.class);
 		assertNotNull(myBean1);
 		assertEquals(15, myBean1.getMyInt());
@@ -774,13 +788,19 @@ public class ConverterTest extends TestCase {
 		assertEquals("3", listOfStrings.get(2));
 		MyBean2 myBean2 = myBean1.getMyBean2();
 		assertEquals("55.2", myBean2.getMyString());
+		MyBean3 myBean3 = myBean1.getMyBean3();
+		listOfStrings = myBean3.getMyList();
+		assertEquals("1", listOfStrings.get(0));
+		assertEquals("2", listOfStrings.get(1));
+		assertEquals("3", listOfStrings.get(2));
 	}
 
 	public static class MyBean1 {
 		private int myInt;
 		private List<String> myListOfStrings;
 		private MyBean2 myBean2;
-
+		private MyBean3 myBean3;
+		
 		public int getMyInt() {
 			return myInt;
 		}
@@ -804,6 +824,15 @@ public class ConverterTest extends TestCase {
 		public void setMyBean2(MyBean2 myBean2) {
 			this.myBean2 = myBean2;
 		}
+
+		public MyBean3 getMyBean3() {
+			return myBean3;
+		}
+
+		public void setMyBean3(MyBean3 myBean3) {
+			this.myBean3 = myBean3;
+		}
+		
 	}
 
 	public static class MyBean2 {
@@ -819,4 +848,16 @@ public class ConverterTest extends TestCase {
 
 	}
 
+	public static class MyBean3 {
+		private List myList;
+
+		public List getMyList() {
+			return myList;
+		}
+
+		public void setMyList(List myList) {
+			this.myList = myList;
+		}
+		
+	}
 }

@@ -54,16 +54,21 @@ public class TypeSignatureFactory {
 	 */
 	public static TypeSignature getTypeSignature(String typeSignatureString,
 			boolean useInternalFormFullyQualifiedName) {
+		String key;
 		if (!useInternalFormFullyQualifiedName) {
-			typeSignatureString = typeSignatureString.replace('.', '/')
+			key = typeSignatureString.replace('.', '/')
 					.replace('$', '.');
+		} else {
+			key = typeSignatureString;
 		}
 
+		// we always use the internal form as a key for cache
 		TypeSignature typeSignature = typeSignatureCache
-				.get(typeSignatureString);
+				.get(key);
 		if (typeSignature == null) {
 			TypeSignatureParser typeSignatureParser = new TypeSignatureParser(
 					typeSignatureString);
+			typeSignatureParser.setUseInternalFormFullyQualifiedName(useInternalFormFullyQualifiedName);
 			typeSignature = typeSignatureParser.parseTypeSignature();
 			typeSignatureCache.put(typeSignatureString, typeSignature);
 		}

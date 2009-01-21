@@ -64,13 +64,14 @@ public class JavaTypeToTypeSignature {
 			typeArgSignatures[i] = getTypeArgSignature(typeArguments[i]);
 		}
 
+		String binaryName = rawType.isMemberClass() ? rawType.getSimpleName()
+				: rawType.getName();
+		ClassTypeSignature ownerTypeSignature = parameterizedType
+				.getOwnerType() == null ? null
+				: (ClassTypeSignature) getTypeSignature(parameterizedType
+						.getOwnerType());
 		ClassTypeSignature classTypeSignature = new ClassTypeSignature(
-				rawType.isMemberClass() ? rawType.getSimpleName() : rawType
-						.getName(),
-				typeArgSignatures,
-				parameterizedType.getOwnerType() == null ? null
-						: (ClassTypeSignature) getTypeSignature(parameterizedType
-								.getOwnerType()));
+				binaryName, typeArgSignatures, ownerTypeSignature);
 		return classTypeSignature;
 	}
 

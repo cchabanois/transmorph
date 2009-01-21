@@ -62,22 +62,6 @@ public class TypeSignatureParser {
 		}
 	}
 
-	public char getPackageSeparator() {
-		return packageSeparator;
-	}
-
-	public void setPackageSeparator(char packageSeparator) {
-		this.packageSeparator = packageSeparator;
-	}
-
-	public char getInnerClassPrefix() {
-		return innerClassPrefix;
-	}
-
-	public void setInnerClassPrefix(char innerClassPrefix) {
-		this.innerClassPrefix = innerClassPrefix;
-	}
-
 	private int nextChar() {
 		if (position >= signature.length) {
 			return EOS;
@@ -170,6 +154,15 @@ public class TypeSignatureParser {
 		return new ArrayTypeSignature(parseTypeSignature());
 	}
 
+	private boolean isJavaIdentifierPart(int codePoint) {
+		// if '$' is used as innerClassPrefix, this is not a valid java
+		// identifier part
+		if (innerClassPrefix == '$' && codePoint == '$') {
+			return false;
+		}
+		return Character.isJavaIdentifierPart(codePoint);
+	}
+
 	/**
 	 * parse a java id
 	 * 
@@ -180,7 +173,7 @@ public class TypeSignatureParser {
 		int ch;
 		while (true) {
 			ch = peekChar();
-			if (ch == EOS || !Character.isJavaIdentifierPart(ch)) {
+			if (ch == EOS || !isJavaIdentifierPart(ch)) {
 				return sb.toString();
 			}
 			sb.append((char) ch);

@@ -36,6 +36,7 @@ public class Converter implements IConverter {
 
 	private List<IConverter> converters = new ArrayList<IConverter>();
 	private TypeFactory typeFactory;
+	private boolean useInternalFormFullyQualifiedName;
 
 	public Converter(ClassLoader classLoader, IConverter[] converters) {
 		this(new TypeFactory(new ClassFactory(classLoader)), converters);
@@ -44,10 +45,27 @@ public class Converter implements IConverter {
 	public Converter(IConverter[] converters) {
 		this(Thread.currentThread().getContextClassLoader(), converters);
 	}
-	
+
 	public Converter(TypeFactory typeFactory, IConverter[] converters) {
 		this.typeFactory = typeFactory;
 		this.converters.addAll(Arrays.asList(converters));
+	}
+
+	public boolean isUseInternalFormFullyQualifiedName() {
+		return useInternalFormFullyQualifiedName;
+	}
+
+	/**
+	 * If you use internal form fully qualified names (which is the case by
+	 * default), fqn in parameterizedTypeSignature must be in the form
+	 * 'java/lang/Thread'. Otherwise fqn must be of the form 'java.lang.Thread'
+	 * 
+	 * @param useInternalFormFullyQualifiedName
+	 * @see {@link #convert(Object, String)}
+	 */
+	public void setUseInternalFormFullyQualifiedName(
+			boolean useInternalFormFullyQualifiedName) {
+		this.useInternalFormFullyQualifiedName = useInternalFormFullyQualifiedName;
 	}
 
 	public Object convert(Object source, Class clazz, Class[] typeArgs)
@@ -70,26 +88,17 @@ public class Converter implements IConverter {
 	 * 
 	 * @param source
 	 * @param parameterizedTypeSignature
-	 * @param useInternalFormFullyQualifiedName
-	 *            if true, fqn in parameterizedTypeSignature must be in the form
-	 *            'java/lang/Thread'. If false fqn must be of the form
-	 *            'java.lang.Thread'
 	 * @return
 	 * @throws ConverterException
+	 * @see {@link #setUseInternalFormFullyQualifiedName(boolean)}
 	 */
-	public Object convert(Object source, String parameterizedTypeSignature,
-			boolean useInternalFormFullyQualifiedName)
+	public Object convert(Object source, String parameterizedTypeSignature)
 			throws ConverterException {
 		TypeSignature typeSignature = TypeSignatureFactory.getTypeSignature(
 				parameterizedTypeSignature, useInternalFormFullyQualifiedName);
 		Type destinationType = typeFactory.getType(typeSignature);
 
 		return convert(this, source, destinationType);
-	}
-
-	public Object convert(Object source, String parameterizedTypeSignature)
-			throws ConverterException {
-		return convert(source, parameterizedTypeSignature, true);
 	}
 
 	/**

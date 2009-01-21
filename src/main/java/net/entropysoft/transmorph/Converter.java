@@ -37,28 +37,17 @@ public class Converter implements IConverter {
 	private List<IConverter> converters = new ArrayList<IConverter>();
 	private TypeFactory typeFactory;
 
-	private Converter(ClassLoader classLoader, IConverter[] converters) {
+	public Converter(ClassLoader classLoader, IConverter[] converters) {
 		this(new TypeFactory(new ClassFactory(classLoader)), converters);
 	}
 
-	private Converter(TypeFactory typeFactory, IConverter[] converters) {
+	public Converter(IConverter[] converters) {
+		this(Thread.currentThread().getContextClassLoader(), converters);
+	}
+	
+	public Converter(TypeFactory typeFactory, IConverter[] converters) {
 		this.typeFactory = typeFactory;
 		this.converters.addAll(Arrays.asList(converters));
-	}
-
-	public static Converter getConverter(TypeFactory typeFactory,
-			IConverter[] converters) {
-		return new Converter(typeFactory, converters);
-	}
-
-	public static Converter getConverter(ClassLoader classLoader,
-			IConverter[] converters) {
-		return new Converter(classLoader, converters);
-	}
-
-	public static Converter getConverter(IConverter[] converters) {
-		return getConverter(Thread.currentThread().getContextClassLoader(),
-				converters);
 	}
 
 	public Object convert(Object source, Class clazz, Class[] typeArgs)

@@ -21,20 +21,49 @@ import java.util.Map;
 
 import net.entropysoft.transmorph.cache.LRUMap;
 
+/**
+ * Factory for TypeSignature
+ * 
+ * @author Cedric Chabanois (cchabanois at gmail.com)
+ * 
+ */
 public class TypeSignatureFactory {
 	private static JavaTypeToTypeSignature javaTypeToTypeSignature = new JavaTypeToTypeSignature();
-	private static Map<String, TypeSignature> typeSignatureCache = Collections.synchronizedMap(new LRUMap<String, TypeSignature>(100));
-	
+	private static Map<String, TypeSignature> typeSignatureCache = Collections
+			.synchronizedMap(new LRUMap<String, TypeSignature>(100));
+
 	/**
 	 * get TypeSignature given the signature
-	 * @param typeSignature
+	 * 
+	 * @param typeSignatureString
 	 * @return
 	 */
 	public static TypeSignature getTypeSignature(String typeSignatureString) {
-		TypeSignature typeSignature = typeSignatureCache.get(typeSignatureString);
+		return getTypeSignature(typeSignatureString, true);
+	}
+
+	/**
+	 * get TypeSignature given the signature
+	 * 
+	 * @param typeSignature
+	 * @param useInternalFormFullyQualifiedName
+	 *            if true, fqn in parameterizedTypeSignature must be in the form
+	 *            'java/lang/Thread'. If false fqn must be of the form
+	 *            'java.lang.Thread'
+	 * @return
+	 */
+	public static TypeSignature getTypeSignature(String typeSignatureString,
+			boolean useInternalFormFullyQualifiedName) {
+		if (!useInternalFormFullyQualifiedName) {
+			typeSignatureString = typeSignatureString.replace('.', '/')
+					.replace('$', '.');
+		}
+
+		TypeSignature typeSignature = typeSignatureCache
+				.get(typeSignatureString);
 		if (typeSignature == null) {
 			TypeSignatureParser typeSignatureParser = new TypeSignatureParser(
-				typeSignatureString);
+					typeSignatureString);
 			typeSignature = typeSignatureParser.parseTypeSignature();
 			typeSignatureCache.put(typeSignatureString, typeSignature);
 		}
@@ -50,22 +79,30 @@ public class TypeSignatureFactory {
 	public static TypeSignature getTypeSignature(Type type) {
 		return javaTypeToTypeSignature.getTypeSignature(type);
 	}
-	
+
 	/**
-	 * get the TypeSignature corresponding to given class with given type arguments
+	 * get the TypeSignature corresponding to given class with given type
+	 * arguments
+	 * 
 	 * @param clazz
 	 * @param typeArgs
 	 * @return
 	 */
-	public static TypeSignature getTypeSignature(Class clazz, Class[] typeArgs)	 {
-		ClassTypeSignature rawClassTypeSignature = (ClassTypeSignature)javaTypeToTypeSignature.getTypeSignature(clazz);
+	public static TypeSignature getTypeSignature(Class clazz, Class[] typeArgs) {
+		ClassTypeSignature rawClassTypeSignature = (ClassTypeSignature) javaTypeToTypeSignature
+				.getTypeSignature(clazz);
 		TypeArgSignature[] typeArgSignatures = new TypeArgSignature[typeArgs.length];
 		for (int i = 0; i < typeArgs.length; i++) {
-			typeArgSignatures[i] = new TypeArgSignature(TypeArgSignature.NO_WILDCARD, (FieldTypeSignature)javaTypeToTypeSignature.getTypeSignature(typeArgs[i]));
+			typeArgSignatures[i] = new TypeArgSignature(
+					TypeArgSignature.NO_WILDCARD,
+					(FieldTypeSignature) javaTypeToTypeSignature
+							.getTypeSignature(typeArgs[i]));
 		}
-		ClassTypeSignature classTypeSignature = new ClassTypeSignature(rawClassTypeSignature.getBinaryName(), typeArgSignatures, rawClassTypeSignature.getOwnerTypeSignature());
+		ClassTypeSignature classTypeSignature = new ClassTypeSignature(
+				rawClassTypeSignature.getBinaryName(), typeArgSignatures,
+				rawClassTypeSignature.getOwnerTypeSignature());
 
 		return classTypeSignature;
 	}
-	
+
 }

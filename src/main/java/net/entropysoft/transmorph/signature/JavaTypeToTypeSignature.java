@@ -102,15 +102,13 @@ public class JavaTypeToTypeSignature {
 	private TypeSignature getTypeSignature(Class clazz) {
 		StringBuilder sb = new StringBuilder();
 		if (clazz.isArray()) {
-			sb.append(clazz.getName().replace('.', '/'));
+			sb.append(clazz.getName());
 		} else if (clazz.isPrimitive()) {
 			sb.append(primitiveTypesMap.get(clazz).toString());
 		} else {
-			sb.append('L');
-			sb.append(clazz.getName().replace('.', '/').replace('$', '.'));
-			sb.append(';');
+			sb.append('L').append(clazz.getName()).append(';');
 		}
-		return TypeSignatureFactory.getTypeSignature(sb.toString());
+		return TypeSignatureFactory.getTypeSignature(sb.toString(), false);
 
 	}
 

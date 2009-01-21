@@ -73,7 +73,7 @@ public class ConverterTest extends TestCase {
 		map.put(null, new String[] { "value5-1", "value5-2" });
 		Map<String, List<String>> converted = (Map<String, List<String>>) converter
 				.convert(map,
-						"Ljava/util/Map<Ljava/lang/String;Ljava/util/List<Ljava/lang/String;>;>;");
+						"Ljava.util.Map<Ljava.lang.String;Ljava.util.List<Ljava.lang.String;>;>;", false);
 		List<String> list1 = converted.get("key1");
 		assertEquals("value1-1", list1.get(0));
 		assertEquals("value1-2", list1.get(1));
@@ -121,7 +121,7 @@ public class ConverterTest extends TestCase {
 
 		// int[] => List<*> (ArrayToListConverter)
 		List<?> arrayOfSomething = (List<?>) converter.convert(arrayOfInts,
-				"Ljava/util/List<*>;");
+				"Ljava.util.List<*>;", false);
 		assertNotNull(arrayOfSomething);
 		assertEquals(6, arrayOfSomething.size());
 		for (int i = 0; i < 6; i++) {
@@ -142,7 +142,7 @@ public class ConverterTest extends TestCase {
 		String[] arrayOfStrings = new String[] { "0", "1", "2", "3", "4", "5" };
 		List<? extends Number> listOfNumbers = (List<? extends Number>) converter
 				.convert(arrayOfStrings,
-						"Ljava/util/List<+Ljava/lang/Number;>;");
+						"Ljava/util/List<+Ljava/lang/Number;>;", true);
 		assertNotNull(listOfNumbers);
 		assertEquals(6, listOfNumbers.size());
 		for (int i = 0; i < 6; i++) {

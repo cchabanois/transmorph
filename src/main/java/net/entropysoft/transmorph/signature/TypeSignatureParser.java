@@ -25,21 +25,57 @@ import java.util.List;
  * TypeSignature: Z | C | B | S | I | F | J | D | FieldTypeSignature
  * FieldTypeSignature: ClassTypeSignature | [ TypeSignature | TypeVar
  * ClassTypeSignature: L Id ( / Id )* TypeArgs? ( . Id TypeArgs? )* ;
- * TypeArgs: < TypeArg+ >
+ * TypeArgs: &lt; TypeArg+ &gt;
  * TypeArg: * | ( + | - )? FieldTypeSignature
  * TypeVar: T Id ;
  * </pre>
  * 
  * @author Cedric Chabanois (cchabanois at gmail.com)
- *
+ * 
  */
 public class TypeSignatureParser {
 	private char[] signature;
 	private int position = 0;
 	private static int EOS = -1;
 
+	private char packageSeparator = '/';
+	private char innerClassPrefix = '.';
+
 	public TypeSignatureParser(String typeSignature) {
 		this.signature = typeSignature.toCharArray();
+	}
+
+	/**
+	 * By default we use the Internal Form of Fully Qualified Name where
+	 * identifiers are separated by '/' but you can use the familiar form where
+	 * '.' separates the identifiers
+	 * 
+	 * @param packageSeparator
+	 */
+	public void setUseInternalFormFullyQualifiedName(boolean value) {
+		if (value) {
+			packageSeparator = '/';
+			innerClassPrefix = '.';
+		} else {
+			packageSeparator = '.';
+			innerClassPrefix = '$';
+		}
+	}
+
+	public char getPackageSeparator() {
+		return packageSeparator;
+	}
+
+	public void setPackageSeparator(char packageSeparator) {
+		this.packageSeparator = packageSeparator;
+	}
+
+	public char getInnerClassPrefix() {
+		return innerClassPrefix;
+	}
+
+	public void setInnerClassPrefix(char innerClassPrefix) {
+		this.innerClassPrefix = innerClassPrefix;
 	}
 
 	private int nextChar() {
@@ -102,17 +138,16 @@ public class TypeSignatureParser {
 		return null;
 	}
 
-	private TypeVarSignature parseTypeVarSignature()
-	{
+	private TypeVarSignature parseTypeVarSignature() {
 		nextChar('T');
 		String id = parseId();
 		nextChar(';');
 		return new TypeVarSignature(id);
 	}
-	
+
 	private void unexpectedCharacterError() {
 		throw new InvalidSignatureException("Unexpected character '"
-				+ (char)peekChar() + "' at position " + position, position);
+				+ (char) peekChar() + "' at position " + position, position);
 	}
 
 	/**
@@ -148,7 +183,7 @@ public class TypeSignatureParser {
 			if (ch == EOS || !Character.isJavaIdentifierPart(ch)) {
 				return sb.toString();
 			}
-			sb.append((char)ch);
+			sb.append((char) ch);
 			nextChar();
 		}
 	}
@@ -162,8 +197,8 @@ public class TypeSignatureParser {
 		StringBuilder sb = new StringBuilder();
 		sb.append(parseId());
 		int ch;
-		while ((ch = peekChar()) == '/') {
-			nextChar('/');
+		while ((ch = peekChar()) == packageSeparator) { // '/' or '.'
+			nextChar(packageSeparator);
 			sb.append('.');
 			sb.append(parseId());
 		}
@@ -179,11 +214,13 @@ public class TypeSignatureParser {
 		int ch = peekChar();
 		switch (ch) {
 		case '*':
-			return new TypeArgSignature((char)nextChar('*'), null);
+			return new TypeArgSignature((char) nextChar('*'), null);
 		case '+':
-			return new TypeArgSignature((char)nextChar('+'), parseFieldTypeSignature());
+			return new TypeArgSignature((char) nextChar('+'),
+					parseFieldTypeSignature());
 		case '-':
-			return new TypeArgSignature((char)nextChar('-'), parseFieldTypeSignature());
+			return new TypeArgSignature((char) nextChar('-'),
+					parseFieldTypeSignature());
 		default:
 			return new TypeArgSignature(TypeArgSignature.NO_WILDCARD,
 					parseFieldTypeSignature());
@@ -205,22 +242,25 @@ public class TypeSignatureParser {
 				.size()]);
 	}
 
-	private ClassTypeSignature parseInnerClass(ClassTypeSignature ownerClassTypeSignature) {
-		nextChar('.');
+	private ClassTypeSignature parseInnerClass(
+			ClassTypeSignature ownerClassTypeSignature) {
+		nextChar(innerClassPrefix); // '.' or '$'
 		String id = parseId();
 		int ch = peekChar();
 		TypeArgSignature[] typeArgSignatures = new TypeArgSignature[0];
 		if (ch == '<') {
 			typeArgSignatures = parseTypeArgs();
 		}
-		return new ClassTypeSignature(id, typeArgSignatures, ownerClassTypeSignature);
+		return new ClassTypeSignature(id, typeArgSignatures,
+				ownerClassTypeSignature);
 	}
 
-	private ClassTypeSignature parseInnerClasses(ClassTypeSignature ownerClassTypeSignature) {
+	private ClassTypeSignature parseInnerClasses(
+			ClassTypeSignature ownerClassTypeSignature) {
 		ClassTypeSignature classTypeSignature = parseInnerClass(ownerClassTypeSignature);
 		while (true) {
 			int ch = peekChar();
-			if (ch != '.') {
+			if (ch != innerClassPrefix) { // '.' or '$'
 				return classTypeSignature;
 			}
 			classTypeSignature = parseInnerClass(classTypeSignature);
@@ -242,12 +282,13 @@ public class TypeSignatureParser {
 		if (ch == '<') {
 			typeArgSignatures = parseTypeArgs();
 		}
-		ClassTypeSignature classTypeSignature = new ClassTypeSignature(outerClassName, typeArgSignatures, null);
+		ClassTypeSignature classTypeSignature = new ClassTypeSignature(
+				outerClassName, typeArgSignatures, null);
 		ch = peekChar();
-		if (ch == '.') {
+		if (ch == innerClassPrefix) { // '.' or '$'
 			classTypeSignature = parseInnerClasses(classTypeSignature);
 		}
-		nextChar(';');		
+		nextChar(';');
 		return classTypeSignature;
 	}
 }

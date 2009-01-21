@@ -40,7 +40,7 @@ public class TypeSignatureFactoryTest extends TestCase {
 
 	public void testParseFromString() {
 		TypeSignature typeSignature = TypeSignatureFactory
-				.getTypeSignature("Ljava/util/Map<Ljava/lang/String;Ljava/util/List<Ljava/lang/String;>;>;");
+				.getTypeSignature("Ljava/util/Map<Ljava/lang/String;Ljava/util/List<Ljava/lang/String;>;>;", true);
 		assertEquals(
 				"Ljava/util/Map<Ljava/lang/String;Ljava/util/List<Ljava/lang/String;>;>;",
 				typeSignature.getSignature());

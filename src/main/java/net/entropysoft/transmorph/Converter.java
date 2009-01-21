@@ -46,10 +46,11 @@ public class Converter implements IConverter {
 		this.converters.addAll(Arrays.asList(converters));
 	}
 
-	public static Converter getConverter(TypeFactory typeFactory, IConverter[] converters) {
+	public static Converter getConverter(TypeFactory typeFactory,
+			IConverter[] converters) {
 		return new Converter(typeFactory, converters);
 	}
-	
+
 	public static Converter getConverter(ClassLoader classLoader,
 			IConverter[] converters) {
 		return new Converter(classLoader, converters);
@@ -80,15 +81,26 @@ public class Converter implements IConverter {
 	 * 
 	 * @param source
 	 * @param parameterizedTypeSignature
+	 * @param useInternalFormFullyQualifiedName
+	 *            if true, fqn in parameterizedTypeSignature must be in the form
+	 *            'java/lang/Thread'. If false fqn must be of the form
+	 *            'java.lang.Thread'
 	 * @return
 	 * @throws ConverterException
 	 */
-	public Object convert(Object source, String parameterizedTypeSignature)
+	public Object convert(Object source, String parameterizedTypeSignature,
+			boolean useInternalFormFullyQualifiedName)
 			throws ConverterException {
-		TypeSignature typeSignature = TypeSignatureFactory.getTypeSignature(parameterizedTypeSignature);
+		TypeSignature typeSignature = TypeSignatureFactory.getTypeSignature(
+				parameterizedTypeSignature, useInternalFormFullyQualifiedName);
 		Type destinationType = typeFactory.getType(typeSignature);
 
 		return convert(this, source, destinationType);
+	}
+
+	public Object convert(Object source, String parameterizedTypeSignature)
+			throws ConverterException {
+		return convert(source, parameterizedTypeSignature, true);
 	}
 
 	/**

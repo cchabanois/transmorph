@@ -60,7 +60,7 @@ public class ConverterTest extends TestCase {
 			Converters.identityConverter };
 
 	public void testMapToMap() throws Exception {
-		Converter converter = Converter.getConverter(ConverterTest.class
+		Converter converter = new Converter(ConverterTest.class
 				.getClassLoader(), converters);
 
 		// Map[String, String[]] => Map<String,List<String>> (MapToMapConverter
@@ -92,7 +92,7 @@ public class ConverterTest extends TestCase {
 	}
 
 	public void testMapToProperties() throws Exception {
-		Converter converter = Converter.getConverter(ConverterTest.class
+		Converter converter = new Converter(ConverterTest.class
 				.getClassLoader(), converters);
 
 		Map<String, Integer> map = new HashMap<String, Integer>();
@@ -107,7 +107,7 @@ public class ConverterTest extends TestCase {
 	}
 
 	public void testArrayToList() throws Exception {
-		Converter converter = Converter.getConverter(ConverterTest.class
+		Converter converter = new Converter(ConverterTest.class
 				.getClassLoader(), converters);
 
 		// int[] => List<Integer> (ArrayToListConverter)
@@ -151,7 +151,7 @@ public class ConverterTest extends TestCase {
 	}
 
 	public void testArrayToArray() throws Exception {
-		Converter converter = Converter.getConverter(ConverterTest.class
+		Converter converter = new Converter(ConverterTest.class
 				.getClassLoader(), converters);
 
 		// Object[] => String[] (ArrayToArrayConverter)
@@ -187,7 +187,7 @@ public class ConverterTest extends TestCase {
 	}
 
 	public void testStringToNumber() throws Exception {
-		Converter converter = Converter.getConverter(ConverterTest.class
+		Converter converter = new Converter(ConverterTest.class
 				.getClassLoader(), converters);
 
 		// String => int (StringToNumberConverter)
@@ -210,7 +210,7 @@ public class ConverterTest extends TestCase {
 
 	public void testStringToBoolean() throws Exception {
 		StringToBoolean stringToBoolean = new StringToBoolean();
-		Converter converter = Converter.getConverter(ConverterTest.class
+		Converter converter = new Converter(ConverterTest.class
 				.getClassLoader(), new IConverter[] { stringToBoolean,
 				Converters.identityConverter });
 
@@ -247,7 +247,7 @@ public class ConverterTest extends TestCase {
 	}
 
 	public void testArrayToCollection() throws Exception {
-		Converter converter = Converter.getConverter(ConverterTest.class
+		Converter converter = new Converter(ConverterTest.class
 				.getClassLoader(), converters);
 
 		// int[] => Collection<Integer> (ArrayToCollectionConverter)
@@ -264,7 +264,7 @@ public class ConverterTest extends TestCase {
 	}
 
 	public void testCollectionToCollection() throws Exception {
-		Converter converter = Converter.getConverter(ConverterTest.class
+		Converter converter = new Converter(ConverterTest.class
 				.getClassLoader(), converters);
 
 		List<Integer> source = new ArrayList<Integer>();
@@ -283,7 +283,7 @@ public class ConverterTest extends TestCase {
 	}
 
 	public void testCollectionToArray() throws Exception {
-		Converter converter = Converter.getConverter(ConverterTest.class
+		Converter converter = new Converter(ConverterTest.class
 				.getClassLoader(), converters);
 
 		List<Integer> source = new ArrayList<Integer>();
@@ -322,7 +322,7 @@ public class ConverterTest extends TestCase {
 	}
 
 	public void testArrayToSet() throws Exception {
-		Converter converter = Converter.getConverter(ConverterTest.class
+		Converter converter = new Converter(ConverterTest.class
 				.getClassLoader(), converters);
 
 		// int[] => Set<Integer> (ArrayToSetConverter)
@@ -336,7 +336,7 @@ public class ConverterTest extends TestCase {
 	}
 
 	public void testNumberToNumber() throws Exception {
-		Converter converter = Converter.getConverter(ConverterTest.class
+		Converter converter = new Converter(ConverterTest.class
 				.getClassLoader(), converters);
 
 		// int => long (NumberToNumberConverter)
@@ -364,7 +364,7 @@ public class ConverterTest extends TestCase {
 	}
 
 	public void testStringToFile() throws Exception {
-		Converter converter = Converter.getConverter(ConverterTest.class
+		Converter converter = new Converter(ConverterTest.class
 				.getClassLoader(), converters);
 
 		File file = (File) converter.convert("c:\temp", File.class);
@@ -373,7 +373,7 @@ public class ConverterTest extends TestCase {
 	}
 
 	public void testCharacterArrayToString() throws Exception {
-		Converter converter = Converter.getConverter(ConverterTest.class
+		Converter converter = new Converter(ConverterTest.class
 				.getClassLoader(), converters);
 
 		String str = (String) converter.convert(new char[] { 'h', 'e', 'l',
@@ -384,7 +384,7 @@ public class ConverterTest extends TestCase {
 	}
 
 	public void testStringToCharacterArray() throws Exception {
-		Converter converter = Converter.getConverter(ConverterTest.class
+		Converter converter = new Converter(ConverterTest.class
 				.getClassLoader(), converters);
 
 		char[] chars = (char[]) converter.convert("hello", char[].class);
@@ -393,7 +393,7 @@ public class ConverterTest extends TestCase {
 	}
 
 	public void testStringToURL() throws Exception {
-		Converter converter = Converter.getConverter(ConverterTest.class
+		Converter converter = new Converter(ConverterTest.class
 				.getClassLoader(), converters);
 
 		URL url = (URL) converter.convert("http://www.entropysoft.net",
@@ -411,7 +411,7 @@ public class ConverterTest extends TestCase {
 	}
 
 	public void testStringToURI() throws Exception {
-		Converter converter = Converter.getConverter(ConverterTest.class
+		Converter converter = new Converter(ConverterTest.class
 				.getClassLoader(), converters);
 
 		URI uri = (URI) converter.convert("http://www.entropysoft.net",
@@ -421,7 +421,7 @@ public class ConverterTest extends TestCase {
 	}
 
 	public void testURIToURL() throws Exception {
-		Converter converter = Converter.getConverter(ConverterTest.class
+		Converter converter = new Converter(ConverterTest.class
 				.getClassLoader(), converters);
 
 		URL url = (URL) converter.convert(
@@ -431,7 +431,7 @@ public class ConverterTest extends TestCase {
 	}
 
 	public void testURLToURI() throws Exception {
-		Converter converter = Converter.getConverter(ConverterTest.class
+		Converter converter = new Converter(ConverterTest.class
 				.getClassLoader(), converters);
 
 		URI uri = (URI) converter.convert(
@@ -451,7 +451,7 @@ public class ConverterTest extends TestCase {
 		simpleDateFormat2.setLenient(false);
 		stringToDateConverter2.setDateFormat(simpleDateFormat2);
 
-		Converter converter = Converter.getConverter(ConverterTest.class
+		Converter converter = new Converter(ConverterTest.class
 				.getClassLoader(), new IConverter[] { stringToDateConverter1,
 				stringToDateConverter2 });
 		Date date = (Date) converter.convert("29/12/2008", Date.class);
@@ -469,7 +469,7 @@ public class ConverterTest extends TestCase {
 	}
 
 	public void testDateToCalendar() throws Exception {
-		Converter converter = Converter.getConverter(ConverterTest.class
+		Converter converter = new Converter(ConverterTest.class
 				.getClassLoader(), new IConverter[] { new DateToCalendar() });
 
 		Calendar calendar = (Calendar) converter.convert(new Date(0),
@@ -489,7 +489,7 @@ public class ConverterTest extends TestCase {
 		simpleDateFormat2.setLenient(false);
 		stringToCalendarConverter2.setDateFormat(simpleDateFormat2);
 
-		Converter converter = Converter.getConverter(ConverterTest.class
+		Converter converter = new Converter(ConverterTest.class
 				.getClassLoader(), new IConverter[] {
 				stringToCalendarConverter1, stringToCalendarConverter2 });
 		Calendar calendar = (Calendar) converter.convert("29/12/2008",
@@ -512,7 +512,7 @@ public class ConverterTest extends TestCase {
 	}
 
 	public void testStringToQName() throws Exception {
-		Converter converter = Converter.getConverter(ConverterTest.class
+		Converter converter = new Converter(ConverterTest.class
 				.getClassLoader(), converters);
 
 		QName qname = (QName) converter.convert(
@@ -521,7 +521,7 @@ public class ConverterTest extends TestCase {
 	}
 
 	public void testStringToTimeZone() throws Exception {
-		Converter converter = Converter.getConverter(ConverterTest.class
+		Converter converter = new Converter(ConverterTest.class
 				.getClassLoader(), converters);
 
 		String[] ids = TimeZone.getAvailableIDs();
@@ -537,7 +537,7 @@ public class ConverterTest extends TestCase {
 				.getNumberInstance(Locale.FRENCH);
 		formattedStringToNumberConverter.setNumberFormat(numberFormat);
 
-		Converter converter = Converter.getConverter(ConverterTest.class
+		Converter converter = new Converter(ConverterTest.class
 				.getClassLoader(),
 				new IConverter[] { formattedStringToNumberConverter });
 
@@ -563,7 +563,7 @@ public class ConverterTest extends TestCase {
 	}
 
 	public void testStringToEnum() throws Exception {
-		Converter converter = Converter.getConverter(ConverterTest.class
+		Converter converter = new Converter(ConverterTest.class
 				.getClassLoader(), converters);
 
 		RetentionPolicy retentionPolicy = (RetentionPolicy) converter.convert(
@@ -580,7 +580,7 @@ public class ConverterTest extends TestCase {
 	}
 
 	public void testStringToClass() throws Exception {
-		Converter converter = Converter.getConverter(ConverterTest.class
+		Converter converter = new Converter(ConverterTest.class
 				.getClassLoader(), converters);
 
 		Class clazz = (Class) converter.convert(this.getClass().getName(),
@@ -591,7 +591,7 @@ public class ConverterTest extends TestCase {
 	public void testObjectToObjectUsingConstructor() throws Exception {
 		ObjectToObjectUsingConstructor objectToObjectUsingConstructor = new ObjectToObjectUsingConstructor();
 
-		Converter converter = Converter.getConverter(ConverterTest.class
+		Converter converter = new Converter(ConverterTest.class
 				.getClassLoader(),
 				new IConverter[] { objectToObjectUsingConstructor });
 		File file = (File) converter.convert("c:\temp", File.class);
@@ -612,7 +612,7 @@ public class ConverterTest extends TestCase {
 	}
 
 	public void testIdentity() throws Exception {
-		Converter converter = Converter.getConverter(ConverterTest.class
+		Converter converter = new Converter(ConverterTest.class
 				.getClassLoader(), converters);
 
 		assertSame("my string", converter.convert("my string", String.class));
@@ -635,7 +635,7 @@ public class ConverterTest extends TestCase {
 				Converters.collectionToCollection, Converters.objectToString,
 				Converters.singleElementToArray, Converters.identityConverter };
 
-		Converter converter = Converter.getConverter(ConverterTest.class
+		Converter converter = new Converter(ConverterTest.class
 				.getClassLoader(), converters);
 
 		int[] array = (int[]) converter.convert("55", int[].class);
@@ -653,7 +653,7 @@ public class ConverterTest extends TestCase {
 				Converters.singleElementToCollection,
 				Converters.identityConverter };
 
-		Converter converter = Converter.getConverter(ConverterTest.class
+		Converter converter = new Converter(ConverterTest.class
 				.getClassLoader(), converters);
 
 		List<Integer> list = (List<Integer>) converter.convert("55",
@@ -664,7 +664,7 @@ public class ConverterTest extends TestCase {
 	}
 
 	public void testStringToStringBuffer() throws Exception {
-		Converter converter = Converter.getConverter(ConverterTest.class
+		Converter converter = new Converter(ConverterTest.class
 				.getClassLoader(), converters);
 		StringBuffer sb = (StringBuffer) converter.convert("My string",
 				StringBuffer.class);
@@ -672,7 +672,7 @@ public class ConverterTest extends TestCase {
 	}
 
 	public void testStringToStringBuilder() throws Exception {
-		Converter converter = Converter.getConverter(ConverterTest.class
+		Converter converter = new Converter(ConverterTest.class
 				.getClassLoader(), converters);
 		StringBuilder sb = (StringBuilder) converter.convert("My string",
 				StringBuilder.class);
@@ -682,7 +682,7 @@ public class ConverterTest extends TestCase {
 	public void testObjectToString() throws Exception {
 		ObjectToString objectToString = new ObjectToString();
 
-		Converter converter = Converter.getConverter(ConverterTest.class
+		Converter converter = new Converter(ConverterTest.class
 				.getClassLoader(), new IConverter[] { objectToString });
 		String str = (String) converter.convert(new URL(
 				"http://www.entropysoft.net"), String.class);
@@ -710,7 +710,7 @@ public class ConverterTest extends TestCase {
 		ObjectToFormattedString objectToFormattedStringConverter = new ObjectToFormattedString(
 				Date.class, df);
 
-		Converter converter = Converter.getConverter(ConverterTest.class
+		Converter converter = new Converter(ConverterTest.class
 				.getClassLoader(),
 				new IConverter[] { objectToFormattedStringConverter });
 
@@ -724,7 +724,7 @@ public class ConverterTest extends TestCase {
 		objectToFormattedStringConverter = new ObjectToFormattedString(
 				Calendar.class, Date.class, df);
 
-		converter = Converter.getConverter(
+		converter = new Converter(
 				ConverterTest.class.getClassLoader(),
 				new IConverter[] { objectToFormattedStringConverter,
 						new CalendarToDate() });
@@ -765,7 +765,7 @@ public class ConverterTest extends TestCase {
 		IConverter[] converters = new IConverter[] { Converters.stringToNumber,
 				Converters.numberToNumber, intToBoolean, multiStepConverter };
 
-		Converter converter = Converter.getConverter(typeFactory, converters);
+		Converter converter = new Converter(typeFactory, converters);
 		assertTrue((Boolean) converter.convert("22", Boolean.TYPE));
 		assertFalse((Boolean) converter.convert("0", Boolean.TYPE));
 	}
@@ -793,7 +793,7 @@ public class ConverterTest extends TestCase {
 				Converters.dateToCalendar, Converters.identityConverter,
 				mapToBean };
 
-		Converter converter = Converter.getConverter(ConverterTest.class
+		Converter converter = new Converter(ConverterTest.class
 				.getClassLoader(), converters);
 		Map<String, Object> mapBean1 = new HashMap<String, Object>();
 		mapBean1.put("myInt", "15");

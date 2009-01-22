@@ -59,12 +59,14 @@ import net.entropysoft.transmorph.converters.StringToQName;
 import net.entropysoft.transmorph.converters.StringToStringBuffer;
 import net.entropysoft.transmorph.converters.StringToStringBuilder;
 import net.entropysoft.transmorph.converters.StringToTimeZone;
-import net.entropysoft.transmorph.converters.StringToTrimmedString;
 import net.entropysoft.transmorph.converters.StringToURI;
 import net.entropysoft.transmorph.converters.StringToURL;
-import net.entropysoft.transmorph.converters.StringToUppercasedString;
 import net.entropysoft.transmorph.converters.URIToURL;
 import net.entropysoft.transmorph.converters.URLToURI;
+import net.entropysoft.transmorph.modifiers.CanonicalizeFile;
+import net.entropysoft.transmorph.modifiers.IModifier;
+import net.entropysoft.transmorph.modifiers.TrimString;
+import net.entropysoft.transmorph.modifiers.UppercaseString;
 import net.entropysoft.transmorph.type.Type;
 import net.entropysoft.transmorph.type.TypeFactory;
 
@@ -399,7 +401,7 @@ public class ConverterTest extends TestCase {
 
 	public void testStringToFileCanonical() throws Exception {
 		StringToFile stringToFile = new StringToFile();
-		stringToFile.setCanonicalize(true);
+		stringToFile.setModifiers(new IModifier[] { new CanonicalizeFile() });
 		Converter converter = new Converter(ConverterTest.class
 				.getClassLoader(), new IConverter[] { stringToFile });
 		File file = (File) converter.convert("temp", File.class);
@@ -812,16 +814,10 @@ public class ConverterTest extends TestCase {
 		// use an ObjectToFormattedString to convert Date to string
 		ObjectToFormattedString dateToString = new ObjectToFormattedString(
 				Date.class, new SimpleDateFormat("EEE, MMM d, yy", Locale.US));
-
-		// use a MultiStepConverter to convert a Date to a Uppercased string
-		MultiStepConverter multiStepConverter = new MultiStepConverter(
-				new Type[] { typeFactory.getType(Date.class),
-						typeFactory.getType(String.class),
-						typeFactory.getType(String.class) }, new IConverter[] {
-						dateToString, new StringToUppercasedString() });
-
+		dateToString.setModifiers(new IModifier[] { new UppercaseString() });
+		
 		ArrayToCollection arrayToCollection = new ArrayToCollection();
-		arrayToCollection.setElementConverter(multiStepConverter);
+		arrayToCollection.setElementConverter(dateToString);
 
 		Converter converter = new Converter(ConverterTest.class
 				.getClassLoader(), new IConverter[] { arrayToCollection });
@@ -833,10 +829,12 @@ public class ConverterTest extends TestCase {
 		assertEquals("THU, JAN 22, 09", listOfstrings.get(1));
 	}
 
-	public void testStringToTrimmedString() throws Exception {
+	public void testTrimString() throws Exception {
+		IdentityConverter identityConverter = new IdentityConverter();
+		identityConverter.setModifiers(new IModifier[] { new TrimString() });
 		Converter converter = new Converter(ConverterTest.class
 				.getClassLoader(),
-				new IConverter[] { new StringToTrimmedString() });
+				new IConverter[] { identityConverter });
 		String converted = (String) converter
 				.convert(
 						"    This is a string with leading and trailing white spaces    ",

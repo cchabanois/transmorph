@@ -26,7 +26,7 @@ import net.entropysoft.transmorph.type.Type;
  * @author Cedric Chabanois (cchabanois at gmail.com)
  * 
  */
-public class ObjectToString implements IConverter {
+public class ObjectToString extends AbstractConverter {
 
 	public final static Class[] ALL_SOURCE_CLASSES = new Class[] { Object.class };
 
@@ -40,7 +40,7 @@ public class ObjectToString implements IConverter {
 		this.handledSourceClasses = handledSourceClasses;
 	}
 
-	public Object convert(Object sourceObject, Type destinationType) throws ConverterException {
+	public Object doConvert(Object sourceObject, Type destinationType) throws ConverterException {
 		if (sourceObject == null) {
 			return null;
 		}

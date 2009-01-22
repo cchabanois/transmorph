@@ -52,7 +52,7 @@ public class MapToBean extends AbstractContainerConverter {
 		this.beanDestinationPropertyTypeProvider = beanDestinationPropertyTypeProvider;
 	}
 
-	public Object convert(Object sourceObject, Type destinationType) throws ConverterException {
+	public Object doConvert(Object sourceObject, Type destinationType) throws ConverterException {
 		if (sourceObject == null) {
 			return null;
 		}

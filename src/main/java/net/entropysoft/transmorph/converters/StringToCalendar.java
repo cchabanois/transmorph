@@ -33,7 +33,7 @@ import net.entropysoft.transmorph.type.Type;
  * @author Cedric Chabanois (cchabanois at gmail.com)
  * 
  */
-public class StringToCalendar implements IConverter {
+public class StringToCalendar extends AbstractConverter {
 
 	private DateFormat dateFormat = new SimpleDateFormat();
 
@@ -49,7 +49,7 @@ public class StringToCalendar implements IConverter {
 		this.dateFormat = dateFormat;
 	}
 
-	public Object convert(Object sourceObject, Type destinationType) throws ConverterException {
+	public Object doConvert(Object sourceObject, Type destinationType) throws ConverterException {
 		if (sourceObject == null) {
 			return null;
 		}

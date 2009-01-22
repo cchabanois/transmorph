@@ -13,28 +13,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.entropysoft.transmorph.converters;
-
-import net.entropysoft.transmorph.ConverterException;
-import net.entropysoft.transmorph.type.Type;
+package net.entropysoft.transmorph.modifiers;
 
 /**
- * Convert a String to a trimmed string
+ * You can add modifiers to most converters. Once object has been converted,
+ * modifiers are called on the resulting object (even if this object is null, so
+ * you must handle this case)
  * 
- * @author Cedric Chabanois (cchabanois at gmail.com)
+ * @author cedric
  * 
+ * @param <S>
  */
-public class StringToTrimmedString extends
-		AbstractSimpleConverter<String, String> {
+public interface IModifier<S> {
 
-	public StringToTrimmedString() {
-		super(String.class, String.class);
-	}
-
-	@Override
-	public String doConvert(String sourceObject, Type destinationType)
-			throws ConverterException {
-		return sourceObject.trim();
-	}
+	/**
+	 * Modify and return given object. It can also be used to verify some things
+	 * on the object and throw a ModifierException if necessary
+	 * 
+	 * @param object
+	 * @return
+	 * @throws ModifierException
+	 */
+	public S modify(S object) throws ModifierException;
 
 }

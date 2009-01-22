@@ -55,7 +55,7 @@ public class ArrayToCollection extends AbstractContainerConverter {
 		this.defaultListClass = defaultListClass;
 	}
 
-	public Object convert(Object sourceObject, Type destinationType) throws ConverterException {
+	public Object doConvert(Object sourceObject, Type destinationType) throws ConverterException {
 		if (sourceObject == null) {
 			return null;
 		}

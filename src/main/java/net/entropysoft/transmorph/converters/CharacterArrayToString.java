@@ -25,9 +25,9 @@ import net.entropysoft.transmorph.type.Type;
  * @author Cedric Chabanois (cchabanois at gmail.com)
  * 
  */
-public class CharacterArrayToString implements IConverter {
+public class CharacterArrayToString extends AbstractConverter {
 
-	public Object convert(Object sourceObject, Type destinationType) throws ConverterException {
+	public Object doConvert(Object sourceObject, Type destinationType) throws ConverterException {
 		if (sourceObject == null) {
 			return null;
 		}

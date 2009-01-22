@@ -25,7 +25,7 @@ import net.entropysoft.transmorph.type.Type;
  * @author Cedric Chabanois (cchabanois at gmail.com)
  * 
  */
-public class StringToBoolean implements IConverter {
+public class StringToBoolean extends AbstractConverter {
 
 	private String trueString = "true";
 	private String falseString = "false";
@@ -55,7 +55,7 @@ public class StringToBoolean implements IConverter {
 		this.caseSensitive = caseSensitive;
 	}
 
-	public Object convert(Object sourceObject, Type destinationType) throws ConverterException {
+	public Object doConvert(Object sourceObject, Type destinationType) throws ConverterException {
 		if (sourceObject == null) {
 			if (destinationType.isPrimitive()) {
 				throw new ConverterException("Could not convert null to boolean primitive type");

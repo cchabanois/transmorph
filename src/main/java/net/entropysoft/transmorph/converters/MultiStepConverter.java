@@ -76,7 +76,7 @@ public class MultiStepConverter extends AbstractContainerConverter {
 		}
 	}
 
-	public Object convert(Object sourceObject, Type destinationType)
+	public Object doConvert(Object sourceObject, Type destinationType)
 			throws ConverterException {
 		Object stepSourceObject = sourceObject;
 		for (int i = 1; i < types.length; i++) {

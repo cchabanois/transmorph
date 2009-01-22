@@ -13,27 +13,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.entropysoft.transmorph.converters;
+package net.entropysoft.transmorph.modifiers;
 
-import net.entropysoft.transmorph.IContainerConverter;
-import net.entropysoft.transmorph.IConverter;
+import java.io.File;
+import java.io.IOException;
 
 /**
- * Base implementation for IContainerConverter
+ * Modifier that calls getCononicalFile on File
  * 
  * @author Cedric Chabanois (cchabanois at gmail.com)
- *
+ * 
  */
-public abstract class AbstractContainerConverter extends AbstractConverter implements IContainerConverter {
+public class CanonicalizeFile implements IModifier<File> {
 
-	protected IConverter elementConverter;
-
-	public IConverter getElementConverter() {
-		return elementConverter;
-	}
-
-	public void setElementConverter(IConverter elementConverter) {
-		this.elementConverter = elementConverter;
+	public File modify(File object) throws ModifierException {
+		if (object == null) {
+			return null;
+		}
+		try {
+			return object.getCanonicalFile();
+		} catch (IOException e) {
+			throw new ModifierException("Cannot get canonical form for '"
+					+ object.toString() + "'", e);
+		}
 	}
 
 }

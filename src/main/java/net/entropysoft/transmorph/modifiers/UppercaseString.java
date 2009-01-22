@@ -13,27 +13,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.entropysoft.transmorph.converters;
+package net.entropysoft.transmorph.modifiers;
 
-import net.entropysoft.transmorph.IContainerConverter;
-import net.entropysoft.transmorph.IConverter;
+import java.util.Locale;
 
 /**
- * Base implementation for IContainerConverter
+ * Modifier that calls toUpperCase on String
  * 
  * @author Cedric Chabanois (cchabanois at gmail.com)
- *
+ * 
  */
-public abstract class AbstractContainerConverter extends AbstractConverter implements IContainerConverter {
+public class UppercaseString implements IModifier<String> {
 
-	protected IConverter elementConverter;
+	private Locale locale;
 
-	public IConverter getElementConverter() {
-		return elementConverter;
-	}
+	public String modify(String object) throws ModifierException {
+		if (object == null) {
+			return null;
+		}
+		if (locale == null) {
+			return object.toUpperCase();
+		} else {
+			return object.toUpperCase(locale);
+		}
 
-	public void setElementConverter(IConverter elementConverter) {
-		this.elementConverter = elementConverter;
 	}
 
 }

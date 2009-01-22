@@ -30,9 +30,9 @@ import net.entropysoft.transmorph.type.TypeUtils;
  * @author Cedric Chabanois (cchabanois at gmail.com)
  * 
  */
-public class StringToNumber implements IConverter {
+public class StringToNumber extends AbstractConverter {
 
-	public Object convert(Object sourceObject, Type destinationType) throws ConverterException {
+	public Object doConvert(Object sourceObject, Type destinationType) throws ConverterException {
 		if (sourceObject == null) {
 			if (destinationType.isPrimitive()) {
 				throw new ConverterException("Cannot convert null to primitive number");

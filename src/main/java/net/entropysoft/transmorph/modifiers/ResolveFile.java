@@ -13,34 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.entropysoft.transmorph.converters;
+package net.entropysoft.transmorph.modifiers;
 
-import java.util.Locale;
-
-import net.entropysoft.transmorph.ConverterException;
-import net.entropysoft.transmorph.type.Type;
+import java.io.File;
 
 /**
- * Convert a String to an uppercased string
+ * Modifier that calls getAbsoluteFile on File
  * 
  * @author Cedric Chabanois (cchabanois at gmail.com)
- *
+ * 
  */
-public class StringToUppercasedString extends AbstractSimpleConverter<String,String> {
+public class ResolveFile implements IModifier<File> {
 
-	private Locale locale;
-	
-	public StringToUppercasedString() {
-		super(String.class, String.class);
-	}
-
-	@Override
-	public String doConvert(String sourceObject, Type destinationType) throws ConverterException {
-		if (locale == null) {
-			return sourceObject.toUpperCase();
-		} else {
-			return sourceObject.toUpperCase(locale);
+	public File modify(File object) throws ModifierException {
+		if (object == null) {
+			return null;
 		}
+		return object.getAbsoluteFile();
 	}
 
 }

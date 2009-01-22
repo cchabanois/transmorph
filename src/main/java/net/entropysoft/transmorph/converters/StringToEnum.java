@@ -27,9 +27,9 @@ import net.entropysoft.transmorph.type.Type;
  * @author Cedric Chabanois (cchabanois at gmail.com)
  * 
  */
-public class StringToEnum implements IConverter {
+public class StringToEnum extends AbstractConverter {
 
-	public Object convert(Object sourceObject, Type destinationType) throws ConverterException {
+	public Object doConvert(Object sourceObject, Type destinationType) throws ConverterException {
 
 		if (sourceObject == null) {
 			return null;

@@ -17,25 +17,33 @@ package net.entropysoft.transmorph.converters;
 
 import net.entropysoft.transmorph.ConverterException;
 import net.entropysoft.transmorph.IConverter;
+import net.entropysoft.transmorph.modifiers.IModifier;
+import net.entropysoft.transmorph.modifiers.ModifierException;
 import net.entropysoft.transmorph.type.Type;
 
 /**
- * Abstract simple converter 
+ * Abstract simple converter used to convert from an object of a given Class to
+ * an object of another Class
  * 
  * @author Cedric Chabanois (cchabanois at gmail.com)
- *
- * @param <S> The source
- * @param <D> The destination
+ * 
+ * @param <S>
+ *            The source
+ * @param <D>
+ *            The destination
  */
-public abstract class AbstractSimpleConverter<S,D> implements IConverter {
+public abstract class AbstractSimpleConverter<S, D> implements IConverter {
+	private final static IModifier[] EMPTY_MODIFIERS = new IModifier[0];
+
+	private IModifier<D>[] modifiers = EMPTY_MODIFIERS;
 	private Class sourceClass;
 	private Class destinationClass;
-	
+
 	protected AbstractSimpleConverter(Class sourceClass, Class destinationClass) {
 		this.sourceClass = sourceClass;
 		this.destinationClass = destinationClass;
 	}
-	
+
 	public Class getSourceClass() {
 		return sourceClass;
 	}
@@ -59,15 +67,39 @@ public abstract class AbstractSimpleConverter<S,D> implements IConverter {
 		return sourceClass.isInstance(sourceObject);
 	}
 
-	public Object convert(Object sourceObject, Type destinationType) throws ConverterException {
+	public Object convert(Object sourceObject, Type destinationType)
+			throws ConverterException {
 		if (sourceObject == null) {
 			if (destinationType.isPrimitive()) {
-				throw new ConverterException("Cannot convert null to a primitive type");
+				throw new ConverterException(
+						"Cannot convert null to a primitive type");
 			}
 		}
-		return doConvert((S)sourceObject, destinationType);
+		D result = doConvert((S) sourceObject, destinationType);
+		result = applyModifiers(result);
+		return result;
 	}
 
-	public abstract D doConvert(S sourceObject, Type destinationType) throws ConverterException; 
-	
+	public abstract D doConvert(S sourceObject, Type destinationType)
+			throws ConverterException;
+
+	protected D applyModifiers(D object) throws ConverterException {
+		for (IModifier<D> modifier : modifiers) {
+			try {
+				object = modifier.modify(object);
+			} catch (ModifierException e) {
+				throw new ConverterException(e.getMessage(), e);
+			}
+		}
+		return object;
+	}
+
+	public IModifier<D>[] getModifiers() {
+		return modifiers;
+	}
+
+	public void setModifiers(IModifier<D>[] modifiers) {
+		this.modifiers = modifiers;
+	}
+
 }

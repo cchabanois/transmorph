@@ -29,7 +29,7 @@ import net.entropysoft.transmorph.type.Type;
  * @author Cedric Chabanois (cchabanois at gmail.com)
  * 
  */
-public class ObjectToObjectUsingConstructor implements IConverter {
+public class ObjectToObjectUsingConstructor extends AbstractConverter {
 
 	public final static Class[] ALL_DESTINATION_CLASSES = null;
 
@@ -43,7 +43,7 @@ public class ObjectToObjectUsingConstructor implements IConverter {
 		this.handledDestinationClasses = handledDestinationClasses;
 	}
 
-	public Object convert(Object sourceObject, Type destinationType) throws ConverterException {
+	public Object doConvert(Object sourceObject, Type destinationType) throws ConverterException {
 
 		try {
 			Constructor compatibleConstructor = getCompatibleConstructor(

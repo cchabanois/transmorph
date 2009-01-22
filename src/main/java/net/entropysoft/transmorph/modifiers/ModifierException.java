@@ -13,27 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.entropysoft.transmorph.converters;
+package net.entropysoft.transmorph.modifiers;
 
-import net.entropysoft.transmorph.IContainerConverter;
-import net.entropysoft.transmorph.IConverter;
+public class ModifierException extends Exception {
 
-/**
- * Base implementation for IContainerConverter
- * 
- * @author Cedric Chabanois (cchabanois at gmail.com)
- *
- */
-public abstract class AbstractContainerConverter extends AbstractConverter implements IContainerConverter {
+	private static final long serialVersionUID = 1920778748377135397L;
 
-	protected IConverter elementConverter;
-
-	public IConverter getElementConverter() {
-		return elementConverter;
+	public ModifierException(String message) {
+		super(message);
 	}
 
-	public void setElementConverter(IConverter elementConverter) {
-		this.elementConverter = elementConverter;
+	public ModifierException(String message, Throwable cause) {
+		super(message, cause);
 	}
 
 }

@@ -30,7 +30,7 @@ import net.entropysoft.transmorph.type.TypeUtils;
  * @author Cedric Chabanois (cchabanois at gmail.com)
  * 
  */
-public class FormattedStringToNumber implements IConverter {
+public class FormattedStringToNumber extends AbstractConverter {
 
 	private NumberFormat numberFormat = NumberFormat.getInstance();
 	private NumberToNumber numberToNumberConverter = new NumberToNumber();
@@ -43,7 +43,7 @@ public class FormattedStringToNumber implements IConverter {
 		this.numberFormat = numberFormat;
 	}
 
-	public Object convert(Object sourceObject, Type destinationType) throws ConverterException {
+	public Object doConvert(Object sourceObject, Type destinationType) throws ConverterException {
 		if (sourceObject == null) {
 			if (destinationType.isPrimitive()) {
 				throw new ConverterException("Cannot convert null to a primitive number");

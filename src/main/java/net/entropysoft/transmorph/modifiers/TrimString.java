@@ -13,27 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.entropysoft.transmorph.converters;
-
-import net.entropysoft.transmorph.IContainerConverter;
-import net.entropysoft.transmorph.IConverter;
+package net.entropysoft.transmorph.modifiers;
 
 /**
- * Base implementation for IContainerConverter
+ * Modifier that calls trim on String
  * 
  * @author Cedric Chabanois (cchabanois at gmail.com)
- *
+ * 
  */
-public abstract class AbstractContainerConverter extends AbstractConverter implements IContainerConverter {
+public class TrimString implements IModifier<String> {
 
-	protected IConverter elementConverter;
-
-	public IConverter getElementConverter() {
-		return elementConverter;
-	}
-
-	public void setElementConverter(IConverter elementConverter) {
-		this.elementConverter = elementConverter;
+	public String modify(String object) throws ModifierException {
+		if (object == null) {
+			return null;
+		}
+		return object.trim();
 	}
 
 }

@@ -35,7 +35,7 @@ public class MapToMap extends AbstractContainerConverter {
 
 	private Class<? extends Map> defaultMapClass = HashMap.class;
 
-	public Object convert(Object sourceObject, Type destinationType) throws ConverterException {
+	public Object doConvert(Object sourceObject, Type destinationType) throws ConverterException {
 		if (sourceObject == null) {
 			return null;
 		}

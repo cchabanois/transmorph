@@ -13,34 +13,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.entropysoft.transmorph.converters;
+package net.entropysoft.transmorph.modifiers;
 
 import java.util.Locale;
 
-import net.entropysoft.transmorph.ConverterException;
-import net.entropysoft.transmorph.type.Type;
-
 /**
- * Convert a String to a lowercased string
+ * Modifier that calls toLowerCase on String
  * 
  * @author Cedric Chabanois (cchabanois at gmail.com)
- *
+ * 
  */
-public class StringToLowercasedString extends AbstractSimpleConverter<String,String> {
+public class LowerCaseString implements IModifier<String> {
 
 	private Locale locale;
-	
-	public StringToLowercasedString() {
-		super(String.class, String.class);
-	}
 
-	@Override
-	public String doConvert(String sourceObject, Type destinationType) throws ConverterException {
-		if (locale == null) {
-			return sourceObject.toLowerCase();
-		} else {
-			return sourceObject.toLowerCase(locale);
+	public String modify(String object) throws ModifierException {
+		if (object == null) {
+			return null;
 		}
+		if (locale == null) {
+			return object.toLowerCase();
+		} else {
+			return object.toLowerCase(locale);
+		}
+
 	}
 
 }

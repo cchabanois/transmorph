@@ -79,6 +79,11 @@ public abstract class Type {
 		return superClass.isAssignableFrom(subClass);
 	}
 
+	
+	public boolean isInstance(Object object) throws ClassNotFoundException {
+		return getType().isInstance(object);
+	}
+	
 	/**
 	 * check if given signature is the signature of a primitive type
 	 * 

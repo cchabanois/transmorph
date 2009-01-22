@@ -31,8 +31,7 @@ import net.entropysoft.transmorph.type.Type;
  */
 public class IdentityConverter implements IConverter {
 
-	public Object convert(IConverter elementConverter, Object sourceObject,
-			Type destinationType) throws ConverterException {
+	public Object convert(Object sourceObject, Type destinationType) throws ConverterException {
 		if (sourceObject == null) {
 			// always handle the case where source object is null if
 			// destination type is not a primitive

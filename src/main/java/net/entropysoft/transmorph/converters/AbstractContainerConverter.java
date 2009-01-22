@@ -15,32 +15,25 @@
  */
 package net.entropysoft.transmorph.converters;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-
-import net.entropysoft.transmorph.ConverterException;
-import net.entropysoft.transmorph.type.Type;
+import net.entropysoft.transmorph.IContainerConverter;
+import net.entropysoft.transmorph.IConverter;
 
 /**
- * Converter used when source is a String and destination is an URL
+ * Base implementation for IContainerConverter
  * 
  * @author Cedric Chabanois (cchabanois at gmail.com)
- * 
+ *
  */
-public class StringToURL extends AbstractSimpleConverter<String, URL> {
+public abstract class AbstractContainerConverter implements IContainerConverter {
 
-	public StringToURL() {
-		super(String.class, URL.class);
+	protected IConverter elementConverter;
+
+	public IConverter getElementConverter() {
+		return elementConverter;
 	}
 
-	@Override
-	public URL doConvert(String sourceObject, Type destinationType) throws ConverterException {
-		try {
-			return new URL(sourceObject);
-		} catch (MalformedURLException e) {
-			throw new ConverterException("Could not convert String to URL", e);
-		}
-
+	public void setElementConverter(IConverter elementConverter) {
+		this.elementConverter = elementConverter;
 	}
 
 }

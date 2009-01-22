@@ -22,7 +22,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import net.entropysoft.transmorph.ConverterException;
-import net.entropysoft.transmorph.IConverter;
 import net.entropysoft.transmorph.type.Type;
 
 /**
@@ -49,8 +48,7 @@ public class StringToDate extends AbstractSimpleConverter<String, Date> {
 	}
 
 	@Override
-	public Date doConvert(IConverter elementConverter, String sourceObject,
-			Type destinationType) throws ConverterException {
+	public Date doConvert(String sourceObject, Type destinationType) throws ConverterException {
 		ParsePosition pos = new ParsePosition(0);
 		Date result;
 		synchronized(this) {

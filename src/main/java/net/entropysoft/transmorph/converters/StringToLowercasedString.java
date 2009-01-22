@@ -15,32 +15,32 @@
  */
 package net.entropysoft.transmorph.converters;
 
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.util.Locale;
 
 import net.entropysoft.transmorph.ConverterException;
 import net.entropysoft.transmorph.type.Type;
 
 /**
- * Converter used when source is a String and destination is an URL
+ * Convert a String to a lowercased string
  * 
  * @author Cedric Chabanois (cchabanois at gmail.com)
- * 
+ *
  */
-public class StringToURL extends AbstractSimpleConverter<String, URL> {
+public class StringToLowercasedString extends AbstractSimpleConverter<String,String> {
 
-	public StringToURL() {
-		super(String.class, URL.class);
+	private Locale locale;
+	
+	public StringToLowercasedString() {
+		super(String.class, String.class);
 	}
 
 	@Override
-	public URL doConvert(String sourceObject, Type destinationType) throws ConverterException {
-		try {
-			return new URL(sourceObject);
-		} catch (MalformedURLException e) {
-			throw new ConverterException("Could not convert String to URL", e);
+	public String doConvert(String sourceObject, Type destinationType) throws ConverterException {
+		if (locale == null) {
+			return sourceObject.toLowerCase();
+		} else {
+			return sourceObject.toLowerCase(locale);
 		}
-
 	}
 
 }

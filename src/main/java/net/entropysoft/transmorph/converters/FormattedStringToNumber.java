@@ -43,8 +43,7 @@ public class FormattedStringToNumber implements IConverter {
 		this.numberFormat = numberFormat;
 	}
 
-	public Object convert(IConverter elementConverter, Object sourceObject,
-			Type destinationType) throws ConverterException {
+	public Object convert(Object sourceObject, Type destinationType) throws ConverterException {
 		if (sourceObject == null) {
 			if (destinationType.isPrimitive()) {
 				throw new ConverterException("Cannot convert null to a primitive number");
@@ -68,8 +67,7 @@ public class FormattedStringToNumber implements IConverter {
 					"Could not convert ''{0}'' to a number", sourceString));
 		}
 
-		return numberToNumberConverter.convert(elementConverter, number,
-				destinationType);
+		return numberToNumberConverter.convert(number, destinationType);
 	}
 
 	public boolean canHandleDestinationType(Type destinationType) {

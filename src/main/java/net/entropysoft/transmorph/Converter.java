@@ -38,16 +38,57 @@ public class Converter implements IConverter {
 	private TypeFactory typeFactory;
 	private boolean useInternalFormFullyQualifiedName;
 
+	/**
+	 * Creates a Converter object
+	 * 
+	 * @param classLoader
+	 *            classLoader to use when loading classes by name
+	 * @param converters
+	 *            the converters that will be used. The order is important as
+	 *            they will be tried one by one in order
+	 */
 	public Converter(ClassLoader classLoader, IConverter[] converters) {
 		this(new TypeFactory(new ClassFactory(classLoader)), converters);
 	}
 
+	/**
+	 * Creates a Converter Object.
+	 * 
+	 * <p>
+	 * The classLoader used when loading classes by name will be the context
+	 * class loader
+	 * </p>
+	 * 
+	 * @param converters
+	 *            the converters that will be used. The order is important as
+	 *            they will be tried one by one in order
+	 */
 	public Converter(IConverter[] converters) {
 		this(Thread.currentThread().getContextClassLoader(), converters);
 	}
 
+	/**
+	 * Creates a Converter Object.
+	 * 
+	 * @param typeFactory
+	 *            factory that creates types from their signatures
+	 * @param converters
+	 *            the converters that will be used. The order is important as
+	 *            they will be tried one by one in order
+	 */
 	public Converter(TypeFactory typeFactory, IConverter[] converters) {
 		this.typeFactory = typeFactory;
+
+		// use this converter as element converter for all container converters
+		// that have no element converter set
+		for (IConverter converter : converters) {
+			if (converter instanceof IContainerConverter) {
+				IContainerConverter containerConverter = (IContainerConverter) converter;
+				if (containerConverter.getElementConverter() == null) {
+					containerConverter.setElementConverter(this);
+				}
+			}
+		}
 		this.converters.addAll(Arrays.asList(converters));
 	}
 
@@ -68,19 +109,44 @@ public class Converter implements IConverter {
 		this.useInternalFormFullyQualifiedName = useInternalFormFullyQualifiedName;
 	}
 
+	/**
+	 * Convert an object to another object with given class and given type
+	 * arguments (if any)
+	 * 
+	 * @param source
+	 *            object to convert
+	 * @param clazz
+	 *            destination class
+	 * @param typeArgs
+	 *            the type arguments or an empty array if none
+	 * @return the converted object
+	 * @throws ConverterException
+	 *             if conversion failed
+	 */
 	public Object convert(Object source, Class clazz, Class[] typeArgs)
 			throws ConverterException {
 		Type destinationType = typeFactory.getType(clazz, typeArgs);
 
-		return convert(this, source, destinationType);
+		return convert(source, destinationType);
 	}
 
+	/**
+	 * Convert an object to another object with given class
+	 * 
+	 * @param source
+	 *            object to convert
+	 * @param clazz
+	 *            destination class
+	 * @return the converted object
+	 * @throws ConverterException
+	 *             if conversion failed
+	 */
 	public Object convert(Object source, Class clazz) throws ConverterException {
 		TypeSignature typeSignature = TypeSignatureFactory
 				.getTypeSignature(clazz);
 		Type destinationType = typeFactory.getType(typeSignature);
 
-		return convert(this, source, destinationType);
+		return convert(source, destinationType);
 	}
 
 	/**
@@ -98,38 +164,51 @@ public class Converter implements IConverter {
 				parameterizedTypeSignature, useInternalFormFullyQualifiedName);
 		Type destinationType = typeFactory.getType(typeSignature);
 
-		return convert(this, source, destinationType);
+		return convert(source, destinationType);
 	}
 
 	/**
 	 * Convert an object to another object given a parameterized type signature
 	 * 
-	 * @param elementConverter
-	 *            the converter to use for elements in source object (if any)
-	 * @param source
-	 *            the source object
 	 * @param destinationType
 	 *            the destination type
+	 * @param source
+	 *            the source object
+	 * 
 	 * @return the converted object
 	 * @throws ConverterException
 	 */
-	public Object convert(IConverter elementConverter, Object source,
-			Type destinationType) throws ConverterException {
+	public Object convert(Object source, Type destinationType)
+			throws ConverterException {
 		ConverterException firstException = null;
 
-		for (IConverter converter : converters) {
-			if (converter.canHandleDestinationType(destinationType)
-					&& converter.canHandleSourceObject(source)) {
-				try {
+		try {
+			for (IConverter converter : converters) {
+				if (converter.canHandleDestinationType(destinationType)
+						&& converter.canHandleSourceObject(source)) {
+					try {
 
-					return converter.convert(this, source, destinationType);
-				} catch (ConverterException e) {
-					// isHandled does not verify all cases. An other converter
-					// might successfully convert the source to destination type
-					if (firstException == null)
-						firstException = e;
+						return converter.convert(source, destinationType);
+					} catch (ConverterException e) {
+						// isHandled does not verify all cases. An other
+						// converter
+						// might successfully convert the source to destination
+						// type
+						if (firstException == null)
+							firstException = e;
+					}
 				}
 			}
+		} catch (Exception e) {
+			// There is a problem with one converter. This should not happen.
+			// Either there is a bug in this converter or it is not properly
+			// configured
+			throw new ConverterException(
+					MessageFormat
+							.format(
+									"Could not convert given object with class ''{0}'' to object with type signature ''{1}''",
+									source == null ? "null" : source.getClass()
+											.getName(), destinationType), e);
 		}
 
 		if (firstException != null) {
@@ -150,10 +229,6 @@ public class Converter implements IConverter {
 		}
 	}
 
-	public List<IConverter> getConverters() {
-		return converters;
-	}
-
 	public boolean canHandleDestinationType(Type destinationType) {
 		for (IConverter converter : converters) {
 			if (!canHandleDestinationType(destinationType)) {
@@ -170,6 +245,16 @@ public class Converter implements IConverter {
 			}
 		}
 		return true;
+	}
+
+	/**
+	 * get the type factory that can be used to create types from their
+	 * signatures
+	 * 
+	 * @return
+	 */
+	public TypeFactory getTypeFactory() {
+		return typeFactory;
 	}
 
 }

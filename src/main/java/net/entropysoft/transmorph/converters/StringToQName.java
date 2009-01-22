@@ -18,7 +18,6 @@ package net.entropysoft.transmorph.converters;
 import javax.xml.namespace.QName;
 
 import net.entropysoft.transmorph.ConverterException;
-import net.entropysoft.transmorph.IConverter;
 import net.entropysoft.transmorph.type.Type;
 
 /**
@@ -35,8 +34,7 @@ public class StringToQName extends AbstractSimpleConverter<String, QName> {
 	}
 
 	@Override
-	public QName doConvert(IConverter elementConverter, String sourceObject,
-			Type destinationType) throws ConverterException {
+	public QName doConvert(String sourceObject, Type destinationType) throws ConverterException {
 		if (sourceObject == null) {
 			return null;
 		}

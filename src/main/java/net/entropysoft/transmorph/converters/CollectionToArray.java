@@ -19,7 +19,6 @@ import java.lang.reflect.Array;
 import java.util.Collection;
 
 import net.entropysoft.transmorph.ConverterException;
-import net.entropysoft.transmorph.IConverter;
 import net.entropysoft.transmorph.type.ArrayType;
 import net.entropysoft.transmorph.type.Type;
 
@@ -30,10 +29,9 @@ import net.entropysoft.transmorph.type.Type;
  * @author Cedric Chabanois (cchabanois at gmail.com)
  * 
  */
-public class CollectionToArray implements IConverter {
+public class CollectionToArray extends AbstractContainerConverter {
 
-	public Object convert(IConverter elementConverter, Object sourceObject,
-			Type destinationType) throws ConverterException {
+	public Object convert(Object sourceObject, Type destinationType) throws ConverterException {
 		if (sourceObject == null) {
 			return null;
 		}
@@ -59,7 +57,7 @@ public class CollectionToArray implements IConverter {
 		int i = 0;
 		for (Object element : collection) {
 			Object elementConverted = elementConverter.convert(
-					elementConverter, element, componentType);
+					element, componentType);
 			Array.set(destinationArray, i, elementConverted);
 			i++;
 		}

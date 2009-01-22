@@ -31,7 +31,7 @@ public abstract class AbstractSimpleConverter<S,D> implements IConverter {
 	private Class sourceClass;
 	private Class destinationClass;
 	
-	public AbstractSimpleConverter(Class sourceClass, Class destinationClass) {
+	protected AbstractSimpleConverter(Class sourceClass, Class destinationClass) {
 		this.sourceClass = sourceClass;
 		this.destinationClass = destinationClass;
 	}
@@ -59,17 +59,15 @@ public abstract class AbstractSimpleConverter<S,D> implements IConverter {
 		return sourceClass.isInstance(sourceObject);
 	}
 
-	public Object convert(IConverter elementConverter, Object sourceObject,
-			Type destinationType) throws ConverterException {
+	public Object convert(Object sourceObject, Type destinationType) throws ConverterException {
 		if (sourceObject == null) {
 			if (destinationType.isPrimitive()) {
 				throw new ConverterException("Cannot convert null to a primitive type");
 			}
 		}
-		return doConvert(elementConverter, (S)sourceObject, destinationType);
+		return doConvert((S)sourceObject, destinationType);
 	}
 
-	public abstract D doConvert(IConverter elementConverter, S sourceObject,
-			Type destinationType) throws ConverterException; 
+	public abstract D doConvert(S sourceObject, Type destinationType) throws ConverterException; 
 	
 }

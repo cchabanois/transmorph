@@ -16,7 +16,6 @@
 package net.entropysoft.transmorph.converters;
 
 import net.entropysoft.transmorph.ConverterException;
-import net.entropysoft.transmorph.IConverter;
 import net.entropysoft.transmorph.type.Type;
 
 /**
@@ -32,8 +31,8 @@ public class StringToStringBuilder extends AbstractSimpleConverter<String, Strin
 	}
 
 	@Override
-	public StringBuilder doConvert(IConverter elementConverter,
-			String sourceObject, Type destinationType)
+	public StringBuilder doConvert(String sourceObject,
+			Type destinationType)
 			throws ConverterException {
 		return new StringBuilder(sourceObject);
 	}

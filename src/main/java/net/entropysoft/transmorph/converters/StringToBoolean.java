@@ -55,8 +55,7 @@ public class StringToBoolean implements IConverter {
 		this.caseSensitive = caseSensitive;
 	}
 
-	public Object convert(IConverter elementConverter, Object sourceObject,
-			Type destinationType) throws ConverterException {
+	public Object convert(Object sourceObject, Type destinationType) throws ConverterException {
 		if (sourceObject == null) {
 			if (destinationType.isPrimitive()) {
 				throw new ConverterException("Could not convert null to boolean primitive type");

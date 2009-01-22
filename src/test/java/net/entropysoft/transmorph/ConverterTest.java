@@ -27,43 +27,66 @@ import javax.xml.namespace.QName;
 
 import junit.framework.TestCase;
 import net.entropysoft.transmorph.converters.AbstractSimpleConverter;
+import net.entropysoft.transmorph.converters.ArrayToArray;
+import net.entropysoft.transmorph.converters.ArrayToCollection;
 import net.entropysoft.transmorph.converters.BeanDestinationPropertyTypeProvider;
+import net.entropysoft.transmorph.converters.BeanToBean;
 import net.entropysoft.transmorph.converters.CalendarToDate;
+import net.entropysoft.transmorph.converters.CharacterArrayToString;
+import net.entropysoft.transmorph.converters.CollectionToArray;
+import net.entropysoft.transmorph.converters.CollectionToCollection;
 import net.entropysoft.transmorph.converters.DateToCalendar;
 import net.entropysoft.transmorph.converters.FormattedStringToNumber;
+import net.entropysoft.transmorph.converters.IdentityConverter;
 import net.entropysoft.transmorph.converters.MapToBean;
+import net.entropysoft.transmorph.converters.MapToMap;
 import net.entropysoft.transmorph.converters.MultiStepConverter;
+import net.entropysoft.transmorph.converters.NumberToNumber;
 import net.entropysoft.transmorph.converters.ObjectToFormattedString;
 import net.entropysoft.transmorph.converters.ObjectToObjectUsingConstructor;
 import net.entropysoft.transmorph.converters.ObjectToString;
+import net.entropysoft.transmorph.converters.SingleElementToArray;
+import net.entropysoft.transmorph.converters.SingleElementToCollection;
 import net.entropysoft.transmorph.converters.StringToBoolean;
 import net.entropysoft.transmorph.converters.StringToCalendar;
+import net.entropysoft.transmorph.converters.StringToCharacterArray;
+import net.entropysoft.transmorph.converters.StringToClass;
 import net.entropysoft.transmorph.converters.StringToDate;
+import net.entropysoft.transmorph.converters.StringToEnum;
+import net.entropysoft.transmorph.converters.StringToFile;
+import net.entropysoft.transmorph.converters.StringToNumber;
+import net.entropysoft.transmorph.converters.StringToQName;
+import net.entropysoft.transmorph.converters.StringToStringBuffer;
+import net.entropysoft.transmorph.converters.StringToStringBuilder;
+import net.entropysoft.transmorph.converters.StringToTimeZone;
+import net.entropysoft.transmorph.converters.StringToTrimmedString;
+import net.entropysoft.transmorph.converters.StringToURI;
+import net.entropysoft.transmorph.converters.StringToURL;
+import net.entropysoft.transmorph.converters.StringToUppercasedString;
+import net.entropysoft.transmorph.converters.URIToURL;
+import net.entropysoft.transmorph.converters.URLToURI;
 import net.entropysoft.transmorph.type.Type;
 import net.entropysoft.transmorph.type.TypeFactory;
 
 public class ConverterTest extends TestCase {
 
 	private final static IConverter[] converters = new IConverter[] {
-			Converters.numberToNumber, Converters.stringToNumber,
-			Converters.stringToBoolean, Converters.stringToEnum,
-			Converters.stringToStringBuffer, Converters.stringToStringBuilder,
-			Converters.stringToClass, Converters.arrayToArray,
-			Converters.mapToMap, Converters.arrayToCollection,
-			Converters.collectionToCollection, Converters.collectionToArray,
-			Converters.stringToFile, Converters.stringToURL,
-			Converters.stringToURI, Converters.uriToUrl, Converters.urlToUri,
-			Converters.characterArrayToString,
-			Converters.stringToCharacterArray, Converters.stringToQName,
-			Converters.stringToTimeZone, Converters.objectToString,
-			Converters.dateToCalendar, Converters.calendarToDate,
-			Converters.identityConverter };
+			new NumberToNumber(), new StringToNumber(), new StringToBoolean(),
+			new StringToEnum(), new StringToStringBuffer(),
+			new StringToStringBuilder(), new StringToClass(),
+			new ArrayToArray(), new MapToMap(), new ArrayToCollection(),
+			new CollectionToCollection(), new CollectionToArray(),
+			new StringToFile(), new StringToURL(), new StringToURI(),
+			new URIToURL(), new URLToURI(), new CharacterArrayToString(),
+			new StringToCharacterArray(), new StringToQName(),
+			new StringToTimeZone(), new ObjectToString(), new DateToCalendar(),
+			new CalendarToDate(), new IdentityConverter() };
 
 	public void testMapToMap() throws Exception {
 		Converter converter = new Converter(ConverterTest.class
 				.getClassLoader(), converters);
 		converter.setUseInternalFormFullyQualifiedName(false);
-		
+
 		// Map[String, String[]] => Map<String,List<String>> (MapToMapConverter
 		// and ArrayToListConverter)
 		Map map = new HashMap();
@@ -111,7 +134,7 @@ public class ConverterTest extends TestCase {
 		Converter converter = new Converter(ConverterTest.class
 				.getClassLoader(), converters);
 		converter.setUseInternalFormFullyQualifiedName(false);
-		
+
 		// int[] => List<Integer> (ArrayToListConverter)
 		int[] arrayOfInts = new int[] { 0, 1, 2, 3, 4, 5 };
 		List<Integer> listOfInts = (List<Integer>) converter.convert(
@@ -214,7 +237,7 @@ public class ConverterTest extends TestCase {
 		StringToBoolean stringToBoolean = new StringToBoolean();
 		Converter converter = new Converter(ConverterTest.class
 				.getClassLoader(), new IConverter[] { stringToBoolean,
-				Converters.identityConverter });
+				new IdentityConverter() });
 
 		// String => boolean (StringToBooleanConverter)
 		boolean myBoolean = (Boolean) converter.convert("false", Boolean.TYPE);
@@ -369,9 +392,20 @@ public class ConverterTest extends TestCase {
 		Converter converter = new Converter(ConverterTest.class
 				.getClassLoader(), converters);
 
-		File file = (File) converter.convert("c:\temp", File.class);
+		File file = (File) converter.convert("c:\\temp", File.class);
 		assertNotNull(file);
-		assertEquals("c:\temp", file.toString());
+		assertEquals("c:\\temp", file.toString());
+	}
+
+	public void testStringToFileCanonical() throws Exception {
+		StringToFile stringToFile = new StringToFile();
+		stringToFile.setCanonicalize(true);
+		Converter converter = new Converter(ConverterTest.class
+				.getClassLoader(), new IConverter[] { stringToFile });
+		File file = (File) converter.convert("temp", File.class);
+		assertNotNull(file);
+		// getCanonicalFile is OS-dependant
+		assertEquals((new File("temp")).getCanonicalFile(), file);
 	}
 
 	public void testCharacterArrayToString() throws Exception {
@@ -630,12 +664,12 @@ public class ConverterTest extends TestCase {
 	}
 
 	public void testSingleElementToArray() throws Exception {
-		IConverter[] converters = new IConverter[] { Converters.numberToNumber,
-				Converters.stringToNumber, Converters.stringToBoolean,
-				Converters.stringToEnum, Converters.arrayToArray,
-				Converters.mapToMap, Converters.arrayToCollection,
-				Converters.collectionToCollection, Converters.objectToString,
-				Converters.singleElementToArray, Converters.identityConverter };
+		IConverter[] converters = new IConverter[] { new NumberToNumber(),
+				new StringToNumber(), new StringToBoolean(),
+				new StringToEnum(), new ArrayToArray(), new MapToMap(),
+				new ArrayToCollection(), new CollectionToCollection(),
+				new ObjectToString(), new SingleElementToArray(),
+				new IdentityConverter() };
 
 		Converter converter = new Converter(ConverterTest.class
 				.getClassLoader(), converters);
@@ -647,13 +681,12 @@ public class ConverterTest extends TestCase {
 	}
 
 	public void testSingleElementToCollection() throws Exception {
-		IConverter[] converters = new IConverter[] { Converters.numberToNumber,
-				Converters.stringToNumber, Converters.stringToBoolean,
-				Converters.stringToEnum, Converters.arrayToArray,
-				Converters.mapToMap, Converters.arrayToCollection,
-				Converters.collectionToCollection, Converters.objectToString,
-				Converters.singleElementToCollection,
-				Converters.identityConverter };
+		IConverter[] converters = new IConverter[] { new NumberToNumber(),
+				new StringToNumber(), new StringToBoolean(),
+				new StringToEnum(), new ArrayToArray(), new MapToMap(),
+				new ArrayToCollection(), new CollectionToCollection(),
+				new ObjectToString(), new SingleElementToCollection(),
+				new IdentityConverter() };
 
 		Converter converter = new Converter(ConverterTest.class
 				.getClassLoader(), converters);
@@ -726,8 +759,7 @@ public class ConverterTest extends TestCase {
 		objectToFormattedStringConverter = new ObjectToFormattedString(
 				Calendar.class, Date.class, df);
 
-		converter = new Converter(
-				ConverterTest.class.getClassLoader(),
+		converter = new Converter(ConverterTest.class.getClassLoader(),
 				new IConverter[] { objectToFormattedStringConverter,
 						new CalendarToDate() });
 
@@ -751,8 +783,7 @@ public class ConverterTest extends TestCase {
 				Boolean.TYPE) {
 
 			@Override
-			public Object doConvert(IConverter elementConverter,
-					Object sourceObject, Type destinationType)
+			public Object doConvert(Object sourceObject, Type destinationType)
 					throws ConverterException {
 				int theInt = ((Number) sourceObject).intValue();
 				if (theInt == 0) {
@@ -764,12 +795,83 @@ public class ConverterTest extends TestCase {
 
 		};
 
-		IConverter[] converters = new IConverter[] { Converters.stringToNumber,
-				Converters.numberToNumber, intToBoolean, multiStepConverter };
+		IConverter[] converters = new IConverter[] { new StringToNumber(),
+				new NumberToNumber(), intToBoolean, multiStepConverter };
 
 		Converter converter = new Converter(typeFactory, converters);
 		assertTrue((Boolean) converter.convert("22", Boolean.TYPE));
 		assertFalse((Boolean) converter.convert("0", Boolean.TYPE));
+	}
+
+	public void testMultiStepWithConverters() throws Exception {
+		TypeFactory typeFactory = new TypeFactory(ConverterTest.class
+				.getClassLoader());
+
+		// we will convert an array of Dates to a List of uppercased strings
+
+		// use an ObjectToFormattedString to convert Date to string
+		ObjectToFormattedString dateToString = new ObjectToFormattedString(
+				Date.class, new SimpleDateFormat("EEE, MMM d, yy", Locale.US));
+
+		// use a MultiStepConverter to convert a Date to a Uppercased string
+		MultiStepConverter multiStepConverter = new MultiStepConverter(
+				new Type[] { typeFactory.getType(Date.class),
+						typeFactory.getType(String.class),
+						typeFactory.getType(String.class) }, new IConverter[] {
+						dateToString, new StringToUppercasedString() });
+
+		ArrayToCollection arrayToCollection = new ArrayToCollection();
+		arrayToCollection.setElementConverter(multiStepConverter);
+
+		Converter converter = new Converter(ConverterTest.class
+				.getClassLoader(), new IConverter[] { arrayToCollection });
+
+		Date[] dates = new Date[] { new Date(0), new Date(1232621965342L) };
+		List<String> listOfstrings = (List<String>) converter.convert(dates,
+				List.class, new Class[] { String.class });
+		assertEquals("THU, JAN 1, 70", listOfstrings.get(0));
+		assertEquals("THU, JAN 22, 09", listOfstrings.get(1));
+	}
+
+	public void testStringToTrimmedString() throws Exception {
+		Converter converter = new Converter(ConverterTest.class
+				.getClassLoader(),
+				new IConverter[] { new StringToTrimmedString() });
+		String converted = (String) converter
+				.convert(
+						"    This is a string with leading and trailing white spaces    ",
+						String.class);
+		assertEquals("This is a string with leading and trailing white spaces",
+				converted);
+	}
+
+	public void testBeanToBean() throws Exception {
+		BeanToBean beanToBean = new BeanToBean();
+		IConverter[] converters = new IConverter[] { new NumberToNumber(),
+				new StringToNumber(), new StringToClass(), new ArrayToArray(),
+				new MapToMap(), new ArrayToCollection(),
+				new CollectionToCollection(), new CollectionToArray(),
+				new StringToFile(), new StringToURL(),
+				new CharacterArrayToString(), new StringToCharacterArray(),
+				new ObjectToString(), new DateToCalendar(),
+				new IdentityConverter(), beanToBean };
+		Converter converter = new Converter(ConverterTest.class
+				.getClassLoader(), converters);
+
+		MyBean4 myBean4 = new MyBean4();
+		myBean4.setMyString("hello world");
+		List<String> myStrings = new ArrayList<String>();
+		myStrings.add("first");
+		myStrings.add("second");
+		myStrings.add("third");
+		myBean4.setMyStrings(myStrings);
+
+		MyBean4TransferObject myBean4TransferObject = (MyBean4TransferObject) converter
+				.convert(myBean4, MyBean4TransferObject.class);
+		assertEquals("hello world", myBean4TransferObject.getMyString());
+		assertEquals("first", myBean4TransferObject.getMyStrings()[0]);
+		assertEquals("second", myBean4TransferObject.getMyStrings()[1]);
+		assertEquals("third", myBean4TransferObject.getMyStrings()[2]);
 	}
 
 	public void testMapToBean() throws Exception {
@@ -784,16 +886,13 @@ public class ConverterTest extends TestCase {
 		mapToBean
 				.setBeanDestinationPropertyTypeProvider(beanDestinationPropertyTypeProvider);
 
-		IConverter[] converters = new IConverter[] { Converters.numberToNumber,
-				Converters.stringToNumber, Converters.stringToBoolean,
-				Converters.stringToEnum, Converters.stringToClass,
-				Converters.arrayToArray, Converters.mapToMap,
-				Converters.arrayToCollection,
-				Converters.collectionToCollection, Converters.stringToFile,
-				Converters.stringToURL, Converters.characterArrayToString,
-				Converters.stringToCharacterArray, Converters.objectToString,
-				Converters.dateToCalendar, Converters.identityConverter,
-				mapToBean };
+		IConverter[] converters = new IConverter[] { new NumberToNumber(),
+				new StringToNumber(), new StringToClass(), new ArrayToArray(),
+				new MapToMap(), new ArrayToCollection(),
+				new CollectionToCollection(), new StringToFile(),
+				new StringToURL(), new CharacterArrayToString(),
+				new StringToCharacterArray(), new ObjectToString(),
+				new DateToCalendar(), new IdentityConverter(), mapToBean };
 
 		Converter converter = new Converter(ConverterTest.class
 				.getClassLoader(), converters);
@@ -890,4 +989,51 @@ public class ConverterTest extends TestCase {
 		}
 
 	}
+
+	public static class MyBean4 {
+		private String myString;
+		private List<String> myStrings;
+
+		public String getMyString() {
+			return myString;
+		}
+
+		public void setMyString(String myString) {
+			this.myString = myString;
+		}
+
+		public List<String> getMyStrings() {
+			return myStrings;
+		}
+
+		public void setMyStrings(List<String> myStrings) {
+			this.myStrings = myStrings;
+		}
+	}
+
+	public static class MyBean4TransferObject implements java.io.Serializable {
+
+		private static final long serialVersionUID = 4859101895339173273L;
+
+		private String myString;
+		private String[] myStrings;
+
+		public String getMyString() {
+			return myString;
+		}
+
+		public void setMyString(String myString) {
+			this.myString = myString;
+		}
+
+		public String[] getMyStrings() {
+			return myStrings;
+		}
+
+		public void setMyStrings(String[] myStrings) {
+			this.myStrings = myStrings;
+		}
+
+	}
+
 }

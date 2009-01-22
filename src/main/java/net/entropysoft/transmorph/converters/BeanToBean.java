@@ -26,14 +26,12 @@ import net.entropysoft.transmorph.signature.TypeSignature;
 import net.entropysoft.transmorph.type.Type;
 
 /**
- * Converter used to convert a Map to a bean.
- * 
- * Map keys must be the property names
+ * Converter used to convert a Bean to another bean.
  * 
  * @author Cedric Chabanois (cchabanois at gmail.com)
  * 
  */
-public class MapToBean extends AbstractContainerConverter {
+public class BeanToBean extends AbstractContainerConverter {
 
 	private JavaTypeToTypeSignature javaTypeSignature = new JavaTypeToTypeSignature();
 	private IBeanDestinationPropertyTypeProvider beanDestinationPropertyTypeProvider;
@@ -52,14 +50,16 @@ public class MapToBean extends AbstractContainerConverter {
 		this.beanDestinationPropertyTypeProvider = beanDestinationPropertyTypeProvider;
 	}
 
-	public Object convert(Object sourceObject, Type destinationType) throws ConverterException {
+	public Object convert(Object sourceObject, Type destinationType)
+			throws ConverterException {
 		if (sourceObject == null) {
 			return null;
 		}
-		Map<String, Object> sourceMap = (Map<String, Object>) sourceObject;
-		Map<String, Method> setterMethods;
+
+		Map<String, Method> destinationSetterMethods;
 		try {
-			setterMethods = getSetterMethods(destinationType.getType());
+			destinationSetterMethods = getDestinationSetterMethods(destinationType
+					.getType());
 		} catch (ClassNotFoundException e) {
 			throw new ConverterException(MessageFormat.format(
 					"Could not get setter methods for ''{0}''", destinationType
@@ -75,28 +75,47 @@ public class MapToBean extends AbstractContainerConverter {
 							.getName()), e);
 		}
 
-		for (String key : sourceMap.keySet()) {
-			Object value = sourceMap.get(key);
-			Method method = getSetterMethod(setterMethods, key);
-			if (method == null) {
-				throw new ConverterException(MessageFormat.format(
-						"Could not find property ''{0}'' in {1}", key,
-						destinationType.getName()));
+		for (String destinationMethodName : destinationSetterMethods.keySet()) {
+			Method destinationMethod = destinationSetterMethods.get(destinationMethodName);
+			String sourceMethodName = "get" + destinationMethodName.substring(3);
+			
+			Method sourceMethod = getMethod(sourceObject.getClass(), sourceMethodName);
+			
+			if (sourceMethod == null) {
+				sourceMethodName = "is" + destinationMethodName.substring(3);
+				sourceMethod = getMethod(sourceObject.getClass(), sourceMethodName);
+				if (sourceMethod.getReturnType() != Boolean.TYPE) {
+					sourceMethod = null;
+				}
 			}
-			java.lang.reflect.Type parameterType = method
+			if (sourceMethod == null) {
+				// no source property corresponding to destination property
+				continue;
+			}
+			
+			Object sourcePropertyValue;
+			try {
+				sourcePropertyValue = sourceMethod.invoke(sourceObject);
+			} catch (Exception e) {
+				throw new ConverterException("Could not get property for bean",
+						e);
+			}
+			
+			
+			java.lang.reflect.Type parameterType = destinationMethod
 					.getGenericParameterTypes()[0];
 			TypeSignature parameterTypeSignature = javaTypeSignature
 					.getTypeSignature(parameterType);
 			Type originalType = destinationType.getTypeFactory().getType(
 					parameterTypeSignature);
 			Type propertyDestinationType = getPropertyDestinationType(
-					resultBean.getClass(), key, originalType);
+					resultBean.getClass(), destinationMethodName, originalType);
 
-			Object valueConverterd = elementConverter.convert(value,
+			Object destinationPropertyValue = elementConverter.convert(sourcePropertyValue,
 					propertyDestinationType);
 
 			try {
-				method.invoke(resultBean, valueConverterd);
+				destinationMethod.invoke(resultBean, destinationPropertyValue);
 			} catch (Exception e) {
 				throw new ConverterException("Could not set property for bean",
 						e);
@@ -106,6 +125,16 @@ public class MapToBean extends AbstractContainerConverter {
 		return resultBean;
 	}
 
+	private Method getMethod(Class clazz, String name, Class<?>... parameterTypes) {
+		try {
+			return clazz.getMethod(name, parameterTypes);
+		} catch (SecurityException e) {
+			return null;
+		} catch (NoSuchMethodException e) {
+			return null;
+		}
+	}
+	
 	protected Type getPropertyDestinationType(Class clazz, String propertyName,
 			Type originalType) {
 		Type propertyDestinationType = null;
@@ -120,14 +149,7 @@ public class MapToBean extends AbstractContainerConverter {
 		return propertyDestinationType;
 	}
 
-	protected Method getSetterMethod(Map<String, Method> setterMethods,
-			String propertyName) {
-		String methodName = "set" + propertyName.substring(0, 1).toUpperCase()
-				+ propertyName.substring(1, propertyName.length());
-		return setterMethods.get(methodName);
-	}
-
-	private Map<String, Method> getSetterMethods(Class clazz) {
+	private Map<String, Method> getDestinationSetterMethods(Class clazz) {
 		Map<String, Method> setters = new HashMap<String, Method>();
 		Method[] methods = clazz.getMethods();
 		for (Method method : methods) {
@@ -142,6 +164,8 @@ public class MapToBean extends AbstractContainerConverter {
 
 	public boolean canHandleDestinationType(Type destinationType) {
 		try {
+			// make sure that destinationType has a constructor with no
+			// parameters
 			destinationType.getType().getConstructor(new Class[0]);
 			return true;
 		} catch (Exception e) {
@@ -153,14 +177,7 @@ public class MapToBean extends AbstractContainerConverter {
 		if (sourceObject == null) {
 			return true;
 		}
-		if (!(sourceObject instanceof Map)) {
-			return false;
-		}
-		for (Object object : ((Map) sourceObject).keySet()) {
-			if (!(object instanceof String)) {
-				return false;
-			}
-		}
+		// TODO : verify that
 		return true;
 	}
 

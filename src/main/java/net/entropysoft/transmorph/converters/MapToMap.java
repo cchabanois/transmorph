@@ -22,7 +22,6 @@ import java.util.Map;
 import java.util.Properties;
 
 import net.entropysoft.transmorph.ConverterException;
-import net.entropysoft.transmorph.IConverter;
 import net.entropysoft.transmorph.type.ClassType;
 import net.entropysoft.transmorph.type.Type;
 
@@ -32,12 +31,11 @@ import net.entropysoft.transmorph.type.Type;
  * @author Cedric Chabanois (cchabanois at gmail.com)
  * 
  */
-public class MapToMap implements IConverter {
+public class MapToMap extends AbstractContainerConverter {
 
 	private Class<? extends Map> defaultMapClass = HashMap.class;
 
-	public Object convert(IConverter elementConverter, Object sourceObject,
-			Type destinationType) throws ConverterException {
+	public Object convert(Object sourceObject, Type destinationType) throws ConverterException {
 		if (sourceObject == null) {
 			return null;
 		}
@@ -64,9 +62,9 @@ public class MapToMap implements IConverter {
 		for (Iterator<Map.Entry<Object, Object>> it = sourceMap.entrySet()
 				.iterator(); it.hasNext();) {
 			Map.Entry<Object, Object> mapEntry = it.next();
-			Object key = elementConverter.convert(elementConverter, mapEntry
+			Object key = elementConverter.convert(mapEntry
 					.getKey(), destinationTypeArguments[0]);
-			Object value = elementConverter.convert(elementConverter, mapEntry
+			Object value = elementConverter.convert(mapEntry
 					.getValue(), destinationTypeArguments[1]);
 			destinationMap.put(key, value);
 		}

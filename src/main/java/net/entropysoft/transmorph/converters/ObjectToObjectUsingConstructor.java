@@ -43,8 +43,7 @@ public class ObjectToObjectUsingConstructor implements IConverter {
 		this.handledDestinationClasses = handledDestinationClasses;
 	}
 
-	public Object convert(IConverter elementConverter, Object sourceObject,
-			Type destinationType) throws ConverterException {
+	public Object convert(Object sourceObject, Type destinationType) throws ConverterException {
 
 		try {
 			Constructor compatibleConstructor = getCompatibleConstructor(

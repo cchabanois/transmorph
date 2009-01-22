@@ -40,8 +40,7 @@ public class ObjectToString implements IConverter {
 		this.handledSourceClasses = handledSourceClasses;
 	}
 
-	public Object convert(IConverter elementConverter, Object sourceObject,
-			Type destinationType) throws ConverterException {
+	public Object convert(Object sourceObject, Type destinationType) throws ConverterException {
 		if (sourceObject == null) {
 			return null;
 		}

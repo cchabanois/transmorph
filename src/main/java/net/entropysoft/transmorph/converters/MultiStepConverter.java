@@ -26,9 +26,25 @@ import net.entropysoft.transmorph.type.Type;
  * @author Cedric Chabanois (cchabanois at gmail.com)
  * 
  */
-public class MultiStepConverter implements IConverter {
+public class MultiStepConverter extends AbstractContainerConverter {
 
 	private Type[] types;
+	private IConverter[] stepConverters;
+
+	/**
+	 * 
+	 * @param types
+	 *            first one is the source type. Last one is the destination
+	 *            type. Others are intermediate types
+	 * @param stepConverters
+	 *            the converters to use for each step. Note that there is one
+	 *            less step than types
+	 * 
+	 */
+	public MultiStepConverter(Type[] types, IConverter[] stepConverters) {
+		this.types = types;
+		setStepConverters(stepConverters);
+	}
 
 	/**
 	 * 
@@ -38,6 +54,14 @@ public class MultiStepConverter implements IConverter {
 	 */
 	public MultiStepConverter(Type[] types) {
 		this.types = types;
+	}
+
+	public void setStepConverters(IConverter[] stepConverters) {
+		if (stepConverters.length != (types.length - 1)) {
+			throw new IllegalArgumentException(
+					"stepConverters does not have correct length. It must have one less element than types");
+		}
+		this.stepConverters = stepConverters;
 	}
 
 	public boolean canHandleDestinationType(Type destinationType) {
@@ -52,12 +76,14 @@ public class MultiStepConverter implements IConverter {
 		}
 	}
 
-	public Object convert(IConverter elementConverter, Object sourceObject,
-			Type destinationType) throws ConverterException {
+	public Object convert(Object sourceObject, Type destinationType)
+			throws ConverterException {
 		Object stepSourceObject = sourceObject;
 		for (int i = 1; i < types.length; i++) {
-			stepSourceObject = elementConverter.convert(elementConverter,
-					stepSourceObject, types[i]);
+			IConverter stepConverter = stepConverters == null ? elementConverter
+					: stepConverters[i - 1];
+			stepSourceObject = stepConverter
+					.convert(stepSourceObject, types[i]);
 		}
 		return stepSourceObject;
 	}

@@ -12,7 +12,7 @@ import net.entropysoft.transmorph.type.Type;
  * @author Cedric Chabanois (cchabanois at gmail.com)
  * 
  */
-public class ObjectToFormattedString implements IConverter {
+public class ObjectToFormattedString extends AbstractContainerConverter {
 
 	private Format format;
 	private Class sourceClass;
@@ -48,16 +48,15 @@ public class ObjectToFormattedString implements IConverter {
 		this.format = format;
 	}
 
-	public Object convert(IConverter elementConverter, Object sourceObject,
-			Type destinationType) throws ConverterException {
+	public Object convert(Object sourceObject, Type destinationType) throws ConverterException {
 		if (sourceObject == null) {
 			return null;
 		}
 
 		Object formatSource = sourceObject;
 		if (sourceClass != formatExpectedClass) {
-			formatSource = elementConverter.convert(elementConverter,
-					sourceObject, destinationType.getTypeFactory().getType(
+			formatSource = elementConverter.convert(sourceObject,
+					destinationType.getTypeFactory().getType(
 							formatExpectedClass));
 		}
 		synchronized(this) {

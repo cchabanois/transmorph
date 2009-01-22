@@ -49,8 +49,7 @@ public class StringToCalendar implements IConverter {
 		this.dateFormat = dateFormat;
 	}
 
-	public Object convert(IConverter elementConverter, Object sourceObject,
-			Type destinationType) throws ConverterException {
+	public Object convert(Object sourceObject, Type destinationType) throws ConverterException {
 		if (sourceObject == null) {
 			return null;
 		}

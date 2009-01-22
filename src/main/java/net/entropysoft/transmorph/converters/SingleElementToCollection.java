@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Set;
 
 import net.entropysoft.transmorph.ConverterException;
-import net.entropysoft.transmorph.IConverter;
 import net.entropysoft.transmorph.type.ClassType;
 import net.entropysoft.transmorph.type.Type;
 
@@ -18,7 +17,7 @@ import net.entropysoft.transmorph.type.Type;
  * @author cedric
  * 
  */
-public class SingleElementToCollection implements IConverter {
+public class SingleElementToCollection extends AbstractContainerConverter {
 
 	private Class<? extends Set> defaultSetClass = HashSet.class;
 	private Class<? extends List> defaultListClass = ArrayList.class;
@@ -39,8 +38,7 @@ public class SingleElementToCollection implements IConverter {
 		this.defaultListClass = defaultListClass;
 	}
 
-	public Object convert(IConverter elementConverter, Object sourceObject,
-			Type destinationType) throws ConverterException {
+	public Object convert(Object sourceObject, Type destinationType) throws ConverterException {
 		if (sourceObject == null) {
 			return null;
 		}
@@ -60,8 +58,8 @@ public class SingleElementToCollection implements IConverter {
 					.getTypeFactory().getObjectType() };
 		}
 
-		Object convertedObj = elementConverter.convert(elementConverter,
-				sourceObject, destinationTypeArguments[0]);
+		Object convertedObj = elementConverter.convert(sourceObject,
+				destinationTypeArguments[0]);
 		destinationCollection.add(convertedObj);
 		return destinationCollection;
 

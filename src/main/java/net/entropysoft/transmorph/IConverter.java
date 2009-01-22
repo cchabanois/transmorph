@@ -28,15 +28,13 @@ public interface IConverter {
 	/**
 	 * Convert a source object to a destination type. This method will be called
 	 * only if isHandled returned true.
-	 * 
-	 * @param elementConverter
 	 * @param sourceObject
 	 * @param destinationType
+	 * 
 	 * @return
 	 * @throws ConverterException
 	 */
-	public Object convert(IConverter elementConverter, Object sourceObject,
-			Type destinationType) throws ConverterException;
+	public Object convert(Object sourceObject, Type destinationType) throws ConverterException;
 
 	/**
 	 * Check if this converter can convert to given destination type
@@ -53,5 +51,5 @@ public interface IConverter {
 	 * @return
 	 */
 	public boolean canHandleSourceObject(Object sourceObject);
-
+	
 }

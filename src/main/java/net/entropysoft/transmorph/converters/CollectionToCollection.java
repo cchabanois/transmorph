@@ -23,7 +23,6 @@ import java.util.List;
 import java.util.Set;
 
 import net.entropysoft.transmorph.ConverterException;
-import net.entropysoft.transmorph.IConverter;
 import net.entropysoft.transmorph.type.ClassType;
 import net.entropysoft.transmorph.type.Type;
 
@@ -34,7 +33,7 @@ import net.entropysoft.transmorph.type.Type;
  * @author Cedric Chabanois (cchabanois at gmail.com)
  * 
  */
-public class CollectionToCollection implements IConverter {
+public class CollectionToCollection extends AbstractContainerConverter {
 
 	private Class<? extends Set> defaultSetClass = HashSet.class;
 	private Class<? extends List> defaultListClass = ArrayList.class;
@@ -55,8 +54,7 @@ public class CollectionToCollection implements IConverter {
 		this.defaultListClass = defaultListClass;
 	}
 
-	public Object convert(IConverter elementConverter, Object sourceObject,
-			Type destinationType) throws ConverterException {
+	public Object convert(Object sourceObject, Type destinationType) throws ConverterException {
 		if (sourceObject == null) {
 			return null;
 		}
@@ -83,8 +81,8 @@ public class CollectionToCollection implements IConverter {
 		}
 
 		for (Object obj : sourceCollection) {
-			Object convertedObj = elementConverter.convert(elementConverter,
-					obj, destinationTypeArguments[0]);
+			Object convertedObj = elementConverter.convert(obj,
+					destinationTypeArguments[0]);
 			destinationCollection.add(convertedObj);
 		}
 		return destinationCollection;

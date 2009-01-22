@@ -31,8 +31,7 @@ import net.entropysoft.transmorph.type.TypeUtils;
  */
 public class NumberToNumber implements IConverter {
 
-	public Object convert(IConverter elementConverter, Object sourceObject,
-			Type destinationType) throws ConverterException {
+	public Object convert(Object sourceObject, Type destinationType) throws ConverterException {
 		if (sourceObject == null) {
 			if (destinationType.isPrimitive()) {
 				throw new ConverterException("Cannot convert null to a primitive number"); 

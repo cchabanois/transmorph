@@ -18,7 +18,6 @@ package net.entropysoft.transmorph.converters;
 import java.lang.reflect.Array;
 
 import net.entropysoft.transmorph.ConverterException;
-import net.entropysoft.transmorph.IConverter;
 import net.entropysoft.transmorph.type.ArrayType;
 import net.entropysoft.transmorph.type.Type;
 
@@ -29,10 +28,9 @@ import net.entropysoft.transmorph.type.Type;
  * @author Cedric Chabanois (cchabanois at gmail.com)
  * 
  */
-public class ArrayToArray implements IConverter {
+public class ArrayToArray extends AbstractContainerConverter {
 
-	public Object convert(IConverter elementConverter, Object sourceObject,
-			Type destinationType) throws ConverterException {
+	public Object convert(Object sourceObject, Type destinationType) throws ConverterException {
 		if (sourceObject == null) {
 			return null;
 		}
@@ -57,7 +55,7 @@ public class ArrayToArray implements IConverter {
 		for (int i = 0; i < arrayLength; i++) {
 			Object element = Array.get(array, i);
 			Object elementConverted = elementConverter.convert(
-					elementConverter, element, componentType);
+					element, componentType);
 			Array.set(destinationArray, i, elementConverted);
 		}
 

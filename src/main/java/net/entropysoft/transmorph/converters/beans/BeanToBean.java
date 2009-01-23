@@ -56,25 +56,32 @@ public class BeanToBean extends AbstractContainerConverter {
 
 	public Object doConvert(Object sourceObject, Type destinationType)
 			throws ConverterException {
+		Class destinationClass;
+		try {
+			destinationClass = destinationType.getType();
+		} catch (ClassNotFoundException e) {
+			throw new ConverterException("Could not get destination type class",e);
+		}
+
+		// we can only convert if there is a bean to bean mapping between the two classes
+		BeanToBeanMapping beanToBeanMapping = beanToBeanMappings
+					.get(new ClassPair(sourceObject.getClass(), destinationClass));
+		if (beanToBeanMapping == null) {
+			throw new ConverterException("Could not get bean to bean mapping");
+		}
+		
 		if (sourceObject == null) {
 			return null;
 		}
 
 		// get destination property => method
 		Map<String, Method> destinationSetters;
-		try {
-			destinationSetters = getDestinationSetters(destinationType
-					.getType());
-		} catch (ClassNotFoundException e) {
-			throw new ConverterException(MessageFormat.format(
-					"Could not get setter methods for ''{0}''", destinationType
-							.getName()), e);
-		}
+		destinationSetters = getDestinationSetters(destinationClass);
 
 		// create destination bean
 		Object resultBean;
 		try {
-			resultBean = destinationType.getType().newInstance();
+			resultBean = destinationClass.newInstance();
 		} catch (Exception e) {
 			throw new ConverterException(MessageFormat.format(
 					"Could not create instance of ''{0}''", destinationType
@@ -158,7 +165,8 @@ public class BeanToBean extends AbstractContainerConverter {
 					+ BeanUtils.capitalizePropertyName(sourceProperty);
 			sourceMethod = BeanUtils.getMethod(sourceObject.getClass(),
 					sourceMethodName);
-			if (sourceMethod != null && sourceMethod.getReturnType() != Boolean.TYPE) {
+			if (sourceMethod != null
+					&& sourceMethod.getReturnType() != Boolean.TYPE) {
 				sourceMethod = null;
 			}
 		}
@@ -210,9 +218,15 @@ public class BeanToBean extends AbstractContainerConverter {
 		return setters;
 	}
 
+	/**
+	 * Add a mapping of properties between two beans
+	 * 
+	 * @param beanToBeanMapping
+	 */
 	public void addBeanToBeanMapping(BeanToBeanMapping beanToBeanMapping) {
-		beanToBeanMappings.put(new ClassPair(beanToBeanMapping.getSourceClass(),
-				beanToBeanMapping.getDestinationClass()), beanToBeanMapping);
+		beanToBeanMappings.put(new ClassPair(
+				beanToBeanMapping.getSourceClass(), beanToBeanMapping
+						.getDestinationClass()), beanToBeanMapping);
 	}
 
 	public boolean canHandleDestinationType(Type destinationType) {

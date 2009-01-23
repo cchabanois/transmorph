@@ -18,18 +18,18 @@ package net.entropysoft.transmorph.converters.beans;
 import net.entropysoft.transmorph.type.Type;
 
 /**
- * Provides the type of a destination property of a bean. This is mostly useful
- * for non-parameterized collections
+ * Provides the type of a property of a bean. This is mostly useful for
+ * non-parameterized collections
  * 
  * @author Cedric Chabanois (cchabanois at gmail.com)
  * 
  * @see MapToBean
- * @see BeanDestinationPropertyTypeProvider
+ * @see BeanPropertyTypeProvider
  * 
  */
-public interface IBeanDestinationPropertyTypeProvider {
+public interface IBeanPropertyTypeProvider {
 
-	public Type getPropertyDestinationType(Class clazz, String propertyName,
+	public Type getPropertyType(Class clazz, String propertyName,
 			Type originalType);
 
 }

@@ -60,8 +60,9 @@ import net.entropysoft.transmorph.converters.StringToURI;
 import net.entropysoft.transmorph.converters.StringToURL;
 import net.entropysoft.transmorph.converters.URIToURL;
 import net.entropysoft.transmorph.converters.URLToURI;
-import net.entropysoft.transmorph.converters.beans.BeanDestinationPropertyTypeProvider;
+import net.entropysoft.transmorph.converters.beans.BeanPropertyTypeProvider;
 import net.entropysoft.transmorph.converters.beans.BeanToBean;
+import net.entropysoft.transmorph.converters.beans.BeanToBeanMapping;
 import net.entropysoft.transmorph.converters.beans.MapToBean;
 import net.entropysoft.transmorph.modifiers.CanonicalizeFile;
 import net.entropysoft.transmorph.modifiers.IModifier;
@@ -856,8 +857,13 @@ public class ConverterTest extends TestCase {
 		Converter converter = new Converter(ConverterTest.class
 				.getClassLoader(), converters);
 
+		BeanToBeanMapping beanToBeanMapping = new BeanToBeanMapping(MyBean4.class, MyBean4Ancestor.class);
+		beanToBeanMapping.addMapping("size", "length");
+		beanToBean.addBeanToBeanMapping(beanToBeanMapping);
+		
 		MyBean4 myBean4 = new MyBean4();
 		myBean4.setMyString("hello world");
+		myBean4.setSize(55);
 		List<String> myStrings = new ArrayList<String>();
 		myStrings.add("first");
 		myStrings.add("second");
@@ -870,6 +876,7 @@ public class ConverterTest extends TestCase {
 		assertEquals("first", myBean4TransferObject.getMyStrings()[0]);
 		assertEquals("second", myBean4TransferObject.getMyStrings()[1]);
 		assertEquals("third", myBean4TransferObject.getMyStrings()[2]);
+		assertEquals(55, myBean4TransferObject.getLength());
 	}
 
 	public void testMapToBean() throws Exception {
@@ -877,12 +884,12 @@ public class ConverterTest extends TestCase {
 				.getClassLoader());
 
 		MapToBean mapToBean = new MapToBean();
-		BeanDestinationPropertyTypeProvider beanDestinationPropertyTypeProvider = new BeanDestinationPropertyTypeProvider();
+		BeanPropertyTypeProvider beanDestinationPropertyTypeProvider = new BeanPropertyTypeProvider();
 		beanDestinationPropertyTypeProvider.setPropertyDestinationType(
 				MyBean3.class, "myList", typeFactory.getType(List.class,
 						new Class[] { String.class }));
 		mapToBean
-				.setBeanDestinationPropertyTypeProvider(beanDestinationPropertyTypeProvider);
+				.setBeanPropertyTypeProvider(beanDestinationPropertyTypeProvider);
 
 		IConverter[] converters = new IConverter[] { new NumberToNumber(),
 				new StringToNumber(), new StringToClass(), new ArrayToArray(),
@@ -988,7 +995,20 @@ public class ConverterTest extends TestCase {
 
 	}
 
-	public static class MyBean4 {
+	public static class MyBean4Ancestor {
+		private int size;
+
+		public int getSize() {
+			return size;
+		}
+
+		public void setSize(int size) {
+			this.size = size;
+		}
+
+	}
+	
+	public static class MyBean4 extends MyBean4Ancestor {
 		private String myString;
 		private List<String> myStrings;
 
@@ -1015,7 +1035,8 @@ public class ConverterTest extends TestCase {
 
 		private String myString;
 		private String[] myStrings;
-
+		private long length;
+		
 		public String getMyString() {
 			return myString;
 		}
@@ -1030,6 +1051,14 @@ public class ConverterTest extends TestCase {
 
 		public void setMyStrings(String[] myStrings) {
 			this.myStrings = myStrings;
+		}
+
+		public long getLength() {
+			return length;
+		}
+
+		public void setLength(long length) {
+			this.length = length;
 		}
 
 	}

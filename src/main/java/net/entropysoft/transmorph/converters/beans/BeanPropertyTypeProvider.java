@@ -21,14 +21,13 @@ import java.util.Map;
 import net.entropysoft.transmorph.type.Type;
 
 /**
- * default implementation for {@link IBeanDestinationPropertyTypeProvider}
+ * default implementation for {@link IBeanPropertyTypeProvider}
  * 
  * 
  * @author Cedric Chabanois (cchabanois at gmail.com)
  *
  */
-public class BeanDestinationPropertyTypeProvider implements
-		IBeanDestinationPropertyTypeProvider {
+public class BeanPropertyTypeProvider implements IBeanPropertyTypeProvider {
 
 	private Map<ClassProperty, Type> propertiesDestinationTypes = new HashMap<ClassProperty, Type>();
 
@@ -43,7 +42,7 @@ public class BeanDestinationPropertyTypeProvider implements
 		propertiesDestinationTypes.put(new ClassProperty(clazz, propertyName), destinationType);
 	}
 
-	public Type getPropertyDestinationType(Class clazz, String propertyName,
+	public Type getPropertyType(Class clazz, String propertyName,
 			Type originalType) {
 		return propertiesDestinationTypes.get(new ClassProperty(clazz, propertyName));
 	}

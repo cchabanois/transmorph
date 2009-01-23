@@ -37,9 +37,9 @@ import net.entropysoft.transmorph.type.Type;
 public class MapToBean extends AbstractContainerConverter {
 
 	private JavaTypeToTypeSignature javaTypeSignature = new JavaTypeToTypeSignature();
-	private IBeanDestinationPropertyTypeProvider beanDestinationPropertyTypeProvider;
+	private IBeanPropertyTypeProvider beanDestinationPropertyTypeProvider;
 
-	public IBeanDestinationPropertyTypeProvider getBeanDestinationPropertyTypeProvider() {
+	public IBeanPropertyTypeProvider getBeanDestinationPropertyTypeProvider() {
 		return beanDestinationPropertyTypeProvider;
 	}
 
@@ -48,8 +48,8 @@ public class MapToBean extends AbstractContainerConverter {
 	 * 
 	 * @param beanDestinationPropertyTypeProvider
 	 */
-	public void setBeanDestinationPropertyTypeProvider(
-			IBeanDestinationPropertyTypeProvider beanDestinationPropertyTypeProvider) {
+	public void setBeanPropertyTypeProvider(
+			IBeanPropertyTypeProvider beanDestinationPropertyTypeProvider) {
 		this.beanDestinationPropertyTypeProvider = beanDestinationPropertyTypeProvider;
 	}
 
@@ -90,7 +90,7 @@ public class MapToBean extends AbstractContainerConverter {
 					.getTypeSignature(parameterType);
 			Type originalType = destinationType.getTypeFactory().getType(
 					parameterTypeSignature);
-			Type propertyDestinationType = getPropertyDestinationType(
+			Type propertyDestinationType = getBeanPropertyType(
 					resultBean.getClass(), key, originalType);
 
 			Object valueConverterd = elementConverter.convert(value,
@@ -107,12 +107,12 @@ public class MapToBean extends AbstractContainerConverter {
 		return resultBean;
 	}
 
-	protected Type getPropertyDestinationType(Class clazz, String propertyName,
+	protected Type getBeanPropertyType(Class clazz, String propertyName,
 			Type originalType) {
 		Type propertyDestinationType = null;
 		if (beanDestinationPropertyTypeProvider != null) {
 			propertyDestinationType = beanDestinationPropertyTypeProvider
-					.getPropertyDestinationType(clazz, propertyName,
+					.getPropertyType(clazz, propertyName,
 							originalType);
 		}
 		if (propertyDestinationType == null) {
@@ -123,8 +123,7 @@ public class MapToBean extends AbstractContainerConverter {
 
 	protected Method getSetterMethod(Map<String, Method> setterMethods,
 			String propertyName) {
-		String methodName = "set" + propertyName.substring(0, 1).toUpperCase()
-				+ propertyName.substring(1, propertyName.length());
+		String methodName = "set" + BeanUtils.capitalizePropertyName(propertyName);
 		return setterMethods.get(methodName);
 	}
 

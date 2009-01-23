@@ -35,9 +35,10 @@ import net.entropysoft.transmorph.type.Type;
 public class BeanToBean extends AbstractContainerConverter {
 
 	private JavaTypeToTypeSignature javaTypeSignature = new JavaTypeToTypeSignature();
-	private IBeanDestinationPropertyTypeProvider beanDestinationPropertyTypeProvider;
+	private IBeanPropertyTypeProvider beanDestinationPropertyTypeProvider;
+	private Map<ClassPair, BeanToBeanMapping> beanToBeanMappings = new HashMap<ClassPair, BeanToBeanMapping>();
 
-	public IBeanDestinationPropertyTypeProvider getBeanDestinationPropertyTypeProvider() {
+	public IBeanPropertyTypeProvider getBeanDestinationPropertyTypeProvider() {
 		return beanDestinationPropertyTypeProvider;
 	}
 
@@ -47,7 +48,7 @@ public class BeanToBean extends AbstractContainerConverter {
 	 * @param beanDestinationPropertyTypeProvider
 	 */
 	public void setBeanDestinationPropertyTypeProvider(
-			IBeanDestinationPropertyTypeProvider beanDestinationPropertyTypeProvider) {
+			IBeanPropertyTypeProvider beanDestinationPropertyTypeProvider) {
 		this.beanDestinationPropertyTypeProvider = beanDestinationPropertyTypeProvider;
 	}
 
@@ -57,9 +58,10 @@ public class BeanToBean extends AbstractContainerConverter {
 			return null;
 		}
 
-		Map<String, Method> destinationSetterMethods;
+		// get destination property => method
+		Map<String, Method> destinationSetters;
 		try {
-			destinationSetterMethods = getDestinationSetters(destinationType
+			destinationSetters = getDestinationSetters(destinationType
 					.getType());
 		} catch (ClassNotFoundException e) {
 			throw new ConverterException(MessageFormat.format(
@@ -67,6 +69,7 @@ public class BeanToBean extends AbstractContainerConverter {
 							.getName()), e);
 		}
 
+		// create destination bean
 		Object resultBean;
 		try {
 			resultBean = destinationType.getType().newInstance();
@@ -76,23 +79,13 @@ public class BeanToBean extends AbstractContainerConverter {
 							.getName()), e);
 		}
 
-		for (String destinationMethodName : destinationSetterMethods.keySet()) {
-			Method destinationMethod = destinationSetterMethods
-					.get(destinationMethodName);
-			String sourceMethodName = "get"
-					+ destinationMethodName.substring(3);
+		for (String destinationPropertyName : destinationSetters.keySet()) {
+			Method destinationMethod = destinationSetters
+					.get(destinationPropertyName);
 
-			Method sourceMethod = getMethod(sourceObject.getClass(),
-					sourceMethodName);
+			Method sourceMethod = getPropertySourceMethod(sourceObject,
+					resultBean, destinationPropertyName);
 
-			if (sourceMethod == null) {
-				sourceMethodName = "is" + destinationMethodName.substring(3);
-				sourceMethod = getMethod(sourceObject.getClass(),
-						sourceMethodName);
-				if (sourceMethod.getReturnType() != Boolean.TYPE) {
-					sourceMethod = null;
-				}
-			}
 			if (sourceMethod == null) {
 				// no source property corresponding to destination property
 				continue;
@@ -112,8 +105,8 @@ public class BeanToBean extends AbstractContainerConverter {
 					.getTypeSignature(parameterType);
 			Type originalType = destinationType.getTypeFactory().getType(
 					parameterTypeSignature);
-			Type propertyDestinationType = getPropertyDestinationType(
-					resultBean.getClass(), destinationMethodName, originalType);
+			Type propertyDestinationType = getBeanPropertyType(resultBean
+					.getClass(), destinationPropertyName, originalType);
 
 			Object destinationPropertyValue = elementConverter.convert(
 					sourcePropertyValue, propertyDestinationType);
@@ -129,24 +122,61 @@ public class BeanToBean extends AbstractContainerConverter {
 		return resultBean;
 	}
 
-	private Method getMethod(Class clazz, String name,
-			Class<?>... parameterTypes) {
-		try {
-			return clazz.getMethod(name, parameterTypes);
-		} catch (SecurityException e) {
-			return null;
-		} catch (NoSuchMethodException e) {
-			return null;
+	/**
+	 * get the property source method corresponding to given destination
+	 * property
+	 * 
+	 * @param sourceObject
+	 * @param destinationObject
+	 * @param destinationProperty
+	 * @return
+	 */
+	private Method getPropertySourceMethod(Object sourceObject,
+			Object destinationObject, String destinationProperty) {
+		BeanToBeanMapping beanToBeanMapping = beanToBeanMappings
+				.get(new ClassPair(sourceObject.getClass(), destinationObject
+						.getClass()));
+		String sourceProperty = null;
+		if (beanToBeanMapping != null) {
+			sourceProperty = beanToBeanMapping
+					.getSourceProperty(destinationProperty);
 		}
+		if (sourceProperty == null) {
+			sourceProperty = destinationProperty;
+		}
+
+		String sourceMethodName = "get"
+				+ BeanUtils.capitalizePropertyName(sourceProperty);
+
+		Method sourceMethod = BeanUtils.getMethod(sourceObject.getClass(),
+				sourceMethodName);
+
+		if (sourceMethod == null) {
+			sourceMethodName = "is"
+					+ BeanUtils.capitalizePropertyName(sourceProperty);
+			sourceMethod = BeanUtils.getMethod(sourceObject.getClass(),
+					sourceMethodName);
+			if (sourceMethod != null && sourceMethod.getReturnType() != Boolean.TYPE) {
+				sourceMethod = null;
+			}
+		}
+		return sourceMethod;
 	}
 
-	protected Type getPropertyDestinationType(Class clazz, String propertyName,
+	/**
+	 * get the bean property type
+	 * 
+	 * @param clazz
+	 * @param propertyName
+	 * @param originalType
+	 * @return
+	 */
+	protected Type getBeanPropertyType(Class clazz, String propertyName,
 			Type originalType) {
 		Type propertyDestinationType = null;
 		if (beanDestinationPropertyTypeProvider != null) {
 			propertyDestinationType = beanDestinationPropertyTypeProvider
-					.getPropertyDestinationType(clazz, propertyName,
-							originalType);
+					.getPropertyType(clazz, propertyName, originalType);
 		}
 		if (propertyDestinationType == null) {
 			propertyDestinationType = originalType;
@@ -168,7 +198,7 @@ public class BeanToBean extends AbstractContainerConverter {
 			if (method.getParameterTypes().length == 1
 					&& methodName.startsWith("set") && methodName.length() > 3
 					&& method.getReturnType() == Void.TYPE) {
-				String propertyName = methodName.substring(3, 1).toLowerCase();
+				String propertyName = methodName.substring(3, 4).toLowerCase();
 				if (methodName.length() > 4) {
 					propertyName += methodName.substring(4);
 				}
@@ -176,6 +206,11 @@ public class BeanToBean extends AbstractContainerConverter {
 			}
 		}
 		return setters;
+	}
+
+	public void addBeanToBeanMapping(BeanToBeanMapping beanToBeanMapping) {
+		beanToBeanMappings.put(new ClassPair(beanToBeanMapping.getSourceClass(),
+				beanToBeanMapping.getDestinationClass()), beanToBeanMapping);
 	}
 
 	public boolean canHandleDestinationType(Type destinationType) {
@@ -197,54 +232,4 @@ public class BeanToBean extends AbstractContainerConverter {
 		return true;
 	}
 
-	
-	
-	
-	private static class ClassPair {
-		private Class sourceClass;
-		private Class destinationClass;
-		
-		public ClassPair(Class sourceClass, Class destinationClass) {
-			super();
-			this.sourceClass = sourceClass;
-			this.destinationClass = destinationClass;
-		}
-		
-		@Override
-		public int hashCode() {
-			final int prime = 31;
-			int result = 1;
-			result = prime
-					* result
-					+ ((destinationClass == null) ? 0 : destinationClass
-							.hashCode());
-			result = prime * result
-					+ ((sourceClass == null) ? 0 : sourceClass.hashCode());
-			return result;
-		}
-		@Override
-		public boolean equals(Object obj) {
-			if (this == obj)
-				return true;
-			if (obj == null)
-				return false;
-			if (getClass() != obj.getClass())
-				return false;
-			ClassPair other = (ClassPair) obj;
-			if (destinationClass == null) {
-				if (other.destinationClass != null)
-					return false;
-			} else if (!destinationClass.equals(other.destinationClass))
-				return false;
-			if (sourceClass == null) {
-				if (other.sourceClass != null)
-					return false;
-			} else if (!sourceClass.equals(other.sourceClass))
-				return false;
-			return true;
-		}
-		
-		
-	}
-	
 }

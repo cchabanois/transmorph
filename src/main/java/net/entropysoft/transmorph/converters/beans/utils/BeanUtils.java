@@ -13,27 +13,43 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.entropysoft.transmorph.converters.beans;
+package net.entropysoft.transmorph.converters.beans.utils;
 
 import java.lang.reflect.Method;
 
+/**
+ * Some utility methods
+ * 
+ * @author Cedric Chabanois (cchabanois at gmail.com)
+ * 
+ */
 public class BeanUtils {
 
-    /**
-     * Return a capitalized version of the specified property name.
-     *
-     * @param s The property name
-     */
-    public static String capitalizePropertyName(String s) {
-        if (s.length() == 0) {
-            return s;
-        }
+	/**
+	 * Return a capitalized version of the specified property name.
+	 * 
+	 * @param s
+	 *            The property name
+	 */
+	public static String capitalizePropertyName(String s) {
+		if (s.length() == 0) {
+			return s;
+		}
 
-        char[] chars = s.toCharArray();
-        chars[0] = Character.toUpperCase(chars[0]);
-        return new String(chars);
-    }
-	
+		char[] chars = s.toCharArray();
+		chars[0] = Character.toUpperCase(chars[0]);
+		return new String(chars);
+	}
+
+	/**
+	 * Get method with given name and parameter types or return null if it does
+	 * not exist
+	 * 
+	 * @param clazz
+	 * @param name
+	 * @param parameterTypes
+	 * @return
+	 */
 	public static Method getMethod(Class clazz, String name,
 			Class<?>... parameterTypes) {
 		try {
@@ -43,6 +59,6 @@ public class BeanUtils {
 		} catch (NoSuchMethodException e) {
 			return null;
 		}
-	}    
-    
+	}
+
 }

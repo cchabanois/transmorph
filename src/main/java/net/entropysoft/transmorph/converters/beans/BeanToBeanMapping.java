@@ -18,14 +18,19 @@ package net.entropysoft.transmorph.converters.beans;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.entropysoft.transmorph.type.Type;
-
+/**
+ * Property mappings between two beans
+ * 
+ * @author Cedric Chabanois (cchabanois at gmail.com)
+ * @see BeanToBean
+ * 
+ */
 public class BeanToBeanMapping {
 
 	private Class sourceClass;
 	private Class destinationClass;
 	private Map<String, String> destinationPropertyName2SourcePropertyNameMap = new HashMap<String, String>();
-	
+
 	public BeanToBeanMapping(Class sourceClass, Class destinationClass) {
 		this.sourceClass = sourceClass;
 		this.destinationClass = destinationClass;
@@ -39,12 +44,20 @@ public class BeanToBeanMapping {
 		return destinationClass;
 	}
 
+	/**
+	 * Add a mapping between a source property and a destination property
+	 * 
+	 * @param sourceProperty 
+	 * @param destinationProperty
+	 */
 	public void addMapping(String sourceProperty, String destinationProperty) {
-		destinationPropertyName2SourcePropertyNameMap.put(destinationProperty, sourceProperty);
+		destinationPropertyName2SourcePropertyNameMap.put(destinationProperty,
+				sourceProperty);
 	}
-	
+
 	public String getSourceProperty(String destinationProperty) {
-		return destinationPropertyName2SourcePropertyNameMap.get(destinationProperty);
+		return destinationPropertyName2SourcePropertyNameMap
+				.get(destinationProperty);
 	}
 
 }

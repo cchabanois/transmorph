@@ -187,11 +187,10 @@ public class Converter implements IConverter {
 				if (converter.canHandleDestinationType(destinationType)
 						&& converter.canHandleSourceObject(source)) {
 					try {
-
 						return converter.convert(source, destinationType);
 					} catch (ConverterException e) {
-						// isHandled does not verify all cases. An other
-						// converter
+						// canHandleDestinationType and canHandleSourceObject do
+						// not verify all cases. An other converter
 						// might successfully convert the source to destination
 						// type
 						if (firstException == null)

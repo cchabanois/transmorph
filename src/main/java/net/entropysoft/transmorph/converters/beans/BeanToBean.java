@@ -230,7 +230,6 @@ public class BeanToBean extends AbstractContainerConverter {
 		if (sourceObject == null) {
 			return true;
 		}
-		// TODO : verify that
 		return true;
 	}
 

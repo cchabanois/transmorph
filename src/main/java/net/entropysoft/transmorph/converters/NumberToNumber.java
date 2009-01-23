@@ -19,7 +19,6 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 
 import net.entropysoft.transmorph.ConverterException;
-import net.entropysoft.transmorph.IConverter;
 import net.entropysoft.transmorph.type.Type;
 import net.entropysoft.transmorph.type.TypeUtils;
 

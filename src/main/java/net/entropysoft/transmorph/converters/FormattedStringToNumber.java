@@ -20,7 +20,6 @@ import java.text.NumberFormat;
 import java.text.ParsePosition;
 
 import net.entropysoft.transmorph.ConverterException;
-import net.entropysoft.transmorph.IConverter;
 import net.entropysoft.transmorph.type.Type;
 import net.entropysoft.transmorph.type.TypeUtils;
 

@@ -24,7 +24,6 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 import net.entropysoft.transmorph.ConverterException;
-import net.entropysoft.transmorph.IConverter;
 import net.entropysoft.transmorph.type.Type;
 
 /**

@@ -85,7 +85,7 @@ public class StringToNumber extends AbstractConverter {
 		}
 	}
 
-	public boolean canHandleDestinationType(Type destinationType) {
+	protected boolean canHandleDestinationType(Type destinationType) {
 		try {
 			return TypeUtils.isNumberType(destinationType);
 		} catch (ClassNotFoundException e) {
@@ -93,7 +93,7 @@ public class StringToNumber extends AbstractConverter {
 		}
 	}
 
-	public boolean canHandleSourceObject(Object sourceObject) {
+	protected boolean canHandleSourceObject(Object sourceObject) {
 		if (sourceObject == null) {
 			return true;
 		}

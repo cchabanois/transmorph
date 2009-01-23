@@ -92,7 +92,7 @@ public class ObjectToObjectUsingConstructor extends AbstractConverter {
 		return null;
 	}
 
-	public boolean canHandleDestinationType(Type destinationType) {
+	protected boolean canHandleDestinationType(Type destinationType) {
 		if (handledDestinationClasses == ALL_DESTINATION_CLASSES) {
 			return true;
 		}
@@ -108,7 +108,7 @@ public class ObjectToObjectUsingConstructor extends AbstractConverter {
 		return false;
 	}
 
-	public boolean canHandleSourceObject(Object sourceObject) {
+	protected boolean canHandleSourceObject(Object sourceObject) {
 		return true;
 	}
 

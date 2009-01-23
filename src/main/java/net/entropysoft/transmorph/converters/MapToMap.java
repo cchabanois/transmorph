@@ -120,7 +120,7 @@ public class MapToMap extends AbstractContainerConverter {
 		return destinationClass;
 	}
 
-	public boolean canHandleDestinationType(Type destinationType) {
+	protected boolean canHandleDestinationType(Type destinationType) {
 		try {
 			return destinationType.isSubOf(Map.class);
 		} catch (ClassNotFoundException e) {
@@ -128,7 +128,7 @@ public class MapToMap extends AbstractContainerConverter {
 		}
 	}
 
-	public boolean canHandleSourceObject(Object sourceObject) {
+	protected boolean canHandleSourceObject(Object sourceObject) {
 		if (sourceObject == null) {
 			return true;
 		}

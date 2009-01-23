@@ -126,7 +126,7 @@ public class ArrayToCollection extends AbstractContainerConverter {
 		return destinationClass;
 	}
 
-	public boolean canHandleDestinationType(Type destinationType) {
+	protected boolean canHandleDestinationType(Type destinationType) {
 		try {
 			if (!destinationType.isSubOf(Collection.class)) {
 				return false;
@@ -137,7 +137,7 @@ public class ArrayToCollection extends AbstractContainerConverter {
 		}
 	}
 
-	public boolean canHandleSourceObject(Object sourceObject) {
+	protected boolean canHandleSourceObject(Object sourceObject) {
 		if (sourceObject == null) {
 			return true;
 		}

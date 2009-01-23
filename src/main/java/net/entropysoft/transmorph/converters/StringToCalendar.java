@@ -71,7 +71,7 @@ public class StringToCalendar extends AbstractConverter {
 		return calendar;
 	}
 
-	public boolean canHandleDestinationType(Type destinationType) {
+	protected boolean canHandleDestinationType(Type destinationType) {
 		try {
 			return destinationType.isType(Calendar.class) || destinationType.isType(GregorianCalendar.class);
 		} catch (ClassNotFoundException e) {
@@ -80,7 +80,7 @@ public class StringToCalendar extends AbstractConverter {
 
 	}
 
-	public boolean canHandleSourceObject(Object sourceObject) {
+	protected boolean canHandleSourceObject(Object sourceObject) {
 		if (sourceObject == null) {
 			return true;
 		}

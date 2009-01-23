@@ -96,7 +96,7 @@ public class SingleElementToCollection extends AbstractContainerConverter {
 		return destinationClass;
 	}
 
-	public boolean canHandleDestinationType(Type destinationType) {
+	protected boolean canHandleDestinationType(Type destinationType) {
 		try {
 			return destinationType.isSubOf(Collection.class);
 		} catch (ClassNotFoundException e) {
@@ -104,7 +104,7 @@ public class SingleElementToCollection extends AbstractContainerConverter {
 		}
 	}
 
-	public boolean canHandleSourceObject(Object sourceObject) {
+	protected boolean canHandleSourceObject(Object sourceObject) {
 		return true;
 	}
 

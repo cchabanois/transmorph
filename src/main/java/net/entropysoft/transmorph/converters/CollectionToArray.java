@@ -65,11 +65,11 @@ public class CollectionToArray extends AbstractContainerConverter {
 		return destinationArray;
 	}
 
-	public boolean canHandleDestinationType(Type destinationType) {
+	protected boolean canHandleDestinationType(Type destinationType) {
 		return destinationType.isArray();
 	}
 
-	public boolean canHandleSourceObject(Object sourceObject) {
+	protected boolean canHandleSourceObject(Object sourceObject) {
 		if (sourceObject == null) {
 			return true;
 		}

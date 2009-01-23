@@ -40,7 +40,7 @@ public class SingleElementToArray extends AbstractContainerConverter {
 		return destinationArray;
 	}
 
-	public boolean canHandleDestinationType(Type destinationType) {
+	protected boolean canHandleDestinationType(Type destinationType) {
 		if (!destinationType.isArray()) {
 			return false;
 		}
@@ -51,7 +51,7 @@ public class SingleElementToArray extends AbstractContainerConverter {
 		return true;
 	}
 
-	public boolean canHandleSourceObject(Object sourceObject) {
+	protected boolean canHandleSourceObject(Object sourceObject) {
 		return true;
 	}
 

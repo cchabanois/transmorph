@@ -127,7 +127,7 @@ public class CollectionToCollection extends AbstractContainerConverter {
 		return destinationClass;
 	}
 
-	public boolean canHandleDestinationType(Type destinationType) {
+	protected boolean canHandleDestinationType(Type destinationType) {
 		try {
 			return destinationType.isSubOf(Collection.class);
 		} catch (ClassNotFoundException e) {
@@ -135,7 +135,7 @@ public class CollectionToCollection extends AbstractContainerConverter {
 		}
 	}
 
-	public boolean canHandleSourceObject(Object sourceObject) {
+	protected boolean canHandleSourceObject(Object sourceObject) {
 		if (sourceObject == null) {
 			return true;
 		}

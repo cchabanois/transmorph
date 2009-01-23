@@ -52,7 +52,12 @@ public abstract class AbstractSimpleConverter<S, D> implements IConverter {
 		return destinationClass;
 	}
 
-	public boolean canHandleDestinationType(Type destinationType) {
+	public boolean canHandle(Object sourceObject, Type destinationType) {
+		return canHandleDestinationType(destinationType)
+				&& canHandleSourceObject(sourceObject);
+	}	
+	
+	protected boolean canHandleDestinationType(Type destinationType) {
 		try {
 			return destinationType.isType(destinationClass);
 		} catch (ClassNotFoundException e) {
@@ -60,7 +65,7 @@ public abstract class AbstractSimpleConverter<S, D> implements IConverter {
 		}
 	}
 
-	public boolean canHandleSourceObject(Object sourceObject) {
+	protected boolean canHandleSourceObject(Object sourceObject) {
 		if (sourceObject == null) {
 			return true;
 		}

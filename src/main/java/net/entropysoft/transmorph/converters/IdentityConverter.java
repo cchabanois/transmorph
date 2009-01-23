@@ -93,11 +93,11 @@ public class IdentityConverter extends AbstractConverter {
 				sourceObject.getClass(), destinationType.getName()));
 	}
 
-	public boolean canHandleDestinationType(Type destinationType) {
+	protected boolean canHandleDestinationType(Type destinationType) {
 		return true;
 	}
 
-	public boolean canHandleSourceObject(Object sourceObject) {
+	protected boolean canHandleSourceObject(Object sourceObject) {
 		return true;
 	}
 

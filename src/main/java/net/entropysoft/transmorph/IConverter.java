@@ -27,29 +27,25 @@ public interface IConverter {
 
 	/**
 	 * Convert a source object to a destination type. This method will be called
-	 * only if isHandled returned true.
+	 * only if canHandle returned true.
+	 * 
 	 * @param sourceObject
 	 * @param destinationType
 	 * 
 	 * @return
 	 * @throws ConverterException
 	 */
-	public Object convert(Object sourceObject, Type destinationType) throws ConverterException;
+	public Object convert(Object sourceObject, Type destinationType)
+			throws ConverterException;
 
 	/**
-	 * Check if this converter can convert to given destination type
+	 * Check if this converter can handle the conversion between given source
+	 * object and given destination type. Note that it does not mean that
+	 * conversion will succeed but that it is worth to try
 	 * 
 	 * @param destinationType
 	 * @return
 	 */
-	public boolean canHandleDestinationType(Type destinationType);
+	public boolean canHandle(Object sourceObject, Type destinationType);
 
-	/**
-	 * Check if this converter can convert from this source object
-	 * 
-	 * @param sourceObject
-	 * @return
-	 */
-	public boolean canHandleSourceObject(Object sourceObject);
-	
 }

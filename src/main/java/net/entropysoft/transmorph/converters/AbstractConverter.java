@@ -76,4 +76,13 @@ public abstract class AbstractConverter implements IConverter {
 		this.modifiers = modifiers;
 	}
 
+	public boolean canHandle(Object sourceObject, Type destinationType) {
+		return canHandleDestinationType(destinationType)
+				&& canHandleSourceObject(sourceObject);
+	}
+
+	protected abstract boolean canHandleDestinationType(Type destinationType);
+
+	protected abstract boolean canHandleSourceObject(Object sourceObject);
+
 }

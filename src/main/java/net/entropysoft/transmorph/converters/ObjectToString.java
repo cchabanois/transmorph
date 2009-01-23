@@ -47,7 +47,7 @@ public class ObjectToString extends AbstractConverter {
 		return sourceObject.toString();
 	}
 
-	public boolean canHandleDestinationType(Type destinationType) {
+	protected boolean canHandleDestinationType(Type destinationType) {
 		try {
 			return destinationType.isType(String.class);
 		} catch (ClassNotFoundException e) {
@@ -55,7 +55,7 @@ public class ObjectToString extends AbstractConverter {
 		}
 	}
 
-	public boolean canHandleSourceObject(Object sourceObject) {
+	protected boolean canHandleSourceObject(Object sourceObject) {
 		if (sourceObject == null) {
 			return true;
 		}

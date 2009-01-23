@@ -141,7 +141,7 @@ public class MapToBean extends AbstractContainerConverter {
 		return setters;
 	}
 
-	public boolean canHandleDestinationType(Type destinationType) {
+	protected boolean canHandleDestinationType(Type destinationType) {
 		try {
 			destinationType.getType().getConstructor(new Class[0]);
 			return true;
@@ -150,7 +150,7 @@ public class MapToBean extends AbstractContainerConverter {
 		}
 	}
 
-	public boolean canHandleSourceObject(Object sourceObject) {
+	protected boolean canHandleSourceObject(Object sourceObject) {
 		if (sourceObject == null) {
 			return true;
 		}

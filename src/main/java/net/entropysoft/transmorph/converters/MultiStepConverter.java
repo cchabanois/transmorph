@@ -64,11 +64,11 @@ public class MultiStepConverter extends AbstractContainerConverter {
 		this.stepConverters = stepConverters;
 	}
 
-	public boolean canHandleDestinationType(Type destinationType) {
+	protected boolean canHandleDestinationType(Type destinationType) {
 		return destinationType.equals(types[types.length - 1]);
 	}
 
-	public boolean canHandleSourceObject(Object sourceObject) {
+	protected boolean canHandleSourceObject(Object sourceObject) {
 		try {
 			return types[0].getType().equals(sourceObject.getClass());
 		} catch (ClassNotFoundException e) {

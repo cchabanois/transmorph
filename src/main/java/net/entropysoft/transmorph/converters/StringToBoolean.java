@@ -84,7 +84,7 @@ public class StringToBoolean extends AbstractConverter {
 		}
 	}
 
-	public boolean canHandleDestinationType(Type destinationType) {
+	protected boolean canHandleDestinationType(Type destinationType) {
 		try {
 			return destinationType.getType().equals(Boolean.TYPE) || destinationType.getType().equals(Boolean.class);
 		} catch (ClassNotFoundException e) {
@@ -92,7 +92,7 @@ public class StringToBoolean extends AbstractConverter {
 		}
 	}
 
-	public boolean canHandleSourceObject(Object sourceObject) {
+	protected boolean canHandleSourceObject(Object sourceObject) {
 		if (sourceObject == null) {
 			return true;
 		}

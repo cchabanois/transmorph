@@ -36,7 +36,7 @@ public class StringToCharacterArray extends AbstractConverter {
 		return str.toCharArray();
 	}
 
-	public boolean canHandleDestinationType(Type destinationType) {
+	protected boolean canHandleDestinationType(Type destinationType) {
 		try {
 			if (!destinationType.isArray()) {
 				return false;
@@ -51,7 +51,7 @@ public class StringToCharacterArray extends AbstractConverter {
 		}
 	}
 
-	public boolean canHandleSourceObject(Object sourceObject) {
+	protected boolean canHandleSourceObject(Object sourceObject) {
 		if (sourceObject == null) {
 			return true;
 		}

@@ -43,7 +43,7 @@ public class DateToCalendar extends AbstractConverter {
 		return calendar;
 	}
 
-	public boolean canHandleDestinationType(Type destinationType) {
+	protected boolean canHandleDestinationType(Type destinationType) {
 		try {
 			if (!destinationType.isType(Calendar.class)
 					&& !destinationType.isType(GregorianCalendar.class)) {
@@ -55,7 +55,7 @@ public class DateToCalendar extends AbstractConverter {
 		}
 	}
 
-	public boolean canHandleSourceObject(Object sourceObject) {
+	protected boolean canHandleSourceObject(Object sourceObject) {
 		if (sourceObject == null) {
 			return true;
 		}

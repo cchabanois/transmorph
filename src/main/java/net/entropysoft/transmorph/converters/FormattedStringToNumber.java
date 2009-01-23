@@ -69,7 +69,7 @@ public class FormattedStringToNumber extends AbstractConverter {
 		return numberToNumberConverter.convert(number, destinationType);
 	}
 
-	public boolean canHandleDestinationType(Type destinationType) {
+	protected boolean canHandleDestinationType(Type destinationType) {
 		try {
 			return TypeUtils.isNumberType(destinationType);
 		} catch (ClassNotFoundException e) {
@@ -77,7 +77,7 @@ public class FormattedStringToNumber extends AbstractConverter {
 		}
 	}
 
-	public boolean canHandleSourceObject(Object sourceObject) {
+	protected boolean canHandleSourceObject(Object sourceObject) {
 		if (sourceObject == null) {
 			return true;
 		}

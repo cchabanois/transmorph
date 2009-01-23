@@ -35,7 +35,7 @@ public class CharacterArrayToString extends AbstractConverter {
 		return String.valueOf(charArray);
 	}
 
-	public boolean canHandleDestinationType(Type destinationType) {
+	protected boolean canHandleDestinationType(Type destinationType) {
 		try {
 			return destinationType.isType(String.class);
 		} catch (ClassNotFoundException e) {
@@ -43,7 +43,7 @@ public class CharacterArrayToString extends AbstractConverter {
 		}
 	}
 
-	public boolean canHandleSourceObject(Object sourceObject) {
+	protected boolean canHandleSourceObject(Object sourceObject) {
 		if (sourceObject == null) {
 			return true;
 		}

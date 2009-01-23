@@ -60,16 +60,18 @@ public class BeanToBean extends AbstractContainerConverter {
 		try {
 			destinationClass = destinationType.getType();
 		} catch (ClassNotFoundException e) {
-			throw new ConverterException("Could not get destination type class",e);
+			throw new ConverterException(
+					"Could not get destination type class", e);
 		}
 
-		// we can only convert if there is a bean to bean mapping between the two classes
+		// we can only convert if there is a bean to bean mapping between the
+		// two classes
 		BeanToBeanMapping beanToBeanMapping = beanToBeanMappings
-					.get(new ClassPair(sourceObject.getClass(), destinationClass));
+				.get(new ClassPair(sourceObject.getClass(), destinationClass));
 		if (beanToBeanMapping == null) {
 			throw new ConverterException("Could not get bean to bean mapping");
 		}
-		
+
 		if (sourceObject == null) {
 			return null;
 		}
@@ -229,7 +231,7 @@ public class BeanToBean extends AbstractContainerConverter {
 						.getDestinationClass()), beanToBeanMapping);
 	}
 
-	public boolean canHandleDestinationType(Type destinationType) {
+	protected boolean canHandleDestinationType(Type destinationType) {
 		try {
 			// make sure that destinationType has a constructor with no
 			// parameters
@@ -240,11 +242,23 @@ public class BeanToBean extends AbstractContainerConverter {
 		}
 	}
 
-	public boolean canHandleSourceObject(Object sourceObject) {
-		if (sourceObject == null) {
-			return true;
-		}
+	protected boolean canHandleSourceObject(Object sourceObject) {
 		return true;
+	}
+
+	@Override
+	public boolean canHandle(Object sourceObject, Type destinationType) {
+		try {
+			BeanToBeanMapping beanToBeanMapping = beanToBeanMappings
+					.get(new ClassPair(sourceObject.getClass(), destinationType
+							.getType()));
+			if (beanToBeanMapping == null) {
+				return false;
+			}
+		} catch (ClassNotFoundException e) {
+			return false;
+		}
+		return super.canHandle(sourceObject, destinationType);
 	}
 
 }

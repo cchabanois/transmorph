@@ -184,12 +184,11 @@ public class Converter implements IConverter {
 
 		try {
 			for (IConverter converter : converters) {
-				if (converter.canHandleDestinationType(destinationType)
-						&& converter.canHandleSourceObject(source)) {
+				if (converter.canHandle(source, destinationType)) {
 					try {
 						return converter.convert(source, destinationType);
 					} catch (ConverterException e) {
-						// canHandleDestinationType and canHandleSourceObject do
+						// canHandle do
 						// not verify all cases. An other converter
 						// might successfully convert the source to destination
 						// type
@@ -228,18 +227,11 @@ public class Converter implements IConverter {
 		}
 	}
 
-	public boolean canHandleDestinationType(Type destinationType) {
+	
+	
+	public boolean canHandle(Object sourceObject, Type destinationType) {
 		for (IConverter converter : converters) {
-			if (!canHandleDestinationType(destinationType)) {
-				return false;
-			}
-		}
-		return true;
-	}
-
-	public boolean canHandleSourceObject(Object sourceObject) {
-		for (IConverter converter : converters) {
-			if (!canHandleSourceObject(sourceObject)) {
+			if (!canHandle(sourceObject, destinationType)) {
 				return false;
 			}
 		}

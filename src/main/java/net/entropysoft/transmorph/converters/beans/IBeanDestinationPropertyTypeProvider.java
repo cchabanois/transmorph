@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.entropysoft.transmorph.converters;
+package net.entropysoft.transmorph.converters.beans;
 
 import net.entropysoft.transmorph.type.Type;
 

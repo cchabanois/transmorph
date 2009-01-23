@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.entropysoft.transmorph.converters;
+package net.entropysoft.transmorph.converters.beans;
 
 import java.lang.reflect.Method;
 import java.text.MessageFormat;
@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import net.entropysoft.transmorph.ConverterException;
+import net.entropysoft.transmorph.converters.AbstractContainerConverter;
 import net.entropysoft.transmorph.signature.JavaTypeToTypeSignature;
 import net.entropysoft.transmorph.signature.TypeSignature;
 import net.entropysoft.transmorph.type.Type;
@@ -58,7 +59,7 @@ public class BeanToBean extends AbstractContainerConverter {
 
 		Map<String, Method> destinationSetterMethods;
 		try {
-			destinationSetterMethods = getDestinationSetterMethods(destinationType
+			destinationSetterMethods = getDestinationSetters(destinationType
 					.getType());
 		} catch (ClassNotFoundException e) {
 			throw new ConverterException(MessageFormat.format(
@@ -76,14 +77,18 @@ public class BeanToBean extends AbstractContainerConverter {
 		}
 
 		for (String destinationMethodName : destinationSetterMethods.keySet()) {
-			Method destinationMethod = destinationSetterMethods.get(destinationMethodName);
-			String sourceMethodName = "get" + destinationMethodName.substring(3);
-			
-			Method sourceMethod = getMethod(sourceObject.getClass(), sourceMethodName);
-			
+			Method destinationMethod = destinationSetterMethods
+					.get(destinationMethodName);
+			String sourceMethodName = "get"
+					+ destinationMethodName.substring(3);
+
+			Method sourceMethod = getMethod(sourceObject.getClass(),
+					sourceMethodName);
+
 			if (sourceMethod == null) {
 				sourceMethodName = "is" + destinationMethodName.substring(3);
-				sourceMethod = getMethod(sourceObject.getClass(), sourceMethodName);
+				sourceMethod = getMethod(sourceObject.getClass(),
+						sourceMethodName);
 				if (sourceMethod.getReturnType() != Boolean.TYPE) {
 					sourceMethod = null;
 				}
@@ -92,7 +97,7 @@ public class BeanToBean extends AbstractContainerConverter {
 				// no source property corresponding to destination property
 				continue;
 			}
-			
+
 			Object sourcePropertyValue;
 			try {
 				sourcePropertyValue = sourceMethod.invoke(sourceObject);
@@ -100,8 +105,7 @@ public class BeanToBean extends AbstractContainerConverter {
 				throw new ConverterException("Could not get property for bean",
 						e);
 			}
-			
-			
+
 			java.lang.reflect.Type parameterType = destinationMethod
 					.getGenericParameterTypes()[0];
 			TypeSignature parameterTypeSignature = javaTypeSignature
@@ -111,8 +115,8 @@ public class BeanToBean extends AbstractContainerConverter {
 			Type propertyDestinationType = getPropertyDestinationType(
 					resultBean.getClass(), destinationMethodName, originalType);
 
-			Object destinationPropertyValue = elementConverter.convert(sourcePropertyValue,
-					propertyDestinationType);
+			Object destinationPropertyValue = elementConverter.convert(
+					sourcePropertyValue, propertyDestinationType);
 
 			try {
 				destinationMethod.invoke(resultBean, destinationPropertyValue);
@@ -125,7 +129,8 @@ public class BeanToBean extends AbstractContainerConverter {
 		return resultBean;
 	}
 
-	private Method getMethod(Class clazz, String name, Class<?>... parameterTypes) {
+	private Method getMethod(Class clazz, String name,
+			Class<?>... parameterTypes) {
 		try {
 			return clazz.getMethod(name, parameterTypes);
 		} catch (SecurityException e) {
@@ -134,7 +139,7 @@ public class BeanToBean extends AbstractContainerConverter {
 			return null;
 		}
 	}
-	
+
 	protected Type getPropertyDestinationType(Class clazz, String propertyName,
 			Type originalType) {
 		Type propertyDestinationType = null;
@@ -149,14 +154,25 @@ public class BeanToBean extends AbstractContainerConverter {
 		return propertyDestinationType;
 	}
 
-	private Map<String, Method> getDestinationSetterMethods(Class clazz) {
+	/**
+	 * get a map of setters (propertyName -> Method)
+	 * 
+	 * @param clazz
+	 * @return
+	 */
+	private Map<String, Method> getDestinationSetters(Class clazz) {
 		Map<String, Method> setters = new HashMap<String, Method>();
 		Method[] methods = clazz.getMethods();
 		for (Method method : methods) {
+			String methodName = method.getName();
 			if (method.getParameterTypes().length == 1
-					&& method.getName().startsWith("set")
+					&& methodName.startsWith("set") && methodName.length() > 3
 					&& method.getReturnType() == Void.TYPE) {
-				setters.put(method.getName(), method);
+				String propertyName = methodName.substring(3, 1).toLowerCase();
+				if (methodName.length() > 4) {
+					propertyName += methodName.substring(4);
+				}
+				setters.put(propertyName, method);
 			}
 		}
 		return setters;
@@ -181,4 +197,54 @@ public class BeanToBean extends AbstractContainerConverter {
 		return true;
 	}
 
+	
+	
+	
+	private static class ClassPair {
+		private Class sourceClass;
+		private Class destinationClass;
+		
+		public ClassPair(Class sourceClass, Class destinationClass) {
+			super();
+			this.sourceClass = sourceClass;
+			this.destinationClass = destinationClass;
+		}
+		
+		@Override
+		public int hashCode() {
+			final int prime = 31;
+			int result = 1;
+			result = prime
+					* result
+					+ ((destinationClass == null) ? 0 : destinationClass
+							.hashCode());
+			result = prime * result
+					+ ((sourceClass == null) ? 0 : sourceClass.hashCode());
+			return result;
+		}
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (obj == null)
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			ClassPair other = (ClassPair) obj;
+			if (destinationClass == null) {
+				if (other.destinationClass != null)
+					return false;
+			} else if (!destinationClass.equals(other.destinationClass))
+				return false;
+			if (sourceClass == null) {
+				if (other.sourceClass != null)
+					return false;
+			} else if (!sourceClass.equals(other.sourceClass))
+				return false;
+			return true;
+		}
+		
+		
+	}
+	
 }

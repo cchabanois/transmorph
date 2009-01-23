@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.entropysoft.transmorph.converters;
+package net.entropysoft.transmorph.converters.beans;
 
 import java.lang.reflect.Method;
 import java.text.MessageFormat;
@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import net.entropysoft.transmorph.ConverterException;
+import net.entropysoft.transmorph.converters.AbstractContainerConverter;
 import net.entropysoft.transmorph.signature.JavaTypeToTypeSignature;
 import net.entropysoft.transmorph.signature.TypeSignature;
 import net.entropysoft.transmorph.type.Type;

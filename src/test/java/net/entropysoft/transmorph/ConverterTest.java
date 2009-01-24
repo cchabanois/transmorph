@@ -816,7 +816,7 @@ public class ConverterTest extends TestCase {
 		ObjectToFormattedString dateToString = new ObjectToFormattedString(
 				Date.class, new SimpleDateFormat("EEE, MMM d, yy", Locale.US));
 		dateToString.setModifiers(new IModifier[] { new UppercaseString() });
-		
+
 		ArrayToCollection arrayToCollection = new ArrayToCollection();
 		arrayToCollection.setElementConverter(dateToString);
 
@@ -834,8 +834,7 @@ public class ConverterTest extends TestCase {
 		IdentityConverter identityConverter = new IdentityConverter();
 		identityConverter.setModifiers(new IModifier[] { new TrimString() });
 		Converter converter = new Converter(ConverterTest.class
-				.getClassLoader(),
-				new IConverter[] { identityConverter });
+				.getClassLoader(), new IConverter[] { identityConverter });
 		String converted = (String) converter
 				.convert(
 						"    This is a string with leading and trailing white spaces    ",
@@ -857,10 +856,11 @@ public class ConverterTest extends TestCase {
 		Converter converter = new Converter(ConverterTest.class
 				.getClassLoader(), converters);
 
-		BeanToBeanMapping beanToBeanMapping = new BeanToBeanMapping(MyBean4.class, MyBean4Ancestor.class);
+		BeanToBeanMapping beanToBeanMapping = new BeanToBeanMapping(
+				MyBean4.class, MyBean4TransferObject.class);
 		beanToBeanMapping.addMapping("size", "length");
 		beanToBean.addBeanToBeanMapping(beanToBeanMapping);
-		
+
 		MyBean4 myBean4 = new MyBean4();
 		myBean4.setMyString("hello world");
 		myBean4.setSize(55);
@@ -1007,7 +1007,7 @@ public class ConverterTest extends TestCase {
 		}
 
 	}
-	
+
 	public static class MyBean4 extends MyBean4Ancestor {
 		private String myString;
 		private List<String> myStrings;
@@ -1036,7 +1036,7 @@ public class ConverterTest extends TestCase {
 		private String myString;
 		private String[] myStrings;
 		private long length;
-		
+
 		public String getMyString() {
 			return myString;
 		}

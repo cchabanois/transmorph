@@ -22,6 +22,7 @@ import java.util.Map;
 import java.util.Properties;
 
 import net.entropysoft.transmorph.ConverterException;
+import net.entropysoft.transmorph.IConverter;
 import net.entropysoft.transmorph.type.ClassType;
 import net.entropysoft.transmorph.type.Type;
 
@@ -34,6 +35,25 @@ import net.entropysoft.transmorph.type.Type;
 public class MapToMap extends AbstractContainerConverter {
 
 	private Class<? extends Map> defaultMapClass = HashMap.class;
+	private IConverter keyConverter;
+	private IConverter valueConverter;
+	
+	
+	public IConverter getKeyConverter() {
+		return keyConverter;
+	}
+
+	public void setKeyConverter(IConverter keyConverter) {
+		this.keyConverter = keyConverter;
+	}
+
+	public IConverter getValueConverter() {
+		return valueConverter;
+	}
+
+	public void setValueConverter(IConverter valueConverter) {
+		this.valueConverter = valueConverter;
+	}
 
 	public Object doConvert(Object sourceObject, Type destinationType) throws ConverterException {
 		if (sourceObject == null) {
@@ -62,9 +82,19 @@ public class MapToMap extends AbstractContainerConverter {
 		for (Iterator<Map.Entry<Object, Object>> it = sourceMap.entrySet()
 				.iterator(); it.hasNext();) {
 			Map.Entry<Object, Object> mapEntry = it.next();
-			Object key = elementConverter.convert(mapEntry
+			IConverter converter = keyConverter;
+			if (converter == null) {
+				converter = elementConverter;
+			}
+			Object key = converter.convert(mapEntry
 					.getKey(), destinationTypeArguments[0]);
-			Object value = elementConverter.convert(mapEntry
+			
+			converter = valueConverter;
+			if (converter == null) {
+				converter = elementConverter;
+			}
+			
+			Object value = converter.convert(mapEntry
 					.getValue(), destinationTypeArguments[1]);
 			destinationMap.put(key, value);
 		}

@@ -25,6 +25,12 @@ import java.util.TimeZone;
 
 import javax.xml.namespace.QName;
 
+import samples.MyBean1;
+import samples.MyBean2;
+import samples.MyBean3;
+import samples.MyBean4;
+import samples.MyBean4TransferObject;
+
 import junit.framework.TestCase;
 import net.entropysoft.transmorph.converters.AbstractSimpleConverter;
 import net.entropysoft.transmorph.converters.ArrayToArray;
@@ -927,140 +933,6 @@ public class ConverterTest extends TestCase {
 		assertEquals("1", listOfStrings.get(0));
 		assertEquals("2", listOfStrings.get(1));
 		assertEquals("3", listOfStrings.get(2));
-	}
-
-	public static class MyBean1 {
-		private int myInt;
-		private List<String> myListOfStrings;
-		private MyBean2 myBean2;
-		private MyBean3 myBean3;
-
-		public int getMyInt() {
-			return myInt;
-		}
-
-		public void setMyInt(int myInt) {
-			this.myInt = myInt;
-		}
-
-		public List<String> getMyListOfStrings() {
-			return myListOfStrings;
-		}
-
-		public void setMyListOfStrings(List<String> myListOfStrings) {
-			this.myListOfStrings = myListOfStrings;
-		}
-
-		public MyBean2 getMyBean2() {
-			return myBean2;
-		}
-
-		public void setMyBean2(MyBean2 myBean2) {
-			this.myBean2 = myBean2;
-		}
-
-		public MyBean3 getMyBean3() {
-			return myBean3;
-		}
-
-		public void setMyBean3(MyBean3 myBean3) {
-			this.myBean3 = myBean3;
-		}
-
-	}
-
-	public static class MyBean2 {
-		private String myString;
-
-		public String getMyString() {
-			return myString;
-		}
-
-		public void setMyString(String myString) {
-			this.myString = myString;
-		}
-
-	}
-
-	public static class MyBean3 {
-		private List myList;
-
-		public List getMyList() {
-			return myList;
-		}
-
-		public void setMyList(List myList) {
-			this.myList = myList;
-		}
-
-	}
-
-	public static class MyBean4Ancestor {
-		private int size;
-
-		public int getSize() {
-			return size;
-		}
-
-		public void setSize(int size) {
-			this.size = size;
-		}
-
-	}
-
-	public static class MyBean4 extends MyBean4Ancestor {
-		private String myString;
-		private List<String> myStrings;
-
-		public String getMyString() {
-			return myString;
-		}
-
-		public void setMyString(String myString) {
-			this.myString = myString;
-		}
-
-		public List<String> getMyStrings() {
-			return myStrings;
-		}
-
-		public void setMyStrings(List<String> myStrings) {
-			this.myStrings = myStrings;
-		}
-	}
-
-	public static class MyBean4TransferObject implements java.io.Serializable {
-
-		private static final long serialVersionUID = 4859101895339173273L;
-
-		private String myString;
-		private String[] myStrings;
-		private long length;
-
-		public String getMyString() {
-			return myString;
-		}
-
-		public void setMyString(String myString) {
-			this.myString = myString;
-		}
-
-		public String[] getMyStrings() {
-			return myStrings;
-		}
-
-		public void setMyStrings(String[] myStrings) {
-			this.myStrings = myStrings;
-		}
-
-		public long getLength() {
-			return length;
-		}
-
-		public void setLength(long length) {
-			this.length = length;
-		}
-
 	}
 
 }

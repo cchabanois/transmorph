@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import net.entropysoft.transmorph.ConverterContext;
 import net.entropysoft.transmorph.ConverterException;
 import net.entropysoft.transmorph.type.ClassType;
 import net.entropysoft.transmorph.type.Type;
@@ -38,7 +39,7 @@ public class SingleElementToCollection extends AbstractContainerConverter {
 		this.defaultListClass = defaultListClass;
 	}
 
-	public Object doConvert(Object sourceObject, Type destinationType) throws ConverterException {
+	public Object doConvert(ConverterContext context, Object sourceObject, Type destinationType) throws ConverterException {
 		if (sourceObject == null) {
 			return null;
 		}
@@ -58,8 +59,8 @@ public class SingleElementToCollection extends AbstractContainerConverter {
 					.getTypeFactory().getObjectType() };
 		}
 
-		Object convertedObj = elementConverter.convert(sourceObject,
-				destinationTypeArguments[0]);
+		Object convertedObj = elementConverter.convert(context,
+				sourceObject, destinationTypeArguments[0]);
 		destinationCollection.add(convertedObj);
 		return destinationCollection;
 

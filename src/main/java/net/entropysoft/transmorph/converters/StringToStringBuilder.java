@@ -15,6 +15,7 @@
  */
 package net.entropysoft.transmorph.converters;
 
+import net.entropysoft.transmorph.ConverterContext;
 import net.entropysoft.transmorph.ConverterException;
 import net.entropysoft.transmorph.type.Type;
 
@@ -28,11 +29,12 @@ public class StringToStringBuilder extends AbstractSimpleConverter<String, Strin
 
 	public StringToStringBuilder() {
 		super(String.class, StringBuilder.class);
+		this.useObjectPool = false;
 	}
 
 	@Override
-	public StringBuilder doConvert(String sourceObject,
-			Type destinationType)
+	public StringBuilder doConvert(ConverterContext context,
+			String sourceObject, Type destinationType)
 			throws ConverterException {
 		return new StringBuilder(sourceObject);
 	}

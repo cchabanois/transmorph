@@ -15,6 +15,8 @@
  */
 package net.entropysoft.transmorph.converters;
 
+import net.entropysoft.transmorph.ConvertedObjectPool;
+import net.entropysoft.transmorph.ConverterContext;
 import net.entropysoft.transmorph.ConverterException;
 import net.entropysoft.transmorph.IConverter;
 import net.entropysoft.transmorph.modifiers.IModifier;
@@ -38,6 +40,7 @@ public abstract class AbstractSimpleConverter<S, D> implements IConverter {
 	private IModifier<D>[] modifiers = EMPTY_MODIFIERS;
 	private Class sourceClass;
 	private Class destinationClass;
+	protected boolean useObjectPool = false;
 
 	protected AbstractSimpleConverter(Class sourceClass, Class destinationClass) {
 		this.sourceClass = sourceClass;
@@ -52,11 +55,12 @@ public abstract class AbstractSimpleConverter<S, D> implements IConverter {
 		return destinationClass;
 	}
 
-	public boolean canHandle(Object sourceObject, Type destinationType) {
+	public boolean canHandle(ConverterContext context, Object sourceObject,
+			Type destinationType) {
 		return canHandleDestinationType(destinationType)
 				&& canHandleSourceObject(sourceObject);
-	}	
-	
+	}
+
 	protected boolean canHandleDestinationType(Type destinationType) {
 		try {
 			return destinationType.isType(destinationClass);
@@ -72,23 +76,50 @@ public abstract class AbstractSimpleConverter<S, D> implements IConverter {
 		return sourceClass.isInstance(sourceObject);
 	}
 
-	public Object convert(Object sourceObject, Type destinationType)
-			throws ConverterException {
+	public Object convert(ConverterContext context, Object sourceObject,
+			Type destinationType) throws ConverterException {
 		if (sourceObject == null) {
 			if (destinationType.isPrimitive()) {
 				throw new ConverterException(
 						"Cannot convert null to a primitive type");
 			}
 		}
-		D result = doConvert((S) sourceObject, destinationType);
-		result = applyModifiers(result);
-		return result;
+		D convertedObject;
+		ConvertedObjectPool objectPool = context.getConvertedObjectPool();
+		if (useObjectPool) {
+			convertedObject = (D)objectPool.get(this, sourceObject,
+					destinationType);
+			if (convertedObject != null) {
+				return convertedObject;
+			}
+		}
+		try {
+			convertedObject = doConvert(context, (S) sourceObject,
+					destinationType);
+			convertedObject = applyModifiers(context, convertedObject, destinationType);
+			if (useObjectPool) {
+				objectPool.add(this, sourceObject, destinationType,
+						convertedObject);
+			}
+			return convertedObject;
+		} catch (ConverterException e) {
+			if (useObjectPool) {
+				objectPool.remove(this, sourceObject, destinationType);
+			}
+			throw e;
+		} catch (RuntimeException e) {
+			if (useObjectPool) {
+				objectPool.remove(this, sourceObject, destinationType);
+			}
+			throw e;
+		}
 	}
 
-	public abstract D doConvert(S sourceObject, Type destinationType)
-			throws ConverterException;
+	public abstract D doConvert(ConverterContext context, S sourceObject,
+			Type destinationType) throws ConverterException;
 
-	protected D applyModifiers(D object) throws ConverterException {
+	protected D applyModifiers(ConverterContext context, D object, Type destinationType) throws ConverterException {
+		Object initialObject = object;
 		for (IModifier<D> modifier : modifiers) {
 			try {
 				object = modifier.modify(object);
@@ -96,6 +127,15 @@ public abstract class AbstractSimpleConverter<S, D> implements IConverter {
 				throw new ConverterException(e.getMessage(), e);
 			}
 		}
+		
+		if (useObjectPool && object != initialObject) {
+			if (context.getConvertedObjectPool().get(this, initialObject,
+					destinationType) != null) {
+				throw new ConverterException(
+						"A modifier returned a different object than initial one whereas initial object has been added to object pool");
+			}
+		}
+		
 		return object;
 	}
 

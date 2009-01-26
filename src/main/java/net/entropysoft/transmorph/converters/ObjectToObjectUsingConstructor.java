@@ -18,6 +18,7 @@ package net.entropysoft.transmorph.converters;
 import java.lang.reflect.Constructor;
 import java.text.MessageFormat;
 
+import net.entropysoft.transmorph.ConverterContext;
 import net.entropysoft.transmorph.ConverterException;
 import net.entropysoft.transmorph.type.Type;
 
@@ -34,6 +35,10 @@ public class ObjectToObjectUsingConstructor extends AbstractConverter {
 
 	private Class[] handledDestinationClasses = ALL_DESTINATION_CLASSES;
 
+	public ObjectToObjectUsingConstructor() {
+		this.useObjectPool = true;
+	}
+	
 	public Class[] getHandledDestinationClasses() {
 		return handledDestinationClasses;
 	}
@@ -42,7 +47,7 @@ public class ObjectToObjectUsingConstructor extends AbstractConverter {
 		this.handledDestinationClasses = handledDestinationClasses;
 	}
 
-	public Object doConvert(Object sourceObject, Type destinationType) throws ConverterException {
+	public Object doConvert(ConverterContext context, Object sourceObject, Type destinationType) throws ConverterException {
 
 		try {
 			Constructor compatibleConstructor = getCompatibleConstructor(

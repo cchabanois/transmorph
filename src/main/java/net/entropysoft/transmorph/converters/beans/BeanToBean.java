@@ -20,6 +20,7 @@ import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.Map;
 
+import net.entropysoft.transmorph.ConverterContext;
 import net.entropysoft.transmorph.ConverterException;
 import net.entropysoft.transmorph.converters.AbstractContainerConverter;
 import net.entropysoft.transmorph.converters.beans.utils.BeanUtils;
@@ -40,6 +41,10 @@ public class BeanToBean extends AbstractContainerConverter {
 	private IBeanPropertyTypeProvider beanDestinationPropertyTypeProvider;
 	private Map<ClassPair, BeanToBeanMapping> beanToBeanMappings = new HashMap<ClassPair, BeanToBeanMapping>();
 
+	public BeanToBean() {
+		this.useObjectPool = true;
+	}
+	
 	public IBeanPropertyTypeProvider getBeanDestinationPropertyTypeProvider() {
 		return beanDestinationPropertyTypeProvider;
 	}
@@ -54,7 +59,7 @@ public class BeanToBean extends AbstractContainerConverter {
 		this.beanDestinationPropertyTypeProvider = beanDestinationPropertyTypeProvider;
 	}
 
-	public Object doConvert(Object sourceObject, Type destinationType)
+	public Object doConvert(ConverterContext context, Object sourceObject, Type destinationType)
 			throws ConverterException {
 		Class destinationClass;
 		try {
@@ -89,7 +94,10 @@ public class BeanToBean extends AbstractContainerConverter {
 					"Could not create instance of ''{0}''", destinationType
 							.getName()), e);
 		}
-
+		if (useObjectPool) {
+			context.getConvertedObjectPool().add(this, sourceObject, destinationType, resultBean);
+		}
+		
 		for (String destinationPropertyName : destinationSetters.keySet()) {
 			Method destinationMethod = destinationSetters
 					.get(destinationPropertyName);
@@ -120,7 +128,7 @@ public class BeanToBean extends AbstractContainerConverter {
 					.getClass(), destinationPropertyName, originalType);
 
 			Object destinationPropertyValue = elementConverter.convert(
-					sourcePropertyValue, propertyDestinationType);
+					context, sourcePropertyValue, propertyDestinationType);
 
 			try {
 				destinationMethod.invoke(resultBean, destinationPropertyValue);
@@ -247,7 +255,7 @@ public class BeanToBean extends AbstractContainerConverter {
 	}
 
 	@Override
-	public boolean canHandle(Object sourceObject, Type destinationType) {
+	public boolean canHandle(ConverterContext context, Object sourceObject, Type destinationType) {
 		try {
 			BeanToBeanMapping beanToBeanMapping = beanToBeanMappings
 					.get(new ClassPair(sourceObject.getClass(), destinationType
@@ -258,7 +266,7 @@ public class BeanToBean extends AbstractContainerConverter {
 		} catch (ClassNotFoundException e) {
 			return false;
 		}
-		return super.canHandle(sourceObject, destinationType);
+		return super.canHandle(context, sourceObject, destinationType);
 	}
 
 }

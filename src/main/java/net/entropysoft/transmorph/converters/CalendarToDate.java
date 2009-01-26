@@ -18,6 +18,7 @@ package net.entropysoft.transmorph.converters;
 import java.util.Calendar;
 import java.util.Date;
 
+import net.entropysoft.transmorph.ConverterContext;
 import net.entropysoft.transmorph.ConverterException;
 import net.entropysoft.transmorph.type.Type;
 
@@ -32,10 +33,11 @@ public class CalendarToDate extends AbstractSimpleConverter<Calendar, Date>  {
 
 	public CalendarToDate() {
 		super(Calendar.class, Date.class);
+		this.useObjectPool = true;
 	}
 
 	@Override
-	public Date doConvert(Calendar sourceObject, Type destinationType) throws ConverterException {
+	public Date doConvert(ConverterContext context, Calendar sourceObject, Type destinationType) throws ConverterException {
 		return sourceObject.getTime();
 	}
 

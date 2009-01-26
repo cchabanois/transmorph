@@ -21,6 +21,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Properties;
 
+import net.entropysoft.transmorph.ConverterContext;
 import net.entropysoft.transmorph.ConverterException;
 import net.entropysoft.transmorph.IConverter;
 import net.entropysoft.transmorph.type.ClassType;
@@ -38,6 +39,9 @@ public class MapToMap extends AbstractContainerConverter {
 	private IConverter keyConverter;
 	private IConverter valueConverter;
 	
+	public MapToMap() {
+		this.useObjectPool = true;
+	}
 	
 	public IConverter getKeyConverter() {
 		return keyConverter;
@@ -55,7 +59,7 @@ public class MapToMap extends AbstractContainerConverter {
 		this.valueConverter = valueConverter;
 	}
 
-	public Object doConvert(Object sourceObject, Type destinationType) throws ConverterException {
+	public Object doConvert(ConverterContext context, Object sourceObject, Type destinationType) throws ConverterException {
 		if (sourceObject == null) {
 			return null;
 		}
@@ -71,6 +75,10 @@ public class MapToMap extends AbstractContainerConverter {
 			throw new ConverterException("Could not create destination map");
 		}
 
+		if (useObjectPool) {
+			context.getConvertedObjectPool().add(this, sourceObject, mapDestinationType, destinationMap);
+		}
+		
 		Type[] destinationTypeArguments;
 		try {
 			destinationTypeArguments = getDestinationTypeArguments(mapDestinationType);
@@ -86,16 +94,16 @@ public class MapToMap extends AbstractContainerConverter {
 			if (converter == null) {
 				converter = elementConverter;
 			}
-			Object key = converter.convert(mapEntry
-					.getKey(), destinationTypeArguments[0]);
+			Object key = converter.convert(context, mapEntry
+							.getKey(), destinationTypeArguments[0]);
 			
 			converter = valueConverter;
 			if (converter == null) {
 				converter = elementConverter;
 			}
 			
-			Object value = converter.convert(mapEntry
-					.getValue(), destinationTypeArguments[1]);
+			Object value = converter.convert(context, mapEntry
+							.getValue(), destinationTypeArguments[1]);
 			destinationMap.put(key, value);
 		}
 

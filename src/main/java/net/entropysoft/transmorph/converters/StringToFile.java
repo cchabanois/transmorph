@@ -17,6 +17,7 @@ package net.entropysoft.transmorph.converters;
 
 import java.io.File;
 
+import net.entropysoft.transmorph.ConverterContext;
 import net.entropysoft.transmorph.ConverterException;
 import net.entropysoft.transmorph.type.Type;
 
@@ -30,10 +31,11 @@ public class StringToFile extends AbstractSimpleConverter<String, File> {
 
 	public StringToFile() {
 		super(String.class, File.class);
+		this.useObjectPool = true; // immutable
 	}
 
 	@Override
-	public File doConvert(String sourceObject, Type destinationType)
+	public File doConvert(ConverterContext context, String sourceObject, Type destinationType)
 			throws ConverterException {
 		File file = new File(sourceObject);
 		return file;

@@ -15,6 +15,7 @@
  */
 package net.entropysoft.transmorph.converters;
 
+import net.entropysoft.transmorph.ConverterContext;
 import net.entropysoft.transmorph.ConverterException;
 import net.entropysoft.transmorph.type.Type;
 
@@ -31,6 +32,10 @@ public class ObjectToString extends AbstractConverter {
 
 	private Class[] handledSourceClasses = ALL_SOURCE_CLASSES;
 
+	public ObjectToString() {
+		this.useObjectPool = true;
+	}
+	
 	public Class[] getHandledSourceClasses() {
 		return handledSourceClasses;
 	}
@@ -39,7 +44,7 @@ public class ObjectToString extends AbstractConverter {
 		this.handledSourceClasses = handledSourceClasses;
 	}
 
-	public Object doConvert(Object sourceObject, Type destinationType) throws ConverterException {
+	public Object doConvert(ConverterContext context, Object sourceObject, Type destinationType) throws ConverterException {
 		if (sourceObject == null) {
 			return null;
 		}

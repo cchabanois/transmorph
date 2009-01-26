@@ -2,6 +2,7 @@ package net.entropysoft.transmorph.converters;
 
 import java.text.Format;
 
+import net.entropysoft.transmorph.ConverterContext;
 import net.entropysoft.transmorph.ConverterException;
 import net.entropysoft.transmorph.IConverter;
 import net.entropysoft.transmorph.type.Type;
@@ -19,6 +20,10 @@ public class ObjectToFormattedString extends AbstractContainerConverter {
 	private Class formatExpectedClass;
 	private IConverter converter;
 
+	public ObjectToFormattedString() {
+		this.useObjectPool = true;
+	}
+	
 	/**
 	 * 
 	 * @param sourceClass
@@ -48,15 +53,15 @@ public class ObjectToFormattedString extends AbstractContainerConverter {
 		this.format = format;
 	}
 
-	public Object doConvert(Object sourceObject, Type destinationType) throws ConverterException {
+	public Object doConvert(ConverterContext context, Object sourceObject, Type destinationType) throws ConverterException {
 		if (sourceObject == null) {
 			return null;
 		}
 
 		Object formatSource = sourceObject;
 		if (sourceClass != formatExpectedClass) {
-			formatSource = elementConverter.convert(sourceObject,
-					destinationType.getTypeFactory().getType(
+			formatSource = elementConverter.convert(context,
+					sourceObject, destinationType.getTypeFactory().getType(
 							formatExpectedClass));
 		}
 		synchronized(this) {

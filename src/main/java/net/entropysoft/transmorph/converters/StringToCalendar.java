@@ -23,6 +23,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
+import net.entropysoft.transmorph.ConverterContext;
 import net.entropysoft.transmorph.ConverterException;
 import net.entropysoft.transmorph.type.Type;
 
@@ -38,6 +39,7 @@ public class StringToCalendar extends AbstractConverter {
 
 	public StringToCalendar() {
 		dateFormat.setLenient(false);
+		this.useObjectPool = false;
 	}
 
 	public DateFormat getDateFormat() {
@@ -48,7 +50,7 @@ public class StringToCalendar extends AbstractConverter {
 		this.dateFormat = dateFormat;
 	}
 
-	public Object doConvert(Object sourceObject, Type destinationType) throws ConverterException {
+	public Object doConvert(ConverterContext context, Object sourceObject, Type destinationType) throws ConverterException {
 		if (sourceObject == null) {
 			return null;
 		}

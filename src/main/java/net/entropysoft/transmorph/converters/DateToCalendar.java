@@ -19,6 +19,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
+import net.entropysoft.transmorph.ConverterContext;
 import net.entropysoft.transmorph.ConverterException;
 import net.entropysoft.transmorph.type.Type;
 
@@ -30,7 +31,11 @@ import net.entropysoft.transmorph.type.Type;
  */
 public class DateToCalendar extends AbstractConverter {
 
-	public Object doConvert(Object sourceObject, Type destinationType) throws ConverterException {
+	public DateToCalendar() {
+		this.useObjectPool = true;
+	}
+	
+	public Object doConvert(ConverterContext context, Object sourceObject, Type destinationType) throws ConverterException {
 
 		if (sourceObject == null) {
 			return null;

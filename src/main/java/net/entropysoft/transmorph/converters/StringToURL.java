@@ -18,6 +18,7 @@ package net.entropysoft.transmorph.converters;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import net.entropysoft.transmorph.ConverterContext;
 import net.entropysoft.transmorph.ConverterException;
 import net.entropysoft.transmorph.type.Type;
 
@@ -31,10 +32,11 @@ public class StringToURL extends AbstractSimpleConverter<String, URL> {
 
 	public StringToURL() {
 		super(String.class, URL.class);
+		this.useObjectPool = true;
 	}
 
 	@Override
-	public URL doConvert(String sourceObject, Type destinationType) throws ConverterException {
+	public URL doConvert(ConverterContext context, String sourceObject, Type destinationType) throws ConverterException {
 		try {
 			return new URL(sourceObject);
 		} catch (MalformedURLException e) {

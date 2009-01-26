@@ -17,6 +17,7 @@ package net.entropysoft.transmorph.converters;
 
 import java.text.MessageFormat;
 
+import net.entropysoft.transmorph.ConverterContext;
 import net.entropysoft.transmorph.ConverterException;
 import net.entropysoft.transmorph.type.Type;
 
@@ -28,7 +29,11 @@ import net.entropysoft.transmorph.type.Type;
  */
 public class StringToEnum extends AbstractConverter {
 
-	public Object doConvert(Object sourceObject, Type destinationType) throws ConverterException {
+	public StringToEnum() {
+		this.useObjectPool = true;
+	}
+	
+	public Object doConvert(ConverterContext context, Object sourceObject, Type destinationType) throws ConverterException {
 
 		if (sourceObject == null) {
 			return null;

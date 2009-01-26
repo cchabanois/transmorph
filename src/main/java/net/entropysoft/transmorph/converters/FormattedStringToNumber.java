@@ -19,6 +19,7 @@ import java.text.MessageFormat;
 import java.text.NumberFormat;
 import java.text.ParsePosition;
 
+import net.entropysoft.transmorph.ConverterContext;
 import net.entropysoft.transmorph.ConverterException;
 import net.entropysoft.transmorph.type.Type;
 import net.entropysoft.transmorph.type.TypeUtils;
@@ -34,6 +35,10 @@ public class FormattedStringToNumber extends AbstractConverter {
 	private NumberFormat numberFormat = NumberFormat.getInstance();
 	private NumberToNumber numberToNumberConverter = new NumberToNumber();
 
+	public FormattedStringToNumber() {
+		this.useObjectPool = true;
+	}
+	
 	public NumberFormat getNumberFormat() {
 		return numberFormat;
 	}
@@ -42,7 +47,7 @@ public class FormattedStringToNumber extends AbstractConverter {
 		this.numberFormat = numberFormat;
 	}
 
-	public Object doConvert(Object sourceObject, Type destinationType) throws ConverterException {
+	public Object doConvert(ConverterContext context, Object sourceObject, Type destinationType) throws ConverterException {
 		if (sourceObject == null) {
 			if (destinationType.isPrimitive()) {
 				throw new ConverterException("Cannot convert null to a primitive number");
@@ -66,7 +71,7 @@ public class FormattedStringToNumber extends AbstractConverter {
 					"Could not convert ''{0}'' to a number", sourceString));
 		}
 
-		return numberToNumberConverter.convert(number, destinationType);
+		return numberToNumberConverter.convert(context, number, destinationType);
 	}
 
 	protected boolean canHandleDestinationType(Type destinationType) {

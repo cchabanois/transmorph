@@ -22,6 +22,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import net.entropysoft.transmorph.ConverterContext;
 import net.entropysoft.transmorph.ConverterException;
 import net.entropysoft.transmorph.type.ClassType;
 import net.entropysoft.transmorph.type.Type;
@@ -37,6 +38,10 @@ public class CollectionToCollection extends AbstractContainerConverter {
 
 	private Class<? extends Set> defaultSetClass = HashSet.class;
 	private Class<? extends List> defaultListClass = ArrayList.class;
+
+	public CollectionToCollection() {
+		this.useObjectPool = true;
+	}
 
 	public Class<? extends Set> getDefaultSetClass() {
 		return defaultSetClass;
@@ -54,7 +59,8 @@ public class CollectionToCollection extends AbstractContainerConverter {
 		this.defaultListClass = defaultListClass;
 	}
 
-	public Object doConvert(Object sourceObject, Type destinationType) throws ConverterException {
+	public Object doConvert(ConverterContext context, Object sourceObject,
+			Type destinationType) throws ConverterException {
 		if (sourceObject == null) {
 			return null;
 		}
@@ -72,7 +78,12 @@ public class CollectionToCollection extends AbstractContainerConverter {
 			throw new ConverterException(
 					"Could not create destination collection");
 		}
-		
+
+		if (useObjectPool) {
+			context.getConvertedObjectPool().add(this, sourceObject,
+					destinationType, destinationCollection);
+		}
+
 		Type[] destinationTypeArguments = collectionClassType
 				.getTypeArguments();
 		if (destinationTypeArguments.length == 0) {
@@ -81,7 +92,7 @@ public class CollectionToCollection extends AbstractContainerConverter {
 		}
 
 		for (Object obj : sourceCollection) {
-			Object convertedObj = elementConverter.convert(obj,
+			Object convertedObj = elementConverter.convert(context, obj,
 					destinationTypeArguments[0]);
 			destinationCollection.add(convertedObj);
 		}

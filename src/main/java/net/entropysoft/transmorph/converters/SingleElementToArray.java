@@ -2,6 +2,7 @@ package net.entropysoft.transmorph.converters;
 
 import java.lang.reflect.Array;
 
+import net.entropysoft.transmorph.ConverterContext;
 import net.entropysoft.transmorph.ConverterException;
 import net.entropysoft.transmorph.type.ArrayType;
 import net.entropysoft.transmorph.type.Type;
@@ -14,7 +15,7 @@ import net.entropysoft.transmorph.type.Type;
  */
 public class SingleElementToArray extends AbstractContainerConverter {
 
-	public Object doConvert(Object sourceObject, Type destinationType) throws ConverterException {
+	public Object doConvert(ConverterContext context, Object sourceObject, Type destinationType) throws ConverterException {
 		if (sourceObject == null) {
 			return null;
 		}
@@ -33,8 +34,8 @@ public class SingleElementToArray extends AbstractContainerConverter {
 		Object destinationArray = Array
 				.newInstance(destinationComponentType, 1);
 
-		Object elementConverted = elementConverter.convert(sourceObject,
-				elementType);
+		Object elementConverted = elementConverter.convert(context,
+				sourceObject, elementType);
 		Array.set(destinationArray, 0, elementConverted);
 
 		return destinationArray;

@@ -17,6 +17,7 @@ package net.entropysoft.transmorph.converters;
 
 import java.util.TimeZone;
 
+import net.entropysoft.transmorph.ConverterContext;
 import net.entropysoft.transmorph.ConverterException;
 import net.entropysoft.transmorph.type.Type;
 
@@ -30,10 +31,11 @@ public class StringToTimeZone extends AbstractSimpleConverter<String, TimeZone> 
 
 	public StringToTimeZone() {
 		super(String.class, TimeZone.class);
+		this.useObjectPool = true; 
 	}
 
 	@Override
-	public TimeZone doConvert(String sourceObject, Type destinationType) throws ConverterException {
+	public TimeZone doConvert(ConverterContext context, String sourceObject, Type destinationType) throws ConverterException {
 		return TimeZone.getTimeZone(sourceObject);
 	}
 

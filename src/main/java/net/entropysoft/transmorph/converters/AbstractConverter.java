@@ -15,6 +15,8 @@
  */
 package net.entropysoft.transmorph.converters;
 
+import net.entropysoft.transmorph.ConvertedObjectPool;
+import net.entropysoft.transmorph.ConverterContext;
 import net.entropysoft.transmorph.ConverterException;
 import net.entropysoft.transmorph.IConverter;
 import net.entropysoft.transmorph.modifiers.IModifier;
@@ -32,24 +34,61 @@ public abstract class AbstractConverter implements IConverter {
 
 	private IModifier[] modifiers = EMPTY_MODIFIERS;
 
-	public Object convert(Object sourceObject, Type destinationType)
-			throws ConverterException {
-		Object result = doConvert(sourceObject, destinationType);
-		result = applyModifiers(result, destinationType);
-		return result;
+	protected boolean useObjectPool = false;
+
+	public Object convert(ConverterContext context, Object sourceObject,
+			Type destinationType) throws ConverterException {
+		Object convertedObject;
+		ConvertedObjectPool objectPool = context.getConvertedObjectPool();
+		if (useObjectPool) {
+			convertedObject = objectPool.get(this, sourceObject,
+					destinationType);
+			if (convertedObject != null) {
+				return convertedObject;
+			}
+		}
+		try {
+			convertedObject = doConvert(context, sourceObject, destinationType);
+			convertedObject = applyModifiers(context, convertedObject,
+					destinationType);
+			if (useObjectPool) {
+				objectPool.add(this, sourceObject, destinationType,
+						convertedObject);
+			}
+			return convertedObject;
+		} catch (ConverterException e) {
+			if (useObjectPool) {
+				objectPool.remove(this, sourceObject, destinationType);
+			}
+			throw e;
+		} catch (RuntimeException e) {
+			if (useObjectPool) {
+				objectPool.remove(this, sourceObject, destinationType);
+			}
+			throw e;
+		}
 	}
 
-	public abstract Object doConvert(Object sourceObject, Type destinationType)
+	public abstract Object doConvert(ConverterContext context,
+			Object sourceObject, Type destinationType)
 			throws ConverterException;
 
-	protected Object applyModifiers(Object object, Type destinationType)
-			throws ConverterException {
+	protected Object applyModifiers(ConverterContext context, Object object,
+			Type destinationType) throws ConverterException {
 		Object initialObject = object;
 		for (IModifier modifier : modifiers) {
 			try {
 				object = modifier.modify(object);
 			} catch (ModifierException e) {
 				throw new ConverterException(e.getMessage(), e);
+			}
+		}
+
+		if (useObjectPool && object != initialObject) {
+			if (context.getConvertedObjectPool().get(this, initialObject,
+					destinationType) != null) {
+				throw new ConverterException(
+						"A modifier returned a different object than initial one whereas initial object has been added to object pool");
 			}
 		}
 
@@ -76,7 +115,16 @@ public abstract class AbstractConverter implements IConverter {
 		this.modifiers = modifiers;
 	}
 
-	public boolean canHandle(Object sourceObject, Type destinationType) {
+	public boolean isUseObjectPool() {
+		return useObjectPool;
+	}
+
+	public void setUseObjectPool(boolean useObjectPool) {
+		this.useObjectPool = useObjectPool;
+	}
+
+	public boolean canHandle(ConverterContext context, Object sourceObject,
+			Type destinationType) {
 		return canHandleDestinationType(destinationType)
 				&& canHandleSourceObject(sourceObject);
 	}

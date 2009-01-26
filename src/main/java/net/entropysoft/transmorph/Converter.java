@@ -127,7 +127,7 @@ public class Converter implements IConverter {
 			throws ConverterException {
 		Type destinationType = typeFactory.getType(clazz, typeArgs);
 
-		return convert(source, destinationType);
+		return convert(new ConverterContext(), source, destinationType);
 	}
 
 	/**
@@ -146,7 +146,7 @@ public class Converter implements IConverter {
 				.getTypeSignature(clazz);
 		Type destinationType = typeFactory.getType(typeSignature);
 
-		return convert(source, destinationType);
+		return convert(new ConverterContext(), source, destinationType);
 	}
 
 	/**
@@ -164,12 +164,11 @@ public class Converter implements IConverter {
 				parameterizedTypeSignature, useInternalFormFullyQualifiedName);
 		Type destinationType = typeFactory.getType(typeSignature);
 
-		return convert(source, destinationType);
+		return convert(new ConverterContext(), source, destinationType);
 	}
 
 	/**
 	 * Convert an object to another object given a parameterized type signature
-	 * 
 	 * @param destinationType
 	 *            the destination type
 	 * @param source
@@ -178,15 +177,15 @@ public class Converter implements IConverter {
 	 * @return the converted object
 	 * @throws ConverterException
 	 */
-	public Object convert(Object source, Type destinationType)
+	public Object convert(ConverterContext context, Object source, Type destinationType)
 			throws ConverterException {
 		ConverterException firstException = null;
 
 		try {
 			for (IConverter converter : converters) {
-				if (converter.canHandle(source, destinationType)) {
+				if (converter.canHandle(context, source, destinationType)) {
 					try {
-						return converter.convert(source, destinationType);
+						return converter.convert(context, source, destinationType);
 					} catch (ConverterException e) {
 						// canHandle do
 						// not verify all cases. An other converter
@@ -229,9 +228,9 @@ public class Converter implements IConverter {
 
 	
 	
-	public boolean canHandle(Object sourceObject, Type destinationType) {
+	public boolean canHandle(ConverterContext context, Object sourceObject, Type destinationType) {
 		for (IConverter converter : converters) {
-			if (!canHandle(sourceObject, destinationType)) {
+			if (!canHandle(context, sourceObject, destinationType)) {
 				return false;
 			}
 		}

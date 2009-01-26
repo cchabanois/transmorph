@@ -15,6 +15,7 @@
  */
 package net.entropysoft.transmorph.converters;
 
+import net.entropysoft.transmorph.ConverterContext;
 import net.entropysoft.transmorph.ConverterException;
 import net.entropysoft.transmorph.IConverter;
 import net.entropysoft.transmorph.type.Type;
@@ -76,14 +77,14 @@ public class MultiStepConverter extends AbstractContainerConverter {
 		}
 	}
 
-	public Object doConvert(Object sourceObject, Type destinationType)
+	public Object doConvert(ConverterContext context, Object sourceObject, Type destinationType)
 			throws ConverterException {
 		Object stepSourceObject = sourceObject;
 		for (int i = 1; i < types.length; i++) {
 			IConverter stepConverter = stepConverters == null ? elementConverter
 					: stepConverters[i - 1];
 			stepSourceObject = stepConverter
-					.convert(stepSourceObject, types[i]);
+					.convert(context, stepSourceObject, types[i]);
 		}
 		return stepSourceObject;
 	}

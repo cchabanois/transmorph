@@ -15,6 +15,7 @@
  */
 package net.entropysoft.transmorph.converters;
 
+import net.entropysoft.transmorph.ConverterContext;
 import net.entropysoft.transmorph.ConverterException;
 import net.entropysoft.transmorph.type.Type;
 
@@ -30,6 +31,10 @@ public class StringToBoolean extends AbstractConverter {
 	private String falseString = "false";
 	private boolean caseSensitive = true;
 
+	public StringToBoolean() {
+		this.useObjectPool = true;
+	}
+	
 	public String getTrueString() {
 		return trueString;
 	}
@@ -54,7 +59,7 @@ public class StringToBoolean extends AbstractConverter {
 		this.caseSensitive = caseSensitive;
 	}
 
-	public Object doConvert(Object sourceObject, Type destinationType) throws ConverterException {
+	public Object doConvert(ConverterContext context, Object sourceObject, Type destinationType) throws ConverterException {
 		if (sourceObject == null) {
 			if (destinationType.isPrimitive()) {
 				throw new ConverterException("Could not convert null to boolean primitive type");

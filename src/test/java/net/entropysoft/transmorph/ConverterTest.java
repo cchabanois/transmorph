@@ -786,7 +786,7 @@ public class ConverterTest extends TestCase {
 				Boolean.TYPE) {
 
 			@Override
-			public Object doConvert(Object sourceObject, Type destinationType)
+			public Object doConvert(ConverterContext context, Object sourceObject, Type destinationType)
 					throws ConverterException {
 				int theInt = ((Number) sourceObject).intValue();
 				if (theInt == 0) {

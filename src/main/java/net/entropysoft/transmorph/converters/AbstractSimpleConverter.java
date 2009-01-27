@@ -16,9 +16,9 @@
 package net.entropysoft.transmorph.converters;
 
 import net.entropysoft.transmorph.ConversionContext;
-import net.entropysoft.transmorph.ConvertedObjectPool;
 import net.entropysoft.transmorph.ConverterException;
 import net.entropysoft.transmorph.IConverter;
+import net.entropysoft.transmorph.context.ConvertedObjectPool;
 import net.entropysoft.transmorph.modifiers.IModifier;
 import net.entropysoft.transmorph.modifiers.ModifierException;
 import net.entropysoft.transmorph.type.Type;
@@ -83,6 +83,7 @@ public abstract class AbstractSimpleConverter<S, D> implements IConverter {
 				throw new ConverterException(
 						"Cannot convert null to a primitive type");
 			}
+			return null;
 		}
 		D convertedObject;
 		ConvertedObjectPool objectPool = context.getConvertedObjectPool();
@@ -100,6 +101,10 @@ public abstract class AbstractSimpleConverter<S, D> implements IConverter {
 			if (useObjectPool) {
 				objectPool.add(this, sourceObject, destinationType,
 						convertedObject);
+			}
+			if (context.isStoreUsedConverters()) {
+				context.getUsedConverters().addUsedConverter(this,
+						sourceObject, destinationType);
 			}
 			return convertedObject;
 		} catch (ConverterException e) {

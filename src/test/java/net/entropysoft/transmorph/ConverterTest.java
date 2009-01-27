@@ -31,6 +31,7 @@ import net.entropysoft.transmorph.converters.ArrayToArray;
 import net.entropysoft.transmorph.converters.ArrayToCollection;
 import net.entropysoft.transmorph.converters.CalendarToDate;
 import net.entropysoft.transmorph.converters.CharacterArrayToString;
+import net.entropysoft.transmorph.converters.ClassToString;
 import net.entropysoft.transmorph.converters.CollectionToArray;
 import net.entropysoft.transmorph.converters.CollectionToCollection;
 import net.entropysoft.transmorph.converters.DateToCalendar;
@@ -86,13 +87,13 @@ public class ConverterTest extends TestCase {
 			new NumberToNumber(), new StringToNumber(), new StringToBoolean(),
 			new StringToEnum(), new StringToStringBuffer(),
 			new StringToStringBuilder(), new StringToClass(),
-			new ArrayToArray(), new MapToMap(), new ArrayToCollection(),
-			new CollectionToCollection(), new CollectionToArray(),
-			new StringToFile(), new StringToURL(), new StringToURI(),
-			new URIToURL(), new URLToURI(), new CharacterArrayToString(),
-			new StringToCharacterArray(), new StringToQName(),
-			new StringToTimeZone(), new ObjectToString(), new DateToCalendar(),
-			new CalendarToDate(), new IdentityConverter() };
+			new ClassToString(), new ArrayToArray(), new MapToMap(),
+			new ArrayToCollection(), new CollectionToCollection(),
+			new CollectionToArray(), new StringToFile(), new StringToURL(),
+			new StringToURI(), new URIToURL(), new URLToURI(),
+			new CharacterArrayToString(), new StringToCharacterArray(),
+			new StringToQName(), new StringToTimeZone(), new ObjectToString(),
+			new DateToCalendar(), new CalendarToDate(), new IdentityConverter() };
 
 	public void testMapToMap() throws Exception {
 		Converter converter = new Converter(ConverterTest.class
@@ -107,9 +108,12 @@ public class ConverterTest extends TestCase {
 		map.put("key3", null);
 		map.put("key4", new String[] { null, null });
 		map.put(null, new String[] { "value5-1", "value5-2" });
+		ConversionContext context = new ConversionContext();
+		context.setStoreUsedConverters(true);
 		Map<String, List<String>> converted = (Map<String, List<String>>) converter
-				.convert(map,
+				.convert(context, map,
 						"Ljava.util.Map<Ljava.lang.String;Ljava.util.List<Ljava.lang.String;>;>;");
+		System.out.println(context.getUsedConverters());
 		List<String> list1 = converted.get("key1");
 		assertEquals("value1-1", list1.get(0));
 		assertEquals("value1-2", list1.get(1));
@@ -220,7 +224,34 @@ public class ConverterTest extends TestCase {
 		} catch (ConverterException e) {
 
 		}
+	}
 
+	public void testPrimitiveToWrapper() throws Exception {
+		Converter converter = new Converter(ConverterTest.class
+				.getClassLoader(), converters);
+		boolean[] booleans = new boolean[] { true, false };
+		Boolean[] booleanWrappers = (Boolean[]) converter.convert(booleans,
+				Boolean[].class);
+		assertEquals(Boolean.TRUE, booleanWrappers[0]);
+		assertEquals(Boolean.FALSE, booleanWrappers[1]);
+	}
+
+	public void testWrapperToPrimitive() throws Exception {
+		Converter converter = new Converter(ConverterTest.class
+				.getClassLoader(), converters);
+		Boolean[] booleanWrappers = new Boolean[] { true, false };
+		boolean[] booleans = (boolean[]) converter.convert(booleanWrappers,
+				boolean[].class);
+		assertEquals(true, booleans[0]);
+		assertEquals(false, booleans[1]);
+	}
+
+	public void testCharacterToString() throws Exception {
+		Converter converter = new Converter(ConverterTest.class
+				.getClassLoader(), converters);
+		char myChar = 'c';
+		String str = (String) converter.convert(myChar, String.class);
+		assertEquals("c", str);
 	}
 
 	public void testStringToNumber() throws Exception {
@@ -1003,6 +1034,15 @@ public class ConverterTest extends TestCase {
 		assertEquals(3, myBeanABTransferObject.getMyIntegers()[2]);
 		assertNotNull(myBeanABTransferObject.getMyBeanBA());
 		assertEquals(75, myBeanABTransferObject.getMyBeanBA().getMyNumber());
-		assertTrue(myBeanABTransferObject == myBeanABTransferObject.getMyBeanBA().getMyBeanAB());
+		assertTrue(myBeanABTransferObject == myBeanABTransferObject
+				.getMyBeanBA().getMyBeanAB());
 	}
+	
+	public void testClassToString() throws Exception {
+		Converter converter = new Converter(ConverterTest.class
+				.getClassLoader(), converters);
+		String str = (String)converter.convert(ConverterTest.class, String.class);
+		assertEquals(ConverterTest.class.getName(), str);
+	}
+	
 }

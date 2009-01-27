@@ -16,10 +16,8 @@
 package net.entropysoft.transmorph;
 
 import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
+import net.entropysoft.transmorph.converters.MultiConverter;
 import net.entropysoft.transmorph.signature.ClassFactory;
 import net.entropysoft.transmorph.signature.TypeSignature;
 import net.entropysoft.transmorph.signature.TypeSignatureFactory;
@@ -34,7 +32,7 @@ import net.entropysoft.transmorph.type.TypeFactory;
  */
 public class Converter implements IConverter {
 
-	private List<IConverter> converters = new ArrayList<IConverter>();
+	private MultiConverter multiConverter;
 	private TypeFactory typeFactory;
 	private boolean useInternalFormFullyQualifiedName;
 
@@ -78,18 +76,7 @@ public class Converter implements IConverter {
 	 */
 	public Converter(TypeFactory typeFactory, IConverter[] converters) {
 		this.typeFactory = typeFactory;
-
-		// use this converter as element converter for all container converters
-		// that have no element converter set
-		for (IConverter converter : converters) {
-			if (converter instanceof IContainerConverter) {
-				IContainerConverter containerConverter = (IContainerConverter) converter;
-				if (containerConverter.getElementConverter() == null) {
-					containerConverter.setElementConverter(this);
-				}
-			}
-		}
-		this.converters.addAll(Arrays.asList(converters));
+		this.multiConverter = new MultiConverter(converters);
 	}
 
 	public boolean isUseInternalFormFullyQualifiedName() {
@@ -143,8 +130,8 @@ public class Converter implements IConverter {
 	 * @throws ConverterException
 	 *             if conversion failed
 	 */
-	public Object convert(ConversionContext context, Object source, Class clazz,
-			Class[] typeArgs) throws ConverterException {
+	public Object convert(ConversionContext context, Object source,
+			Class clazz, Class[] typeArgs) throws ConverterException {
 		Type destinationType = typeFactory.getType(clazz, typeArgs);
 
 		return convert(context, source, destinationType);
@@ -206,15 +193,16 @@ public class Converter implements IConverter {
 
 	/**
 	 * Convert an object to another object given a parameterized type signature
+	 * 
 	 * @param context
 	 * @param source
 	 * @param parameterizedTypeSignature
 	 * @return
 	 * @throws ConverterException
-	 * @see {@link #setUseInternalFormFullyQualifiedName(boolean)} 
+	 * @see {@link #setUseInternalFormFullyQualifiedName(boolean)}
 	 */
-	public Object convert(ConversionContext context, Object source, String parameterizedTypeSignature)
-			throws ConverterException {
+	public Object convert(ConversionContext context, Object source,
+			String parameterizedTypeSignature) throws ConverterException {
 		TypeSignature typeSignature = TypeSignatureFactory.getTypeSignature(
 				parameterizedTypeSignature, useInternalFormFullyQualifiedName);
 		Type destinationType = typeFactory.getType(typeSignature);
@@ -235,24 +223,10 @@ public class Converter implements IConverter {
 	 */
 	public Object convert(ConversionContext context, Object source,
 			Type destinationType) throws ConverterException {
-		ConverterException firstException = null;
-
 		try {
-			for (IConverter converter : converters) {
-				if (converter.canHandle(context, source, destinationType)) {
-					try {
-						return converter.convert(context, source,
-								destinationType);
-					} catch (ConverterException e) {
-						// canHandle do
-						// not verify all cases. An other converter
-						// might successfully convert the source to destination
-						// type
-						if (firstException == null)
-							firstException = e;
-					}
-				}
-			}
+			return multiConverter.convert(context, source, destinationType);
+		} catch (ConverterException e) {
+			throw e;
 		} catch (Exception e) {
 			// There is a problem with one converter. This should not happen.
 			// Either there is a bug in this converter or it is not properly
@@ -264,33 +238,11 @@ public class Converter implements IConverter {
 									source == null ? "null" : source.getClass()
 											.getName(), destinationType), e);
 		}
-
-		if (firstException != null) {
-			throw new ConverterException(
-					MessageFormat
-							.format(
-									"Could not convert given object with class ''{0}'' to object with type signature ''{1}''",
-									source == null ? "null" : source.getClass()
-											.getName(), destinationType),
-					firstException);
-		} else {
-			throw new ConverterException(
-					MessageFormat
-							.format(
-									"Could not convert given object with class ''{0}'' to object with type signature ''{1}''",
-									source == null ? "null" : source.getClass()
-											.getName(), destinationType));
-		}
 	}
 
 	public boolean canHandle(ConversionContext context, Object sourceObject,
 			Type destinationType) {
-		for (IConverter converter : converters) {
-			if (!canHandle(context, sourceObject, destinationType)) {
-				return false;
-			}
-		}
-		return true;
+		return multiConverter.canHandle(context, sourceObject, destinationType);
 	}
 
 	/**

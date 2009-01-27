@@ -13,11 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.entropysoft.transmorph;
+package net.entropysoft.transmorph.context;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import net.entropysoft.transmorph.IConverter;
 import net.entropysoft.transmorph.type.Type;
 
 /**
@@ -30,18 +31,46 @@ public class ConvertedObjectPool {
 
 	private Map<ConvertedObjectsKey, Object> convertedObjects = new HashMap<ConvertedObjectsKey, Object>();
 
+	/**
+	 * get the converted object corresponding to sourceObject as converted to
+	 * destination type by converter
+	 * 
+	 * @param converter
+	 * @param sourceObject
+	 * @param destinationType
+	 * @return
+	 */
 	public Object get(IConverter converter, Object sourceObject,
 			Type destinationType) {
 		return convertedObjects.get(new ConvertedObjectsKey(converter,
 				sourceObject, destinationType));
 	}
 
+	/**
+	 * add a converted object to the pool
+	 * 
+	 * @param converter
+	 *            the converter that made the conversion
+	 * @param sourceObject
+	 *            the source object that has been converted
+	 * @param destinationType
+	 *            the destination type
+	 * @param convertedObject
+	 *            the converted object
+	 */
 	public void add(IConverter converter, Object sourceObject,
 			Type destinationType, Object convertedObject) {
 		convertedObjects.put(new ConvertedObjectsKey(converter, sourceObject,
 				destinationType), convertedObject);
 	}
 
+	/**
+	 * remove a converted object from the pool
+	 * 
+	 * @param converter
+	 * @param sourceObject
+	 * @param destinationType
+	 */
 	public void remove(IConverter converter, Object sourceObject,
 			Type destinationType) {
 		convertedObjects.remove(new ConvertedObjectsKey(converter,

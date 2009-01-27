@@ -73,7 +73,7 @@ public class ConverterPerformanceTest extends TestCase {
 				converter,
 				map,
 				"Ljava.util.Map<Ljava.lang.Integer;Ljava.util.List<Ljava.lang.String;>;>;",
-				10, 40, new IManualConversion() {
+				10, 60, new IManualConversion() {
 
 					public Object convert(Object sourceObject) {
 						return mapToMapManual(sourceObject);

@@ -18,6 +18,7 @@ package net.entropysoft.transmorph;
 import net.entropysoft.transmorph.converters.ArrayToArray;
 import net.entropysoft.transmorph.converters.ArrayToCollection;
 import net.entropysoft.transmorph.converters.CalendarToDate;
+import net.entropysoft.transmorph.converters.ClassToString;
 import net.entropysoft.transmorph.converters.CollectionToArray;
 import net.entropysoft.transmorph.converters.CollectionToCollection;
 import net.entropysoft.transmorph.converters.DateToCalendar;
@@ -37,7 +38,7 @@ public class Converters {
 
 	public static IConverter[] getDefaultConverters() {
 		return new IConverter[] { new NumberToNumber(), new StringToNumber(), new StringToBoolean(), new StringToEnum(),
-				new StringToClass(), new StringToStringBuffer(), new StringToStringBuilder(),
+				new StringToClass(), new ClassToString(), new StringToStringBuffer(), new StringToStringBuilder(),
 				new ArrayToArray(), new MapToMap(), new ArrayToCollection(), new CollectionToCollection(),
 				new CollectionToArray(), new ObjectToString(), new DateToCalendar(), new CalendarToDate(),
 				new IdentityConverter() };

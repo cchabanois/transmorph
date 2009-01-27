@@ -36,6 +36,14 @@ public class UsedConverters {
 	private Set<UsedConverter> usedConvertersSet = new HashSet<UsedConverter>();
 
 	/**
+	 * Removes all the elements
+	 */
+	public void clear() {
+		usedConvertersList.clear();
+		usedConvertersSet.clear();
+	}
+	
+	/**
 	 * add a converter that has been used to convert from sourceObject to
 	 * destination type (if it has not already been added)
 	 * 

@@ -18,6 +18,8 @@ package net.entropysoft.transmorph.modifiers;
 import java.io.File;
 import java.io.IOException;
 
+import net.entropysoft.transmorph.ConversionContext;
+
 /**
  * Modifier that calls getCononicalFile on File
  * 
@@ -26,7 +28,7 @@ import java.io.IOException;
  */
 public class CanonicalizeFile implements IModifier<File> {
 
-	public File modify(File object) throws ModifierException {
+	public File modify(ConversionContext context, File object) throws ModifierException {
 		if (object == null) {
 			return null;
 		}

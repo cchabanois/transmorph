@@ -127,7 +127,7 @@ public abstract class AbstractSimpleConverter<S, D> implements IConverter {
 		Object initialObject = object;
 		for (IModifier<D> modifier : modifiers) {
 			try {
-				object = modifier.modify(object);
+				object = modifier.modify(context, object);
 			} catch (ModifierException e) {
 				throw new ConverterException(e.getMessage(), e);
 			}

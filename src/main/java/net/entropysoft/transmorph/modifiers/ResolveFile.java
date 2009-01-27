@@ -17,6 +17,8 @@ package net.entropysoft.transmorph.modifiers;
 
 import java.io.File;
 
+import net.entropysoft.transmorph.ConversionContext;
+
 /**
  * Modifier that calls getAbsoluteFile on File
  * 
@@ -25,7 +27,7 @@ import java.io.File;
  */
 public class ResolveFile implements IModifier<File> {
 
-	public File modify(File object) throws ModifierException {
+	public File modify(ConversionContext context, File object) throws ModifierException {
 		if (object == null) {
 			return null;
 		}

@@ -82,7 +82,7 @@ public abstract class AbstractConverter implements IConverter {
 		Object initialObject = object;
 		for (IModifier modifier : modifiers) {
 			try {
-				object = modifier.modify(object);
+				object = modifier.modify(context, object);
 			} catch (ModifierException e) {
 				throw new ConverterException(e.getMessage(), e);
 			}

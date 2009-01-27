@@ -15,6 +15,8 @@
  */
 package net.entropysoft.transmorph.modifiers;
 
+import net.entropysoft.transmorph.ConversionContext;
+
 /**
  * You can add modifiers to most converters. Once object has been converted,
  * modifiers are called on the resulting object (even if this object is null, so
@@ -29,11 +31,12 @@ public interface IModifier<S> {
 	/**
 	 * Modify and return given object. It can also be used to verify some things
 	 * on the object and throw a ModifierException if necessary
-	 * 
+	 * @param context
 	 * @param object
+	 * 
 	 * @return
 	 * @throws ModifierException
 	 */
-	public S modify(S object) throws ModifierException;
+	public S modify(ConversionContext context, S object) throws ModifierException;
 
 }

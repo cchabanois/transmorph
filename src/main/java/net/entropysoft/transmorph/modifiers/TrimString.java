@@ -15,6 +15,8 @@
  */
 package net.entropysoft.transmorph.modifiers;
 
+import net.entropysoft.transmorph.ConversionContext;
+
 /**
  * Modifier that calls trim on String
  * 
@@ -23,7 +25,7 @@ package net.entropysoft.transmorph.modifiers;
  */
 public class TrimString implements IModifier<String> {
 
-	public String modify(String object) throws ModifierException {
+	public String modify(ConversionContext context, String object) throws ModifierException {
 		if (object == null) {
 			return null;
 		}

@@ -17,6 +17,8 @@ package net.entropysoft.transmorph.modifiers;
 
 import java.util.Locale;
 
+import net.entropysoft.transmorph.ConversionContext;
+
 /**
  * Modifier that calls toLowerCase on String
  * 
@@ -27,7 +29,7 @@ public class LowerCaseString implements IModifier<String> {
 
 	private Locale locale;
 
-	public String modify(String object) throws ModifierException {
+	public String modify(ConversionContext context, String object) throws ModifierException {
 		if (object == null) {
 			return null;
 		}

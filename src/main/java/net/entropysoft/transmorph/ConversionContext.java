@@ -21,7 +21,7 @@ package net.entropysoft.transmorph;
  * @author cedric
  *
  */
-public class ConverterContext {
+public class ConversionContext {
 	private ConvertedObjectPool convertedObjectPool = new ConvertedObjectPool();
 
 	public ConvertedObjectPool getConvertedObjectPool() {

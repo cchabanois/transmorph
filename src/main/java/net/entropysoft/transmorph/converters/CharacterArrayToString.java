@@ -15,7 +15,7 @@
  */
 package net.entropysoft.transmorph.converters;
 
-import net.entropysoft.transmorph.ConverterContext;
+import net.entropysoft.transmorph.ConversionContext;
 import net.entropysoft.transmorph.ConverterException;
 import net.entropysoft.transmorph.type.Type;
 
@@ -31,7 +31,7 @@ public class CharacterArrayToString extends AbstractConverter {
 		this.useObjectPool = true;
 	}
 	
-	public Object doConvert(ConverterContext context, Object sourceObject, Type destinationType) throws ConverterException {
+	public Object doConvert(ConversionContext context, Object sourceObject, Type destinationType) throws ConverterException {
 		if (sourceObject == null) {
 			return null;
 		}

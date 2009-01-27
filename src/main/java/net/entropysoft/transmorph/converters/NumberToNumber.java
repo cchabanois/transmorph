@@ -18,7 +18,7 @@ package net.entropysoft.transmorph.converters;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
-import net.entropysoft.transmorph.ConverterContext;
+import net.entropysoft.transmorph.ConversionContext;
 import net.entropysoft.transmorph.ConverterException;
 import net.entropysoft.transmorph.type.Type;
 import net.entropysoft.transmorph.type.TypeUtils;
@@ -35,7 +35,7 @@ public class NumberToNumber extends AbstractConverter {
 		this.useObjectPool = true;
 	}
 	
-	public Object doConvert(ConverterContext context, Object sourceObject, Type destinationType) throws ConverterException {
+	public Object doConvert(ConversionContext context, Object sourceObject, Type destinationType) throws ConverterException {
 		if (sourceObject == null) {
 			if (destinationType.isPrimitive()) {
 				throw new ConverterException("Cannot convert null to a primitive number"); 

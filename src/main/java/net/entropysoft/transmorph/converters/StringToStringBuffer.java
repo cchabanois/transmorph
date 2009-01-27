@@ -15,7 +15,7 @@
  */
 package net.entropysoft.transmorph.converters;
 
-import net.entropysoft.transmorph.ConverterContext;
+import net.entropysoft.transmorph.ConversionContext;
 import net.entropysoft.transmorph.ConverterException;
 import net.entropysoft.transmorph.type.Type;
 
@@ -33,7 +33,7 @@ public class StringToStringBuffer extends AbstractSimpleConverter<String, String
 	}
 
 	@Override
-	public StringBuffer doConvert(ConverterContext context,
+	public StringBuffer doConvert(ConversionContext context,
 			String sourceObject, Type destinationType)
 			throws ConverterException {
 		return new StringBuffer(sourceObject);

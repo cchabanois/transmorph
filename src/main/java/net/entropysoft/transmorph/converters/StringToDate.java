@@ -21,7 +21,7 @@ import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import net.entropysoft.transmorph.ConverterContext;
+import net.entropysoft.transmorph.ConversionContext;
 import net.entropysoft.transmorph.ConverterException;
 import net.entropysoft.transmorph.type.Type;
 
@@ -50,7 +50,7 @@ public class StringToDate extends AbstractSimpleConverter<String, Date> {
 	}
 
 	@Override
-	public Date doConvert(ConverterContext context, String sourceObject, Type destinationType) throws ConverterException {
+	public Date doConvert(ConversionContext context, String sourceObject, Type destinationType) throws ConverterException {
 		ParsePosition pos = new ParsePosition(0);
 		Date result;
 		synchronized(this) {

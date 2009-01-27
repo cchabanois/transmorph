@@ -35,7 +35,7 @@ public interface IConverter {
 	 * @return
 	 * @throws ConverterException
 	 */
-	public Object convert(ConverterContext context, Object sourceObject, Type destinationType)
+	public Object convert(ConversionContext context, Object sourceObject, Type destinationType)
 			throws ConverterException;
 
 	/**
@@ -47,6 +47,6 @@ public interface IConverter {
 	 * 
 	 * @return
 	 */
-	public boolean canHandle(ConverterContext context, Object sourceObject, Type destinationType);
+	public boolean canHandle(ConversionContext context, Object sourceObject, Type destinationType);
 
 }

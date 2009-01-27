@@ -25,12 +25,6 @@ import java.util.TimeZone;
 
 import javax.xml.namespace.QName;
 
-import samples.MyBean1;
-import samples.MyBean2;
-import samples.MyBean3;
-import samples.MyBean4;
-import samples.MyBean4TransferObject;
-
 import junit.framework.TestCase;
 import net.entropysoft.transmorph.converters.AbstractSimpleConverter;
 import net.entropysoft.transmorph.converters.ArrayToArray;
@@ -76,6 +70,15 @@ import net.entropysoft.transmorph.modifiers.TrimString;
 import net.entropysoft.transmorph.modifiers.UppercaseString;
 import net.entropysoft.transmorph.type.Type;
 import net.entropysoft.transmorph.type.TypeFactory;
+import samples.MyBean1;
+import samples.MyBean2;
+import samples.MyBean3;
+import samples.MyBean4;
+import samples.MyBean4TransferObject;
+import samples.MyBeanAB;
+import samples.MyBeanABTransferObject;
+import samples.MyBeanBA;
+import samples.MyBeanBATransferObject;
 
 public class ConverterTest extends TestCase {
 
@@ -792,7 +795,8 @@ public class ConverterTest extends TestCase {
 				Boolean.TYPE) {
 
 			@Override
-			public Object doConvert(ConverterContext context, Object sourceObject, Type destinationType)
+			public Object doConvert(ConversionContext context,
+					Object sourceObject, Type destinationType)
 					throws ConverterException {
 				int theInt = ((Number) sourceObject).intValue();
 				if (theInt == 0) {
@@ -935,4 +939,70 @@ public class ConverterTest extends TestCase {
 		assertEquals("3", listOfStrings.get(2));
 	}
 
+	public void testConverterWithContext() throws Exception {
+		Converter converter = new Converter(ConverterTest.class
+				.getClassLoader(), converters);
+		ConversionContext context = new ConversionContext();
+
+		List<Integer> list = new ArrayList<Integer>();
+		list.add(1);
+		list.add(2);
+		list.add(3);
+
+		// we use the same ConversionContext. This implies that the original
+		// objects to convert must not change
+		// until conversion is not finished
+
+		String[] arrayOfStrings = (String[]) converter.convert(context, list,
+				"[Ljava.lang.String;");
+
+		String[] arrayOfStrings2 = (String[]) converter.convert(context, list,
+				"[Ljava.lang.String;");
+		assertTrue(arrayOfStrings == arrayOfStrings2);
+	}
+
+	public void testBiDirectionalBean() throws Exception {
+		BeanToBean beanToBean = new BeanToBean();
+		IConverter[] converters = new IConverter[] { new NumberToNumber(),
+				new StringToNumber(), new StringToClass(), new ArrayToArray(),
+				new MapToMap(), new ArrayToCollection(),
+				new CollectionToCollection(), new CollectionToArray(),
+				new StringToFile(), new StringToURL(),
+				new CharacterArrayToString(), new StringToCharacterArray(),
+				new ObjectToString(), new DateToCalendar(),
+				new IdentityConverter(), beanToBean };
+		Converter converter = new Converter(ConverterTest.class
+				.getClassLoader(), converters);
+
+		BeanToBeanMapping beanToBeanMapping = new BeanToBeanMapping(
+				MyBeanAB.class, MyBeanABTransferObject.class);
+		beanToBean.addBeanToBeanMapping(beanToBeanMapping);
+
+		beanToBeanMapping = new BeanToBeanMapping(MyBeanBA.class,
+				MyBeanBATransferObject.class);
+		beanToBean.addBeanToBeanMapping(beanToBeanMapping);
+
+		MyBeanAB myBeanAB = new MyBeanAB();
+		myBeanAB.setId(55L);
+		List<Integer> listOfInteger = new ArrayList<Integer>();
+		listOfInteger.add(1);
+		listOfInteger.add(2);
+		listOfInteger.add(3);
+		myBeanAB.setMyIntegers(listOfInteger);
+		MyBeanBA myBeanBA = new MyBeanBA();
+		myBeanBA.setId(56L);
+		myBeanBA.setMyNumber(75);
+		myBeanAB.setMyBeanBA(myBeanBA);
+		myBeanBA.setMyBeanAB(myBeanAB);
+
+		MyBeanABTransferObject myBeanABTransferObject = (MyBeanABTransferObject) converter
+				.convert(myBeanAB, MyBeanABTransferObject.class);
+		assertNotNull(myBeanABTransferObject);
+		assertEquals(1, myBeanABTransferObject.getMyIntegers()[0]);
+		assertEquals(2, myBeanABTransferObject.getMyIntegers()[1]);
+		assertEquals(3, myBeanABTransferObject.getMyIntegers()[2]);
+		assertNotNull(myBeanABTransferObject.getMyBeanBA());
+		assertEquals(75, myBeanABTransferObject.getMyBeanBA().getMyNumber());
+		assertTrue(myBeanABTransferObject == myBeanABTransferObject.getMyBeanBA().getMyBeanAB());
+	}
 }

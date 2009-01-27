@@ -19,7 +19,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 
-import net.entropysoft.transmorph.ConverterContext;
+import net.entropysoft.transmorph.ConversionContext;
 import net.entropysoft.transmorph.ConverterException;
 import net.entropysoft.transmorph.type.Type;
 
@@ -37,7 +37,7 @@ public class URLToURI extends AbstractSimpleConverter<URL, URI> {
 	}
 
 	@Override
-	public URI doConvert(ConverterContext context, URL sourceObject, Type destinationType) throws ConverterException {
+	public URI doConvert(ConversionContext context, URL sourceObject, Type destinationType) throws ConverterException {
 		try {
 			return sourceObject.toURI();
 		} catch (URISyntaxException e) {

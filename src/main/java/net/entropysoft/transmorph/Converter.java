@@ -125,9 +125,29 @@ public class Converter implements IConverter {
 	 */
 	public Object convert(Object source, Class clazz, Class[] typeArgs)
 			throws ConverterException {
+		return convert(new ConversionContext(), source, clazz, typeArgs);
+	}
+
+	/**
+	 * Convert an object to another object with given class and given type
+	 * arguments (if any)
+	 * 
+	 * @param context
+	 * @param source
+	 *            object to convert
+	 * @param clazz
+	 *            destination class
+	 * @param typeArgs
+	 *            the type arguments or an empty array if none
+	 * @return the converted object
+	 * @throws ConverterException
+	 *             if conversion failed
+	 */
+	public Object convert(ConversionContext context, Object source, Class clazz,
+			Class[] typeArgs) throws ConverterException {
 		Type destinationType = typeFactory.getType(clazz, typeArgs);
 
-		return convert(new ConverterContext(), source, destinationType);
+		return convert(context, source, destinationType);
 	}
 
 	/**
@@ -142,11 +162,28 @@ public class Converter implements IConverter {
 	 *             if conversion failed
 	 */
 	public Object convert(Object source, Class clazz) throws ConverterException {
+		return convert(new ConversionContext(), source, clazz);
+	}
+
+	/**
+	 * Convert an object to another object with given class
+	 * 
+	 * @param context
+	 * @param source
+	 *            object to convert
+	 * @param clazz
+	 *            destination class
+	 * @return the converted object
+	 * @throws ConverterException
+	 *             if conversion failed
+	 */
+	public Object convert(ConversionContext context, Object source, Class clazz)
+			throws ConverterException {
 		TypeSignature typeSignature = TypeSignatureFactory
 				.getTypeSignature(clazz);
 		Type destinationType = typeFactory.getType(typeSignature);
 
-		return convert(new ConverterContext(), source, destinationType);
+		return convert(context, source, destinationType);
 	}
 
 	/**
@@ -164,11 +201,30 @@ public class Converter implements IConverter {
 				parameterizedTypeSignature, useInternalFormFullyQualifiedName);
 		Type destinationType = typeFactory.getType(typeSignature);
 
-		return convert(new ConverterContext(), source, destinationType);
+		return convert(new ConversionContext(), source, destinationType);
 	}
 
 	/**
 	 * Convert an object to another object given a parameterized type signature
+	 * @param context
+	 * @param source
+	 * @param parameterizedTypeSignature
+	 * @return
+	 * @throws ConverterException
+	 * @see {@link #setUseInternalFormFullyQualifiedName(boolean)} 
+	 */
+	public Object convert(ConversionContext context, Object source, String parameterizedTypeSignature)
+			throws ConverterException {
+		TypeSignature typeSignature = TypeSignatureFactory.getTypeSignature(
+				parameterizedTypeSignature, useInternalFormFullyQualifiedName);
+		Type destinationType = typeFactory.getType(typeSignature);
+
+		return convert(context, source, destinationType);
+	}
+
+	/**
+	 * Convert an object to another object given a parameterized type signature
+	 * 
 	 * @param destinationType
 	 *            the destination type
 	 * @param source
@@ -177,15 +233,16 @@ public class Converter implements IConverter {
 	 * @return the converted object
 	 * @throws ConverterException
 	 */
-	public Object convert(ConverterContext context, Object source, Type destinationType)
-			throws ConverterException {
+	public Object convert(ConversionContext context, Object source,
+			Type destinationType) throws ConverterException {
 		ConverterException firstException = null;
 
 		try {
 			for (IConverter converter : converters) {
 				if (converter.canHandle(context, source, destinationType)) {
 					try {
-						return converter.convert(context, source, destinationType);
+						return converter.convert(context, source,
+								destinationType);
 					} catch (ConverterException e) {
 						// canHandle do
 						// not verify all cases. An other converter
@@ -226,9 +283,8 @@ public class Converter implements IConverter {
 		}
 	}
 
-	
-	
-	public boolean canHandle(ConverterContext context, Object sourceObject, Type destinationType) {
+	public boolean canHandle(ConversionContext context, Object sourceObject,
+			Type destinationType) {
 		for (IConverter converter : converters) {
 			if (!canHandle(context, sourceObject, destinationType)) {
 				return false;

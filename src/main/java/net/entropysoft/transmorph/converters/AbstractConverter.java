@@ -15,8 +15,8 @@
  */
 package net.entropysoft.transmorph.converters;
 
+import net.entropysoft.transmorph.ConversionContext;
 import net.entropysoft.transmorph.ConvertedObjectPool;
-import net.entropysoft.transmorph.ConverterContext;
 import net.entropysoft.transmorph.ConverterException;
 import net.entropysoft.transmorph.IConverter;
 import net.entropysoft.transmorph.modifiers.IModifier;
@@ -36,7 +36,7 @@ public abstract class AbstractConverter implements IConverter {
 
 	protected boolean useObjectPool = false;
 
-	public Object convert(ConverterContext context, Object sourceObject,
+	public Object convert(ConversionContext context, Object sourceObject,
 			Type destinationType) throws ConverterException {
 		Object convertedObject;
 		ConvertedObjectPool objectPool = context.getConvertedObjectPool();
@@ -69,11 +69,11 @@ public abstract class AbstractConverter implements IConverter {
 		}
 	}
 
-	public abstract Object doConvert(ConverterContext context,
+	public abstract Object doConvert(ConversionContext context,
 			Object sourceObject, Type destinationType)
 			throws ConverterException;
 
-	protected Object applyModifiers(ConverterContext context, Object object,
+	protected Object applyModifiers(ConversionContext context, Object object,
 			Type destinationType) throws ConverterException {
 		Object initialObject = object;
 		for (IModifier modifier : modifiers) {
@@ -123,7 +123,7 @@ public abstract class AbstractConverter implements IConverter {
 		this.useObjectPool = useObjectPool;
 	}
 
-	public boolean canHandle(ConverterContext context, Object sourceObject,
+	public boolean canHandle(ConversionContext context, Object sourceObject,
 			Type destinationType) {
 		return canHandleDestinationType(destinationType)
 				&& canHandleSourceObject(sourceObject);

@@ -15,11 +15,8 @@
  */
 package net.entropysoft.transmorph.converters;
 
-import java.text.MessageFormat;
-
 import net.entropysoft.transmorph.ConversionContext;
 import net.entropysoft.transmorph.ConverterException;
-import net.entropysoft.transmorph.type.PrimitiveType;
 import net.entropysoft.transmorph.type.Type;
 
 /**
@@ -31,67 +28,9 @@ import net.entropysoft.transmorph.type.Type;
  */
 public class IdentityConverter extends AbstractConverter {
 
-	public Object doConvert(ConversionContext context, Object sourceObject, Type destinationType) throws ConverterException {
-		if (sourceObject == null) {
-			// always handle the case where source object is null if
-			// destination type is not a primitive
-			if (destinationType.isPrimitive()) {
-				throw new ConverterException(
-						"Cannot convert null to a primitive type");
-			}
-		}
-
-		if (destinationType.isPrimitive()) {
-			// also handle the case where destination type is a primitive type
-			// and source object is a wrapper
-			PrimitiveType primitiveType = (PrimitiveType)destinationType;
-			if (primitiveType.isBoolean()
-					&& sourceObject instanceof Boolean) {
-				return sourceObject;
-			} else
-			if (primitiveType.isByte()
-					&& sourceObject instanceof Byte) {
-				return sourceObject;
-			} else
-			if (primitiveType.isChar()
-					&& sourceObject instanceof Character) {
-				return sourceObject;
-			} else
-			if (primitiveType.isDouble()
-					&& sourceObject instanceof Double) {
-				return sourceObject;
-			} else
-			if (primitiveType.isFloat()
-					&& sourceObject instanceof Float) {
-				return sourceObject;
-			} else
-			if (primitiveType.isInt()
-					&& sourceObject instanceof Integer) {
-				return sourceObject;
-			} else
-			if (primitiveType.isLong()
-					&& sourceObject instanceof Long) {
-				return sourceObject;
-			} else
-			if (primitiveType.isShort()
-					&& sourceObject instanceof Short) {
-				return sourceObject;
-			} else {
-				throw new ConverterException(MessageFormat.format(
-						"Cannot convert ''{0}'' to primitive type", sourceObject.getClass()));
-			}
-		}
-
-		try {
-			if (destinationType.isSuperOf(sourceObject.getClass())) {
-				return sourceObject;
-			}
-		} catch (ClassNotFoundException e) {
-			throw new ConverterException(MessageFormat.format("Cannot convert ''{0}'' to ''{1}''",
-					sourceObject.getClass(), destinationType.getName()));
-		}
-		throw new ConverterException(MessageFormat.format("Cannot convert ''{0}'' to ''{1}''",
-				sourceObject.getClass(), destinationType.getName()));
+	public Object doConvert(ConversionContext context, Object sourceObject,
+			Type destinationType) throws ConverterException {
+		return sourceObject;
 	}
 
 	protected boolean canHandleDestinationType(Type destinationType) {
@@ -100,6 +39,20 @@ public class IdentityConverter extends AbstractConverter {
 
 	protected boolean canHandleSourceObject(Object sourceObject) {
 		return true;
+	}
+
+	@Override
+	public boolean canHandle(ConversionContext context, Object sourceObject,
+			Type destinationType) {
+		if (sourceObject == null && !destinationType.isPrimitive()) {
+			return true;
+		}
+
+		try {
+			return destinationType.isInstance(sourceObject);
+		} catch (ClassNotFoundException e) {
+			return false;
+		}
 	}
 
 }

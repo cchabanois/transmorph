@@ -30,15 +30,30 @@ import net.entropysoft.transmorph.type.TypeUtils;
  * 
  */
 public class NumberToNumber extends AbstractConverter {
+	private Number nullReplacementForPrimitive = null;
 
 	public NumberToNumber() {
 		this.useObjectPool = true;
 	}
-	
-	public Object doConvert(ConversionContext context, Object sourceObject, Type destinationType) throws ConverterException {
+
+	public Number getNullReplacementForPrimitive() {
+		return nullReplacementForPrimitive;
+	}
+
+	public void setNullReplacementForPrimitive(Number nullReplacement) {
+		this.nullReplacementForPrimitive = nullReplacement;
+	}
+
+	public Object doConvert(ConversionContext context, Object sourceObject,
+			Type destinationType) throws ConverterException {
 		if (sourceObject == null) {
 			if (destinationType.isPrimitive()) {
-				throw new ConverterException("Cannot convert null to a primitive number"); 
+				if (nullReplacementForPrimitive != null) {
+					sourceObject = nullReplacementForPrimitive;
+				} else {
+					throw new ConverterException(
+							"Cannot convert null to a primitive number");
+				}
 			} else
 				return null;
 		}

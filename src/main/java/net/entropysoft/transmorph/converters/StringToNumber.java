@@ -17,6 +17,7 @@ package net.entropysoft.transmorph.converters;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.text.MessageFormat;
 
 import net.entropysoft.transmorph.ConversionContext;
 import net.entropysoft.transmorph.ConverterException;
@@ -43,8 +44,8 @@ public class StringToNumber extends AbstractConverter {
 			} else
 				return null;
 		}
+		String sourceString = (String) sourceObject;
 		try {
-			String sourceString = (String) sourceObject;
 			if (destinationType.getType().equals(Byte.TYPE)
 					|| destinationType.getType().equals(Byte.class)) {
 				return Byte.parseByte(sourceString);
@@ -84,7 +85,8 @@ public class StringToNumber extends AbstractConverter {
 			}
 			throw new ConverterException("Could not convert");
 		} catch (NumberFormatException e) {
-			throw new ConverterException("Could not convert", e);
+			throw new ConverterException(MessageFormat.format("Could not convert from ''{0}'' to object with type signature ''{1}''",
+					sourceString, destinationType.toString()), e);
 		} catch (ClassNotFoundException e) {
 			throw new ConverterException("Could not convert", e);
 		}

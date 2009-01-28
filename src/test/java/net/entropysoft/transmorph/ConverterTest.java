@@ -61,6 +61,7 @@ import net.entropysoft.transmorph.converters.StringToURI;
 import net.entropysoft.transmorph.converters.StringToURL;
 import net.entropysoft.transmorph.converters.URIToURL;
 import net.entropysoft.transmorph.converters.URLToURI;
+import net.entropysoft.transmorph.converters.WrapperToPrimitive;
 import net.entropysoft.transmorph.converters.beans.BeanPropertyTypeProvider;
 import net.entropysoft.transmorph.converters.beans.BeanToBean;
 import net.entropysoft.transmorph.converters.beans.BeanToBeanMapping;
@@ -84,156 +85,29 @@ import samples.MyBeanBATransferObject;
 public class ConverterTest extends TestCase {
 
 	private final static IConverter[] converters = new IConverter[] {
-			new NumberToNumber(), new StringToNumber(), new StringToBoolean(),
-			new StringToEnum(), new StringToStringBuffer(),
-			new StringToStringBuilder(), new StringToClass(),
-			new ClassToString(), new ArrayToArray(), new MapToMap(),
-			new ArrayToCollection(), new CollectionToCollection(),
-			new CollectionToArray(), new StringToFile(), new StringToURL(),
-			new StringToURI(), new URIToURL(), new URLToURI(),
-			new CharacterArrayToString(), new StringToCharacterArray(),
-			new StringToQName(), new StringToTimeZone(), new ObjectToString(),
-			new DateToCalendar(), new CalendarToDate(), new IdentityConverter() };
-
-	public void testMapToMap() throws Exception {
-		Converter converter = new Converter(ConverterTest.class
-				.getClassLoader(), converters);
-		converter.setUseInternalFormFullyQualifiedName(false);
-
-		// Map[String, String[]] => Map<String,List<String>> (MapToMapConverter
-		// and ArrayToListConverter)
-		Map map = new HashMap();
-		map.put("key1", new String[] { "value1-1", "value1-2" });
-		map.put("key2", new String[] { "value2-1", "value2-2" });
-		map.put("key3", null);
-		map.put("key4", new String[] { null, null });
-		map.put(null, new String[] { "value5-1", "value5-2" });
-		ConversionContext context = new ConversionContext();
-		context.setStoreUsedConverters(true);
-		Map<String, List<String>> converted = (Map<String, List<String>>) converter
-				.convert(context, map,
-						"Ljava.util.Map<Ljava.lang.String;Ljava.util.List<Ljava.lang.String;>;>;");
-		System.out.println(context.getUsedConverters());
-		List<String> list1 = converted.get("key1");
-		assertEquals("value1-1", list1.get(0));
-		assertEquals("value1-2", list1.get(1));
-		List<String> list2 = converted.get("key2");
-		assertEquals("value2-1", list2.get(0));
-		assertEquals("value2-2", list2.get(1));
-		List<String> list3 = converted.get("key3");
-		assertEquals(null, list3);
-		List<String> list4 = converted.get("key4");
-		assertEquals(null, list4.get(0));
-		assertEquals(null, list4.get(1));
-		assertTrue(converted.containsKey(null));
-		List<String> list5 = converted.get(null);
-		assertEquals("value5-1", list5.get(0));
-		assertEquals("value5-2", list5.get(1));
-	}
-
-	public void testMapToProperties() throws Exception {
-		Converter converter = new Converter(ConverterTest.class
-				.getClassLoader(), converters);
-
-		Map<String, Integer> map = new HashMap<String, Integer>();
-		map.put("key1", 1);
-		map.put("key2", 2);
-
-		Properties properties = (Properties) converter.convert(map,
-				Properties.class);
-		assertNotNull(properties);
-		assertEquals("1", properties.get("key1"));
-		assertEquals("2", properties.get("key2"));
-	}
-
-	public void testArrayToList() throws Exception {
-		Converter converter = new Converter(ConverterTest.class
-				.getClassLoader(), converters);
-		converter.setUseInternalFormFullyQualifiedName(false);
-
-		// int[] => List<Integer> (ArrayToListConverter)
-		int[] arrayOfInts = new int[] { 0, 1, 2, 3, 4, 5 };
-		List<Integer> listOfInts = (List<Integer>) converter.convert(
-				arrayOfInts, List.class, new Class[] { Integer.class });
-		assertEquals(6, listOfInts.size());
-		for (int i = 0; i < 6; i++) {
-			assertEquals(i, listOfInts.get(i).intValue());
-		}
-
-		// int[] => List<*> (ArrayToListConverter)
-		List<?> arrayOfSomething = (List<?>) converter.convert(arrayOfInts,
-				"Ljava.util.List<*>;");
-		assertNotNull(arrayOfSomething);
-		assertEquals(6, arrayOfSomething.size());
-		for (int i = 0; i < 6; i++) {
-			assertEquals(i, arrayOfSomething.get(i));
-		}
-
-		// int[] => LinkedList<Integer> (ArrayToListConverter)
-		LinkedList<Integer> linkedList = (LinkedList<Integer>) converter
-				.convert(arrayOfInts, LinkedList.class,
-						new Class[] { Integer.class });
-		assertNotNull(linkedList);
-		assertEquals(6, linkedList.size());
-		for (int i = 0; i < 6; i++) {
-			assertEquals(i, linkedList.get(i).intValue());
-		}
-
-		// String[] => List<? extends Number> (ArrayToListConverter)
-		String[] arrayOfStrings = new String[] { "0", "1", "2", "3", "4", "5" };
-		List<? extends Number> listOfNumbers = (List<? extends Number>) converter
-				.convert(arrayOfStrings,
-						"Ljava.util.List<+Ljava.lang.Number;>;");
-		assertNotNull(listOfNumbers);
-		assertEquals(6, listOfNumbers.size());
-		for (int i = 0; i < 6; i++) {
-			assertEquals(i, listOfNumbers.get(i).intValue());
-		}
-	}
-
-	public void testArrayToArray() throws Exception {
-		Converter converter = new Converter(ConverterTest.class
-				.getClassLoader(), converters);
-
-		// Object[] => String[] (ArrayToArrayConverter)
-		Object[] arrayOfObjects = new Object[] { "one", "two", "three" };
-		String[] arrayOfStrings = (String[]) converter.convert(arrayOfObjects,
-				(new String[0]).getClass());
-		assertEquals("one", arrayOfStrings[0]);
-		assertEquals("two", arrayOfStrings[1]);
-		assertEquals("three", arrayOfStrings[2]);
-
-		// int[][] => String[][] (ArrayToArrayConverter)
-		int[][] arrayOfArrayOfInts = new int[][] { { 11, 12, 13 },
-				{ 21, 22, 23 }, { 31 } };
-		String[][] arrayOfArrayOfStrings = (String[][]) converter.convert(
-				arrayOfArrayOfInts, (new String[0][0]).getClass());
-		for (int i = 0; i < arrayOfArrayOfInts.length; i++) {
-			for (int j = 0; j < arrayOfArrayOfInts[i].length; j++) {
-				assertEquals(Integer.toString(arrayOfArrayOfInts[i][j]),
-						arrayOfArrayOfStrings[i][j]);
-			}
-		}
-
-		// int[] => String[][] (ArrayToArrayConverter)
-		int[] arrayOfInts = new int[] { 0, 1, 2, 3, 4, 5 };
-		try {
-			arrayOfArrayOfStrings = (String[][]) converter.convert(arrayOfInts,
-					(new String[0][0]).getClass());
-			fail("Should not have been able to convert");
-		} catch (ConverterException e) {
-
-		}
-	}
+			new WrapperToPrimitive(), new NumberToNumber(),
+			new StringToNumber(), new StringToBoolean(), new StringToEnum(),
+			new StringToStringBuffer(), new StringToStringBuilder(),
+			new StringToClass(), new ClassToString(), new ArrayToArray(),
+			new MapToMap(), new ArrayToCollection(),
+			new CollectionToCollection(), new CollectionToArray(),
+			new StringToFile(), new StringToURL(), new StringToURI(),
+			new URIToURL(), new URLToURI(), new CharacterArrayToString(),
+			new StringToCharacterArray(), new StringToQName(),
+			new StringToTimeZone(), new ObjectToString(), new DateToCalendar(),
+			new CalendarToDate(), new IdentityConverter() };
 
 	public void testPrimitiveToWrapper() throws Exception {
 		Converter converter = new Converter(ConverterTest.class
 				.getClassLoader(), converters);
+		ConversionContext conversionContext = new ConversionContext();
+		conversionContext.setStoreUsedConverters(true);
 		boolean[] booleans = new boolean[] { true, false };
-		Boolean[] booleanWrappers = (Boolean[]) converter.convert(booleans,
-				Boolean[].class);
+		Boolean[] booleanWrappers = (Boolean[]) converter.convert(
+				conversionContext, booleans, Boolean[].class);
 		assertEquals(Boolean.TRUE, booleanWrappers[0]);
 		assertEquals(Boolean.FALSE, booleanWrappers[1]);
+		System.out.println(conversionContext.getUsedConverters());
 	}
 
 	public void testWrapperToPrimitive() throws Exception {
@@ -244,36 +118,6 @@ public class ConverterTest extends TestCase {
 				boolean[].class);
 		assertEquals(true, booleans[0]);
 		assertEquals(false, booleans[1]);
-	}
-
-	public void testCharacterToString() throws Exception {
-		Converter converter = new Converter(ConverterTest.class
-				.getClassLoader(), converters);
-		char myChar = 'c';
-		String str = (String) converter.convert(myChar, String.class);
-		assertEquals("c", str);
-	}
-
-	public void testStringToNumber() throws Exception {
-		Converter converter = new Converter(ConverterTest.class
-				.getClassLoader(), converters);
-
-		// String => int (StringToNumberConverter)
-		String myStr = "50";
-		int myInt = (Integer) converter.convert(myStr, Integer.TYPE);
-		assertEquals(50, myInt);
-
-		// String => BigDecimal (StringToNumberConverter)
-		BigDecimal bigDecimal = (BigDecimal) converter
-				.convert("5.56564546546464646577775612321443244664456",
-						BigDecimal.class);
-		assertEquals("5.56564546546464646577775612321443244664456", bigDecimal
-				.toString());
-
-		Number number = (Number) converter.convert(
-				"5.56564546546464646577775612321443244664456", Number.class);
-		assertNotNull(number);
-		assertTrue(number instanceof Double);
 	}
 
 	public void testStringToBoolean() throws Exception {
@@ -401,34 +245,6 @@ public class ConverterTest extends TestCase {
 		for (int i = 0; i < 6; i++) {
 			assertTrue(setOfInts.contains(i));
 		}
-	}
-
-	public void testNumberToNumber() throws Exception {
-		Converter converter = new Converter(ConverterTest.class
-				.getClassLoader(), converters);
-
-		// int => long (NumberToNumberConverter)
-		int myInt = 55;
-		long myLong = (Long) converter.convert(myInt, Long.TYPE);
-		assertEquals(55, myLong);
-
-		try {
-			myLong = (Long) converter.convert(null, Long.TYPE);
-			fail("Should not have been able to convert");
-		} catch (ConverterException e) {
-
-		}
-		Long myLongWrapper = (Long) converter.convert(null, Long.class);
-		assertEquals(null, myLongWrapper);
-
-		// int => Long (NumberToNumberConverter)
-		assertEquals(new Long(55), converter.convert(55, Long.class));
-
-		// int => BigInteger (NumberToNumberConverter)
-		assertEquals(BigInteger.valueOf(55), (BigInteger) converter.convert(55,
-				BigInteger.class));
-
-		assertEquals((byte) 1, converter.convert(257, Byte.TYPE));
 	}
 
 	public void testStringToFile() throws Exception {
@@ -1037,12 +853,13 @@ public class ConverterTest extends TestCase {
 		assertTrue(myBeanABTransferObject == myBeanABTransferObject
 				.getMyBeanBA().getMyBeanAB());
 	}
-	
+
 	public void testClassToString() throws Exception {
 		Converter converter = new Converter(ConverterTest.class
 				.getClassLoader(), converters);
-		String str = (String)converter.convert(ConverterTest.class, String.class);
+		String str = (String) converter.convert(ConverterTest.class,
+				String.class);
 		assertEquals(ConverterTest.class.getName(), str);
 	}
-	
+
 }

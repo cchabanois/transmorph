@@ -32,8 +32,7 @@ public class ConversionContext {
 	private Map<String, Object> map = new HashMap<String, Object>();
 	private UsedConverters usedConverters = new UsedConverters();
 	private boolean storeUsedConverters = false;
-	
-	
+
 	public boolean isStoreUsedConverters() {
 		return storeUsedConverters;
 	}
@@ -42,18 +41,18 @@ public class ConversionContext {
 		this.storeUsedConverters = storeUsedConverters;
 	}
 
-
 	/**
 	 * get the pool of converted objects
+	 * 
 	 * @return
 	 */
 	public ConvertedObjectPool getConvertedObjectPool() {
 		return convertedObjectPool;
 	}
 
-	
 	/**
-	 * get the converters that have been used for conversion 
+	 * get the converters that have been used for conversion
+	 * 
 	 * @return
 	 */
 	public UsedConverters getUsedConverters() {

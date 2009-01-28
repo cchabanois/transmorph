@@ -207,12 +207,12 @@ public class TypeSignatureParser {
 		int ch = peekChar();
 		switch (ch) {
 		case '*':
-			return new TypeArgSignature((char) nextChar('*'), null);
+			return new TypeArgSignature((char) nextChar(TypeArgSignature.UNBOUNDED_WILDCARD), null);
 		case '+':
-			return new TypeArgSignature((char) nextChar('+'),
+			return new TypeArgSignature((char) nextChar(TypeArgSignature.UPPERBOUND_WILDCARD),
 					parseFieldTypeSignature());
 		case '-':
-			return new TypeArgSignature((char) nextChar('-'),
+			return new TypeArgSignature((char) nextChar(TypeArgSignature.LOWERBOUND_WILDCARD),
 					parseFieldTypeSignature());
 		default:
 			return new TypeArgSignature(TypeArgSignature.NO_WILDCARD,

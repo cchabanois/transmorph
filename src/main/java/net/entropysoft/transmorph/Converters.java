@@ -28,10 +28,10 @@ import net.entropysoft.transmorph.converters.NumberToNumber;
 import net.entropysoft.transmorph.converters.ObjectToString;
 import net.entropysoft.transmorph.converters.StringToBoolean;
 import net.entropysoft.transmorph.converters.StringToClass;
-import net.entropysoft.transmorph.converters.StringToEnum;
 import net.entropysoft.transmorph.converters.StringToNumber;
 import net.entropysoft.transmorph.converters.StringToStringBuffer;
 import net.entropysoft.transmorph.converters.StringToStringBuilder;
+import net.entropysoft.transmorph.converters.enums.StringToEnum;
 
 public class Converters {
 

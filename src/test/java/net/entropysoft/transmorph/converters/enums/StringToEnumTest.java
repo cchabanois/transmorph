@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.entropysoft.transmorph.converters;
+package net.entropysoft.transmorph.converters.enums;
 
 import java.lang.annotation.RetentionPolicy;
 
@@ -21,6 +21,7 @@ import junit.framework.TestCase;
 import net.entropysoft.transmorph.Converter;
 import net.entropysoft.transmorph.ConverterException;
 import net.entropysoft.transmorph.ConverterTest;
+import net.entropysoft.transmorph.converters.TestConverters;
 
 public class StringToEnumTest extends TestCase {
 

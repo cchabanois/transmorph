@@ -14,7 +14,6 @@ public class AllTests {
         suite.addTest(net.entropysoft.transmorph.signature.AllTests.suite());
         suite.addTest(net.entropysoft.transmorph.type.AllTests.suite());
         suite.addTest(net.entropysoft.transmorph.converters.AllTests.suite());
-        suite.addTest(net.entropysoft.transmorph.converters.beans.AllTests.suite());
         suite.addTestSuite(ConverterTest.class);
         return suite;
     }

@@ -22,7 +22,6 @@ import net.entropysoft.transmorph.converters.ObjectToString;
 import net.entropysoft.transmorph.converters.StringToBoolean;
 import net.entropysoft.transmorph.converters.StringToCharacterArray;
 import net.entropysoft.transmorph.converters.StringToClass;
-import net.entropysoft.transmorph.converters.StringToEnum;
 import net.entropysoft.transmorph.converters.StringToFile;
 import net.entropysoft.transmorph.converters.StringToNumber;
 import net.entropysoft.transmorph.converters.StringToQName;
@@ -33,6 +32,7 @@ import net.entropysoft.transmorph.converters.StringToURI;
 import net.entropysoft.transmorph.converters.StringToURL;
 import net.entropysoft.transmorph.converters.URIToURL;
 import net.entropysoft.transmorph.converters.URLToURI;
+import net.entropysoft.transmorph.converters.enums.StringToEnum;
 
 public class ConverterPerformanceTest extends TestCase {
 

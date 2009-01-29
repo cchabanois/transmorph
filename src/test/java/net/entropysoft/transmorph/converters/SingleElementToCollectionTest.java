@@ -21,6 +21,7 @@ import junit.framework.TestCase;
 import net.entropysoft.transmorph.Converter;
 import net.entropysoft.transmorph.ConverterTest;
 import net.entropysoft.transmorph.IConverter;
+import net.entropysoft.transmorph.converters.enums.StringToEnum;
 
 public class SingleElementToCollectionTest extends TestCase {
 

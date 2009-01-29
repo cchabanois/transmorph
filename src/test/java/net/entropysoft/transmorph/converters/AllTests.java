@@ -15,6 +15,7 @@
  */
 package net.entropysoft.transmorph.converters;
 
+import net.entropysoft.transmorph.converters.enums.StringToEnumTest;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
@@ -25,7 +26,6 @@ public class AllTests {
 				"Test for net.entropysoft.transmorph.converters");
 		//$JUnit-BEGIN$
 		suite.addTestSuite(ObjectToObjectUsingConstructorTest.class);
-		suite.addTestSuite(StringToEnumTest.class);
 		suite.addTestSuite(NumberToNumberTest.class);
 		suite.addTestSuite(DateToCalendarTest.class);
 		suite.addTestSuite(CalendarToDateTest.class);
@@ -62,6 +62,12 @@ public class AllTests {
 		suite.addTestSuite(IdentityConverterTest.class);
 		suite.addTestSuite(URLToURITest.class);
 		//$JUnit-END$
+
+		suite.addTest(net.entropysoft.transmorph.converters.beans.AllTests
+				.suite());
+		suite.addTest(net.entropysoft.transmorph.converters.enums.AllTests
+				.suite());
+
 		return suite;
 	}
 

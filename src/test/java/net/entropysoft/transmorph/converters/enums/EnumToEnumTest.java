@@ -19,8 +19,8 @@ import junit.framework.TestCase;
 import net.entropysoft.transmorph.Converter;
 import net.entropysoft.transmorph.ConverterException;
 import net.entropysoft.transmorph.IConverter;
-import net.entropysoft.transmorph.converters.ArrayToArray;
 import net.entropysoft.transmorph.converters.TestConverters;
+import net.entropysoft.transmorph.converters.collections.ArrayToArray;
 
 public class EnumToEnumTest extends TestCase {
 

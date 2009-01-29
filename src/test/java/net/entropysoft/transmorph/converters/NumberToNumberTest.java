@@ -22,6 +22,7 @@ import net.entropysoft.transmorph.Converter;
 import net.entropysoft.transmorph.ConverterException;
 import net.entropysoft.transmorph.ConverterTest;
 import net.entropysoft.transmorph.IConverter;
+import net.entropysoft.transmorph.converters.collections.ArrayToArray;
 
 public class NumberToNumberTest extends TestCase {
 

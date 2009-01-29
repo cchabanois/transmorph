@@ -26,6 +26,7 @@ import net.entropysoft.transmorph.Converter;
 import net.entropysoft.transmorph.ConverterException;
 import net.entropysoft.transmorph.ConverterTest;
 import net.entropysoft.transmorph.IConverter;
+import net.entropysoft.transmorph.converters.collections.ArrayToCollection;
 import net.entropysoft.transmorph.modifiers.IModifier;
 import net.entropysoft.transmorph.modifiers.UppercaseString;
 import net.entropysoft.transmorph.type.Type;

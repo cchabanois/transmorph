@@ -15,15 +15,10 @@
  */
 package net.entropysoft.transmorph;
 
-import net.entropysoft.transmorph.converters.ArrayToArray;
-import net.entropysoft.transmorph.converters.ArrayToCollection;
 import net.entropysoft.transmorph.converters.CalendarToDate;
 import net.entropysoft.transmorph.converters.ClassToString;
-import net.entropysoft.transmorph.converters.CollectionToArray;
-import net.entropysoft.transmorph.converters.CollectionToCollection;
 import net.entropysoft.transmorph.converters.DateToCalendar;
 import net.entropysoft.transmorph.converters.IdentityConverter;
-import net.entropysoft.transmorph.converters.MapToMap;
 import net.entropysoft.transmorph.converters.NumberToNumber;
 import net.entropysoft.transmorph.converters.ObjectToString;
 import net.entropysoft.transmorph.converters.StringToBoolean;
@@ -31,6 +26,11 @@ import net.entropysoft.transmorph.converters.StringToClass;
 import net.entropysoft.transmorph.converters.StringToNumber;
 import net.entropysoft.transmorph.converters.StringToStringBuffer;
 import net.entropysoft.transmorph.converters.StringToStringBuilder;
+import net.entropysoft.transmorph.converters.collections.ArrayToArray;
+import net.entropysoft.transmorph.converters.collections.ArrayToCollection;
+import net.entropysoft.transmorph.converters.collections.CollectionToArray;
+import net.entropysoft.transmorph.converters.collections.CollectionToCollection;
+import net.entropysoft.transmorph.converters.collections.MapToMap;
 import net.entropysoft.transmorph.converters.enums.StringToEnum;
 
 public class Converters {

@@ -8,15 +8,10 @@ import java.util.List;
 import java.util.Map;
 
 import junit.framework.TestCase;
-import net.entropysoft.transmorph.converters.ArrayToArray;
-import net.entropysoft.transmorph.converters.ArrayToCollection;
 import net.entropysoft.transmorph.converters.CalendarToDate;
 import net.entropysoft.transmorph.converters.CharacterArrayToString;
-import net.entropysoft.transmorph.converters.CollectionToArray;
-import net.entropysoft.transmorph.converters.CollectionToCollection;
 import net.entropysoft.transmorph.converters.DateToCalendar;
 import net.entropysoft.transmorph.converters.IdentityConverter;
-import net.entropysoft.transmorph.converters.MapToMap;
 import net.entropysoft.transmorph.converters.NumberToNumber;
 import net.entropysoft.transmorph.converters.ObjectToString;
 import net.entropysoft.transmorph.converters.StringToBoolean;
@@ -32,6 +27,11 @@ import net.entropysoft.transmorph.converters.StringToURI;
 import net.entropysoft.transmorph.converters.StringToURL;
 import net.entropysoft.transmorph.converters.URIToURL;
 import net.entropysoft.transmorph.converters.URLToURI;
+import net.entropysoft.transmorph.converters.collections.ArrayToArray;
+import net.entropysoft.transmorph.converters.collections.ArrayToCollection;
+import net.entropysoft.transmorph.converters.collections.CollectionToArray;
+import net.entropysoft.transmorph.converters.collections.CollectionToCollection;
+import net.entropysoft.transmorph.converters.collections.MapToMap;
 import net.entropysoft.transmorph.converters.enums.StringToEnum;
 
 public class ConverterPerformanceTest extends TestCase {

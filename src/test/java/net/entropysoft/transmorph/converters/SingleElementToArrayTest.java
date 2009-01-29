@@ -19,6 +19,10 @@ import junit.framework.TestCase;
 import net.entropysoft.transmorph.Converter;
 import net.entropysoft.transmorph.ConverterTest;
 import net.entropysoft.transmorph.IConverter;
+import net.entropysoft.transmorph.converters.collections.ArrayToArray;
+import net.entropysoft.transmorph.converters.collections.ArrayToCollection;
+import net.entropysoft.transmorph.converters.collections.CollectionToCollection;
+import net.entropysoft.transmorph.converters.collections.MapToMap;
 import net.entropysoft.transmorph.converters.enums.StringToEnum;
 
 public class SingleElementToArrayTest extends TestCase {

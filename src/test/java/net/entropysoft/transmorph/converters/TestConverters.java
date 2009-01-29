@@ -16,6 +16,11 @@
 package net.entropysoft.transmorph.converters;
 
 import net.entropysoft.transmorph.IConverter;
+import net.entropysoft.transmorph.converters.collections.ArrayToArray;
+import net.entropysoft.transmorph.converters.collections.ArrayToCollection;
+import net.entropysoft.transmorph.converters.collections.CollectionToArray;
+import net.entropysoft.transmorph.converters.collections.CollectionToCollection;
+import net.entropysoft.transmorph.converters.collections.MapToMap;
 import net.entropysoft.transmorph.converters.enums.EnumToEnum;
 import net.entropysoft.transmorph.converters.enums.StringToEnum;
 

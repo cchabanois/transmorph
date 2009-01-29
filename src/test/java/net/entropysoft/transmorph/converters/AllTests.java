@@ -15,9 +15,13 @@
  */
 package net.entropysoft.transmorph.converters;
 
-import net.entropysoft.transmorph.converters.enums.StringToEnumTest;
 import junit.framework.Test;
 import junit.framework.TestSuite;
+import net.entropysoft.transmorph.converters.collections.ArrayToArrayTest;
+import net.entropysoft.transmorph.converters.collections.ArrayToCollectionTest;
+import net.entropysoft.transmorph.converters.collections.CollectionToArrayTest;
+import net.entropysoft.transmorph.converters.collections.CollectionToCollectionTest;
+import net.entropysoft.transmorph.converters.collections.MapToMapTest;
 
 public class AllTests {
 

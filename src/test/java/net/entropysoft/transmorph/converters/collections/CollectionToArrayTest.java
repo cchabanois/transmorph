@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.entropysoft.transmorph.converters;
+package net.entropysoft.transmorph.converters.collections;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +21,7 @@ import java.util.List;
 import junit.framework.TestCase;
 import net.entropysoft.transmorph.Converter;
 import net.entropysoft.transmorph.ConverterTest;
+import net.entropysoft.transmorph.converters.TestConverters;
 
 public class CollectionToArrayTest extends TestCase {
 

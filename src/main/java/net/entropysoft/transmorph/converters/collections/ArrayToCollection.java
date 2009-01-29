@@ -13,8 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.entropysoft.transmorph.converters;
+package net.entropysoft.transmorph.converters.collections;
 
+import java.lang.reflect.Array;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -24,25 +25,26 @@ import java.util.Set;
 
 import net.entropysoft.transmorph.ConversionContext;
 import net.entropysoft.transmorph.ConverterException;
+import net.entropysoft.transmorph.converters.AbstractContainerConverter;
 import net.entropysoft.transmorph.type.ClassType;
 import net.entropysoft.transmorph.type.Type;
 
 /**
- * Converter used when source object type is collection and destination type is
- * also collection
+ * Converter used when source object is an array and destination type is
+ * Collection
  * 
  * @author Cedric Chabanois (cchabanois at gmail.com)
  * 
  */
-public class CollectionToCollection extends AbstractContainerConverter {
+public class ArrayToCollection extends AbstractContainerConverter {
 
 	private Class<? extends Set> defaultSetClass = HashSet.class;
 	private Class<? extends List> defaultListClass = ArrayList.class;
 
-	public CollectionToCollection() {
+	public ArrayToCollection() {
 		this.useObjectPool = true;
-	}
-
+	}	
+	
 	public Class<? extends Set> getDefaultSetClass() {
 		return defaultSetClass;
 	}
@@ -59,30 +61,29 @@ public class CollectionToCollection extends AbstractContainerConverter {
 		this.defaultListClass = defaultListClass;
 	}
 
-	public Object doConvert(ConversionContext context, Object sourceObject,
-			Type destinationType) throws ConverterException {
+	public Object doConvert(ConversionContext context, Object sourceObject, Type destinationType) throws ConverterException {
 		if (sourceObject == null) {
 			return null;
 		}
-		ClassType collectionClassType = (ClassType) destinationType;
-		Collection<Object> sourceCollection = (Collection<Object>) sourceObject;
-		Collection<Object> destinationCollection;
+		Collection<Object> destinationList;
 		try {
-			destinationCollection = createDestinationCollection(
-					sourceCollection, destinationType);
+			destinationList = createDestinationCollection(sourceObject,
+					destinationType);
 		} catch (Exception e) {
 			throw new ConverterException(
 					"Could not create destination collection", e);
 		}
-		if (destinationCollection == null) {
+		if (destinationList == null) {
 			throw new ConverterException(
 					"Could not create destination collection");
 		}
-
 		if (useObjectPool) {
-			context.getConvertedObjectPool().add(this, sourceObject,
-					destinationType, destinationCollection);
+			// add now to object pool so that elements of list can reference it
+			context.getConvertedObjectPool().add(this, sourceObject, destinationType, destinationList);
 		}
+		
+		
+		ClassType collectionClassType = (ClassType) destinationType;
 
 		Type[] destinationTypeArguments = collectionClassType
 				.getTypeArguments();
@@ -91,26 +92,28 @@ public class CollectionToCollection extends AbstractContainerConverter {
 					.getTypeFactory().getObjectType() };
 		}
 
-		for (Object obj : sourceCollection) {
-			Object convertedObj = elementConverter.convert(context, obj,
-					destinationTypeArguments[0]);
-			destinationCollection.add(convertedObj);
+		Object array = sourceObject;
+		int arrayLength = Array.getLength(array);
+		for (int i = 0; i < arrayLength; i++) {
+			Object obj = Array.get(array, i);
+			Object convertedObj = elementConverter.convert(context,
+					obj, destinationTypeArguments[0]);
+			destinationList.add(convertedObj);
 		}
-		return destinationCollection;
+		return destinationList;
 
 	}
 
-	private Collection<Object> createDestinationCollection(
-			Collection sourceObject, Type destinationType)
-			throws InstantiationException, IllegalAccessException,
-			ClassNotFoundException {
+	private Collection<Object> createDestinationCollection(Object sourceObject,
+			Type destinationType) throws InstantiationException,
+			IllegalAccessException, ClassNotFoundException {
 		Class<? extends Collection> clazz = getConcreteCollectionDestinationClass(
 				sourceObject, destinationType);
 		return clazz.newInstance();
 	}
 
 	protected Class<? extends Collection> getConcreteCollectionDestinationClass(
-			Collection sourceObject, Type destinationType)
+			Object sourceObject, Type destinationType)
 			throws ClassNotFoundException {
 		if (destinationType.isType(Set.class)) {
 			return defaultSetClass;
@@ -119,11 +122,7 @@ public class CollectionToCollection extends AbstractContainerConverter {
 			return defaultListClass;
 		}
 		if (destinationType.isType(Collection.class)) {
-			if (sourceObject instanceof Set) {
-				return defaultSetClass;
-			} else {
-				return defaultListClass;
-			}
+			return defaultListClass;
 		}
 		Class destinationClass = destinationType.getType();
 		if (destinationClass.isInterface()
@@ -140,7 +139,10 @@ public class CollectionToCollection extends AbstractContainerConverter {
 
 	protected boolean canHandleDestinationType(Type destinationType) {
 		try {
-			return destinationType.isSubOf(Collection.class);
+			if (!destinationType.isSubOf(Collection.class)) {
+				return false;
+			}
+			return true;
 		} catch (ClassNotFoundException e) {
 			return false;
 		}
@@ -150,7 +152,7 @@ public class CollectionToCollection extends AbstractContainerConverter {
 		if (sourceObject == null) {
 			return true;
 		}
-		return sourceObject instanceof Collection;
+		Class sourceObjectClass = sourceObject.getClass();
+		return sourceObjectClass.isArray();
 	}
-
 }

@@ -15,8 +15,6 @@
  */
 package net.entropysoft.transmorph.converters;
 
-import java.text.MessageFormat;
-
 import net.entropysoft.transmorph.ConversionContext;
 import net.entropysoft.transmorph.ConverterException;
 import net.entropysoft.transmorph.type.PrimitiveType;

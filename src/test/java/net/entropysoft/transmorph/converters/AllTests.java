@@ -47,6 +47,7 @@ public class AllTests {
 		suite.addTestSuite(StringToCharacterArrayTest.class);
 		suite.addTestSuite(StringToClassTest.class);
 		suite.addTestSuite(StringToCalendarTest.class);
+		suite.addTestSuite(URIToURLTest.class);
 		suite.addTestSuite(ArrayToCollectionTest.class);
 		suite.addTestSuite(StringToQNameTest.class);
 		suite.addTestSuite(SingleElementToArrayTest.class);
@@ -55,11 +56,11 @@ public class AllTests {
 		suite.addTestSuite(StringToDateTest.class);
 		suite.addTestSuite(StringToBooleanTest.class);
 		suite.addTestSuite(StringToStringBuilderTest.class);
+		suite.addTestSuite(ImmutableIdentityConverterTest.class);
 		suite.addTestSuite(CollectionToArrayTest.class);
 		suite.addTestSuite(StringToURITest.class);
 		suite.addTestSuite(IdentityConverterTest.class);
 		suite.addTestSuite(URLToURITest.class);
-		suite.addTestSuite(URIToURLTest.class);
 		//$JUnit-END$
 		return suite;
 	}

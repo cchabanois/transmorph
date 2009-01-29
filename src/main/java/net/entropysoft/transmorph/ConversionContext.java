@@ -24,7 +24,7 @@ import net.entropysoft.transmorph.context.UsedConverters;
 /**
  * The conversion context
  * 
- * @author cedric
+ * @author Cedric Chabanois (cchabanois at gmail.com)
  * 
  */
 public class ConversionContext {

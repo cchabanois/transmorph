@@ -20,7 +20,7 @@ import net.entropysoft.transmorph.IConverter;
 public class TestConverters {
 
 	public final static IConverter[] converters = new IConverter[] {
-			new WrapperToPrimitive(), new NumberToNumber(),
+			new ImmutableIdentityConverter(), new WrapperToPrimitive(), new NumberToNumber(),
 			new StringToNumber(), new StringToBoolean(), new StringToEnum(),
 			new StringToStringBuffer(), new StringToStringBuilder(),
 			new StringToClass(), new ClassToString(), new ArrayToArray(),

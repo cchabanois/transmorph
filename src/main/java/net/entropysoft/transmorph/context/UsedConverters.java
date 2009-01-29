@@ -80,79 +80,15 @@ public class UsedConverters {
 					.append(MessageFormat
 							.format(
 									"Converter ''{0}'' used to convert from ''{1}'' to destination type ''{2}''.",
-									usedConverter.converter.getClass()
+									usedConverter.getConverter().getClass()
 											.getSimpleName(),
-									usedConverter.sourceObjectClass == null ? "null"
-											: usedConverter.sourceObjectClass
+									usedConverter.getSourceObjectClass() == null ? "null"
+											: usedConverter.getSourceObjectClass()
 													.getName(),
-									usedConverter.destinationType.toString()));
+									usedConverter.getDestinationType().toString()));
 			sb.append('\n');
 		}
 		return sb.toString();
-	}
-
-	private class UsedConverter {
-		private IConverter converter;
-		private Class sourceObjectClass;
-		private Type destinationType;
-
-		public UsedConverter(IConverter converter, Class sourceObjectClass,
-				Type destinationType) {
-			this.converter = converter;
-			this.sourceObjectClass = sourceObjectClass;
-			this.destinationType = destinationType;
-		}
-
-		@Override
-		public int hashCode() {
-			final int prime = 31;
-			int result = 1;
-			result = prime * result + getOuterType().hashCode();
-			result = prime * result
-					+ ((converter == null) ? 0 : converter.hashCode());
-			result = prime
-					* result
-					+ ((destinationType == null) ? 0 : destinationType
-							.hashCode());
-			result = prime
-					* result
-					+ ((sourceObjectClass == null) ? 0 : sourceObjectClass
-							.hashCode());
-			return result;
-		}
-
-		@Override
-		public boolean equals(Object obj) {
-			if (this == obj)
-				return true;
-			if (obj == null)
-				return false;
-			if (getClass() != obj.getClass())
-				return false;
-			UsedConverter other = (UsedConverter) obj;
-			if (!getOuterType().equals(other.getOuterType()))
-				return false;
-			if (converter == null) {
-				if (other.converter != null)
-					return false;
-			} else if (!converter.equals(other.converter))
-				return false;
-			if (destinationType == null) {
-				if (other.destinationType != null)
-					return false;
-			} else if (!destinationType.equals(other.destinationType))
-				return false;
-			if (sourceObjectClass == null) {
-				if (other.sourceObjectClass != null)
-					return false;
-			} else if (!sourceObjectClass.equals(other.sourceObjectClass))
-				return false;
-			return true;
-		}
-
-		private UsedConverters getOuterType() {
-			return UsedConverters.this;
-		}
 	}
 
 }

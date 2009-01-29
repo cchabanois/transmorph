@@ -18,15 +18,16 @@ package net.entropysoft.transmorph.converters;
 import java.net.URL;
 
 import junit.framework.TestCase;
-import net.entropysoft.transmorph.Converter;
+import net.entropysoft.transmorph.Transmorph;
 import net.entropysoft.transmorph.ConverterException;
 import net.entropysoft.transmorph.ConverterTest;
+import net.entropysoft.transmorph.DefaultConverters;
 
 public class StringToURLTest extends TestCase {
 
 	public void testStringToURL() throws Exception {
-		Converter converter = new Converter(ConverterTest.class
-				.getClassLoader(), TestConverters.converters);
+		Transmorph converter = new Transmorph(ConverterTest.class
+				.getClassLoader(), new DefaultConverters());
 
 		URL url = (URL) converter.convert("http://www.entropysoft.net",
 				URL.class);

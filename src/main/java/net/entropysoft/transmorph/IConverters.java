@@ -13,21 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.entropysoft.transmorph.converters;
+package net.entropysoft.transmorph;
 
-import junit.framework.TestCase;
-import net.entropysoft.transmorph.Transmorph;
-import net.entropysoft.transmorph.ConverterTest;
-import net.entropysoft.transmorph.DefaultConverters;
+/**
+ * Set of converters to use with Transmorph
+ * 
+ * @author Cedric Chabanois (cchabanois at gmail.com)
+ * 
+ */
+public interface IConverters {
 
-public class StringToStringBuilderTest extends TestCase {
-
-	public void testStringToStringBuilder() throws Exception {
-		Transmorph converter = new Transmorph(ConverterTest.class
-				.getClassLoader(), new DefaultConverters());
-		StringBuilder sb = (StringBuilder) converter.convert("My string",
-				StringBuilder.class);
-		assertEquals("My string", sb.toString());
-	}	
-	
+	public IConverter[] getConverters();
 }

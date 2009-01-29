@@ -21,15 +21,15 @@ import java.util.List;
 import java.util.Set;
 
 import junit.framework.TestCase;
-import net.entropysoft.transmorph.Converter;
 import net.entropysoft.transmorph.ConverterTest;
-import net.entropysoft.transmorph.converters.TestConverters;
+import net.entropysoft.transmorph.DefaultConverters;
+import net.entropysoft.transmorph.Transmorph;
 
 public class ArrayToCollectionTest extends TestCase {
 
 	public void testArrayOfPrimitivesToGenericList() throws Exception {
-		Converter converter = new Converter(ConverterTest.class
-				.getClassLoader(), TestConverters.converters);
+		Transmorph converter = new Transmorph(ConverterTest.class
+				.getClassLoader(), new DefaultConverters());
 		converter.setUseInternalFormFullyQualifiedName(false);
 
 		// int[] => List<Integer> (ArrayToCollectionConverter)
@@ -43,8 +43,8 @@ public class ArrayToCollectionTest extends TestCase {
 	}
 
 	public void testArrayOfPrimitivesToListInstance() throws Exception {
-		Converter converter = new Converter(ConverterTest.class
-				.getClassLoader(), TestConverters.converters);
+		Transmorph converter = new Transmorph(ConverterTest.class
+				.getClassLoader(), new DefaultConverters());
 		int[] arrayOfInts = new int[] { 0, 1, 2, 3, 4, 5 };
 		// int[] => LinkedList<Integer> (ArrayToCollectionConverter)
 		LinkedList<Integer> linkedList = (LinkedList<Integer>) converter
@@ -59,8 +59,8 @@ public class ArrayToCollectionTest extends TestCase {
 	}
 
 	public void testArrayToGenericListUnbounded() throws Exception {
-		Converter converter = new Converter(ConverterTest.class
-				.getClassLoader(), TestConverters.converters);
+		Transmorph converter = new Transmorph(ConverterTest.class
+				.getClassLoader(), new DefaultConverters());
 		int[] arrayOfInts = new int[] { 0, 1, 2, 3, 4, 5 };
 		// int[] => List<*> (ArrayToCollectionConverter)
 		List<?> arrayOfSomething = (List<?>) converter.convert(arrayOfInts,
@@ -73,8 +73,8 @@ public class ArrayToCollectionTest extends TestCase {
 	}
 	
 	public void testArrayToGenericListUpperbound() throws Exception {
-		Converter converter = new Converter(ConverterTest.class
-				.getClassLoader(), TestConverters.converters);
+		Transmorph converter = new Transmorph(ConverterTest.class
+				.getClassLoader(), new DefaultConverters());
 
 		// String[] => List<? extends Number> (ArrayToCollectionConverter)
 		String[] arrayOfStrings = new String[] { "0", "1", "2", "3", "4", "5" };
@@ -89,8 +89,8 @@ public class ArrayToCollectionTest extends TestCase {
 	}
 
 	public void testArrayToCollection() throws Exception {
-		Converter converter = new Converter(ConverterTest.class
-				.getClassLoader(), TestConverters.converters);
+		Transmorph converter = new Transmorph(ConverterTest.class
+				.getClassLoader(), new DefaultConverters());
 
 		// int[] => Collection<Integer> (ArrayToCollectionConverter)
 		int[] arrayOfInts = new int[] { 0, 1, 2, 3, 4, 5 };
@@ -106,8 +106,8 @@ public class ArrayToCollectionTest extends TestCase {
 	}
 	
 	public void testArrayToGenericSet() throws Exception {
-		Converter converter = new Converter(ConverterTest.class
-				.getClassLoader(), TestConverters.converters);
+		Transmorph converter = new Transmorph(ConverterTest.class
+				.getClassLoader(), new DefaultConverters());
 
 		// int[] => Set<Integer> (ArrayToSetConverter)
 		int[] arrayOfInts = new int[] { 0, 1, 2, 3, 4, 5 };

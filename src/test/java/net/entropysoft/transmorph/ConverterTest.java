@@ -5,7 +5,6 @@ import java.util.List;
 
 import junit.framework.TestCase;
 import net.entropysoft.transmorph.converters.IdentityConverter;
-import net.entropysoft.transmorph.converters.TestConverters;
 import net.entropysoft.transmorph.modifiers.IModifier;
 import net.entropysoft.transmorph.modifiers.TrimString;
 
@@ -14,9 +13,9 @@ public class ConverterTest extends TestCase {
 	public void testTrimString() throws Exception {
 		IdentityConverter identityConverter = new IdentityConverter();
 		identityConverter.setModifiers(new IModifier[] { new TrimString() });
-		Converter converter = new Converter(ConverterTest.class
-				.getClassLoader(), new IConverter[] { identityConverter });
-		String converted = (String) converter
+		Transmorph transmorph = new Transmorph(ConverterTest.class
+				.getClassLoader(), new Converters(identityConverter));
+		String converted = (String) transmorph
 				.convert(
 						"    This is a string with leading and trailing white spaces    ",
 						String.class);
@@ -25,8 +24,8 @@ public class ConverterTest extends TestCase {
 	}
 
 	public void testConverterWithContext() throws Exception {
-		Converter converter = new Converter(ConverterTest.class
-				.getClassLoader(), TestConverters.converters);
+		Transmorph transmorph = new Transmorph(ConverterTest.class
+				.getClassLoader(), new DefaultConverters());
 		ConversionContext context = new ConversionContext();
 
 		List<Integer> list = new ArrayList<Integer>();
@@ -38,10 +37,10 @@ public class ConverterTest extends TestCase {
 		// objects to convert must not change
 		// until conversion is not finished
 
-		String[] arrayOfStrings = (String[]) converter.convert(context, list,
+		String[] arrayOfStrings = (String[]) transmorph.convert(context, list,
 				"[Ljava.lang.String;");
 
-		String[] arrayOfStrings2 = (String[]) converter.convert(context, list,
+		String[] arrayOfStrings2 = (String[]) transmorph.convert(context, list,
 				"[Ljava.lang.String;");
 		assertTrue(arrayOfStrings == arrayOfStrings2);
 	}

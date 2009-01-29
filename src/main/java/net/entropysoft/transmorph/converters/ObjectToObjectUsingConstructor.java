@@ -32,8 +32,9 @@ import net.entropysoft.transmorph.type.Type;
 public class ObjectToObjectUsingConstructor extends AbstractConverter {
 
 	public final static Class[] ALL_DESTINATION_CLASSES = null;
-
-	private Class[] handledDestinationClasses = ALL_DESTINATION_CLASSES;
+	public final static Class[] NO_DESTINATION_CLASSES = new Class[0];
+	
+	private Class[] handledDestinationClasses = NO_DESTINATION_CLASSES;
 
 	public ObjectToObjectUsingConstructor() {
 		this.useObjectPool = true;

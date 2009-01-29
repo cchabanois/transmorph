@@ -16,16 +16,17 @@
 package net.entropysoft.transmorph.converters;
 
 import junit.framework.TestCase;
-import net.entropysoft.transmorph.Converter;
+import net.entropysoft.transmorph.Transmorph;
 import net.entropysoft.transmorph.ConverterTest;
+import net.entropysoft.transmorph.DefaultConverters;
 
 public class CharacterArrayToStringTest extends TestCase {
 
 	public void testCharacterArrayToString() throws Exception {
-		Converter converter = new Converter(ConverterTest.class
-				.getClassLoader(), TestConverters.converters);
+		Transmorph transmorph = new Transmorph(ConverterTest.class
+				.getClassLoader(), new DefaultConverters());
 
-		String str = (String) converter.convert(new char[] { 'h', 'e', 'l',
+		String str = (String) transmorph.convert(new char[] { 'h', 'e', 'l',
 				'l', 'o' }, String.class);
 		assertNotNull(str);
 		assertEquals("hello", str);

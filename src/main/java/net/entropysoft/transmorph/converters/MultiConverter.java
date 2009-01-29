@@ -21,6 +21,7 @@ import net.entropysoft.transmorph.ConversionContext;
 import net.entropysoft.transmorph.ConverterException;
 import net.entropysoft.transmorph.IContainerConverter;
 import net.entropysoft.transmorph.IConverter;
+import net.entropysoft.transmorph.IConverters;
 import net.entropysoft.transmorph.type.Type;
 
 /**
@@ -33,12 +34,12 @@ public class MultiConverter implements IConverter {
 
 	private IConverter[] converters;
 
-	public MultiConverter(IConverter[] converters) {
-		this.converters = converters;
+	public MultiConverter(IConverters converters) {
+		this.converters = converters.getConverters();
 		
 		// use this converter as element converter for all container converters
 		// that have no element converter set
-		for (IConverter converter : converters) {
+		for (IConverter converter : this.converters) {
 			if (converter instanceof IContainerConverter) {
 				IContainerConverter containerConverter = (IContainerConverter) converter;
 				if (containerConverter.getElementConverter() == null) {

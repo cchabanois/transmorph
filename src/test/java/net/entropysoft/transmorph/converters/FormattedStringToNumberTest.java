@@ -19,9 +19,10 @@ import java.text.NumberFormat;
 import java.util.Locale;
 
 import junit.framework.TestCase;
-import net.entropysoft.transmorph.Converter;
+import net.entropysoft.transmorph.Transmorph;
 import net.entropysoft.transmorph.ConverterException;
 import net.entropysoft.transmorph.ConverterTest;
+import net.entropysoft.transmorph.Converters;
 import net.entropysoft.transmorph.IConverter;
 
 public class FormattedStringToNumberTest extends TestCase {
@@ -32,9 +33,9 @@ public class FormattedStringToNumberTest extends TestCase {
 				.getNumberInstance(Locale.FRENCH);
 		formattedStringToNumberConverter.setNumberFormat(numberFormat);
 
-		Converter converter = new Converter(ConverterTest.class
+		Transmorph converter = new Transmorph(ConverterTest.class
 				.getClassLoader(),
-				new IConverter[] { formattedStringToNumberConverter });
+				new Converters(new IConverter[] { formattedStringToNumberConverter } ));
 
 		float result = (Float) converter.convert("-22,33", Float.TYPE);
 		assertNotNull(result);

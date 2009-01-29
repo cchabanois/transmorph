@@ -18,8 +18,9 @@ package net.entropysoft.transmorph.converters;
 import java.io.File;
 
 import junit.framework.TestCase;
-import net.entropysoft.transmorph.Converter;
+import net.entropysoft.transmorph.Transmorph;
 import net.entropysoft.transmorph.ConverterTest;
+import net.entropysoft.transmorph.DefaultConverters;
 import net.entropysoft.transmorph.IConverter;
 import net.entropysoft.transmorph.modifiers.CanonicalizeFile;
 import net.entropysoft.transmorph.modifiers.IModifier;
@@ -27,8 +28,8 @@ import net.entropysoft.transmorph.modifiers.IModifier;
 public class StringToFileTest extends TestCase {
 
 	public void testStringToFile() throws Exception {
-		Converter converter = new Converter(ConverterTest.class
-				.getClassLoader(), TestConverters.converters);
+		Transmorph converter = new Transmorph(ConverterTest.class
+				.getClassLoader(), new DefaultConverters());
 
 		File file = (File) converter.convert("c:\\temp", File.class);
 		assertNotNull(file);
@@ -36,10 +37,11 @@ public class StringToFileTest extends TestCase {
 	}
 
 	public void testStringToFileCanonical() throws Exception {
-		StringToFile stringToFile = new StringToFile();
+		DefaultConverters defaultConverters = new DefaultConverters();
+		StringToFile stringToFile = defaultConverters.getStringToFile();
 		stringToFile.setModifiers(new IModifier[] { new CanonicalizeFile() });
-		Converter converter = new Converter(ConverterTest.class
-				.getClassLoader(), new IConverter[] { stringToFile });
+		Transmorph converter = new Transmorph(ConverterTest.class
+				.getClassLoader(), defaultConverters);
 		File file = (File) converter.convert("temp", File.class);
 		assertNotNull(file);
 		// getCanonicalFile is OS-dependant

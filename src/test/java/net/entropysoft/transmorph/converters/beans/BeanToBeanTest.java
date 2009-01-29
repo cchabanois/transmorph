@@ -19,24 +19,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import junit.framework.TestCase;
-import net.entropysoft.transmorph.Converter;
+import net.entropysoft.transmorph.ConversionContext;
+import net.entropysoft.transmorph.Transmorph;
 import net.entropysoft.transmorph.ConverterTest;
-import net.entropysoft.transmorph.IConverter;
-import net.entropysoft.transmorph.converters.CharacterArrayToString;
-import net.entropysoft.transmorph.converters.DateToCalendar;
-import net.entropysoft.transmorph.converters.IdentityConverter;
-import net.entropysoft.transmorph.converters.NumberToNumber;
-import net.entropysoft.transmorph.converters.ObjectToString;
-import net.entropysoft.transmorph.converters.StringToCharacterArray;
-import net.entropysoft.transmorph.converters.StringToClass;
-import net.entropysoft.transmorph.converters.StringToFile;
-import net.entropysoft.transmorph.converters.StringToNumber;
-import net.entropysoft.transmorph.converters.StringToURL;
-import net.entropysoft.transmorph.converters.collections.ArrayToArray;
-import net.entropysoft.transmorph.converters.collections.ArrayToCollection;
-import net.entropysoft.transmorph.converters.collections.CollectionToArray;
-import net.entropysoft.transmorph.converters.collections.CollectionToCollection;
-import net.entropysoft.transmorph.converters.collections.MapToMap;
+import net.entropysoft.transmorph.Converters;
+import net.entropysoft.transmorph.DefaultConverters;
 import samples.MyBean4;
 import samples.MyBean4TransferObject;
 import samples.MyBeanAB;
@@ -47,25 +34,17 @@ import samples.MyBeanBATransferObject;
 public class BeanToBeanTest extends TestCase {
 
 	public void testBiDirectionalBean() throws Exception {
-		BeanToBean beanToBean = new BeanToBean();
-		IConverter[] converters = new IConverter[] { new NumberToNumber(),
-				new StringToNumber(), new StringToClass(), new ArrayToArray(),
-				new MapToMap(), new ArrayToCollection(),
-				new CollectionToCollection(), new CollectionToArray(),
-				new StringToFile(), new StringToURL(),
-				new CharacterArrayToString(), new StringToCharacterArray(),
-				new ObjectToString(), new DateToCalendar(),
-				new IdentityConverter(), beanToBean };
-		Converter converter = new Converter(ConverterTest.class
-				.getClassLoader(), converters);
+		DefaultConverters defaultConverters = new DefaultConverters();
+		Transmorph converter = new Transmorph(ConverterTest.class
+				.getClassLoader(), defaultConverters);
 
 		BeanToBeanMapping beanToBeanMapping = new BeanToBeanMapping(
 				MyBeanAB.class, MyBeanABTransferObject.class);
-		beanToBean.addBeanToBeanMapping(beanToBeanMapping);
+		defaultConverters.getBeanToBean().addBeanToBeanMapping(beanToBeanMapping);
 
 		beanToBeanMapping = new BeanToBeanMapping(MyBeanBA.class,
 				MyBeanBATransferObject.class);
-		beanToBean.addBeanToBeanMapping(beanToBeanMapping);
+		defaultConverters.getBeanToBean().addBeanToBeanMapping(beanToBeanMapping);
 
 		MyBeanAB myBeanAB = new MyBeanAB();
 		myBeanAB.setId(55L);
@@ -93,22 +72,14 @@ public class BeanToBeanTest extends TestCase {
 	}
 	
 	public void testBeanToBean() throws Exception {
-		BeanToBean beanToBean = new BeanToBean();
-		IConverter[] converters = new IConverter[] { new NumberToNumber(),
-				new StringToNumber(), new StringToClass(), new ArrayToArray(),
-				new MapToMap(), new ArrayToCollection(),
-				new CollectionToCollection(), new CollectionToArray(),
-				new StringToFile(), new StringToURL(),
-				new CharacterArrayToString(), new StringToCharacterArray(),
-				new ObjectToString(), new DateToCalendar(),
-				new IdentityConverter(), beanToBean };
-		Converter converter = new Converter(ConverterTest.class
-				.getClassLoader(), converters);
-
+		DefaultConverters defaultConverters = new DefaultConverters();
+		Transmorph converter = new Transmorph(ConverterTest.class
+				.getClassLoader(), defaultConverters);
+		
 		BeanToBeanMapping beanToBeanMapping = new BeanToBeanMapping(
 				MyBean4.class, MyBean4TransferObject.class);
 		beanToBeanMapping.addMapping("size", "length");
-		beanToBean.addBeanToBeanMapping(beanToBeanMapping);
+		defaultConverters.getBeanToBean().addBeanToBeanMapping(beanToBeanMapping);
 
 		MyBean4 myBean4 = new MyBean4();
 		myBean4.setMyString("hello world");
@@ -119,8 +90,13 @@ public class BeanToBeanTest extends TestCase {
 		myStrings.add("third");
 		myBean4.setMyStrings(myStrings);
 
+		ConversionContext context = new ConversionContext();
+		context.setStoreUsedConverters(true);
+		
 		MyBean4TransferObject myBean4TransferObject = (MyBean4TransferObject) converter
-				.convert(myBean4, MyBean4TransferObject.class);
+				.convert(context, myBean4, MyBean4TransferObject.class);
+		System.out.println(context.getUsedConverters().toString());
+		
 		assertEquals("hello world", myBean4TransferObject.getMyString());
 		assertEquals("first", myBean4TransferObject.getMyStrings()[0]);
 		assertEquals("second", myBean4TransferObject.getMyStrings()[1]);

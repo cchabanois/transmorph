@@ -19,19 +19,20 @@ import java.io.File;
 import java.net.URL;
 
 import junit.framework.TestCase;
-import net.entropysoft.transmorph.Converter;
+import net.entropysoft.transmorph.Transmorph;
 import net.entropysoft.transmorph.ConverterException;
 import net.entropysoft.transmorph.ConverterTest;
-import net.entropysoft.transmorph.IConverter;
+import net.entropysoft.transmorph.Converters;
 
 public class ObjectToObjectUsingConstructorTest extends TestCase {
 
 	public void testStringToObjectUsingConstructor() throws Exception {
 		ObjectToObjectUsingConstructor objectToObjectUsingConstructor = new ObjectToObjectUsingConstructor();
-
-		Converter converter = new Converter(ConverterTest.class
+		objectToObjectUsingConstructor.setHandledDestinationClasses(ObjectToObjectUsingConstructor.ALL_DESTINATION_CLASSES);
+		
+		Transmorph converter = new Transmorph(ConverterTest.class
 				.getClassLoader(),
-				new IConverter[] { objectToObjectUsingConstructor });
+				new Converters(objectToObjectUsingConstructor));
 		File file = (File) converter.convert("c:\temp", File.class);
 		assertNotNull(file);
 		
@@ -43,9 +44,9 @@ public class ObjectToObjectUsingConstructorTest extends TestCase {
 	public void testStringToUrl() throws Exception {
 		ObjectToObjectUsingConstructor objectToObjectUsingConstructor = new ObjectToObjectUsingConstructor();
 
-		Converter converter = new Converter(ConverterTest.class
+		Transmorph converter = new Transmorph(ConverterTest.class
 				.getClassLoader(),
-				new IConverter[] { objectToObjectUsingConstructor });
+				new Converters(objectToObjectUsingConstructor));
 
 		objectToObjectUsingConstructor
 				.setHandledDestinationClasses(new Class[] { URL.class });

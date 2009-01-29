@@ -19,15 +19,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import junit.framework.TestCase;
-import net.entropysoft.transmorph.Converter;
 import net.entropysoft.transmorph.ConverterTest;
-import net.entropysoft.transmorph.converters.TestConverters;
+import net.entropysoft.transmorph.DefaultConverters;
+import net.entropysoft.transmorph.Transmorph;
 
 public class CollectionToArrayTest extends TestCase {
 
 	public void testListToArray() throws Exception {
-		Converter converter = new Converter(ConverterTest.class
-				.getClassLoader(), TestConverters.converters);
+		Transmorph converter = new Transmorph(ConverterTest.class
+				.getClassLoader(), new DefaultConverters());
 
 		List<Integer> source = new ArrayList<Integer>();
 		source.add(30);
@@ -43,8 +43,8 @@ public class CollectionToArrayTest extends TestCase {
 	}
 	
 	public void testListOfListToArray2D() throws Exception {
-		Converter converter = new Converter(ConverterTest.class
-				.getClassLoader(), TestConverters.converters);
+		Transmorph converter = new Transmorph(ConverterTest.class
+				.getClassLoader(), new DefaultConverters());
 		
 		List<List<Integer>> listListInteger = new ArrayList<List<Integer>>();
 		List<Integer> listInteger = new ArrayList<Integer>();

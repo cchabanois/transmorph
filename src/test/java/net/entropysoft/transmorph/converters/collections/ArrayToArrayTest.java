@@ -16,16 +16,16 @@
 package net.entropysoft.transmorph.converters.collections;
 
 import junit.framework.TestCase;
-import net.entropysoft.transmorph.Converter;
 import net.entropysoft.transmorph.ConverterException;
 import net.entropysoft.transmorph.ConverterTest;
-import net.entropysoft.transmorph.converters.TestConverters;
+import net.entropysoft.transmorph.DefaultConverters;
+import net.entropysoft.transmorph.Transmorph;
 
 public class ArrayToArrayTest extends TestCase {
 
 	public void testObjectArrayToStringArray() throws Exception {
-		Converter converter = new Converter(ConverterTest.class
-				.getClassLoader(), TestConverters.converters);
+		Transmorph converter = new Transmorph(ConverterTest.class
+				.getClassLoader(), new DefaultConverters());
 
 		// Object[] => String[] (ArrayToArrayConverter)
 		Object[] arrayOfObjects = new Object[] { "one", "two", "three" };
@@ -37,8 +37,8 @@ public class ArrayToArrayTest extends TestCase {
 	}
 	
 	public void testMultidimentionalArray() throws Exception {
-		Converter converter = new Converter(ConverterTest.class
-				.getClassLoader(), TestConverters.converters);
+		Transmorph converter = new Transmorph(ConverterTest.class
+				.getClassLoader(), new DefaultConverters());
 		
 		// int[][] => String[][] (ArrayToArrayConverter)
 		int[][] arrayOfArrayOfInts = new int[][] { { 11, 12, 13 },

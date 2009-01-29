@@ -16,15 +16,16 @@
 package net.entropysoft.transmorph.converters;
 
 import junit.framework.TestCase;
-import net.entropysoft.transmorph.Converter;
+import net.entropysoft.transmorph.Transmorph;
 import net.entropysoft.transmorph.ConverterException;
+import net.entropysoft.transmorph.DefaultConverters;
 import net.entropysoft.transmorph.IConverter;
 
 public class StringToBooleanTest extends TestCase {
 
 	public void testStringToBooleanPrimitive() throws Exception {
-		Converter converter = new Converter(this.getClass().getClassLoader(),
-				TestConverters.converters);
+		Transmorph converter = new Transmorph(this.getClass().getClassLoader(),
+				new DefaultConverters());
 
 		// String => boolean (StringToBooleanConverter)
 		boolean myBoolean = (Boolean) converter.convert("false", Boolean.TYPE);
@@ -40,9 +41,10 @@ public class StringToBooleanTest extends TestCase {
 	}
 
 	public void testOtherStringToBooleanPrimitive() throws Exception {
-		StringToBoolean stringToBoolean = new StringToBoolean();
-		Converter converter = new Converter(this.getClass().getClassLoader(),
-				new IConverter[] { stringToBoolean, new IdentityConverter() });
+		DefaultConverters defaultConverters = new DefaultConverters();
+		StringToBoolean stringToBoolean = defaultConverters.getStringToBoolean();
+		Transmorph converter = new Transmorph(this.getClass().getClassLoader(),
+				defaultConverters);
 
 		boolean myBoolean;
 		try {
@@ -62,8 +64,8 @@ public class StringToBooleanTest extends TestCase {
 	}
 
 	public void testBooleanToBooleanWrapper() throws Exception {
-		Converter converter = new Converter(this.getClass().getClassLoader(),
-				TestConverters.converters);
+		Transmorph converter = new Transmorph(this.getClass().getClassLoader(),
+				new DefaultConverters());
 		Boolean booleanObject = (Boolean) converter
 				.convert(null, Boolean.class);
 		assertNull(booleanObject);

@@ -18,7 +18,7 @@ package net.entropysoft.transmorph;
 /**
  * Exception thrown when something goes wrong during conversion
  * 
- * @author cedric
+ * @author Cedric Chabanois (cchabanois at gmail.com)
  * 
  */
 public class ConverterException extends Exception {

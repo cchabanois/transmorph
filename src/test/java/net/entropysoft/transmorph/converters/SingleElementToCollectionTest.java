@@ -18,33 +18,22 @@ package net.entropysoft.transmorph.converters;
 import java.util.List;
 
 import junit.framework.TestCase;
-import net.entropysoft.transmorph.Converter;
+import net.entropysoft.transmorph.Transmorph;
 import net.entropysoft.transmorph.ConverterTest;
-import net.entropysoft.transmorph.IConverter;
-import net.entropysoft.transmorph.converters.collections.ArrayToArray;
-import net.entropysoft.transmorph.converters.collections.ArrayToCollection;
-import net.entropysoft.transmorph.converters.collections.CollectionToCollection;
-import net.entropysoft.transmorph.converters.collections.MapToMap;
-import net.entropysoft.transmorph.converters.enums.StringToEnum;
+import net.entropysoft.transmorph.Converters;
 
 public class SingleElementToCollectionTest extends TestCase {
 
 	public void testSingleElementToCollection() throws Exception {
-		IConverter[] converters = new IConverter[] { new NumberToNumber(),
-				new StringToNumber(), new StringToBoolean(),
-				new StringToEnum(), new ArrayToArray(), new MapToMap(),
-				new ArrayToCollection(), new CollectionToCollection(),
-				new ObjectToString(), new SingleElementToCollection(),
-				new IdentityConverter() };
-
-		Converter converter = new Converter(ConverterTest.class
-				.getClassLoader(), converters);
+		Transmorph converter = new Transmorph(ConverterTest.class
+				.getClassLoader(), new Converters(
+				new SingleElementToCollection(), new StringToNumber()));
 
 		List<Integer> list = (List<Integer>) converter.convert("55",
 				List.class, new Class[] { Integer.class });
 		assertNotNull(list);
 		assertEquals(1, list.size());
 		assertEquals(55, list.get(0).intValue());
-	}	
-	
+	}
+
 }

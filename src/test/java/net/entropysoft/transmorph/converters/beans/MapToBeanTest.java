@@ -20,23 +20,9 @@ import java.util.List;
 import java.util.Map;
 
 import junit.framework.TestCase;
-import net.entropysoft.transmorph.Converter;
+import net.entropysoft.transmorph.Transmorph;
 import net.entropysoft.transmorph.ConverterTest;
-import net.entropysoft.transmorph.IConverter;
-import net.entropysoft.transmorph.converters.CharacterArrayToString;
-import net.entropysoft.transmorph.converters.DateToCalendar;
-import net.entropysoft.transmorph.converters.IdentityConverter;
-import net.entropysoft.transmorph.converters.NumberToNumber;
-import net.entropysoft.transmorph.converters.ObjectToString;
-import net.entropysoft.transmorph.converters.StringToCharacterArray;
-import net.entropysoft.transmorph.converters.StringToClass;
-import net.entropysoft.transmorph.converters.StringToFile;
-import net.entropysoft.transmorph.converters.StringToNumber;
-import net.entropysoft.transmorph.converters.StringToURL;
-import net.entropysoft.transmorph.converters.collections.ArrayToArray;
-import net.entropysoft.transmorph.converters.collections.ArrayToCollection;
-import net.entropysoft.transmorph.converters.collections.CollectionToCollection;
-import net.entropysoft.transmorph.converters.collections.MapToMap;
+import net.entropysoft.transmorph.DefaultConverters;
 import net.entropysoft.transmorph.type.TypeFactory;
 import samples.MyBean1;
 import samples.MyBean2;
@@ -48,24 +34,16 @@ public class MapToBeanTest extends TestCase {
 		TypeFactory typeFactory = new TypeFactory(ConverterTest.class
 				.getClassLoader());
 
-		MapToBean mapToBean = new MapToBean();
+		DefaultConverters defaultConverters = new DefaultConverters();
+		
 		BeanPropertyTypeProvider beanDestinationPropertyTypeProvider = new BeanPropertyTypeProvider();
 		beanDestinationPropertyTypeProvider.setPropertyDestinationType(
 				MyBean3.class, "myList", typeFactory.getType(List.class,
 						new Class[] { String.class }));
-		mapToBean
+		defaultConverters.getMapToBean()
 				.setBeanPropertyTypeProvider(beanDestinationPropertyTypeProvider);
 
-		IConverter[] converters = new IConverter[] { new NumberToNumber(),
-				new StringToNumber(), new StringToClass(), new ArrayToArray(),
-				new MapToMap(), new ArrayToCollection(),
-				new CollectionToCollection(), new StringToFile(),
-				new StringToURL(), new CharacterArrayToString(),
-				new StringToCharacterArray(), new ObjectToString(),
-				new DateToCalendar(), new IdentityConverter(), mapToBean };
-
-		Converter converter = new Converter(ConverterTest.class
-				.getClassLoader(), converters);
+		Transmorph converter = new Transmorph(typeFactory, defaultConverters);
 		Map<String, Object> mapBean1 = new HashMap<String, Object>();
 		mapBean1.put("myInt", "15");
 		mapBean1.put("myListOfStrings", new int[] { 1, 2, 3 });

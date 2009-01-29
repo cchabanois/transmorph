@@ -8,56 +8,25 @@ import java.util.List;
 import java.util.Map;
 
 import junit.framework.TestCase;
-import net.entropysoft.transmorph.converters.CalendarToDate;
-import net.entropysoft.transmorph.converters.CharacterArrayToString;
-import net.entropysoft.transmorph.converters.DateToCalendar;
-import net.entropysoft.transmorph.converters.IdentityConverter;
-import net.entropysoft.transmorph.converters.NumberToNumber;
-import net.entropysoft.transmorph.converters.ObjectToString;
-import net.entropysoft.transmorph.converters.StringToBoolean;
-import net.entropysoft.transmorph.converters.StringToCharacterArray;
-import net.entropysoft.transmorph.converters.StringToClass;
-import net.entropysoft.transmorph.converters.StringToFile;
-import net.entropysoft.transmorph.converters.StringToNumber;
-import net.entropysoft.transmorph.converters.StringToQName;
-import net.entropysoft.transmorph.converters.StringToStringBuffer;
-import net.entropysoft.transmorph.converters.StringToStringBuilder;
-import net.entropysoft.transmorph.converters.StringToTimeZone;
-import net.entropysoft.transmorph.converters.StringToURI;
-import net.entropysoft.transmorph.converters.StringToURL;
-import net.entropysoft.transmorph.converters.URIToURL;
-import net.entropysoft.transmorph.converters.URLToURI;
-import net.entropysoft.transmorph.converters.collections.ArrayToArray;
-import net.entropysoft.transmorph.converters.collections.ArrayToCollection;
-import net.entropysoft.transmorph.converters.collections.CollectionToArray;
-import net.entropysoft.transmorph.converters.collections.CollectionToCollection;
-import net.entropysoft.transmorph.converters.collections.MapToMap;
-import net.entropysoft.transmorph.converters.enums.StringToEnum;
 
 public class ConverterPerformanceTest extends TestCase {
 
-	private final static IConverter[] converters = new IConverter[] {
-			new NumberToNumber(), new StringToNumber(), new StringToBoolean(),
-			new StringToEnum(), new StringToStringBuffer(),
-			new StringToStringBuilder(), new StringToClass(),
-			new ArrayToArray(), new MapToMap(), new ArrayToCollection(),
-			new CollectionToCollection(), new CollectionToArray(),
-			new StringToFile(), new StringToURL(), new StringToURI(),
-			new URIToURL(), new URLToURI(), new CharacterArrayToString(),
-			new StringToCharacterArray(), new StringToQName(),
-			new StringToTimeZone(), new ObjectToString(), new DateToCalendar(),
-			new CalendarToDate(), new IdentityConverter() };
 
-	public void testMapToMap() throws Exception {
-		MapToMap mapToMap = new MapToMap();
-		mapToMap.setKeyConverter(new StringToNumber());
-		ArrayToCollection arrayToCollection = new ArrayToCollection();
-		arrayToCollection.setElementConverter(new IdentityConverter());
-		mapToMap.setValueConverter(arrayToCollection);
+	public void testMapToMapArrayToList() throws Exception {
+//		MapToMap mapToMap = new MapToMap();
+//		mapToMap.setKeyConverter(new StringToNumber());
+//		ArrayToCollection arrayToCollection = new ArrayToCollection();
+//		arrayToCollection.setElementConverter(new IdentityConverter());
+//		mapToMap.setValueConverter(arrayToCollection);
+//
+//		Converter converter = new Converter(ConverterTest.class
+//				.getClassLoader(), new Converters(mapToMap));
 
-		Converter converter = new Converter(ConverterTest.class
-				.getClassLoader(), new IConverter[] { mapToMap });
-		converter.setUseInternalFormFullyQualifiedName(false);
+		Transmorph transmorph = new Transmorph(ConverterTest.class
+				.getClassLoader(), new DefaultConverters());
+		
+		
+		transmorph.setUseInternalFormFullyQualifiedName(false);
 
 		// Map[String, String[]] => Map<Integer,List<String>>
 		Map map = new HashMap();
@@ -70,7 +39,7 @@ public class ConverterPerformanceTest extends TestCase {
 		}
 		runConverter(
 				"testMapToMap",
-				converter,
+				transmorph,
 				map,
 				"Ljava.util.Map<Ljava.lang.Integer;Ljava.util.List<Ljava.lang.String;>;>;",
 				10, 60, new IManualConversion() {
@@ -105,7 +74,7 @@ public class ConverterPerformanceTest extends TestCase {
 
 	}
 
-	private void runConverter(String testName, Converter converter,
+	private void runConverter(String testName, Transmorph converter,
 			Object sourceObject, Class destinationClass,
 			Class[] destinationClassTypeArgs, long numIterations,
 			long maxTimeAllowedPerIteration) throws Exception {
@@ -133,7 +102,7 @@ public class ConverterPerformanceTest extends TestCase {
 		}
 	}
 
-	private void runConverter(String testName, Converter converter,
+	private void runConverter(String testName, Transmorph converter,
 			Object sourceObject, String parameterizedTypeSignature,
 			long numIterations, long maxTimeAllowedPerIteration,
 			IManualConversion manualConversion) throws Exception {

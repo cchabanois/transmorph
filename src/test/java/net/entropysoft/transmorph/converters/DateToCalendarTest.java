@@ -19,15 +19,16 @@ import java.util.Calendar;
 import java.util.Date;
 
 import junit.framework.TestCase;
-import net.entropysoft.transmorph.Converter;
+import net.entropysoft.transmorph.Transmorph;
 import net.entropysoft.transmorph.ConverterTest;
+import net.entropysoft.transmorph.DefaultConverters;
 import net.entropysoft.transmorph.IConverter;
 
 public class DateToCalendarTest extends TestCase {
 
 	public void testDateToCalendar() throws Exception {
-		Converter converter = new Converter(ConverterTest.class
-				.getClassLoader(), new IConverter[] { new DateToCalendar() });
+		Transmorph converter = new Transmorph(ConverterTest.class
+				.getClassLoader(), new DefaultConverters());
 
 		Calendar calendar = (Calendar) converter.convert(new Date(0),
 				Calendar.class);

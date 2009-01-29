@@ -22,10 +22,12 @@ import java.util.Locale;
 
 import junit.framework.TestCase;
 import net.entropysoft.transmorph.ConversionContext;
-import net.entropysoft.transmorph.Converter;
+import net.entropysoft.transmorph.Transmorph;
 import net.entropysoft.transmorph.ConverterException;
 import net.entropysoft.transmorph.ConverterTest;
+import net.entropysoft.transmorph.Converters;
 import net.entropysoft.transmorph.IConverter;
+import net.entropysoft.transmorph.IConverters;
 import net.entropysoft.transmorph.converters.collections.ArrayToCollection;
 import net.entropysoft.transmorph.modifiers.IModifier;
 import net.entropysoft.transmorph.modifiers.UppercaseString;
@@ -60,10 +62,10 @@ public class MultiStepConverterTest extends TestCase {
 
 		};
 
-		IConverter[] converters = new IConverter[] { new StringToNumber(),
-				new NumberToNumber(), intToBoolean, multiStepConverter };
+		IConverters converters = new Converters(new IConverter[] { new StringToNumber(),
+				new NumberToNumber(), intToBoolean, multiStepConverter });
 
-		Converter converter = new Converter(typeFactory, converters);
+		Transmorph converter = new Transmorph(typeFactory, converters);
 		assertTrue((Boolean) converter.convert("22", Boolean.TYPE));
 		assertFalse((Boolean) converter.convert("0", Boolean.TYPE));
 	}
@@ -82,8 +84,8 @@ public class MultiStepConverterTest extends TestCase {
 		ArrayToCollection arrayToCollection = new ArrayToCollection();
 		arrayToCollection.setElementConverter(dateToString);
 
-		Converter converter = new Converter(ConverterTest.class
-				.getClassLoader(), new IConverter[] { arrayToCollection });
+		Transmorph converter = new Transmorph(ConverterTest.class
+				.getClassLoader(), new Converters(new IConverter[] { arrayToCollection }));
 
 		Date[] dates = new Date[] { new Date(0), new Date(1232621965342L) };
 		List<String> listOfstrings = (List<String>) converter.convert(dates,

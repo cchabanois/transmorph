@@ -19,10 +19,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import junit.framework.TestCase;
-import net.entropysoft.transmorph.Converter;
+import net.entropysoft.transmorph.Transmorph;
 import net.entropysoft.transmorph.ConverterException;
 import net.entropysoft.transmorph.ConverterTest;
-import net.entropysoft.transmorph.IConverter;
+import net.entropysoft.transmorph.Converters;
 
 public class StringToDateTest extends TestCase {
 
@@ -38,9 +38,9 @@ public class StringToDateTest extends TestCase {
 		simpleDateFormat2.setLenient(false);
 		stringToDateConverter2.setDateFormat(simpleDateFormat2);
 
-		Converter converter = new Converter(ConverterTest.class
-				.getClassLoader(), new IConverter[] { stringToDateConverter1,
-				stringToDateConverter2 });
+		Transmorph converter = new Transmorph(ConverterTest.class
+				.getClassLoader(), new Converters(stringToDateConverter1,
+				stringToDateConverter2));
 		Date date = (Date) converter.convert("29/12/2008", Date.class);
 		assertNotNull(date);
 

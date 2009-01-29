@@ -18,16 +18,16 @@ package net.entropysoft.transmorph.converters.enums;
 import java.lang.annotation.RetentionPolicy;
 
 import junit.framework.TestCase;
-import net.entropysoft.transmorph.Converter;
 import net.entropysoft.transmorph.ConverterException;
 import net.entropysoft.transmorph.ConverterTest;
-import net.entropysoft.transmorph.converters.TestConverters;
+import net.entropysoft.transmorph.DefaultConverters;
+import net.entropysoft.transmorph.Transmorph;
 
 public class StringToEnumTest extends TestCase {
 
 	public void testStringToEnum() throws Exception {
-		Converter converter = new Converter(ConverterTest.class
-				.getClassLoader(), TestConverters.converters);
+		Transmorph converter = new Transmorph(ConverterTest.class
+				.getClassLoader(), new DefaultConverters());
 
 		RetentionPolicy retentionPolicy = (RetentionPolicy) converter.convert(
 				"CLASS", RetentionPolicy.class);

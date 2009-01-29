@@ -15,33 +15,37 @@
  */
 package net.entropysoft.transmorph;
 
-import net.entropysoft.transmorph.converters.CalendarToDate;
-import net.entropysoft.transmorph.converters.ClassToString;
-import net.entropysoft.transmorph.converters.DateToCalendar;
-import net.entropysoft.transmorph.converters.IdentityConverter;
-import net.entropysoft.transmorph.converters.NumberToNumber;
-import net.entropysoft.transmorph.converters.ObjectToString;
-import net.entropysoft.transmorph.converters.StringToBoolean;
-import net.entropysoft.transmorph.converters.StringToClass;
-import net.entropysoft.transmorph.converters.StringToNumber;
-import net.entropysoft.transmorph.converters.StringToStringBuffer;
-import net.entropysoft.transmorph.converters.StringToStringBuilder;
-import net.entropysoft.transmorph.converters.collections.ArrayToArray;
-import net.entropysoft.transmorph.converters.collections.ArrayToCollection;
-import net.entropysoft.transmorph.converters.collections.CollectionToArray;
-import net.entropysoft.transmorph.converters.collections.CollectionToCollection;
-import net.entropysoft.transmorph.converters.collections.MapToMap;
-import net.entropysoft.transmorph.converters.enums.StringToEnum;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
-public class Converters {
+/**
+ * 
+ * @author Cedric Chabanois (cchabanois at gmail.com)
+ *
+ */
+public class Converters implements IConverters {
 
+	private List<IConverter> converters;
 
-	public static IConverter[] getDefaultConverters() {
-		return new IConverter[] { new NumberToNumber(), new StringToNumber(), new StringToBoolean(), new StringToEnum(),
-				new StringToClass(), new ClassToString(), new StringToStringBuffer(), new StringToStringBuilder(),
-				new ArrayToArray(), new MapToMap(), new ArrayToCollection(), new CollectionToCollection(),
-				new CollectionToArray(), new ObjectToString(), new DateToCalendar(), new CalendarToDate(),
-				new IdentityConverter() };
-	};
+	public Converters(IConverters converters) {
+		this.converters = new ArrayList<IConverter>(Arrays.asList(converters.getConverters()));
+	}
 	
+	public Converters(IConverter... converters) {
+		this.converters = new ArrayList<IConverter>(Arrays.asList(converters));
+	}
+
+	public void removeConverter(IConverter converter) {
+		converters.remove(converter);
+	}
+	
+	public void addConverter(IConverter converter) {
+		converters.add(converter);
+	}
+	
+	public IConverter[] getConverters() {
+		return converters.toArray(new IConverter[converters.size()]);
+	};
+
 }

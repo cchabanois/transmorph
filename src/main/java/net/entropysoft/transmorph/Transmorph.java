@@ -30,7 +30,7 @@ import net.entropysoft.transmorph.type.TypeFactory;
  * @author Cedric Chabanois (cchabanois at gmail.com)
  * 
  */
-public class Converter implements IConverter {
+public class Transmorph implements IConverter {
 
 	private MultiConverter multiConverter;
 	private TypeFactory typeFactory;
@@ -45,7 +45,7 @@ public class Converter implements IConverter {
 	 *            the converters that will be used. The order is important as
 	 *            they will be tried one by one in order
 	 */
-	public Converter(ClassLoader classLoader, IConverter[] converters) {
+	public Transmorph(ClassLoader classLoader, IConverters converters) {
 		this(new TypeFactory(new ClassFactory(classLoader)), converters);
 	}
 
@@ -61,7 +61,7 @@ public class Converter implements IConverter {
 	 *            the converters that will be used. The order is important as
 	 *            they will be tried one by one in order
 	 */
-	public Converter(IConverter[] converters) {
+	public Transmorph(IConverters converters) {
 		this(Thread.currentThread().getContextClassLoader(), converters);
 	}
 
@@ -74,7 +74,7 @@ public class Converter implements IConverter {
 	 *            the converters that will be used. The order is important as
 	 *            they will be tried one by one in order
 	 */
-	public Converter(TypeFactory typeFactory, IConverter[] converters) {
+	public Transmorph(TypeFactory typeFactory, IConverters converters) {
 		this.typeFactory = typeFactory;
 		this.multiConverter = new MultiConverter(converters);
 	}

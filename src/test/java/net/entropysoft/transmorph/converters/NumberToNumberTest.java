@@ -18,17 +18,18 @@ package net.entropysoft.transmorph.converters;
 import java.math.BigInteger;
 
 import junit.framework.TestCase;
-import net.entropysoft.transmorph.Converter;
+import net.entropysoft.transmorph.Transmorph;
 import net.entropysoft.transmorph.ConverterException;
 import net.entropysoft.transmorph.ConverterTest;
+import net.entropysoft.transmorph.DefaultConverters;
 import net.entropysoft.transmorph.IConverter;
 import net.entropysoft.transmorph.converters.collections.ArrayToArray;
 
 public class NumberToNumberTest extends TestCase {
 
 	public void testNumberPrimitiveToNumberPrimitive() throws Exception {
-		Converter converter = new Converter(ConverterTest.class
-				.getClassLoader(), TestConverters.converters);
+		Transmorph converter = new Transmorph(ConverterTest.class
+				.getClassLoader(), new DefaultConverters());
 
 		// int => long (NumberToNumberConverter)
 		int myInt = 55;
@@ -45,8 +46,8 @@ public class NumberToNumberTest extends TestCase {
 	}
 
 	public void testNumberWrapperToNumberWrapper() throws Exception {
-		Converter converter = new Converter(ConverterTest.class
-				.getClassLoader(), TestConverters.converters);
+		Transmorph converter = new Transmorph(ConverterTest.class
+				.getClassLoader(), new DefaultConverters());
 
 		Long myLongWrapper = (Long) converter.convert(new Integer(44),
 				Long.class);
@@ -57,8 +58,8 @@ public class NumberToNumberTest extends TestCase {
 	}
 
 	public void testNumberPrimitiveToNumberWrapper() throws Exception {
-		Converter converter = new Converter(ConverterTest.class
-				.getClassLoader(), TestConverters.converters);
+		Transmorph converter = new Transmorph(ConverterTest.class
+				.getClassLoader(), new DefaultConverters());
 
 		// int => Long (NumberToNumberConverter)
 		assertEquals(new Long(55), converter.convert(55, Long.class));
@@ -69,11 +70,11 @@ public class NumberToNumberTest extends TestCase {
 	}
 
 	public void testNullReplacementForPrimitive() throws Exception {
-		NumberToNumber numberToNumber = new NumberToNumber();
+		DefaultConverters defaultConverters = new DefaultConverters();
+		NumberToNumber numberToNumber = defaultConverters.getNumberToNumber();
 		numberToNumber.setNullReplacementForPrimitive(0);
-		Converter converter = new Converter(ConverterTest.class
-				.getClassLoader(), new IConverter[] { new ArrayToArray(),
-				numberToNumber });
+		Transmorph converter = new Transmorph(ConverterTest.class
+				.getClassLoader(), defaultConverters);
 		long[] longsArray = (long[]) converter.convert(new Integer[] { 1, 2,
 				null, 4 }, long[].class);
 		assertEquals(1, longsArray[0]);

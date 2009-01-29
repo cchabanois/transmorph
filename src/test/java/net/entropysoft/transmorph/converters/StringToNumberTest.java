@@ -18,15 +18,16 @@ package net.entropysoft.transmorph.converters;
 import java.math.BigDecimal;
 
 import junit.framework.TestCase;
-import net.entropysoft.transmorph.Converter;
+import net.entropysoft.transmorph.Transmorph;
 import net.entropysoft.transmorph.ConverterException;
 import net.entropysoft.transmorph.ConverterTest;
+import net.entropysoft.transmorph.DefaultConverters;
 
 public class StringToNumberTest extends TestCase {
 
 	public void testStringToPrimitive() throws Exception {
-		Converter converter = new Converter(ConverterTest.class
-				.getClassLoader(), TestConverters.converters);
+		Transmorph converter = new Transmorph(ConverterTest.class
+				.getClassLoader(), new DefaultConverters());
 
 		// String => int (StringToNumberConverter)
 		String myStr = "50";
@@ -45,8 +46,8 @@ public class StringToNumberTest extends TestCase {
 	}
 
 	public void testStringToBigDecimal() throws Exception {
-		Converter converter = new Converter(ConverterTest.class
-				.getClassLoader(), TestConverters.converters);
+		Transmorph converter = new Transmorph(ConverterTest.class
+				.getClassLoader(), new DefaultConverters());
 
 		// String => BigDecimal (StringToNumberConverter)
 		BigDecimal bigDecimal = (BigDecimal) converter
@@ -57,8 +58,8 @@ public class StringToNumberTest extends TestCase {
 	}
 
 	public void testStringToNumber() throws Exception {
-		Converter converter = new Converter(ConverterTest.class
-				.getClassLoader(), TestConverters.converters);
+		Transmorph converter = new Transmorph(ConverterTest.class
+				.getClassLoader(), new DefaultConverters());
 
 		Number number = (Number) converter.convert(
 				"5.56564546546464646577775612321443244664456", Number.class);

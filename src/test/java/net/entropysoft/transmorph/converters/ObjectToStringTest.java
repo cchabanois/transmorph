@@ -19,18 +19,20 @@ import java.io.File;
 import java.net.URL;
 
 import junit.framework.TestCase;
-import net.entropysoft.transmorph.Converter;
+import net.entropysoft.transmorph.Transmorph;
 import net.entropysoft.transmorph.ConverterException;
 import net.entropysoft.transmorph.ConverterTest;
+import net.entropysoft.transmorph.DefaultConverters;
 import net.entropysoft.transmorph.IConverter;
 
 public class ObjectToStringTest extends TestCase {
 
 	public void testObjectToString() throws Exception {
-		ObjectToString objectToString = new ObjectToString();
+		DefaultConverters defaultConverters = new DefaultConverters();
+		ObjectToString objectToString = defaultConverters.getObjectToString();
 
-		Converter converter = new Converter(ConverterTest.class
-				.getClassLoader(), new IConverter[] { objectToString });
+		Transmorph converter = new Transmorph(ConverterTest.class
+				.getClassLoader(), defaultConverters);
 		String str = (String) converter.convert(new URL(
 				"http://www.entropysoft.net"), String.class);
 		assertEquals("http://www.entropysoft.net", str);

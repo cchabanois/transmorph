@@ -1,15 +1,16 @@
 package net.entropysoft.transmorph.converters;
 
 import net.entropysoft.transmorph.ConversionContext;
-import net.entropysoft.transmorph.Converter;
+import net.entropysoft.transmorph.Transmorph;
 import net.entropysoft.transmorph.ConverterTest;
+import net.entropysoft.transmorph.DefaultConverters;
 import junit.framework.TestCase;
 
 public class ImmutableIdentityConverterTest extends TestCase {
 
 	public void testPrimitiveToWrapper() throws Exception {
-		Converter converter = new Converter(ConverterTest.class
-				.getClassLoader(), TestConverters.converters);
+		Transmorph converter = new Transmorph(ConverterTest.class
+				.getClassLoader(), new DefaultConverters());
 		ConversionContext conversionContext = new ConversionContext();
 		conversionContext.setStoreUsedConverters(true);
 		boolean[] booleans = new boolean[] { true, false };

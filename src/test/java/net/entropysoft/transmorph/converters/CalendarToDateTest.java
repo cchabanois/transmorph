@@ -20,16 +20,17 @@ import java.util.Date;
 import java.util.Locale;
 
 import junit.framework.TestCase;
-import net.entropysoft.transmorph.Converter;
+import net.entropysoft.transmorph.Transmorph;
+import net.entropysoft.transmorph.DefaultConverters;
 
 public class CalendarToDateTest extends TestCase {
 
 	public void testCalendarToDate() throws Exception {
-		Converter converter = new Converter(getClass().getClassLoader(), TestConverters.converters);
+		Transmorph transmorph = new Transmorph(getClass().getClassLoader(), new DefaultConverters());
 		
 		Calendar calendar = Calendar.getInstance(Locale.FRANCE);
 		calendar.set(2009, 0, 29, 8, 38, 0);
-		Date date = (Date)converter.convert(calendar, Date.class);
+		Date date = (Date)transmorph.convert(calendar, Date.class);
 		assertNotNull(date);
 	}
 

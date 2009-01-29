@@ -23,7 +23,7 @@ package net.entropysoft.transmorph;
  * </p>
  * <p>
  * If the element converter is not set by the user, it will be set by
- * {@link Converter} constructor to the created Converter
+ * {@link Transmorph} constructor to the created Converter
  * </p>
  * <p>
  * If set, the element converter allows you to use different converters to

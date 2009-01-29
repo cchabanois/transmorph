@@ -21,8 +21,9 @@ import java.util.Date;
 import java.util.Locale;
 
 import junit.framework.TestCase;
-import net.entropysoft.transmorph.Converter;
+import net.entropysoft.transmorph.Transmorph;
 import net.entropysoft.transmorph.ConverterTest;
+import net.entropysoft.transmorph.Converters;
 import net.entropysoft.transmorph.IConverter;
 
 public class ObjectToFormattedStringTest extends TestCase {
@@ -34,9 +35,8 @@ public class ObjectToFormattedStringTest extends TestCase {
 		ObjectToFormattedString objectToFormattedStringConverter = new ObjectToFormattedString(
 				Date.class, df);
 
-		Converter converter = new Converter(ConverterTest.class
-				.getClassLoader(),
-				new IConverter[] { objectToFormattedStringConverter });
+		Transmorph converter = new Transmorph(ConverterTest.class
+				.getClassLoader(),new Converters(objectToFormattedStringConverter));
 
 		Calendar calendar = Calendar.getInstance(Locale.FRANCE);
 		calendar.set(2009, 0, 1, 0, 0, 0);
@@ -55,9 +55,9 @@ public class ObjectToFormattedStringTest extends TestCase {
 		ObjectToFormattedString objectToFormattedStringConverter = new ObjectToFormattedString(
 				Calendar.class, Date.class, df);
 
-		Converter converter = new Converter(ConverterTest.class.getClassLoader(),
-				new IConverter[] { objectToFormattedStringConverter,
-						new CalendarToDate() });
+		Transmorph converter = new Transmorph(ConverterTest.class.getClassLoader(),
+				new Converters(objectToFormattedStringConverter,
+						new CalendarToDate()));
 
 		Calendar calendar = Calendar.getInstance(Locale.FRANCE);
 		calendar.set(2009, 0, 1, 0, 0, 0);

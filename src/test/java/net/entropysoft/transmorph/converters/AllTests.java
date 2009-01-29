@@ -69,6 +69,8 @@ public class AllTests {
 
 		suite.addTest(net.entropysoft.transmorph.converters.beans.AllTests
 				.suite());
+		suite.addTest(net.entropysoft.transmorph.converters.collections.AllTests
+				.suite());
 		suite.addTest(net.entropysoft.transmorph.converters.enums.AllTests
 				.suite());
 

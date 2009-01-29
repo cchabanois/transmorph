@@ -22,15 +22,15 @@ import java.util.Properties;
 
 import junit.framework.TestCase;
 import net.entropysoft.transmorph.ConversionContext;
-import net.entropysoft.transmorph.Converter;
 import net.entropysoft.transmorph.ConverterTest;
-import net.entropysoft.transmorph.converters.TestConverters;
+import net.entropysoft.transmorph.DefaultConverters;
+import net.entropysoft.transmorph.Transmorph;
 
 public class MapToMapTest extends TestCase {
 
 	public void testMapToMap() throws Exception {
-		Converter converter = new Converter(ConverterTest.class
-				.getClassLoader(), TestConverters.converters);
+		Transmorph converter = new Transmorph(ConverterTest.class
+				.getClassLoader(), new DefaultConverters());
 		converter.setUseInternalFormFullyQualifiedName(false);
 
 		// Map[String, String[]] => Map<String,List<String>> (MapToMapConverter
@@ -64,8 +64,8 @@ public class MapToMapTest extends TestCase {
 	}
 
 	public void testMapToProperties() throws Exception {
-		Converter converter = new Converter(ConverterTest.class
-				.getClassLoader(), TestConverters.converters);
+		Transmorph converter = new Transmorph(ConverterTest.class
+				.getClassLoader(), new DefaultConverters());
 
 		Map<String, Integer> map = new HashMap<String, Integer>();
 		map.put("key1", 1);

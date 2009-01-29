@@ -26,6 +26,8 @@ import net.entropysoft.transmorph.type.TypeUtils;
 /**
  * Converter used when source is a Number and destination is also a number
  * 
+ * This may involve rounding or truncation.
+ * 
  * @author Cedric Chabanois (cchabanois at gmail.com)
  * 
  */

@@ -11,10 +11,8 @@ public class AllTests {
 
     public static Test suite() {
         TestSuite suite = new TestSuite("Test for net.entropysoft.transformers");
-        suite.addTestSuite(ClassFactoryTest.class);
-        suite.addTestSuite(JavaTypeToTypeSignatureTest.class);
-        suite.addTestSuite(TypeSignatureFactoryTest.class);
-        suite.addTestSuite(TypeSignatureParserTest.class);
+        suite.addTest(net.entropysoft.transmorph.signature.AllTests.suite());
+        suite.addTest(net.entropysoft.transmorph.type.AllTests.suite());
         suite.addTest(net.entropysoft.transmorph.converters.AllTests.suite());
         suite.addTest(net.entropysoft.transmorph.converters.beans.AllTests.suite());
         suite.addTestSuite(ConverterTest.class);

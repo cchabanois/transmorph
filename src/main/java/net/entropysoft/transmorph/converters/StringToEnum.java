@@ -56,7 +56,7 @@ public class StringToEnum extends AbstractConverter {
 
 	protected boolean canHandleDestinationType(Type destinationType) {
 		try {
-			return destinationType.isSubOf(Enum.class);
+			return destinationType.getType().isEnum();
 		} catch (ClassNotFoundException e) {
 			return false;
 		}

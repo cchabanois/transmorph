@@ -21,6 +21,7 @@ import net.entropysoft.transmorph.converters.ClassToString;
 import net.entropysoft.transmorph.converters.DateToCalendar;
 import net.entropysoft.transmorph.converters.IdentityConverter;
 import net.entropysoft.transmorph.converters.ImmutableIdentityConverter;
+import net.entropysoft.transmorph.converters.MultiConverter;
 import net.entropysoft.transmorph.converters.NumberToNumber;
 import net.entropysoft.transmorph.converters.ObjectToObjectUsingConstructor;
 import net.entropysoft.transmorph.converters.ObjectToString;
@@ -54,9 +55,9 @@ import net.entropysoft.transmorph.converters.enums.StringToEnum;
  * The default converters
  * 
  * @author Cedric Chabanois (cchabanois at gmail.com)
- *
+ * 
  */
-public class DefaultConverters implements IConverters {
+public class DefaultConverters extends MultiConverter {
 
 	private ImmutableIdentityConverter immutableIdentityConverter = new ImmutableIdentityConverter();
 	private NumberToNumber numberToNumber = new NumberToNumber();
@@ -92,17 +93,27 @@ public class DefaultConverters implements IConverters {
 	private MapToBean mapToBean = new MapToBean();
 	private EnumToEnum enumToEnum = new EnumToEnum();
 	private ObjectToObjectUsingConstructor objectToObjectUsingConstructor = new ObjectToObjectUsingConstructor();
-	
-	private IConverter[] converters = { immutableIdentityConverter,
-			wrapperToPrimitive, numberToNumber, stringToNumber,
-			stringToBoolean, stringToEnum, stringToClass, classToString,
-			enumToEnum, stringToStringBuffer, stringToStringBuilder,
-			arrayToArray, mapToMap, arrayToCollection, collectionToCollection,
-			collectionToArray, characterArrayToString, objectToString, dateToCalendar, calendarToDate,
-			stringToCalendar, stringToCharacterArray,
-			stringToDate, stringToFile, stringToQName, stringToTimeZone,
-			stringToURI, stringToURL, uriToUrl, urlToUri, identityConverter,
-			beanToBean, mapToBean, objectToObjectUsingConstructor };
+
+	private IConverter[] converters = {
+			new MultiConverter(immutableIdentityConverter, wrapperToPrimitive,
+					numberToNumber, stringToNumber, stringToBoolean,
+					stringToEnum, stringToClass, new MultiConverter(
+							classToString, characterArrayToString,
+							objectToString), enumToEnum, stringToStringBuffer,
+					stringToStringBuilder, arrayToArray, mapToMap,
+					arrayToCollection, collectionToCollection,
+					collectionToArray, dateToCalendar, calendarToDate,
+					stringToCalendar, stringToCharacterArray, stringToDate,
+					stringToFile, stringToQName, stringToTimeZone, stringToURI,
+					stringToURL, uriToUrl, urlToUri, beanToBean, mapToBean,
+					objectToObjectUsingConstructor), identityConverter };
+
+	public DefaultConverters() {
+		super(new IConverter[0]);
+		for (IConverter converter : converters) {
+			addConverter(converter);
+		}
+	}
 
 	public NumberToNumber getNumberToNumber() {
 		return numberToNumber;
@@ -240,8 +251,8 @@ public class DefaultConverters implements IConverters {
 		return objectToObjectUsingConstructor;
 	}
 
-	public IConverter[] getConverters() {
-		return converters;
-	}
+//	public IConverter[] getConverters() {
+//		return converters;
+//	}
 
 }

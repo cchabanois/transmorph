@@ -45,7 +45,7 @@ public class Transmorph implements IConverter {
 	 *            the converters that will be used. The order is important as
 	 *            they will be tried one by one in order
 	 */
-	public Transmorph(ClassLoader classLoader, IConverters converters) {
+	public Transmorph(ClassLoader classLoader, IConverter... converters) {
 		this(new TypeFactory(new ClassFactory(classLoader)), converters);
 	}
 
@@ -61,7 +61,7 @@ public class Transmorph implements IConverter {
 	 *            the converters that will be used. The order is important as
 	 *            they will be tried one by one in order
 	 */
-	public Transmorph(IConverters converters) {
+	public Transmorph(IConverter... converters) {
 		this(Thread.currentThread().getContextClassLoader(), converters);
 	}
 
@@ -74,9 +74,10 @@ public class Transmorph implements IConverter {
 	 *            the converters that will be used. The order is important as
 	 *            they will be tried one by one in order
 	 */
-	public Transmorph(TypeFactory typeFactory, IConverters converters) {
+	public Transmorph(TypeFactory typeFactory, IConverter... converters) {
 		this.typeFactory = typeFactory;
 		this.multiConverter = new MultiConverter(converters);
+		this.multiConverter.setElementConverter(multiConverter);
 	}
 
 	public boolean isUseInternalFormFullyQualifiedName() {

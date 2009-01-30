@@ -16,12 +16,13 @@
 package net.entropysoft.transmorph.converters;
 
 import java.text.MessageFormat;
+import java.util.Iterator;
+import java.util.LinkedList;
 
 import net.entropysoft.transmorph.ConversionContext;
 import net.entropysoft.transmorph.ConverterException;
 import net.entropysoft.transmorph.IContainerConverter;
 import net.entropysoft.transmorph.IConverter;
-import net.entropysoft.transmorph.IConverters;
 import net.entropysoft.transmorph.type.Type;
 
 /**
@@ -30,33 +31,40 @@ import net.entropysoft.transmorph.type.Type;
  * @author Cedric Chabanois (cchabanois at gmail.com)
  * 
  */
-public class MultiConverter implements IConverter {
+public class MultiConverter implements IContainerConverter {
 
-	private IConverter[] converters;
+	private LinkedList<IConverter> converterList;
+	private IConverter elementConverter;
+	
+	public MultiConverter(IConverter... converters) {
+		this.converterList = new LinkedList<IConverter>();
 
-	public MultiConverter(IConverters converters) {
-		this.converters = converters.getConverters();
-		
-		// use this converter as element converter for all container converters
-		// that have no element converter set
-		for (IConverter converter : this.converters) {
-			if (converter instanceof IContainerConverter) {
-				IContainerConverter containerConverter = (IContainerConverter) converter;
-				if (containerConverter.getElementConverter() == null) {
-					containerConverter.setElementConverter(this);
-				}
-			}
+		for (IConverter converter : converters) {
+			addConverter(converter);
 		}
 
 	}
 
-	public boolean canHandle(ConversionContext context, Object sourceObject,
-			Type destinationType) {
-		for (IConverter converter : converters) {
-			if (!canHandle(context, sourceObject, destinationType)) {
-				return false;
+	public IConverter[] getConverters() {
+		return converterList.toArray(new IConverter[converterList.size()]);
+	}
+	
+	public void addConverter(IConverter converter) {
+		converterList.add(converter);
+		if (converter instanceof IContainerConverter) {
+			IContainerConverter containerConverter = (IContainerConverter) converter;
+			if (containerConverter.getElementConverter() == null) {
+				containerConverter.setElementConverter(elementConverter);
 			}
 		}
+	}
+	
+	public void removeConverter(IConverter converter) {
+		converterList.remove(converter);
+	}
+	
+	public boolean canHandle(ConversionContext context, Object sourceObject,
+			Type destinationType) {
 		return true;
 	}
 
@@ -64,10 +72,13 @@ public class MultiConverter implements IConverter {
 			Type destinationType) throws ConverterException {
 		ConverterException firstException = null;
 
-		for (IConverter converter : converters) {
+		int i = 0;
+		for (Iterator<IConverter> it = converterList.iterator(); it.hasNext();) {
+			IConverter converter = it.next();
 			if (converter.canHandle(context, sourceObject, destinationType)) {
 				try {
-					return converter.convert(context, sourceObject, destinationType);
+					Object result = converter.convert(context, sourceObject, destinationType);
+					return result;
 				} catch (ConverterException e) {
 					// canHandle do
 					// not verify all cases. An other converter
@@ -77,6 +88,7 @@ public class MultiConverter implements IConverter {
 						firstException = e;
 				}
 			}
+			i++;
 		}
 
 		if (firstException != null) {
@@ -96,6 +108,23 @@ public class MultiConverter implements IConverter {
 											.getName(), destinationType));
 		}
 
+	}
+
+	public IConverter getElementConverter() {
+		return elementConverter;
+	}
+
+	public void setElementConverter(IConverter elementConverter) {
+		this.elementConverter = elementConverter;
+		
+		for (IConverter converter : converterList) {
+			if (converter instanceof IContainerConverter) {
+				IContainerConverter containerConverter = (IContainerConverter) converter;
+				if (containerConverter.getElementConverter() == null) {
+					containerConverter.setElementConverter(this.elementConverter);
+				}
+			}
+		}
 	}
 
 }

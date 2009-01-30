@@ -14,7 +14,7 @@ public class ConverterTest extends TestCase {
 		IdentityConverter identityConverter = new IdentityConverter();
 		identityConverter.setModifiers(new IModifier[] { new TrimString() });
 		Transmorph transmorph = new Transmorph(ConverterTest.class
-				.getClassLoader(), new Converters(identityConverter));
+				.getClassLoader(), identityConverter);
 		String converted = (String) transmorph
 				.convert(
 						"    This is a string with leading and trailing white spaces    ",

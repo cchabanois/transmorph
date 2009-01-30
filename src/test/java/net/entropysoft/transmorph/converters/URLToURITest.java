@@ -19,9 +19,9 @@ import java.net.URI;
 import java.net.URL;
 
 import junit.framework.TestCase;
-import net.entropysoft.transmorph.Transmorph;
 import net.entropysoft.transmorph.ConverterTest;
 import net.entropysoft.transmorph.DefaultConverters;
+import net.entropysoft.transmorph.Transmorph;
 
 public class URLToURITest extends TestCase {
 

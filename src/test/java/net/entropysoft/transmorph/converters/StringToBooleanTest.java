@@ -16,10 +16,9 @@
 package net.entropysoft.transmorph.converters;
 
 import junit.framework.TestCase;
-import net.entropysoft.transmorph.Transmorph;
 import net.entropysoft.transmorph.ConverterException;
 import net.entropysoft.transmorph.DefaultConverters;
-import net.entropysoft.transmorph.IConverter;
+import net.entropysoft.transmorph.Transmorph;
 
 public class StringToBooleanTest extends TestCase {
 

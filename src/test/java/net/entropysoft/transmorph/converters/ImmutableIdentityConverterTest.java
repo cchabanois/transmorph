@@ -1,10 +1,10 @@
 package net.entropysoft.transmorph.converters;
 
+import junit.framework.TestCase;
 import net.entropysoft.transmorph.ConversionContext;
-import net.entropysoft.transmorph.Transmorph;
 import net.entropysoft.transmorph.ConverterTest;
 import net.entropysoft.transmorph.DefaultConverters;
-import junit.framework.TestCase;
+import net.entropysoft.transmorph.Transmorph;
 
 public class ImmutableIdentityConverterTest extends TestCase {
 

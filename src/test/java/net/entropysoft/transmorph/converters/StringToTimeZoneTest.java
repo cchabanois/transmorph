@@ -18,9 +18,9 @@ package net.entropysoft.transmorph.converters;
 import java.util.TimeZone;
 
 import junit.framework.TestCase;
-import net.entropysoft.transmorph.Transmorph;
 import net.entropysoft.transmorph.ConverterTest;
 import net.entropysoft.transmorph.DefaultConverters;
+import net.entropysoft.transmorph.Transmorph;
 
 public class StringToTimeZoneTest extends TestCase {
 

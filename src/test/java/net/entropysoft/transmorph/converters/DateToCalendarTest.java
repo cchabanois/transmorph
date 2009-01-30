@@ -19,10 +19,9 @@ import java.util.Calendar;
 import java.util.Date;
 
 import junit.framework.TestCase;
-import net.entropysoft.transmorph.Transmorph;
 import net.entropysoft.transmorph.ConverterTest;
 import net.entropysoft.transmorph.DefaultConverters;
-import net.entropysoft.transmorph.IConverter;
+import net.entropysoft.transmorph.Transmorph;
 
 public class DateToCalendarTest extends TestCase {
 

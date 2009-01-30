@@ -18,10 +18,10 @@ package net.entropysoft.transmorph.converters;
 import java.math.BigDecimal;
 
 import junit.framework.TestCase;
-import net.entropysoft.transmorph.Transmorph;
 import net.entropysoft.transmorph.ConverterException;
 import net.entropysoft.transmorph.ConverterTest;
 import net.entropysoft.transmorph.DefaultConverters;
+import net.entropysoft.transmorph.Transmorph;
 
 public class StringToNumberTest extends TestCase {
 

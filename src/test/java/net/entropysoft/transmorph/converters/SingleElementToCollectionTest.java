@@ -18,16 +18,15 @@ package net.entropysoft.transmorph.converters;
 import java.util.List;
 
 import junit.framework.TestCase;
-import net.entropysoft.transmorph.Transmorph;
 import net.entropysoft.transmorph.ConverterTest;
-import net.entropysoft.transmorph.Converters;
+import net.entropysoft.transmorph.Transmorph;
 
 public class SingleElementToCollectionTest extends TestCase {
 
 	public void testSingleElementToCollection() throws Exception {
 		Transmorph converter = new Transmorph(ConverterTest.class
-				.getClassLoader(), new Converters(
-				new SingleElementToCollection(), new StringToNumber()));
+				.getClassLoader(), new SingleElementToCollection(),
+				new StringToNumber());
 
 		List<Integer> list = (List<Integer>) converter.convert("55",
 				List.class, new Class[] { Integer.class });

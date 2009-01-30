@@ -18,10 +18,9 @@ package net.entropysoft.transmorph.converters;
 import java.io.File;
 
 import junit.framework.TestCase;
-import net.entropysoft.transmorph.Transmorph;
 import net.entropysoft.transmorph.ConverterTest;
 import net.entropysoft.transmorph.DefaultConverters;
-import net.entropysoft.transmorph.IConverter;
+import net.entropysoft.transmorph.Transmorph;
 import net.entropysoft.transmorph.modifiers.CanonicalizeFile;
 import net.entropysoft.transmorph.modifiers.IModifier;
 

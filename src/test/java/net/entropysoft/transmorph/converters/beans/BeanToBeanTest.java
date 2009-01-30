@@ -20,10 +20,9 @@ import java.util.List;
 
 import junit.framework.TestCase;
 import net.entropysoft.transmorph.ConversionContext;
-import net.entropysoft.transmorph.Transmorph;
 import net.entropysoft.transmorph.ConverterTest;
-import net.entropysoft.transmorph.Converters;
 import net.entropysoft.transmorph.DefaultConverters;
+import net.entropysoft.transmorph.Transmorph;
 import samples.MyBean4;
 import samples.MyBean4TransferObject;
 import samples.MyBeanAB;

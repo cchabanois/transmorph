@@ -45,10 +45,6 @@ public class MultiConverter implements IContainerConverter {
 
 	}
 
-	public IConverter[] getConverters() {
-		return converterList.toArray(new IConverter[converterList.size()]);
-	}
-	
 	public void addConverter(IConverter converter) {
 		converterList.add(converter);
 		if (converter instanceof IContainerConverter) {
@@ -72,7 +68,6 @@ public class MultiConverter implements IContainerConverter {
 			Type destinationType) throws ConverterException {
 		ConverterException firstException = null;
 
-		int i = 0;
 		for (Iterator<IConverter> it = converterList.iterator(); it.hasNext();) {
 			IConverter converter = it.next();
 			if (converter.canHandle(context, sourceObject, destinationType)) {
@@ -88,7 +83,6 @@ public class MultiConverter implements IContainerConverter {
 						firstException = e;
 				}
 			}
-			i++;
 		}
 
 		if (firstException != null) {

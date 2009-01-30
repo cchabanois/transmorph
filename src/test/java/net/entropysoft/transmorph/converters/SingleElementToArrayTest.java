@@ -16,15 +16,15 @@
 package net.entropysoft.transmorph.converters;
 
 import junit.framework.TestCase;
-import net.entropysoft.transmorph.Transmorph;
 import net.entropysoft.transmorph.ConverterTest;
-import net.entropysoft.transmorph.Converters;
+import net.entropysoft.transmorph.Transmorph;
+import sun.io.Converters;
 
 public class SingleElementToArrayTest extends TestCase {
 
 	public void testSingleElementToArray() throws Exception {
 		Transmorph converter = new Transmorph(ConverterTest.class
-				.getClassLoader(), new Converters(new SingleElementToArray(), new StringToNumber()));
+				.getClassLoader(), new SingleElementToArray(), new StringToNumber());
 
 		int[] array = (int[]) converter.convert("55", int[].class);
 		assertNotNull(array);

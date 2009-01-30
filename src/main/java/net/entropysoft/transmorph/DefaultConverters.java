@@ -94,19 +94,17 @@ public class DefaultConverters extends MultiConverter {
 	private EnumToEnum enumToEnum = new EnumToEnum();
 	private ObjectToObjectUsingConstructor objectToObjectUsingConstructor = new ObjectToObjectUsingConstructor();
 
-	private IConverter[] converters = {
-			new MultiConverter(immutableIdentityConverter, wrapperToPrimitive,
-					numberToNumber, stringToNumber, stringToBoolean,
-					stringToEnum, stringToClass, new MultiConverter(
-							classToString, characterArrayToString,
-							objectToString), enumToEnum, stringToStringBuffer,
-					stringToStringBuilder, arrayToArray, mapToMap,
-					arrayToCollection, collectionToCollection,
-					collectionToArray, dateToCalendar, calendarToDate,
-					stringToCalendar, stringToCharacterArray, stringToDate,
-					stringToFile, stringToQName, stringToTimeZone, stringToURI,
-					stringToURL, uriToUrl, urlToUri, beanToBean, mapToBean,
-					objectToObjectUsingConstructor), identityConverter };
+	private IConverter[] converters = { immutableIdentityConverter,
+			wrapperToPrimitive, numberToNumber, stringToNumber,
+			stringToBoolean, stringToEnum, stringToClass, classToString,
+			characterArrayToString, objectToString, enumToEnum,
+			stringToStringBuffer, stringToStringBuilder, arrayToArray,
+			mapToMap, arrayToCollection, collectionToCollection,
+			collectionToArray, dateToCalendar, calendarToDate,
+			stringToCalendar, stringToCharacterArray, stringToDate,
+			stringToFile, stringToQName, stringToTimeZone, stringToURI,
+			stringToURL, uriToUrl, urlToUri, beanToBean, mapToBean,
+			objectToObjectUsingConstructor, identityConverter };
 
 	public DefaultConverters() {
 		super(new IConverter[0]);
@@ -250,9 +248,5 @@ public class DefaultConverters extends MultiConverter {
 	public ObjectToObjectUsingConstructor getObjectToObjectUsingConstructor() {
 		return objectToObjectUsingConstructor;
 	}
-
-//	public IConverter[] getConverters() {
-//		return converters;
-//	}
 
 }

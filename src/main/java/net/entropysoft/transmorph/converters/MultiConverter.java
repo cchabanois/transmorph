@@ -16,7 +16,6 @@
 package net.entropysoft.transmorph.converters;
 
 import java.text.MessageFormat;
-import java.util.Iterator;
 import java.util.LinkedList;
 
 import net.entropysoft.transmorph.ConversionContext;
@@ -31,12 +30,18 @@ import net.entropysoft.transmorph.type.Type;
  * @author Cedric Chabanois (cchabanois at gmail.com)
  * 
  */
-public class MultiConverter implements IContainerConverter {
+public class MultiConverter extends AbstractContainerConverter {
 
 	private LinkedList<IConverter> converterList;
-	private IConverter elementConverter;
-	
+	private boolean canReorder;
+
 	public MultiConverter(IConverter... converters) {
+		this(false, converters);
+	}
+
+	public MultiConverter(boolean canReorder, IConverter... converters) {
+		this.useObjectPool = false;
+		this.canReorder = canReorder;
 		this.converterList = new LinkedList<IConverter>();
 
 		for (IConverter converter : converters) {
@@ -54,35 +59,73 @@ public class MultiConverter implements IContainerConverter {
 			}
 		}
 	}
-	
+
 	public void removeConverter(IConverter converter) {
 		converterList.remove(converter);
 	}
-	
-	public boolean canHandle(ConversionContext context, Object sourceObject,
-			Type destinationType) {
-		return true;
-	}
 
-	public Object convert(ConversionContext context, Object sourceObject,
+	public Object doConvert(ConversionContext context, Object sourceObject,
 			Type destinationType) throws ConverterException {
 		ConverterException firstException = null;
 
-		for (Iterator<IConverter> it = converterList.iterator(); it.hasNext();) {
-			IConverter converter = it.next();
-			if (converter.canHandle(context, sourceObject, destinationType)) {
+		if (canReorder && converterList.size() > 1) {
+			// try the first converter. If it is the good one, we will not
+			// have to reorder the converters
+			IConverter firstConverter = converterList.getFirst();
+			if (firstConverter
+					.canHandle(context, sourceObject, destinationType)) {
 				try {
-					Object result = converter.convert(context, sourceObject, destinationType);
-					return result;
+					return firstConverter.convert(context, sourceObject,
+							destinationType);
 				} catch (ConverterException e) {
-					// canHandle do
-					// not verify all cases. An other converter
-					// might successfully convert the source to destination
-					// type
 					if (firstException == null)
 						firstException = e;
 				}
 			}
+
+			// we will have to reorder the converters, we need to make a copy of
+			// the list, otherwise we would have a
+			// ConcurrentModificationException (because this converter instance
+			// can be used as an element converter)
+			IConverter[] converters = converterList
+					.toArray(new IConverter[converterList.size()]);
+
+			for (int i = 1; i < converters.length; i++) {
+				IConverter converter = converters[i];
+				if (converter.canHandle(context, sourceObject, destinationType)) {
+					try {
+						Object result = converter.convert(context,
+								sourceObject, destinationType);
+						if (converterList.getFirst() != converter) {
+							converterList.remove(converter);
+							converterList.addFirst(converter);
+						}
+						return result;
+					} catch (ConverterException e) {
+						if (firstException == null)
+							firstException = e;
+					}
+				}
+			}
+		} else {
+			// don't reorder the converters
+			for (IConverter converter : converterList) {
+				if (converter.canHandle(context, sourceObject, destinationType)) {
+					try {
+						Object result = converter.convert(context,
+								sourceObject, destinationType);
+						if (converterList.getFirst() != converter) {
+							converterList.remove(converter);
+							converterList.addFirst(converter);
+						}
+						return result;
+					} catch (ConverterException e) {
+						if (firstException == null)
+							firstException = e;
+					}
+				}
+			}
+
 		}
 
 		if (firstException != null) {
@@ -90,35 +133,43 @@ public class MultiConverter implements IContainerConverter {
 					MessageFormat
 							.format(
 									"Could not convert given object with class ''{0}'' to object with type signature ''{1}''",
-									sourceObject == null ? "null" : sourceObject.getClass()
-											.getName(), destinationType),
-					firstException);
+									sourceObject == null ? "null"
+											: sourceObject.getClass().getName(),
+									destinationType), firstException);
 		} else {
 			throw new ConverterException(
 					MessageFormat
 							.format(
 									"Could not convert given object with class ''{0}'' to object with type signature ''{1}''",
-									sourceObject == null ? "null" : sourceObject.getClass()
-											.getName(), destinationType));
+									sourceObject == null ? "null"
+											: sourceObject.getClass().getName(),
+									destinationType));
 		}
 
 	}
 
-	public IConverter getElementConverter() {
-		return elementConverter;
-	}
-
 	public void setElementConverter(IConverter elementConverter) {
-		this.elementConverter = elementConverter;
-		
+		super.setElementConverter(elementConverter);
+
 		for (IConverter converter : converterList) {
 			if (converter instanceof IContainerConverter) {
 				IContainerConverter containerConverter = (IContainerConverter) converter;
 				if (containerConverter.getElementConverter() == null) {
-					containerConverter.setElementConverter(this.elementConverter);
+					containerConverter
+							.setElementConverter(this.elementConverter);
 				}
 			}
 		}
+	}
+
+	@Override
+	protected boolean canHandleDestinationType(Type destinationType) {
+		return true;
+	}
+
+	@Override
+	protected boolean canHandleSourceObject(Object sourceObject) {
+		return true;
 	}
 
 }

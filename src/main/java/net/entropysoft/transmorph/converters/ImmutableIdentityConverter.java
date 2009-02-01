@@ -28,6 +28,10 @@ import net.entropysoft.transmorph.utils.ImmutableClasses;
  */
 public class ImmutableIdentityConverter extends AbstractConverter {
 
+	public ImmutableIdentityConverter() {
+		this.useObjectPool = false;
+	}
+	
 	public Object doConvert(ConversionContext context, Object sourceObject,
 			Type destinationType) throws ConverterException {
 		return sourceObject;

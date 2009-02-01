@@ -96,8 +96,8 @@ public class DefaultConverters extends MultiConverter {
 
 	private IConverter[] converters = { immutableIdentityConverter,
 			wrapperToPrimitive, numberToNumber, stringToNumber,
-			stringToBoolean, stringToEnum, stringToClass, classToString,
-			characterArrayToString, objectToString, enumToEnum,
+			stringToBoolean, stringToEnum, stringToClass, new MultiConverter(classToString,
+			characterArrayToString, objectToString), enumToEnum,
 			stringToStringBuffer, stringToStringBuilder, arrayToArray,
 			mapToMap, arrayToCollection, collectionToCollection,
 			collectionToArray, dateToCalendar, calendarToDate,
@@ -107,7 +107,7 @@ public class DefaultConverters extends MultiConverter {
 			objectToObjectUsingConstructor, identityConverter };
 
 	public DefaultConverters() {
-		super(new IConverter[0]);
+		super(true, new IConverter[0]);
 		for (IConverter converter : converters) {
 			addConverter(converter);
 		}

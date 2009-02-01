@@ -25,7 +25,11 @@ import net.entropysoft.transmorph.type.Type;
 import net.entropysoft.transmorph.type.TypeFactory;
 
 /**
- * Convert an object to another object
+ * Convert an object to another object.
+ * 
+ * <p>
+ * This class is not thread-safe
+ * </p>
  * 
  * @author Cedric Chabanois (cchabanois at gmail.com)
  * 
@@ -34,7 +38,7 @@ public class Transmorph implements IConverter {
 
 	private MultiConverter multiConverter;
 	private TypeFactory typeFactory;
-	private boolean useInternalFormFullyQualifiedName;
+	private boolean useInternalFormFullyQualifiedName = true;
 
 	/**
 	 * Creates a Converter object
@@ -76,7 +80,7 @@ public class Transmorph implements IConverter {
 	 */
 	public Transmorph(TypeFactory typeFactory, IConverter... converters) {
 		this.typeFactory = typeFactory;
-		this.multiConverter = new MultiConverter(converters);
+		this.multiConverter = new MultiConverter(false, converters);
 		this.multiConverter.setElementConverter(multiConverter);
 	}
 
@@ -151,6 +155,19 @@ public class Transmorph implements IConverter {
 	 */
 	public Object convert(Object source, Class clazz) throws ConverterException {
 		return convert(new ConversionContext(), source, clazz);
+	}
+
+	/**
+	 * Convert an object to another object with given type
+	 * 
+	 * @param source
+	 * @param destinationType
+	 * @return
+	 * @throws ConverterException
+	 */
+	public Object convert(Object source, Type destinationType)
+			throws ConverterException {
+		return convert(new ConversionContext(), source, destinationType);
 	}
 
 	/**

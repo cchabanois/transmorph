@@ -61,6 +61,7 @@ public class ArrayToCollectionTest extends TestCase {
 	public void testArrayToGenericListUnbounded() throws Exception {
 		Transmorph converter = new Transmorph(ConverterTest.class
 				.getClassLoader(), new DefaultConverters());
+		converter.setUseInternalFormFullyQualifiedName(false);
 		int[] arrayOfInts = new int[] { 0, 1, 2, 3, 4, 5 };
 		// int[] => List<*> (ArrayToCollectionConverter)
 		List<?> arrayOfSomething = (List<?>) converter.convert(arrayOfInts,
@@ -75,7 +76,7 @@ public class ArrayToCollectionTest extends TestCase {
 	public void testArrayToGenericListUpperbound() throws Exception {
 		Transmorph converter = new Transmorph(ConverterTest.class
 				.getClassLoader(), new DefaultConverters());
-
+		converter.setUseInternalFormFullyQualifiedName(false);
 		// String[] => List<? extends Number> (ArrayToCollectionConverter)
 		String[] arrayOfStrings = new String[] { "0", "1", "2", "3", "4", "5" };
 		List<? extends Number> listOfNumbers = (List<? extends Number>) converter

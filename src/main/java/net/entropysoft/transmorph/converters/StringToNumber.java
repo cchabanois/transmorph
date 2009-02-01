@@ -34,13 +34,18 @@ import net.entropysoft.transmorph.type.TypeUtils;
 public class StringToNumber extends AbstractConverter {
 
 	public StringToNumber() {
-		this.useObjectPool = true;
+		// numbers are immutable so it is not necessary
+		// it would make conversion slower and would take more memory when we
+		// have to convert big arrays
+		this.useObjectPool = false;
 	}
-	
-	public Object doConvert(ConversionContext context, Object sourceObject, Type destinationType) throws ConverterException {
+
+	public Object doConvert(ConversionContext context, Object sourceObject,
+			Type destinationType) throws ConverterException {
 		if (sourceObject == null) {
 			if (destinationType.isPrimitive()) {
-				throw new ConverterException("Cannot convert null to primitive number");
+				throw new ConverterException(
+						"Cannot convert null to primitive number");
 			} else
 				return null;
 		}
@@ -85,8 +90,12 @@ public class StringToNumber extends AbstractConverter {
 			}
 			throw new ConverterException("Could not convert");
 		} catch (NumberFormatException e) {
-			throw new ConverterException(MessageFormat.format("Could not convert from ''{0}'' to object with type signature ''{1}''",
-					sourceString, destinationType.toString()), e);
+			throw new ConverterException(
+					MessageFormat
+							.format(
+									"Could not convert from ''{0}'' to object with type signature ''{1}''",
+									sourceString, destinationType.toString()),
+					e);
 		} catch (ClassNotFoundException e) {
 			throw new ConverterException("Could not convert", e);
 		}

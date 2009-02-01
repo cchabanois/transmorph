@@ -28,7 +28,7 @@ import net.entropysoft.transmorph.type.Type;
 public class CharacterArrayToString extends AbstractConverter {
 
 	public CharacterArrayToString() {
-		this.useObjectPool = true;
+		this.useObjectPool = false;
 	}
 	
 	public Object doConvert(ConversionContext context, Object sourceObject, Type destinationType) throws ConverterException {

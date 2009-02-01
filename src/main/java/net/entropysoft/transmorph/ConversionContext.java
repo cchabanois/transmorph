@@ -22,7 +22,11 @@ import net.entropysoft.transmorph.context.ConvertedObjectPool;
 import net.entropysoft.transmorph.context.UsedConverters;
 
 /**
- * The conversion context
+ * The conversion context.
+ * 
+ * <p>
+ * You can add custom objects to the context using add method.
+ * </p>
  * 
  * @author Cedric Chabanois (cchabanois at gmail.com)
  * 

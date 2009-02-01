@@ -28,6 +28,10 @@ import net.entropysoft.transmorph.type.Type;
  */
 public class IdentityConverter extends AbstractConverter {
 
+	public IdentityConverter() {
+		this.useObjectPool = false;
+	}
+	
 	public Object doConvert(ConversionContext context, Object sourceObject,
 			Type destinationType) throws ConverterException {
 		return sourceObject;

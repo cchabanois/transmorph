@@ -30,6 +30,7 @@ public class ClassToString extends AbstractSimpleConverter<Class, String> {
 
 	public ClassToString() {
 		super(Class.class, String.class);
+		this.useObjectPool = false;
 	}
 
 	@Override

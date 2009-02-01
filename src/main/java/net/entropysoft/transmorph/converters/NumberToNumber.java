@@ -35,7 +35,10 @@ public class NumberToNumber extends AbstractConverter {
 	private Number nullReplacementForPrimitive = null;
 
 	public NumberToNumber() {
-		this.useObjectPool = true;
+		// number are immutable
+		// it would make conversion slower and would take more memory when we
+		// have to convert big arrays 
+		this.useObjectPool = false;
 	}
 
 	public Number getNullReplacementForPrimitive() {

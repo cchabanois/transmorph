@@ -33,7 +33,7 @@ public class ObjectToString extends AbstractConverter {
 	private Class[] handledSourceClasses = ALL_SOURCE_CLASSES;
 
 	public ObjectToString() {
-		this.useObjectPool = true;
+		this.useObjectPool = false;
 	}
 	
 	public Class[] getHandledSourceClasses() {

@@ -26,6 +26,7 @@ public class ConverterTest extends TestCase {
 	public void testConverterWithContext() throws Exception {
 		Transmorph transmorph = new Transmorph(ConverterTest.class
 				.getClassLoader(), new DefaultConverters());
+		transmorph.setUseInternalFormFullyQualifiedName(false);
 		ConversionContext context = new ConversionContext();
 
 		List<Integer> list = new ArrayList<Integer>();

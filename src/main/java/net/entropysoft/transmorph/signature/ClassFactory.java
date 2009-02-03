@@ -67,8 +67,9 @@ public class ClassFactory {
 					primitiveTypeSignature.getPrimitiveTypeChar()).getName();
 		}
 		if (typeSignature.isArrayType()) {
-			return typeSignature.getTypeErasureSignature().getSignature()
-					.replace('/', '.');
+			ArrayTypeSignature arrayTypeSignature = (ArrayTypeSignature) typeSignature;
+			return arrayTypeSignature.getTypeErasureSignature().getSignature()
+					.replace('.', '$').replace('/', '.');
 		}
 		if (typeSignature.isClassType()) {
 			ClassTypeSignature classTypeSignature = (ClassTypeSignature) typeSignature;

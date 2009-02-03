@@ -17,6 +17,18 @@ public class ClassFactoryTest extends TestCase {
 		assertEquals(Map.class, classFactory.getClass(typeSignature));
 	}
 	
+	public void testClassFactoryInvalidFormError() throws Exception {
+		TypeSignatureParser typeSignatureParser = new TypeSignatureParser("[Ljava.lang.String;");
+		TypeSignature typeSignature = typeSignatureParser.parseTypeSignature();
+		ClassFactory classFactory = new ClassFactory(Thread.currentThread().getContextClassLoader());
+		try {
+			classFactory.getClass(typeSignature);
+			fail("Should not be able to get class");
+		} catch (ClassNotFoundException e) {
+			
+		}
+	}
+	
 	public void testClassFactoryWithArray() throws Exception {
 		TypeSignatureParser typeSignatureParser = new TypeSignatureParser("[[I;");
 		TypeSignature typeSignature = typeSignatureParser.parseTypeSignature();

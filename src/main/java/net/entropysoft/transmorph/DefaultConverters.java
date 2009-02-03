@@ -32,7 +32,6 @@ import net.entropysoft.transmorph.converters.StringToClass;
 import net.entropysoft.transmorph.converters.StringToDate;
 import net.entropysoft.transmorph.converters.StringToFile;
 import net.entropysoft.transmorph.converters.StringToNumber;
-import net.entropysoft.transmorph.converters.StringToQName;
 import net.entropysoft.transmorph.converters.StringToStringBuffer;
 import net.entropysoft.transmorph.converters.StringToStringBuilder;
 import net.entropysoft.transmorph.converters.StringToTimeZone;
@@ -82,7 +81,6 @@ public class DefaultConverters extends MultiConverter {
 	private StringToCharacterArray stringToCharacterArray = new StringToCharacterArray();
 	private StringToDate stringToDate = new StringToDate();
 	private StringToFile stringToFile = new StringToFile();
-	private StringToQName stringToQName = new StringToQName();
 	private StringToTimeZone stringToTimeZone = new StringToTimeZone();
 	private StringToURI stringToURI = new StringToURI();
 	private StringToURL stringToURL = new StringToURL();
@@ -102,7 +100,7 @@ public class DefaultConverters extends MultiConverter {
 			mapToMap, arrayToCollection, collectionToCollection,
 			collectionToArray, dateToCalendar, calendarToDate,
 			stringToCalendar, stringToCharacterArray, stringToDate,
-			stringToFile, stringToQName, stringToTimeZone, stringToURI,
+			stringToFile, stringToTimeZone, stringToURI,
 			stringToURL, uriToUrl, urlToUri, beanToBean, mapToBean,
 			objectToObjectUsingConstructor, identityConverter };
 
@@ -203,10 +201,6 @@ public class DefaultConverters extends MultiConverter {
 
 	public StringToFile getStringToFile() {
 		return stringToFile;
-	}
-
-	public StringToQName getStringToQName() {
-		return stringToQName;
 	}
 
 	public StringToTimeZone getStringToTimeZone() {

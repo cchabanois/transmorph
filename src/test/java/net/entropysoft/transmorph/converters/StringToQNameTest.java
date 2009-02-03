@@ -26,7 +26,7 @@ public class StringToQNameTest extends TestCase {
 
 	public void testStringToQName() throws Exception {
 		Transmorph converter = new Transmorph(ConverterTest.class
-				.getClassLoader(), new DefaultConverters());
+				.getClassLoader(), new StringToQName());
 
 		QName qname = (QName) converter.convert(
 				"{http://www.entropysoft.ney}localPart", QName.class);

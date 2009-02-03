@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import junit.framework.TestCase;
+import net.entropysoft.transmorph.ConversionContext;
 import net.entropysoft.transmorph.ConverterTest;
 import net.entropysoft.transmorph.DefaultConverters;
 import net.entropysoft.transmorph.Transmorph;
@@ -41,11 +42,11 @@ public class CollectionToArrayTest extends TestCase {
 		assertEquals("40", array[1]);
 		assertEquals("50", array[2]);
 	}
-	
+
 	public void testListOfListToArray2D() throws Exception {
 		Transmorph converter = new Transmorph(ConverterTest.class
 				.getClassLoader(), new DefaultConverters());
-		
+
 		List<List<Integer>> listListInteger = new ArrayList<List<Integer>>();
 		List<Integer> listInteger = new ArrayList<Integer>();
 		listInteger.add(11);
@@ -68,6 +69,17 @@ public class CollectionToArrayTest extends TestCase {
 		assertEquals("22", array2D[1][1]);
 		assertEquals("23", array2D[1][2]);
 	}
-	
-	
+
+	public void testListNotParameterizedToArray() throws Exception {
+		Transmorph transmorph = new Transmorph(ConverterTest.class
+				.getClassLoader(), new DefaultConverters());
+		List list = new ArrayList();
+		list.add(new Integer(1));
+		list.add(new Integer(2));
+		list.add(new Integer(3));
+
+		String[] arrayOfStrings = (String[]) transmorph.convert(list,
+				"[Ljava/lang/String;");
+	}
+
 }

@@ -72,7 +72,7 @@ public class ConverterPerformanceTest extends TestCase {
 		TypeFactory typeFactory = transmorph.getTypeFactory();
 		Type destinationType = typeFactory.getType(List.class, new Class[] { String.class});
 		
-		runConverter("testArrayToList", transmorph, array, destinationType, 10, 150, new IManualConversion() {
+		runConverter("testArrayToList", transmorph, array, destinationType, 10, 200, new IManualConversion() {
 
 					public Object convert(Object sourceObject) {
 						int[] array = (int[])sourceObject;

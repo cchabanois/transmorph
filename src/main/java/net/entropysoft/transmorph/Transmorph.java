@@ -49,7 +49,7 @@ public class Transmorph implements IConverter {
 	 *            the converter that will be used.
 	 */
 	public Transmorph(ClassLoader classLoader, IConverter converter) {
-		// this method is not really needed but when converted to JDK 1.4, it is
+		// this constructor is not really needed but when converted to JDK 1.4, it is
 		// useful
 		this(new TypeFactory(new ClassFactory(classLoader)),
 				new IConverter[] { converter });
@@ -82,6 +82,18 @@ public class Transmorph implements IConverter {
 	 */
 	public Transmorph(IConverter... converters) {
 		this(Thread.currentThread().getContextClassLoader(), converters);
+	}
+
+	public Transmorph(IConverter converter) {
+		// this constructor is not really needed but when converted to JDK 1.4, it is
+		// useful
+		this(new IConverter[] { converter });
+	}
+
+	public Transmorph(TypeFactory typeFactory, IConverter converter) {
+		// this constructor is not really needed but when converted to JDK 1.4, it is
+		// useful
+		this(typeFactory, new IConverter[] { converter });
 	}
 
 	/**

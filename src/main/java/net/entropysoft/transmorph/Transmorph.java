@@ -46,6 +46,21 @@ public class Transmorph implements IConverter {
 	 * @param classLoader
 	 *            classLoader to use when loading classes by name
 	 * @param converters
+	 *            the converter that will be used.
+	 */
+	public Transmorph(ClassLoader classLoader, IConverter converter) {
+		// this method is not really needed but when converted to JDK 1.4, it is
+		// useful
+		this(new TypeFactory(new ClassFactory(classLoader)),
+				new IConverter[] { converter });
+	}
+
+	/**
+	 * Creates a Converter object
+	 * 
+	 * @param classLoader
+	 *            classLoader to use when loading classes by name
+	 * @param converters
 	 *            the converters that will be used. The order is important as
 	 *            they will be tried one by one in order
 	 */

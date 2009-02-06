@@ -172,4 +172,11 @@ public class MultiConverter extends AbstractContainerConverter {
 		return true;
 	}
 
+	@Override
+	protected boolean canBeAddedToUsedConverters() {
+		// this would not add much value as this converter does no conversion by
+		// itself. It just delegates its work to another converter.
+		return false;
+	}
+
 }

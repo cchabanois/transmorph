@@ -55,7 +55,7 @@ public abstract class AbstractConverter implements IConverter {
 				objectPool.add(this, sourceObject, destinationType,
 						convertedObject);
 			}
-			if (context.isStoreUsedConverters()) {
+			if (context.isStoreUsedConverters() && canBeAddedToUsedConverters()) {
 				context.getUsedConverters().addUsedConverter(this,
 						sourceObject, destinationType);
 			}
@@ -71,6 +71,18 @@ public abstract class AbstractConverter implements IConverter {
 			}
 			throw e;
 		}
+	}
+
+	/**
+	 * Generally when context.isStoreUsedConverters is true, a converter that
+	 * has been used is added to the list of used converters. But for some
+	 * converters this would just make the list longer without added value
+	 * (this is the case for MultiConverter that delegates all its work to another converter)
+	 * 
+	 * @return
+	 */
+	protected boolean canBeAddedToUsedConverters() {
+		return true;
 	}
 
 	public abstract Object doConvert(ConversionContext context,

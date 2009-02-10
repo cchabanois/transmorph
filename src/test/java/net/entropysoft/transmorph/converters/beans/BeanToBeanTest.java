@@ -29,6 +29,8 @@ import samples.MyBeanAB;
 import samples.MyBeanABTransferObject;
 import samples.MyBeanBA;
 import samples.MyBeanBATransferObject;
+import samples.PrivatePropertyBean;
+import samples.PrivatePropertyBeanTransferObject;
 
 public class BeanToBeanTest extends TestCase {
 
@@ -103,5 +105,21 @@ public class BeanToBeanTest extends TestCase {
 		assertEquals(55, myBean4TransferObject.getLength());
 	}	
 	
+	public void testBeanToBeanWithPrivateProperties() throws Exception {
+		DefaultConverters defaultConverters = new DefaultConverters();
+		Transmorph converter = new Transmorph(ConverterTest.class
+				.getClassLoader(), defaultConverters);
+		
+		BeanToBeanMapping beanToBeanMapping = new BeanToBeanMapping(
+				PrivatePropertyBean.class, PrivatePropertyBeanTransferObject.class);
+		defaultConverters.getBeanToBean().addBeanToBeanMapping(beanToBeanMapping);
+		
+		PrivatePropertyBean bean = new PrivatePropertyBean(55);
+		bean.setPublicProperty(22);
+	
+		PrivatePropertyBeanTransferObject beanTO = (PrivatePropertyBeanTransferObject)converter.convert(bean, PrivatePropertyBeanTransferObject.class);
+		assertEquals("22", beanTO.getPublicProperty());
+		assertEquals("Public property:22\nPrivate property:null", beanTO.toString());
+	}
 	
 }

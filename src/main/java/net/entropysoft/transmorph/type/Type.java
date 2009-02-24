@@ -87,7 +87,7 @@ public abstract class Type {
 	/**
 	 * check if given signature is the signature of a primitive type
 	 * 
-	 * @param signature
+	 * @param buffer
 	 * @return
 	 */
 	public boolean isPrimitive() {

@@ -13,15 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.entropysoft.transmorph.signature;
+package net.entropysoft.transmorph.signature.parser;
 
-public class InvalidSignatureException extends RuntimeException {
+/**
+ * Exception thrown by CharacterBuffer when there is an unexpected character 
+ *
+ * @author Cedric Chabanois (cchabanois at gmail.com)
+ *
+ */
+public class UnexpectedCharacterException extends RuntimeException {
 
-	private static final long serialVersionUID = 5407610157072145586L;
-
+	private static final long serialVersionUID = -8254166255685531654L;
+	
 	private int position;
 	
-	public InvalidSignatureException(String message, int position) {
+	public UnexpectedCharacterException(String message, int position) {
 		super(message);
 		this.position = position;
 	}

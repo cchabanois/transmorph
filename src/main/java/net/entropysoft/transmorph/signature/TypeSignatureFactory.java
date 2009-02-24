@@ -20,6 +20,7 @@ import java.util.Collections;
 import java.util.Map;
 
 import net.entropysoft.transmorph.cache.LRUMap;
+import net.entropysoft.transmorph.signature.parser.TypeSignatureParser;
 
 /**
  * Factory for TypeSignature

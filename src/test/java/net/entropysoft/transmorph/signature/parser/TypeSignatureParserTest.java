@@ -1,8 +1,9 @@
-package net.entropysoft.transmorph.signature;
+package net.entropysoft.transmorph.signature.parser;
 
 import junit.framework.TestCase;
 import net.entropysoft.transmorph.signature.TypeSignature;
-import net.entropysoft.transmorph.signature.TypeSignatureParser;
+import net.entropysoft.transmorph.signature.parser.InvalidSignatureException;
+import net.entropysoft.transmorph.signature.parser.TypeSignatureParser;
 
 public class TypeSignatureParserTest extends TestCase {
 
@@ -39,4 +40,17 @@ public class TypeSignatureParserTest extends TestCase {
 				"Ljava/util/Map<Ljava/lang/String;Ljava/util/List<Ljava/lang/String;>;>;",
 				typeSignature.getSignature());
 	}
+
+	public void testParseWithExcessiveChars() {
+		TypeSignatureParser typeSignatureParser = new TypeSignatureParser(
+				"Ljava/util/Map<Ljava/lang/String;Ljava/util/List<Ljava/lang/String;>;>;ABC");
+		try {
+			TypeSignature typeSignature = typeSignatureParser
+					.parseTypeSignature();
+			fail("Should not have been able to parse");
+		} catch (InvalidSignatureException e) {
+
+		}
+	}
+
 }

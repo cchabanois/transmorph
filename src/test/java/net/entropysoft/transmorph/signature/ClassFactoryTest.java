@@ -4,7 +4,7 @@ import java.util.Map;
 
 import net.entropysoft.transmorph.signature.ClassFactory;
 import net.entropysoft.transmorph.signature.TypeSignature;
-import net.entropysoft.transmorph.signature.TypeSignatureParser;
+import net.entropysoft.transmorph.signature.parser.TypeSignatureParser;
 
 import junit.framework.TestCase;
 
@@ -30,7 +30,7 @@ public class ClassFactoryTest extends TestCase {
 	}
 	
 	public void testClassFactoryWithArray() throws Exception {
-		TypeSignatureParser typeSignatureParser = new TypeSignatureParser("[[I;");
+		TypeSignatureParser typeSignatureParser = new TypeSignatureParser("[[I");
 		TypeSignature typeSignature = typeSignatureParser.parseTypeSignature();
 		ClassFactory classFactory = new ClassFactory(Thread.currentThread().getContextClassLoader());
 		assertEquals((new int[][] {}).getClass(), classFactory.getClass(typeSignature));

@@ -13,10 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.entropysoft.transmorph.signature;
+package net.entropysoft.transmorph.signature.parser;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import net.entropysoft.transmorph.signature.ArrayTypeSignature;
+import net.entropysoft.transmorph.signature.ClassTypeSignature;
+import net.entropysoft.transmorph.signature.FieldTypeSignature;
+import net.entropysoft.transmorph.signature.PrimitiveTypeSignature;
+import net.entropysoft.transmorph.signature.TypeArgSignature;
+import net.entropysoft.transmorph.signature.TypeSignature;
+import net.entropysoft.transmorph.signature.TypeVarSignature;
 
 /**
  * Parser for java type signatures
@@ -33,16 +41,51 @@ import java.util.List;
  * @author Cedric Chabanois (cchabanois at gmail.com)
  * 
  */
-public class TypeSignatureParser {
-	private char[] signature;
-	private int position = 0;
-	private static int EOS = -1;
-
+public class TypeSignatureParser implements ITypeSignatureParser {
+	private static final int EOS = CharacterBuffer.EOS;
+	private boolean acceptGenerics = true;
 	private char packageSeparator = '/';
 	private char innerClassPrefix = '.';
+	private CharacterBuffer characterBuffer;
+
+	public TypeSignatureParser() {
+
+	}
+
+	public TypeSignatureParser(boolean useInternalFormFullyQualifiedName) {
+		setUseInternalFormFullyQualifiedName(useInternalFormFullyQualifiedName);
+	}
 
 	public TypeSignatureParser(String typeSignature) {
-		this.signature = typeSignature.toCharArray();
+		setTypeSignature(typeSignature);
+	}
+
+	public TypeSignatureParser(String typeSignature,
+			boolean useInternalFormFullyQualifiedName) {
+		setTypeSignature(typeSignature);
+		setUseInternalFormFullyQualifiedName(useInternalFormFullyQualifiedName);
+	}
+
+	public void setTypeSignature(String signature) {
+		characterBuffer = new CharacterBuffer(signature);
+	}
+
+	public void setTypeSignature(CharacterBuffer characterBuffer) {
+		this.characterBuffer = characterBuffer;
+	}
+
+	public boolean isAcceptGenerics() {
+		return acceptGenerics;
+	}
+
+	/**
+	 * set whether generics are accepted or not. If true, there will be no error
+	 * while parsing "java.util.List<java.lang.String>"
+	 * 
+	 * @param acceptGenerics
+	 */
+	public void setAcceptGenerics(boolean acceptGenerics) {
+		this.acceptGenerics = acceptGenerics;
 	}
 
 	/**
@@ -62,33 +105,6 @@ public class TypeSignatureParser {
 		}
 	}
 
-	private int nextChar() {
-		if (position >= signature.length) {
-			return EOS;
-		}
-		return signature[position++];
-	}
-
-	/**
-	 * read next char and make sure it is expected char
-	 * 
-	 * @param expectedChar
-	 */
-	private int nextChar(int expectedChar) {
-		int ch = nextChar();
-		if (ch != expectedChar) {
-			unexpectedCharacterError();
-		}
-		return ch;
-	}
-
-	private int peekChar() {
-		if (position >= signature.length) {
-			return EOS;
-		}
-		return signature[position];
-	}
-
 	private boolean isPrimitiveTypeCharacter(int ch) {
 		return ch == PrimitiveTypeSignature.PRIMITIVE_BOOLEAN
 				|| ch == PrimitiveTypeSignature.PRIMITIVE_BYTE
@@ -103,9 +119,18 @@ public class TypeSignatureParser {
 	public TypeSignature parseTypeSignature() {
 		int ch = peekChar();
 		if (isPrimitiveTypeCharacter(ch)) {
-			return parsePrimitiveTypeSignature();
+			TypeSignature typeSignature = parsePrimitiveTypeSignature();
+			nextChar(EOS);
+			return typeSignature;
+		} else {
+			TypeSignature typeSignature = parseFieldTypeSignature();
+			nextChar(EOS);
+			return typeSignature;
 		}
-		return parseFieldTypeSignature();
+	}
+
+	private int peekChar() {
+		return characterBuffer.peekChar();
 	}
 
 	private FieldTypeSignature parseFieldTypeSignature() {
@@ -116,22 +141,34 @@ public class TypeSignatureParser {
 		case '[':
 			return parseArrayTypeSignature();
 		case 'T':
-			return parseTypeVarSignature();
+			if (acceptGenerics)
+				return parseTypeVarSignature();
 		}
 		unexpectedCharacterError();
 		return null;
 	}
 
+	private void unexpectedCharacterError() {
+		try {
+			characterBuffer.unexpectedCharacterError();
+		} catch (UnexpectedCharacterException e) {
+			throw new InvalidSignatureException(e.getMessage(), e.getPosition());
+		}
+	}
+
 	private TypeVarSignature parseTypeVarSignature() {
 		nextChar('T');
-		String id = parseId();
+		String id = parseJavaId();
 		nextChar(';');
 		return new TypeVarSignature(id);
 	}
 
-	private void unexpectedCharacterError() {
-		throw new InvalidSignatureException("Unexpected character '"
-				+ (char) peekChar() + "' at position " + position, position);
+	private int nextChar(int c) {
+		try {
+			return characterBuffer.nextChar(c);
+		} catch (UnexpectedCharacterException e) {
+			throw new InvalidSignatureException(e.getMessage(), e.getPosition());
+		}
 	}
 
 	/**
@@ -139,9 +176,13 @@ public class TypeSignatureParser {
 	 * 
 	 * @return
 	 */
-	private PrimitiveTypeSignature parsePrimitiveTypeSignature() {
+	public PrimitiveTypeSignature parsePrimitiveTypeSignature() {
 		int ch = nextChar();
 		return new PrimitiveTypeSignature((char) ch);
+	}
+
+	private int nextChar() {
+		return characterBuffer.nextChar();
 	}
 
 	/**
@@ -149,53 +190,9 @@ public class TypeSignatureParser {
 	 * 
 	 * @return
 	 */
-	private ArrayTypeSignature parseArrayTypeSignature() {
+	public ArrayTypeSignature parseArrayTypeSignature() {
 		nextChar('[');
 		return new ArrayTypeSignature(parseTypeSignature());
-	}
-
-	private boolean isJavaIdentifierPart(int codePoint) {
-		// if '$' is used as innerClassPrefix, this is not a valid java
-		// identifier part
-		if (innerClassPrefix == '$' && codePoint == '$') {
-			return false;
-		}
-		return Character.isJavaIdentifierPart(codePoint);
-	}
-
-	/**
-	 * parse a java id
-	 * 
-	 * @return
-	 */
-	private String parseId() {
-		StringBuilder sb = new StringBuilder();
-		int ch;
-		while (true) {
-			ch = peekChar();
-			if (ch == EOS || !isJavaIdentifierPart(ch)) {
-				return sb.toString();
-			}
-			sb.append((char) ch);
-			nextChar();
-		}
-	}
-
-	/**
-	 * parse the outer class name
-	 * 
-	 * @return
-	 */
-	private String parseOuterClassName() {
-		StringBuilder sb = new StringBuilder();
-		sb.append(parseId());
-		int ch;
-		while ((ch = peekChar()) == packageSeparator) { // '/' or '.'
-			nextChar(packageSeparator);
-			sb.append('.');
-			sb.append(parseId());
-		}
-		return sb.toString();
 	}
 
 	/**
@@ -207,12 +204,15 @@ public class TypeSignatureParser {
 		int ch = peekChar();
 		switch (ch) {
 		case '*':
-			return new TypeArgSignature((char) nextChar(TypeArgSignature.UNBOUNDED_WILDCARD), null);
+			return new TypeArgSignature(
+					(char) nextChar(TypeArgSignature.UNBOUNDED_WILDCARD), null);
 		case '+':
-			return new TypeArgSignature((char) nextChar(TypeArgSignature.UPPERBOUND_WILDCARD),
+			return new TypeArgSignature(
+					(char) nextChar(TypeArgSignature.UPPERBOUND_WILDCARD),
 					parseFieldTypeSignature());
 		case '-':
-			return new TypeArgSignature((char) nextChar(TypeArgSignature.LOWERBOUND_WILDCARD),
+			return new TypeArgSignature(
+					(char) nextChar(TypeArgSignature.LOWERBOUND_WILDCARD),
 					parseFieldTypeSignature());
 		default:
 			return new TypeArgSignature(TypeArgSignature.NO_WILDCARD,
@@ -235,13 +235,57 @@ public class TypeSignatureParser {
 				.size()]);
 	}
 
+	private boolean isJavaIdentifierPart(int codePoint) {
+		// if '$' is used as innerClassPrefix, this is not a valid java
+		// identifier part
+		if (innerClassPrefix == '$' && codePoint == '$') {
+			return false;
+		}
+		return Character.isJavaIdentifierPart(codePoint);
+	}
+
+	/**
+	 * parse a java id
+	 * 
+	 * @return
+	 */
+	private String parseJavaId() {
+		StringBuilder sb = new StringBuilder();
+		int ch;
+		while (true) {
+			ch = peekChar();
+			if (ch == EOS || !isJavaIdentifierPart(ch)) {
+				return sb.toString();
+			}
+			sb.append((char) ch);
+			nextChar();
+		}
+	}
+
+	/**
+	 * parse the outer class name
+	 * 
+	 * @return
+	 */
+	private String parseOuterClassName() {
+		StringBuilder sb = new StringBuilder();
+		sb.append(parseJavaId());
+		int ch;
+		while ((ch = peekChar()) == packageSeparator) { // '/' or '.'
+			nextChar(packageSeparator);
+			sb.append('.');
+			sb.append(parseJavaId());
+		}
+		return sb.toString();
+	}
+
 	private ClassTypeSignature parseInnerClass(
 			ClassTypeSignature ownerClassTypeSignature) {
 		nextChar(innerClassPrefix); // '.' or '$'
-		String id = parseId();
+		String id = parseJavaId();
 		int ch = peekChar();
 		TypeArgSignature[] typeArgSignatures = new TypeArgSignature[0];
-		if (ch == '<') {
+		if (acceptGenerics && ch == '<') {
 			typeArgSignatures = parseTypeArgs();
 		}
 		return new ClassTypeSignature(id, typeArgSignatures,
@@ -267,12 +311,23 @@ public class TypeSignatureParser {
 	 */
 	private ClassTypeSignature parseClassTypeSignature() {
 		nextChar('L');
+		ClassTypeSignature classTypeSignature = parseClassName();
+		nextChar(';');
+		return classTypeSignature;
+	}
+
+	/**
+	 * parse the class name (outer class and inner class)
+	 * 
+	 * @return
+	 */
+	public ClassTypeSignature parseClassName() {
 		// read ID (/Id)*
 		String outerClassName = parseOuterClassName();
 
 		TypeArgSignature[] typeArgSignatures = new TypeArgSignature[0];
 		int ch = peekChar();
-		if (ch == '<') {
+		if (acceptGenerics && ch == '<') {
 			typeArgSignatures = parseTypeArgs();
 		}
 		ClassTypeSignature classTypeSignature = new ClassTypeSignature(
@@ -281,7 +336,7 @@ public class TypeSignatureParser {
 		if (ch == innerClassPrefix) { // '.' or '$'
 			classTypeSignature = parseInnerClasses(classTypeSignature);
 		}
-		nextChar(';');
 		return classTypeSignature;
 	}
+
 }

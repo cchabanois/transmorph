@@ -13,21 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.entropysoft.transmorph.signature;
+package net.entropysoft.transmorph.signature.parser;
 
-/**
- * interface for signatures
- * 
- * @author Cedric Chabanois (cchabanois at gmail.com)
- * 
- */
-public interface ISignature {
+public class InvalidSignatureException extends RuntimeException {
 
-	/**
-	 * get the signature using the "Internal Form of Fully Qualified Name"
-	 * 
-	 * @return
-	 */
-	public abstract String getSignature();
+	private static final long serialVersionUID = 5407610157072145586L;
+
+	private int position;
+	
+	public InvalidSignatureException(String message, int position) {
+		super(message);
+		this.position = position;
+	}
+
+	public int getPosition() {
+		return position;
+	}
 
 }

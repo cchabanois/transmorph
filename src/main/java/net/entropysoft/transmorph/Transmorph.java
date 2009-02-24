@@ -21,6 +21,8 @@ import net.entropysoft.transmorph.converters.MultiConverter;
 import net.entropysoft.transmorph.signature.ClassFactory;
 import net.entropysoft.transmorph.signature.TypeSignature;
 import net.entropysoft.transmorph.signature.TypeSignatureFactory;
+import net.entropysoft.transmorph.signature.parser.ITypeSignatureParser;
+import net.entropysoft.transmorph.signature.parser.TypeSignatureParser;
 import net.entropysoft.transmorph.type.Type;
 import net.entropysoft.transmorph.type.TypeFactory;
 
@@ -38,7 +40,7 @@ public class Transmorph implements IConverter {
 
 	private MultiConverter multiConverter;
 	private TypeFactory typeFactory;
-	private boolean useInternalFormFullyQualifiedName = true;
+	private ITypeSignatureParser typeSignatureParser = new TypeSignatureParser();
 
 	/**
 	 * Creates a Converter object
@@ -111,21 +113,12 @@ public class Transmorph implements IConverter {
 		this.multiConverter.setElementConverter(multiConverter);
 	}
 
-	public boolean isUseInternalFormFullyQualifiedName() {
-		return useInternalFormFullyQualifiedName;
+	public ITypeSignatureParser getTypeSignatureParser() {
+		return typeSignatureParser;
 	}
 
-	/**
-	 * If you use internal form fully qualified names (which is the case by
-	 * default), fqn in parameterizedTypeSignature must be in the form
-	 * 'java/lang/Thread'. Otherwise fqn must be of the form 'java.lang.Thread'
-	 * 
-	 * @param useInternalFormFullyQualifiedName
-	 * @see {@link #convert(Object, String)}
-	 */
-	public void setUseInternalFormFullyQualifiedName(
-			boolean useInternalFormFullyQualifiedName) {
-		this.useInternalFormFullyQualifiedName = useInternalFormFullyQualifiedName;
+	public void setTypeSignatureParser(ITypeSignatureParser typeSignatureParser) {
+		this.typeSignatureParser = typeSignatureParser;
 	}
 
 	/**
@@ -229,8 +222,8 @@ public class Transmorph implements IConverter {
 	 */
 	public Object convert(Object source, String parameterizedTypeSignature)
 			throws ConverterException {
-		TypeSignature typeSignature = TypeSignatureFactory.getTypeSignature(
-				parameterizedTypeSignature, useInternalFormFullyQualifiedName);
+		typeSignatureParser.setTypeSignature(parameterizedTypeSignature);
+		TypeSignature typeSignature = typeSignatureParser.parseTypeSignature();
 		Type destinationType = typeFactory.getType(typeSignature);
 
 		return convert(new ConversionContext(), source, destinationType);
@@ -248,8 +241,8 @@ public class Transmorph implements IConverter {
 	 */
 	public Object convert(ConversionContext context, Object source,
 			String parameterizedTypeSignature) throws ConverterException {
-		TypeSignature typeSignature = TypeSignatureFactory.getTypeSignature(
-				parameterizedTypeSignature, useInternalFormFullyQualifiedName);
+		typeSignatureParser.setTypeSignature(parameterizedTypeSignature);
+		TypeSignature typeSignature = typeSignatureParser.parseTypeSignature();
 		Type destinationType = typeFactory.getType(typeSignature);
 
 		return convert(context, source, destinationType);

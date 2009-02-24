@@ -11,9 +11,9 @@ public class AllTests {
 		//$JUnit-BEGIN$
 		suite.addTestSuite(JavaTypeToTypeSignatureTest.class);
 		suite.addTestSuite(ClassFactoryTest.class);
-		suite.addTestSuite(TypeSignatureParserTest.class);
 		suite.addTestSuite(TypeSignatureFactoryTest.class);
 		//$JUnit-END$
+		suite.addTest(net.entropysoft.transmorph.signature.parser.AllTests.suite());
 		return suite;
 	}
 

@@ -15,6 +15,8 @@
  */
 package net.entropysoft.transmorph.signature;
 
+import net.entropysoft.transmorph.signature.formatter.TypeSignatureFormatter;
+
 public class TypeVarSignature extends FieldTypeSignature {
 
 	private String id;
@@ -29,17 +31,18 @@ public class TypeVarSignature extends FieldTypeSignature {
 		return getSignature();
 	}
 
+	public String getId() {
+		return id;
+	}
+
 	public boolean isTypeVar() {
 		return true;
 	}
 	
 	public String getSignature() {
 		if (signature == null) {
-			StringBuilder stringBuilder = new StringBuilder();
-			stringBuilder.append('T');
-			stringBuilder.append(id);
-			stringBuilder.append(';');
-			signature = stringBuilder.toString();
+			TypeSignatureFormatter typeSignatureFormatter = new TypeSignatureFormatter();
+			signature = typeSignatureFormatter.formatTypeVarSignature(this);
 		}
 		return signature;
 	}

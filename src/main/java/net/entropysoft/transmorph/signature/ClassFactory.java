@@ -18,6 +18,8 @@ package net.entropysoft.transmorph.signature;
 import java.util.HashMap;
 import java.util.Map;
 
+import net.entropysoft.transmorph.signature.formatter.ClassGetNameSignatureFormatter;
+
 /**
  * Creates class from TypeSignature
  * 
@@ -27,7 +29,8 @@ import java.util.Map;
 public class ClassFactory {
 
 	private ClassLoader classLoader;
-
+	private ClassGetNameSignatureFormatter classGetNameSignatureFormatter = new ClassGetNameSignatureFormatter();
+	
 	private static Map<Character, Class> primitiveTypesMap = new HashMap<Character, Class>();
 
 	static {
@@ -56,29 +59,6 @@ public class ClassFactory {
 	}
 
 	/**
-	 * get the type name (similar to Class.getName()) without loading the class
-	 * 
-	 * @return the FQN of the type or null if primitive type or array
-	 */
-	public String getName(TypeSignature typeSignature) {
-		if (typeSignature.isPrimitiveType()) {
-			PrimitiveTypeSignature primitiveTypeSignature = (PrimitiveTypeSignature) typeSignature;
-			return primitiveTypesMap.get(
-					primitiveTypeSignature.getPrimitiveTypeChar()).getName();
-		}
-		if (typeSignature.isArrayType()) {
-			ArrayTypeSignature arrayTypeSignature = (ArrayTypeSignature) typeSignature;
-			return arrayTypeSignature.getTypeErasureSignature().getSignature()
-					.replace('.', '$').replace('/', '.');
-		}
-		if (typeSignature.isClassType()) {
-			ClassTypeSignature classTypeSignature = (ClassTypeSignature) typeSignature;
-			return classTypeSignature.getClassName();
-		}
-		return null;
-	}
-
-	/**
 	 * return the class corresponding to the type signature or null if type
 	 * signature is a TypeVarSignature
 	 * 
@@ -93,13 +73,14 @@ public class ClassFactory {
 			return primitiveTypesMap.get(primitiveTypeSignature
 					.getPrimitiveTypeChar());
 		}
+		
 		if (typeSignature.isArrayType()) {
-			return Class.forName(getName(typeSignature), true, classLoader);
+			String name = classGetNameSignatureFormatter.format(typeSignature);
+			return Class.forName(name, true, classLoader);
 		}
 		if (typeSignature.isClassType()) {
-			ClassTypeSignature classTypeSignature = (ClassTypeSignature) typeSignature;
-			return Class.forName(classTypeSignature.getClassName(), true,
-					classLoader);
+			String name = classGetNameSignatureFormatter.format(typeSignature);
+			return Class.forName(name, true, classLoader);
 		}
 		return null;
 	}

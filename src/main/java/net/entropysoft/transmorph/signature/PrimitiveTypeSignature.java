@@ -34,7 +34,6 @@ public class PrimitiveTypeSignature extends TypeSignature {
 	public static final char PRIMITIVE_SHORT = 'S';
 
 	private char primitiveChar;
-	private String signature;
 
 	public PrimitiveTypeSignature(char primitiveChar) {
 		this.primitiveChar = primitiveChar;
@@ -47,13 +46,6 @@ public class PrimitiveTypeSignature extends TypeSignature {
 	 */
 	public char getPrimitiveTypeChar() {
 		return primitiveChar;
-	}
-
-	public String getSignature() {
-		if (signature == null) {
-			signature = new String(new char[] { primitiveChar });
-		}
-		return signature;
 	}
 
 	@Override

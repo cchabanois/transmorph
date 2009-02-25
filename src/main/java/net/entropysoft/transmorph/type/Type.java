@@ -17,6 +17,7 @@ package net.entropysoft.transmorph.type;
 
 import net.entropysoft.transmorph.signature.ClassFactory;
 import net.entropysoft.transmorph.signature.TypeSignature;
+import net.entropysoft.transmorph.signature.formatter.ClassGetNameSignatureFormatter;
 
 /**
  * Represents a type, possibly parameterized
@@ -138,10 +139,11 @@ public abstract class Type {
 	/**
 	 * get the type name (similar to Class.getName())
 	 * 
-	 * @return the FQN of the type or null if primitive type or array
+	 * @return
 	 */
 	public String getName() {
-		return getClassFactory().getName(typeSignature); 
+		ClassGetNameSignatureFormatter classGetNameSignatureFormatter = new ClassGetNameSignatureFormatter();
+		return classGetNameSignatureFormatter.format(typeSignature);
 	}
 	
 	@Override

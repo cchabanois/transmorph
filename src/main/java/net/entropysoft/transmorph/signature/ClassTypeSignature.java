@@ -29,7 +29,6 @@ public class ClassTypeSignature extends FieldTypeSignature {
 	private String binaryName;
 	private TypeArgSignature[] typeArgSignatures;
 	private ClassTypeSignature ownerTypeSignature;
-	private String signature;
 	private TypeSignature typeErasureSignature;
 
 	/**
@@ -133,37 +132,6 @@ public class ClassTypeSignature extends FieldTypeSignature {
 			classTypeSignature = classTypeSignature.ownerTypeSignature;
 		}
 		return list.toArray(new ClassTypeSignature[list.size()]);
-	}
-
-	/**
-	 * get the signature as a string
-	 */
-	public String getSignature() {
-		if (signature == null) {
-			ClassTypeSignature[] classTypeSignatures = getClassTypeSignatures();
-
-			StringBuilder sb = new StringBuilder();
-			sb.append('L');
-			for (int i = 0; i < classTypeSignatures.length; i++) {
-				ClassTypeSignature classTypeSignature = classTypeSignatures[i];
-				if (i == 0) {
-					sb.append(classTypeSignature.binaryName.replace('.', '/'));
-				} else {
-					sb.append('.');
-					sb.append(classTypeSignature.binaryName);
-				}
-				if (classTypeSignature.typeArgSignatures.length > 0) {
-					sb.append('<');
-					for (TypeArgSignature typeArgSignature : classTypeSignature.typeArgSignatures) {
-						sb.append(typeArgSignature.getSignature());
-					}
-					sb.append('>');
-				}
-			}
-			sb.append(';');
-			signature = sb.toString();
-		}
-		return signature;
 	}
 
 	@Override

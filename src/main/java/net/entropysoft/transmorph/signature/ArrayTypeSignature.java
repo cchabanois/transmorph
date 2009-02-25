@@ -24,7 +24,6 @@ package net.entropysoft.transmorph.signature;
 public class ArrayTypeSignature extends FieldTypeSignature {
 
 	private TypeSignature componentTypeSignature;
-	private String signature;
 	private TypeSignature typeErasureSignature;
 
 	public ArrayTypeSignature(TypeSignature componentTypeSignature) {
@@ -66,13 +65,6 @@ public class ArrayTypeSignature extends FieldTypeSignature {
 		} else {
 			return 1;
 		}
-	}
-
-	public String getSignature() {
-		if (signature == null) {
-			signature = '[' + componentTypeSignature.getSignature();
-		}
-		return signature;
 	}
 
 	public boolean isArrayType() {

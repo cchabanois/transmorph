@@ -15,11 +15,13 @@
  */
 package net.entropysoft.transmorph.signature;
 
+import net.entropysoft.transmorph.signature.formatter.TypeSignatureFormatter;
+
 /**
  * Signature for a type argument
  * 
  * @author Cedric Chabanois (cchabanois at gmail.com)
- *
+ * 
  */
 public class TypeArgSignature implements ISignature {
 
@@ -29,13 +31,13 @@ public class TypeArgSignature implements ISignature {
 	public static char LOWERBOUND_WILDCARD = '-';
 	private char wildcard;
 	private FieldTypeSignature fieldTypeSignature;
-	
-	public TypeArgSignature(char wildcard, FieldTypeSignature fieldTypeSignature)
-	{
+	private String signature;
+
+	public TypeArgSignature(char wildcard, FieldTypeSignature fieldTypeSignature) {
 		this.wildcard = wildcard;
 		this.fieldTypeSignature = fieldTypeSignature;
 	}
-	
+
 	public char getWildcard() {
 		return wildcard;
 	}
@@ -45,19 +47,16 @@ public class TypeArgSignature implements ISignature {
 	}
 
 	public String getSignature() {
-		StringBuilder sb = new StringBuilder();
-		if (wildcard != NO_WILDCARD) {
-			sb.append(wildcard);
+		if (signature == null) {
+			TypeSignatureFormatter typeSignatureFormatter = new TypeSignatureFormatter();
+			signature = typeSignatureFormatter.formatTypeArgSignature(this);
 		}
-		if (fieldTypeSignature != null) {
-			sb.append(fieldTypeSignature.getSignature());
-		}
-		return sb.toString();
+		return signature;
 	}
 
 	@Override
 	public String toString() {
 		return getSignature();
 	}
-	
+
 }

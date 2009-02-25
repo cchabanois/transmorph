@@ -15,6 +15,8 @@
  */
 package net.entropysoft.transmorph.signature;
 
+import net.entropysoft.transmorph.signature.formatter.TypeSignatureFormatter;
+
 /**
  * Signature for type (primitive, array or class)
  * @author Cedric Chabanois (cchabanois at gmail.com)
@@ -22,6 +24,8 @@ package net.entropysoft.transmorph.signature;
  */
 public abstract class TypeSignature implements ISignature {
 
+	private String signature;
+	
 	public boolean isPrimitiveType() {
 		return false;
 	}
@@ -40,6 +44,14 @@ public abstract class TypeSignature implements ISignature {
 	
 	public abstract TypeSignature getTypeErasureSignature();
 	
+	public String getSignature() {
+		if (signature == null) {
+			TypeSignatureFormatter typeSignatureFormatter = new TypeSignatureFormatter();
+			signature = typeSignatureFormatter.format(this);
+		}
+		return signature;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;

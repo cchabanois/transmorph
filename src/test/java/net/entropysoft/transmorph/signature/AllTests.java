@@ -13,6 +13,7 @@ public class AllTests {
 		suite.addTestSuite(ClassFactoryTest.class);
 		suite.addTestSuite(TypeSignatureFactoryTest.class);
 		//$JUnit-END$
+		suite.addTest(net.entropysoft.transmorph.signature.formatter.AllTests.suite());
 		suite.addTest(net.entropysoft.transmorph.signature.parser.AllTests.suite());
 		return suite;
 	}

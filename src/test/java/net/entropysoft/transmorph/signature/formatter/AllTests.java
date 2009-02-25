@@ -11,6 +11,7 @@ public class AllTests {
 		//$JUnit-BEGIN$
 		suite.addTestSuite(ClassGetNameSignatureFormatterTest.class);
 		suite.addTestSuite(TypeSignatureFormatterTest.class);
+		suite.addTestSuite(JavaSyntaxTypeSignatureFormatterTest.class);
 		//$JUnit-END$
 		return suite;
 	}

@@ -10,6 +10,8 @@ public class AllTests {
 				"Test for net.entropysoft.transmorph.signature.parser");
 		//$JUnit-BEGIN$
 		suite.addTestSuite(ClassGetNameTypeSignatureParserTest.class);
+		suite.addTestSuite(JavaTypeSignatureParserTest.class);
+		suite.addTestSuite(JavaTypeSignatureLexerTest.class);
 		suite.addTestSuite(TypeSignatureParserTest.class);
 		//$JUnit-END$
 		return suite;

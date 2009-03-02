@@ -3,12 +3,12 @@ package net.entropysoft.transmorph.signature.parser;
 import junit.framework.TestCase;
 import net.entropysoft.transmorph.signature.TypeSignature;
 import net.entropysoft.transmorph.signature.parser.InvalidSignatureException;
-import net.entropysoft.transmorph.signature.parser.TypeSignatureParser;
+import net.entropysoft.transmorph.signature.parser.ClassFileTypeSignatureParser;
 
 public class TypeSignatureParserTest extends TestCase {
 
 	public void testParse() {
-		TypeSignatureParser typeSignatureParser = new TypeSignatureParser(
+		ClassFileTypeSignatureParser typeSignatureParser = new ClassFileTypeSignatureParser(
 				"Ljava/util/Map<Ljava/lang/String;Ljava/util/List<Ljava/lang/String;>;>;");
 		TypeSignature typeSignature = typeSignatureParser.parseTypeSignature();
 		assertEquals(
@@ -17,13 +17,13 @@ public class TypeSignatureParserTest extends TestCase {
 	}
 
 	public void testParseGenericsWildcard() {
-		TypeSignatureParser typeSignatureParser = new TypeSignatureParser(
+		ClassFileTypeSignatureParser typeSignatureParser = new ClassFileTypeSignatureParser(
 				"Ljava/util/List<*>;");
 		TypeSignature typeSignature = typeSignatureParser.parseTypeSignature();
 	}
 
 	public void testParseNotUsingInternalFQN() {
-		TypeSignatureParser typeSignatureParser = new TypeSignatureParser(
+		ClassFileTypeSignatureParser typeSignatureParser = new ClassFileTypeSignatureParser(
 				"Ljava/util/Map<Ljava/lang/String;Ljava/util/List<Ljava/lang/String;>;>;");
 		typeSignatureParser.setUseInternalFormFullyQualifiedName(false);
 		try {
@@ -32,7 +32,7 @@ public class TypeSignatureParserTest extends TestCase {
 		} catch (InvalidSignatureException e) {
 
 		}
-		typeSignatureParser = new TypeSignatureParser(
+		typeSignatureParser = new ClassFileTypeSignatureParser(
 				"Ljava.util.Map<Ljava.lang.String;Ljava.util.List<Ljava.lang.String;>;>;");
 		typeSignatureParser.setUseInternalFormFullyQualifiedName(false);
 		TypeSignature typeSignature = typeSignatureParser.parseTypeSignature();
@@ -42,7 +42,7 @@ public class TypeSignatureParserTest extends TestCase {
 	}
 
 	public void testParseWithExcessiveChars() {
-		TypeSignatureParser typeSignatureParser = new TypeSignatureParser(
+		ClassFileTypeSignatureParser typeSignatureParser = new ClassFileTypeSignatureParser(
 				"Ljava/util/Map<Ljava/lang/String;Ljava/util/List<Ljava/lang/String;>;>;ABC");
 		try {
 			TypeSignature typeSignature = typeSignatureParser

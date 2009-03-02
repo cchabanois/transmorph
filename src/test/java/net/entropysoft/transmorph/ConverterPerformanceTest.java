@@ -12,7 +12,7 @@ import junit.framework.TestCase;
 import net.entropysoft.transmorph.converters.StringToBoolean;
 import net.entropysoft.transmorph.signature.TypeSignature;
 import net.entropysoft.transmorph.signature.TypeSignatureFactory;
-import net.entropysoft.transmorph.signature.parser.TypeSignatureParser;
+import net.entropysoft.transmorph.signature.parser.ClassFileTypeSignatureParser;
 import net.entropysoft.transmorph.type.Type;
 import net.entropysoft.transmorph.type.TypeFactory;
 
@@ -102,7 +102,7 @@ public class ConverterPerformanceTest extends TestCase {
 		Transmorph transmorph = new Transmorph(ConverterTest.class
 				.getClassLoader(), new DefaultConverters());
 		
-		transmorph.setTypeSignatureParser(new TypeSignatureParser(false));
+		transmorph.setTypeSignatureParser(new ClassFileTypeSignatureParser(false));
 
 		// Map[String, String[]] => Map<Integer,List<String>>
 		Map map = new HashMap();

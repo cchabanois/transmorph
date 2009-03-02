@@ -25,14 +25,14 @@ import net.entropysoft.transmorph.ConversionContext;
 import net.entropysoft.transmorph.ConverterTest;
 import net.entropysoft.transmorph.DefaultConverters;
 import net.entropysoft.transmorph.Transmorph;
-import net.entropysoft.transmorph.signature.parser.TypeSignatureParser;
+import net.entropysoft.transmorph.signature.parser.ClassFileTypeSignatureParser;
 
 public class MapToMapTest extends TestCase {
 
 	public void testMapToMap() throws Exception {
 		Transmorph converter = new Transmorph(ConverterTest.class
 				.getClassLoader(), new DefaultConverters());
-		converter.setTypeSignatureParser(new TypeSignatureParser(false));
+		converter.setTypeSignatureParser(new ClassFileTypeSignatureParser(false));
 
 		// Map[String, String[]] => Map<String,List<String>> (MapToMapConverter
 		// and ArrayToListConverter)

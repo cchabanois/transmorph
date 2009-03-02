@@ -24,7 +24,7 @@ import junit.framework.TestCase;
 import net.entropysoft.transmorph.ConverterTest;
 import net.entropysoft.transmorph.DefaultConverters;
 import net.entropysoft.transmorph.Transmorph;
-import net.entropysoft.transmorph.signature.parser.TypeSignatureParser;
+import net.entropysoft.transmorph.signature.parser.ClassFileTypeSignatureParser;
 
 public class ArrayToCollectionTest extends TestCase {
 
@@ -61,7 +61,7 @@ public class ArrayToCollectionTest extends TestCase {
 	public void testArrayToGenericListUnbounded() throws Exception {
 		Transmorph converter = new Transmorph(ConverterTest.class
 				.getClassLoader(), new DefaultConverters());
-		converter.setTypeSignatureParser(new TypeSignatureParser(false));
+		converter.setTypeSignatureParser(new ClassFileTypeSignatureParser(false));
 		int[] arrayOfInts = new int[] { 0, 1, 2, 3, 4, 5 };
 		// int[] => List<*> (ArrayToCollectionConverter)
 		List<?> arrayOfSomething = (List<?>) converter.convert(arrayOfInts,
@@ -76,7 +76,7 @@ public class ArrayToCollectionTest extends TestCase {
 	public void testArrayToGenericListUpperbound() throws Exception {
 		Transmorph converter = new Transmorph(ConverterTest.class
 				.getClassLoader(), new DefaultConverters());
-		converter.setTypeSignatureParser(new TypeSignatureParser(false));
+		converter.setTypeSignatureParser(new ClassFileTypeSignatureParser(false));
 		// String[] => List<? extends Number> (ArrayToCollectionConverter)
 		String[] arrayOfStrings = new String[] { "0", "1", "2", "3", "4", "5" };
 		List<? extends Number> listOfNumbers = (List<? extends Number>) converter

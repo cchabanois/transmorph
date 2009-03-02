@@ -7,7 +7,7 @@ import junit.framework.TestCase;
 import net.entropysoft.transmorph.converters.IdentityConverter;
 import net.entropysoft.transmorph.modifiers.IModifier;
 import net.entropysoft.transmorph.modifiers.TrimString;
-import net.entropysoft.transmorph.signature.parser.TypeSignatureParser;
+import net.entropysoft.transmorph.signature.parser.ClassFileTypeSignatureParser;
 
 public class ConverterTest extends TestCase {
 
@@ -27,7 +27,7 @@ public class ConverterTest extends TestCase {
 	public void testConverterWithContext() throws Exception {
 		Transmorph transmorph = new Transmorph(ConverterTest.class
 				.getClassLoader(), new DefaultConverters());
-		transmorph.setTypeSignatureParser(new TypeSignatureParser(false));
+		transmorph.setTypeSignatureParser(new ClassFileTypeSignatureParser(false));
 		ConversionContext context = new ConversionContext();
 
 		List<Integer> list = new ArrayList<Integer>();

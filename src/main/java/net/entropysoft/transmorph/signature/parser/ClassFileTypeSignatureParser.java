@@ -41,26 +41,26 @@ import net.entropysoft.transmorph.signature.TypeVarSignature;
  * @author Cedric Chabanois (cchabanois at gmail.com)
  * 
  */
-public class TypeSignatureParser implements ITypeSignatureParser {
+public class ClassFileTypeSignatureParser implements ITypeSignatureParser {
 	private static final int EOS = CharacterBuffer.EOS;
 	private boolean acceptGenerics = true;
 	private char packageSeparator = '/';
 	private char innerClassPrefix = '.';
 	private CharacterBuffer characterBuffer;
 
-	public TypeSignatureParser() {
+	public ClassFileTypeSignatureParser() {
 
 	}
 
-	public TypeSignatureParser(boolean useInternalFormFullyQualifiedName) {
+	public ClassFileTypeSignatureParser(boolean useInternalFormFullyQualifiedName) {
 		setUseInternalFormFullyQualifiedName(useInternalFormFullyQualifiedName);
 	}
 
-	public TypeSignatureParser(String typeSignature) {
+	public ClassFileTypeSignatureParser(String typeSignature) {
 		setTypeSignature(typeSignature);
 	}
 
-	public TypeSignatureParser(String typeSignature,
+	public ClassFileTypeSignatureParser(String typeSignature,
 			boolean useInternalFormFullyQualifiedName) {
 		setTypeSignature(typeSignature);
 		setUseInternalFormFullyQualifiedName(useInternalFormFullyQualifiedName);
@@ -117,18 +117,22 @@ public class TypeSignatureParser implements ITypeSignatureParser {
 	}
 
 	public TypeSignature parseTypeSignature() {
+		TypeSignature typeSignature = parseClassFileTypeSignature();
+		nextChar(EOS);
+		return typeSignature;
+	}
+
+	private TypeSignature parseClassFileTypeSignature() {
 		int ch = peekChar();
 		if (isPrimitiveTypeCharacter(ch)) {
 			TypeSignature typeSignature = parsePrimitiveTypeSignature();
-			nextChar(EOS);
 			return typeSignature;
 		} else {
 			TypeSignature typeSignature = parseFieldTypeSignature();
-			nextChar(EOS);
 			return typeSignature;
 		}
 	}
-
+	
 	private int peekChar() {
 		return characterBuffer.peekChar();
 	}
@@ -192,7 +196,7 @@ public class TypeSignatureParser implements ITypeSignatureParser {
 	 */
 	public ArrayTypeSignature parseArrayTypeSignature() {
 		nextChar('[');
-		return new ArrayTypeSignature(parseTypeSignature());
+		return new ArrayTypeSignature(parseClassFileTypeSignature());
 	}
 
 	/**

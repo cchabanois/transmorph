@@ -22,7 +22,7 @@ import net.entropysoft.transmorph.signature.ClassFactory;
 import net.entropysoft.transmorph.signature.TypeSignature;
 import net.entropysoft.transmorph.signature.TypeSignatureFactory;
 import net.entropysoft.transmorph.signature.parser.ITypeSignatureParser;
-import net.entropysoft.transmorph.signature.parser.TypeSignatureParser;
+import net.entropysoft.transmorph.signature.parser.ClassFileTypeSignatureParser;
 import net.entropysoft.transmorph.type.Type;
 import net.entropysoft.transmorph.type.TypeFactory;
 
@@ -40,7 +40,7 @@ public class Transmorph implements IConverter {
 
 	private MultiConverter multiConverter;
 	private TypeFactory typeFactory;
-	private ITypeSignatureParser typeSignatureParser = new TypeSignatureParser();
+	private ITypeSignatureParser typeSignatureParser = new ClassFileTypeSignatureParser();
 
 	/**
 	 * Creates a Converter object

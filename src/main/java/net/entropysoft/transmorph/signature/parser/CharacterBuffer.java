@@ -51,6 +51,32 @@ public class CharacterBuffer {
 		return ch;
 	}
 
+	public int peekNextNonWhiteSpaceChar() {
+		int nextChar = peekChar();
+		while (Character.isWhitespace(nextChar)) {
+			nextChar();
+			nextChar = peekChar();
+		}
+		return nextChar;
+	}
+	
+	public int nextNonWhiteSpaceChar() {
+		int nextChar = nextChar();
+		while (Character.isWhitespace(nextChar)) {
+			nextChar = nextChar();
+		}
+		return nextChar;
+	}	
+	
+	public int nextNonWhiteSpaceChar(int expectedChar) {
+		int ch = nextNonWhiteSpaceChar();
+		if (ch != expectedChar) {
+			position--;
+			unexpectedCharacterError();
+		}
+		return ch;
+	}	
+	
 	public int peekChar() {
 		if (position >= buffer.length) {
 			return EOS;
@@ -58,6 +84,10 @@ public class CharacterBuffer {
 		return buffer[position];
 	}
 	
+	public int getPosition() {
+		return position;
+	}
+
 	public void unexpectedCharacterError() {
 		throw new UnexpectedCharacterException("Unexpected character '"
 				+ (char) peekChar() + "' at position " + position, position);

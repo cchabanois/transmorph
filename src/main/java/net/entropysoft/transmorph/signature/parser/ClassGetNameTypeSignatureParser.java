@@ -15,9 +15,6 @@
  */
 package net.entropysoft.transmorph.signature.parser;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import net.entropysoft.transmorph.signature.PrimitiveTypeSignature;
 import net.entropysoft.transmorph.signature.TypeSignature;
 
@@ -28,28 +25,12 @@ import net.entropysoft.transmorph.signature.TypeSignature;
  * 
  */
 public class ClassGetNameTypeSignatureParser implements ITypeSignatureParser {
-	private final static Map<String, Character> nameToPrimitiveChar = new HashMap<String, Character>();
-
-	static {
-		nameToPrimitiveChar.put("boolean",
-				PrimitiveTypeSignature.PRIMITIVE_BOOLEAN);
-		nameToPrimitiveChar.put("char", PrimitiveTypeSignature.PRIMITIVE_CHAR);
-		nameToPrimitiveChar.put("byte", PrimitiveTypeSignature.PRIMITIVE_BYTE);
-		nameToPrimitiveChar
-				.put("short", PrimitiveTypeSignature.PRIMITIVE_SHORT);
-		nameToPrimitiveChar.put("int", PrimitiveTypeSignature.PRIMITIVE_INT);
-		nameToPrimitiveChar
-				.put("float", PrimitiveTypeSignature.PRIMITIVE_FLOAT);
-		nameToPrimitiveChar.put("long", PrimitiveTypeSignature.PRIMITIVE_LONG);
-		nameToPrimitiveChar.put("double",
-				PrimitiveTypeSignature.PRIMITIVE_DOUBLE);
-	}
 
 	private CharacterBuffer typeSignature;
-	private TypeSignatureParser typeSignatureParser;
+	private ClassFileTypeSignatureParser typeSignatureParser;
 
 	public ClassGetNameTypeSignatureParser() {
-		typeSignatureParser = new TypeSignatureParser();
+		typeSignatureParser = new ClassFileTypeSignatureParser();
 		typeSignatureParser.setAcceptGenerics(false);
 		typeSignatureParser.setUseInternalFormFullyQualifiedName(false);
 	}
@@ -60,7 +41,7 @@ public class ClassGetNameTypeSignatureParser implements ITypeSignatureParser {
 	}
 
 	public TypeSignature parseTypeSignature() {
-		Character primitiveChar = nameToPrimitiveChar.get(typeSignature.toString());
+		Character primitiveChar = PrimitiveTypeUtils.getChar(typeSignature.toString());
 		if (primitiveChar != null) {
 			return new PrimitiveTypeSignature(primitiveChar);
 		}

@@ -20,7 +20,7 @@ import java.util.Collections;
 import java.util.Map;
 
 import net.entropysoft.transmorph.cache.LRUMap;
-import net.entropysoft.transmorph.signature.parser.TypeSignatureParser;
+import net.entropysoft.transmorph.signature.parser.ClassFileTypeSignatureParser;
 
 /**
  * Factory for TypeSignature
@@ -67,7 +67,7 @@ public class TypeSignatureFactory {
 		TypeSignature typeSignature = typeSignatureCache
 				.get(key);
 		if (typeSignature == null) {
-			TypeSignatureParser typeSignatureParser = new TypeSignatureParser(
+			ClassFileTypeSignatureParser typeSignatureParser = new ClassFileTypeSignatureParser(
 					typeSignatureString);
 			typeSignatureParser.setUseInternalFormFullyQualifiedName(useInternalFormFullyQualifiedName);
 			typeSignature = typeSignatureParser.parseTypeSignature();

@@ -1,8 +1,29 @@
+/*
+ * Copyright 2008-2009 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package net.entropysoft.transmorph.signature.parser;
 
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Provides tokens to {@link JavaTypeSignatureParser}
+ * 
+ * @author Cedric Chabanois (cchabanois at gmail.com)
+ * 
+ */
 public class JavaTypeSignatureLexer {
 	private CharacterBuffer characterBuffer;
 	private Token[] tokens;
@@ -24,8 +45,7 @@ public class JavaTypeSignatureLexer {
 		// '?'
 		TYPE_ARG_QUESTION_MARK,
 		// '.'
-		PACKAGE_SEPARATOR,
-		END_OF_TOKENS
+		PACKAGE_SEPARATOR, END_OF_TOKENS
 	}
 
 	public class Token {
@@ -44,7 +64,7 @@ public class JavaTypeSignatureLexer {
 			readTokens();
 		}
 		if (position >= tokens.length) {
-			return tokens[tokens.length-1];
+			return tokens[tokens.length - 1];
 		} else {
 			return tokens[position++];
 		}
@@ -53,17 +73,18 @@ public class JavaTypeSignatureLexer {
 	public Token nextToken(TokenType expectedTokenType) {
 		Token token = nextToken();
 		if (token.tokenType != expectedTokenType) {
-			throw new InvalidSignatureException("Unexpected token at position "+token.tokenStart, token.tokenStart);
+			throw new InvalidSignatureException("Unexpected token at position "
+					+ token.tokenStart, token.tokenStart);
 		}
 		return token;
 	}
-	
+
 	public Token peekToken(int i) {
 		if (tokens == null) {
 			readTokens();
 		}
 		if (position + i >= tokens.length) {
-			return tokens[tokens.length-1];
+			return tokens[tokens.length - 1];
 		} else {
 			return tokens[position + i];
 		}

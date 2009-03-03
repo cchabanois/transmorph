@@ -21,7 +21,7 @@ public class JavaTypeSignatureParserTest extends TestCase {
 
 	public void testParseClassName() {
 		JavaTypeSignatureParser typeSignatureParser = new JavaTypeSignatureParser(
-				"java.lang.String");
+				"String");
 		TypeSignature typeSignature = typeSignatureParser.parseTypeSignature();
 		assertEquals("Ljava/lang/String;", typeSignature.getSignature());
 	}
@@ -58,8 +58,9 @@ public class JavaTypeSignatureParserTest extends TestCase {
 	public void testImports() {
 		JavaTypeSignatureParser typeSignatureParser = new JavaTypeSignatureParser(
 				"List<String>");
-		typeSignatureParser.importClass("java.util.List");
-		typeSignatureParser.importClass("java.lang.String");
+		ImportedClassesProvider importedClassesProvider = new ImportedClassesProvider();
+		importedClassesProvider.importClass("java.util.List");
+		typeSignatureParser.setImportedClassesProviders(new JavaLangImportedClassesProvider(),importedClassesProvider);
 		TypeSignature typeSignature = typeSignatureParser.parseTypeSignature();
 		assertEquals("Ljava/util/List<Ljava/lang/String;>;", typeSignature
 				.getSignature());

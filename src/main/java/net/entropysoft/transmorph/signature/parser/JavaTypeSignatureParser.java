@@ -1,9 +1,22 @@
+/*
+ * Copyright 2008-2009 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package net.entropysoft.transmorph.signature.parser;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import net.entropysoft.transmorph.signature.ArrayTypeSignature;
 import net.entropysoft.transmorph.signature.ClassTypeSignature;
@@ -23,7 +36,7 @@ import net.entropysoft.transmorph.signature.parser.JavaTypeSignatureLexer.TokenT
 public class JavaTypeSignatureParser implements ITypeSignatureParser {
 	private JavaTypeSignatureLexer lexer;
 	private boolean acceptGenerics = true;
-	private Map<String, String> importedClasses = new HashMap<String, String>();
+	private IImportedClassesProvider[] importedClassesProviders = { new JavaLangImportedClassesProvider() };
 	
 	public JavaTypeSignatureParser(String typeSignature) {
 		setTypeSignature(typeSignature);
@@ -47,24 +60,14 @@ public class JavaTypeSignatureParser implements ITypeSignatureParser {
 		this.acceptGenerics = acceptGenerics;
 	}
 
-	public void importClass(String fullyQualifiedClassName) {
-		String shortName = getShortName(fullyQualifiedClassName);
-		importedClasses.put(shortName, fullyQualifiedClassName);
+	public IImportedClassesProvider[] getImportedClasses() {
+		return importedClassesProviders;
 	}
-	
-	private String getShortName(String fullyQualifiedName) {
-		return fullyQualifiedName.substring(fullyQualifiedName.lastIndexOf(".")+1);
+
+	public void setImportedClassesProviders(IImportedClassesProvider... importedClasses) {
+		this.importedClassesProviders = importedClasses;
 	}
-	
-	private String getFullyQualifiedName(String shortName) {
-		String fullyQualifiedName = importedClasses.get(shortName);
-		if (fullyQualifiedName != null) {
-			return fullyQualifiedName;
-		} else {
-			return shortName;
-		}
-	}
-	
+
 	public TypeSignature parseJavaTypeSignature() {
 		TypeSignature typeSignature = parsePrimitiveTypeSignature();
 		if (typeSignature == null) {
@@ -141,6 +144,15 @@ public class JavaTypeSignatureParser implements ITypeSignatureParser {
 		} else {
 			return sb.toString();
 		}
+	}	
+	
+	public String getFullyQualifiedName(String shortName) {
+		for (IImportedClassesProvider importedClassesProvider : importedClassesProviders) {
+			if (importedClassesProvider.isImported(shortName)) {
+				return importedClassesProvider.getFullyQualifiedName(shortName);
+			}
+		}
+		return shortName;
 	}	
 	
 	private TypeArgSignature[] parseTypeArgs() {

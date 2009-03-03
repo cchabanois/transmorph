@@ -16,18 +16,18 @@
 package net.entropysoft.transmorph.converters;
 
 import junit.framework.TestCase;
-import net.entropysoft.transmorph.ConverterTest;
+import net.entropysoft.transmorph.TransmorphTest;
 import net.entropysoft.transmorph.DefaultConverters;
 import net.entropysoft.transmorph.Transmorph;
 
 public class ClassToStringTest extends TestCase {
 
 	public void testClassToString() throws Exception {
-		Transmorph converter = new Transmorph(ConverterTest.class
+		Transmorph converter = new Transmorph(ClassToStringTest.class
 				.getClassLoader(), new DefaultConverters());
-		String str = (String) converter.convert(ConverterTest.class,
+		String str = (String) converter.convert(TransmorphTest.class,
 				String.class);
-		assertEquals(ConverterTest.class.getName(), str);
+		assertEquals(TransmorphTest.class.getName(), str);
 	}	
 	
 }

@@ -21,7 +21,7 @@ public class ConverterPerformanceTest extends TestCase {
 	
 	public void testListOfStringToArrayOfBoolean() throws Exception {
 		DefaultConverters defaultConverters = new DefaultConverters();
-		Transmorph transmorph = new Transmorph(ConverterTest.class
+		Transmorph transmorph = new Transmorph(ConverterPerformanceTest.class
 				.getClassLoader(), defaultConverters);
 		StringToBoolean stringToBoolean = defaultConverters.getStringToBoolean();
 		stringToBoolean.setTrueString("vrai");
@@ -63,7 +63,7 @@ public class ConverterPerformanceTest extends TestCase {
 //		Transmorph transmorph = new Transmorph(ConverterTest.class
 //				.getClassLoader(), arrayToCollection);
 		
-		Transmorph transmorph = new Transmorph(ConverterTest.class
+		Transmorph transmorph = new Transmorph(ConverterPerformanceTest.class
 				.getClassLoader(), new DefaultConverters());
 		int[] array = new int[100000];
 		for (int i = 0; i < array.length; i++) {
@@ -99,7 +99,7 @@ public class ConverterPerformanceTest extends TestCase {
 		// Transmorph transmorph = new Transmorph(ConverterTest.class
 		// .getClassLoader(), mapToMap);
 
-		Transmorph transmorph = new Transmorph(ConverterTest.class
+		Transmorph transmorph = new Transmorph(ConverterPerformanceTest.class
 				.getClassLoader(), new DefaultConverters());
 		
 		transmorph.setTypeSignatureParser(new ClassFileTypeSignatureParser(false));

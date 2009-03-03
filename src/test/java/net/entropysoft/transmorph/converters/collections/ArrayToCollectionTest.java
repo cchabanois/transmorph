@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Set;
 
 import junit.framework.TestCase;
-import net.entropysoft.transmorph.ConverterTest;
+import net.entropysoft.transmorph.TransmorphTest;
 import net.entropysoft.transmorph.DefaultConverters;
 import net.entropysoft.transmorph.Transmorph;
 import net.entropysoft.transmorph.signature.parser.ClassFileTypeSignatureParser;
@@ -29,7 +29,7 @@ import net.entropysoft.transmorph.signature.parser.ClassFileTypeSignatureParser;
 public class ArrayToCollectionTest extends TestCase {
 
 	public void testArrayOfPrimitivesToGenericList() throws Exception {
-		Transmorph converter = new Transmorph(ConverterTest.class
+		Transmorph converter = new Transmorph(ArrayToCollectionTest.class
 				.getClassLoader(), new DefaultConverters());
 
 		// int[] => List<Integer> (ArrayToCollectionConverter)
@@ -43,7 +43,7 @@ public class ArrayToCollectionTest extends TestCase {
 	}
 
 	public void testArrayOfPrimitivesToListInstance() throws Exception {
-		Transmorph converter = new Transmorph(ConverterTest.class
+		Transmorph converter = new Transmorph(ArrayToCollectionTest.class
 				.getClassLoader(), new DefaultConverters());
 		int[] arrayOfInts = new int[] { 0, 1, 2, 3, 4, 5 };
 		// int[] => LinkedList<Integer> (ArrayToCollectionConverter)
@@ -59,7 +59,7 @@ public class ArrayToCollectionTest extends TestCase {
 	}
 
 	public void testArrayToGenericListUnbounded() throws Exception {
-		Transmorph converter = new Transmorph(ConverterTest.class
+		Transmorph converter = new Transmorph(ArrayToCollectionTest.class
 				.getClassLoader(), new DefaultConverters());
 		converter.setTypeSignatureParser(new ClassFileTypeSignatureParser(false));
 		int[] arrayOfInts = new int[] { 0, 1, 2, 3, 4, 5 };
@@ -74,7 +74,7 @@ public class ArrayToCollectionTest extends TestCase {
 	}
 	
 	public void testArrayToGenericListUpperbound() throws Exception {
-		Transmorph converter = new Transmorph(ConverterTest.class
+		Transmorph converter = new Transmorph(ArrayToCollectionTest.class
 				.getClassLoader(), new DefaultConverters());
 		converter.setTypeSignatureParser(new ClassFileTypeSignatureParser(false));
 		// String[] => List<? extends Number> (ArrayToCollectionConverter)
@@ -90,7 +90,7 @@ public class ArrayToCollectionTest extends TestCase {
 	}
 
 	public void testArrayToCollection() throws Exception {
-		Transmorph converter = new Transmorph(ConverterTest.class
+		Transmorph converter = new Transmorph(ArrayToCollectionTest.class
 				.getClassLoader(), new DefaultConverters());
 
 		// int[] => Collection<Integer> (ArrayToCollectionConverter)
@@ -107,7 +107,7 @@ public class ArrayToCollectionTest extends TestCase {
 	}
 	
 	public void testArrayToGenericSet() throws Exception {
-		Transmorph converter = new Transmorph(ConverterTest.class
+		Transmorph converter = new Transmorph(ArrayToCollectionTest.class
 				.getClassLoader(), new DefaultConverters());
 
 		// int[] => Set<Integer> (ArrayToSetConverter)

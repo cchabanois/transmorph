@@ -12,7 +12,7 @@ public class AllTests {
         suite.addTest(net.entropysoft.transmorph.signature.AllTests.suite());
         suite.addTest(net.entropysoft.transmorph.type.AllTests.suite());
         suite.addTest(net.entropysoft.transmorph.converters.AllTests.suite());
-        suite.addTestSuite(ConverterTest.class);
+        suite.addTestSuite(TransmorphTest.class);
         return suite;
     }
 

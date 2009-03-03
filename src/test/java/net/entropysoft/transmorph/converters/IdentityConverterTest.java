@@ -19,14 +19,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import junit.framework.TestCase;
-import net.entropysoft.transmorph.ConverterTest;
+import net.entropysoft.transmorph.TransmorphTest;
 import net.entropysoft.transmorph.DefaultConverters;
 import net.entropysoft.transmorph.Transmorph;
 
 public class IdentityConverterTest extends TestCase {
 
 	public void testIdentity() throws Exception {
-		Transmorph converter = new Transmorph(ConverterTest.class
+		Transmorph converter = new Transmorph(IdentityConverterTest.class
 				.getClassLoader(), new DefaultConverters());
 
 		assertSame("my string", converter.convert("my string", String.class));

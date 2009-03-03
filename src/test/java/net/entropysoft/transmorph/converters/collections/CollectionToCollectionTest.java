@@ -21,14 +21,14 @@ import java.util.List;
 import java.util.Set;
 
 import junit.framework.TestCase;
-import net.entropysoft.transmorph.ConverterTest;
+import net.entropysoft.transmorph.TransmorphTest;
 import net.entropysoft.transmorph.DefaultConverters;
 import net.entropysoft.transmorph.Transmorph;
 
 public class CollectionToCollectionTest extends TestCase {
 
 	public void testListToSet() throws Exception {
-		Transmorph converter = new Transmorph(ConverterTest.class
+		Transmorph converter = new Transmorph(CollectionToCollectionTest.class
 				.getClassLoader(), new DefaultConverters());
 
 		List<Integer> source = new ArrayList<Integer>();
@@ -46,7 +46,7 @@ public class CollectionToCollectionTest extends TestCase {
 	}
 
 	public void testListToConcreteSet() throws Exception {
-		Transmorph converter = new Transmorph(ConverterTest.class
+		Transmorph converter = new Transmorph(CollectionToCollectionTest.class
 				.getClassLoader(), new DefaultConverters());
 		
 		List<Integer> source = new ArrayList<Integer>();

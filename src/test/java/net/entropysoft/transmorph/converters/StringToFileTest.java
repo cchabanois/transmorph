@@ -18,7 +18,7 @@ package net.entropysoft.transmorph.converters;
 import java.io.File;
 
 import junit.framework.TestCase;
-import net.entropysoft.transmorph.ConverterTest;
+import net.entropysoft.transmorph.TransmorphTest;
 import net.entropysoft.transmorph.DefaultConverters;
 import net.entropysoft.transmorph.Transmorph;
 import net.entropysoft.transmorph.modifiers.CanonicalizeFile;
@@ -27,7 +27,7 @@ import net.entropysoft.transmorph.modifiers.IModifier;
 public class StringToFileTest extends TestCase {
 
 	public void testStringToFile() throws Exception {
-		Transmorph converter = new Transmorph(ConverterTest.class
+		Transmorph converter = new Transmorph(StringToDateTest.class
 				.getClassLoader(), new DefaultConverters());
 
 		File file = (File) converter.convert("c:\\temp", File.class);
@@ -39,7 +39,7 @@ public class StringToFileTest extends TestCase {
 		DefaultConverters defaultConverters = new DefaultConverters();
 		StringToFile stringToFile = defaultConverters.getStringToFile();
 		stringToFile.setModifiers(new IModifier[] { new CanonicalizeFile() });
-		Transmorph converter = new Transmorph(ConverterTest.class
+		Transmorph converter = new Transmorph(StringToFileTest.class
 				.getClassLoader(), defaultConverters);
 		File file = (File) converter.convert("temp", File.class);
 		assertNotNull(file);

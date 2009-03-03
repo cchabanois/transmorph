@@ -18,14 +18,14 @@ package net.entropysoft.transmorph.converters;
 import javax.xml.namespace.QName;
 
 import junit.framework.TestCase;
-import net.entropysoft.transmorph.ConverterTest;
+import net.entropysoft.transmorph.TransmorphTest;
 import net.entropysoft.transmorph.DefaultConverters;
 import net.entropysoft.transmorph.Transmorph;
 
 public class StringToQNameTest extends TestCase {
 
 	public void testStringToQName() throws Exception {
-		Transmorph converter = new Transmorph(ConverterTest.class
+		Transmorph converter = new Transmorph(StringToNumberTest.class
 				.getClassLoader(), new StringToQName());
 
 		QName qname = (QName) converter.convert(

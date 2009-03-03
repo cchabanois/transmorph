@@ -19,14 +19,14 @@ import java.math.BigInteger;
 
 import junit.framework.TestCase;
 import net.entropysoft.transmorph.ConverterException;
-import net.entropysoft.transmorph.ConverterTest;
+import net.entropysoft.transmorph.TransmorphTest;
 import net.entropysoft.transmorph.DefaultConverters;
 import net.entropysoft.transmorph.Transmorph;
 
 public class NumberToNumberTest extends TestCase {
 
 	public void testNumberPrimitiveToNumberPrimitive() throws Exception {
-		Transmorph converter = new Transmorph(ConverterTest.class
+		Transmorph converter = new Transmorph(NumberToNumberTest.class
 				.getClassLoader(), new DefaultConverters());
 
 		// int => long (NumberToNumberConverter)
@@ -44,7 +44,7 @@ public class NumberToNumberTest extends TestCase {
 	}
 
 	public void testNumberWrapperToNumberWrapper() throws Exception {
-		Transmorph converter = new Transmorph(ConverterTest.class
+		Transmorph converter = new Transmorph(NumberToNumberTest.class
 				.getClassLoader(), new DefaultConverters());
 
 		Long myLongWrapper = (Long) converter.convert(new Integer(44),
@@ -56,7 +56,7 @@ public class NumberToNumberTest extends TestCase {
 	}
 
 	public void testNumberPrimitiveToNumberWrapper() throws Exception {
-		Transmorph converter = new Transmorph(ConverterTest.class
+		Transmorph converter = new Transmorph(NumberToNumberTest.class
 				.getClassLoader(), new DefaultConverters());
 
 		// int => Long (NumberToNumberConverter)
@@ -71,7 +71,7 @@ public class NumberToNumberTest extends TestCase {
 		DefaultConverters defaultConverters = new DefaultConverters();
 		NumberToNumber numberToNumber = defaultConverters.getNumberToNumber();
 		numberToNumber.setNullReplacementForPrimitive(0);
-		Transmorph converter = new Transmorph(ConverterTest.class
+		Transmorph converter = new Transmorph(NumberToNumberTest.class
 				.getClassLoader(), defaultConverters);
 		long[] longsArray = (long[]) converter.convert(new Integer[] { 1, 2,
 				null, 4 }, long[].class);

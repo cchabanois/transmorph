@@ -18,14 +18,14 @@ package net.entropysoft.transmorph.converters;
 import java.util.TimeZone;
 
 import junit.framework.TestCase;
-import net.entropysoft.transmorph.ConverterTest;
+import net.entropysoft.transmorph.TransmorphTest;
 import net.entropysoft.transmorph.DefaultConverters;
 import net.entropysoft.transmorph.Transmorph;
 
 public class StringToTimeZoneTest extends TestCase {
 
 	public void testStringToTimeZone() throws Exception {
-		Transmorph converter = new Transmorph(ConverterTest.class
+		Transmorph converter = new Transmorph(StringToTimeZoneTest.class
 				.getClassLoader(), new DefaultConverters());
 
 		String[] ids = TimeZone.getAvailableIDs();

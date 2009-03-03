@@ -19,14 +19,14 @@ import java.lang.annotation.RetentionPolicy;
 
 import junit.framework.TestCase;
 import net.entropysoft.transmorph.ConverterException;
-import net.entropysoft.transmorph.ConverterTest;
+import net.entropysoft.transmorph.TransmorphTest;
 import net.entropysoft.transmorph.DefaultConverters;
 import net.entropysoft.transmorph.Transmorph;
 
 public class StringToEnumTest extends TestCase {
 
 	public void testStringToEnum() throws Exception {
-		Transmorph converter = new Transmorph(ConverterTest.class
+		Transmorph converter = new Transmorph(StringToEnumTest.class
 				.getClassLoader(), new DefaultConverters());
 
 		RetentionPolicy retentionPolicy = (RetentionPolicy) converter.convert(

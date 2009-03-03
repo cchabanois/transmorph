@@ -18,14 +18,14 @@ package net.entropysoft.transmorph.converters;
 import java.net.URI;
 
 import junit.framework.TestCase;
-import net.entropysoft.transmorph.ConverterTest;
+import net.entropysoft.transmorph.TransmorphTest;
 import net.entropysoft.transmorph.DefaultConverters;
 import net.entropysoft.transmorph.Transmorph;
 
 public class StringToURITest extends TestCase {
 
 	public void testStringToURI() throws Exception {
-		Transmorph converter = new Transmorph(ConverterTest.class
+		Transmorph converter = new Transmorph(StringToURITest.class
 				.getClassLoader(), new DefaultConverters());
 
 		URI uri = (URI) converter.convert("http://www.entropysoft.net",

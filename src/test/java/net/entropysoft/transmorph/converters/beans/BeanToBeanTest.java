@@ -20,7 +20,7 @@ import java.util.List;
 
 import junit.framework.TestCase;
 import net.entropysoft.transmorph.ConversionContext;
-import net.entropysoft.transmorph.ConverterTest;
+import net.entropysoft.transmorph.TransmorphTest;
 import net.entropysoft.transmorph.DefaultConverters;
 import net.entropysoft.transmorph.Transmorph;
 import samples.MyBean4;
@@ -36,7 +36,7 @@ public class BeanToBeanTest extends TestCase {
 
 	public void testBiDirectionalBean() throws Exception {
 		DefaultConverters defaultConverters = new DefaultConverters();
-		Transmorph converter = new Transmorph(ConverterTest.class
+		Transmorph converter = new Transmorph(BeanToBeanTest.class
 				.getClassLoader(), defaultConverters);
 
 		BeanToBeanMapping beanToBeanMapping = new BeanToBeanMapping(
@@ -74,7 +74,7 @@ public class BeanToBeanTest extends TestCase {
 	
 	public void testBeanToBean() throws Exception {
 		DefaultConverters defaultConverters = new DefaultConverters();
-		Transmorph converter = new Transmorph(ConverterTest.class
+		Transmorph converter = new Transmorph(BeanToBeanTest.class
 				.getClassLoader(), defaultConverters);
 		
 		BeanToBeanMapping beanToBeanMapping = new BeanToBeanMapping(
@@ -107,7 +107,7 @@ public class BeanToBeanTest extends TestCase {
 	
 	public void testBeanToBeanWithPrivateProperties() throws Exception {
 		DefaultConverters defaultConverters = new DefaultConverters();
-		Transmorph converter = new Transmorph(ConverterTest.class
+		Transmorph converter = new Transmorph(BeanToBeanTest.class
 				.getClassLoader(), defaultConverters);
 		
 		BeanToBeanMapping beanToBeanMapping = new BeanToBeanMapping(

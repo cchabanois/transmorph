@@ -18,13 +18,13 @@ package net.entropysoft.transmorph.converters;
 import java.util.List;
 
 import junit.framework.TestCase;
-import net.entropysoft.transmorph.ConverterTest;
+import net.entropysoft.transmorph.TransmorphTest;
 import net.entropysoft.transmorph.Transmorph;
 
 public class SingleElementToCollectionTest extends TestCase {
 
 	public void testSingleElementToCollection() throws Exception {
-		Transmorph converter = new Transmorph(ConverterTest.class
+		Transmorph converter = new Transmorph(SingleElementToCollectionTest.class
 				.getClassLoader(), new SingleElementToCollection(),
 				new StringToNumber());
 

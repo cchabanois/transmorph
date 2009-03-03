@@ -9,12 +9,12 @@ import net.entropysoft.transmorph.modifiers.IModifier;
 import net.entropysoft.transmorph.modifiers.TrimString;
 import net.entropysoft.transmorph.signature.parser.ClassFileTypeSignatureParser;
 
-public class ConverterTest extends TestCase {
+public class TransmorphTest extends TestCase {
 
 	public void testTrimString() throws Exception {
 		IdentityConverter identityConverter = new IdentityConverter();
 		identityConverter.setModifiers(new IModifier[] { new TrimString() });
-		Transmorph transmorph = new Transmorph(ConverterTest.class
+		Transmorph transmorph = new Transmorph(TransmorphTest.class
 				.getClassLoader(), identityConverter);
 		String converted = (String) transmorph
 				.convert(
@@ -25,7 +25,7 @@ public class ConverterTest extends TestCase {
 	}
 
 	public void testConverterWithContext() throws Exception {
-		Transmorph transmorph = new Transmorph(ConverterTest.class
+		Transmorph transmorph = new Transmorph(TransmorphTest.class
 				.getClassLoader(), new DefaultConverters());
 		transmorph.setTypeSignatureParser(new ClassFileTypeSignatureParser(false));
 		ConversionContext context = new ConversionContext();
@@ -46,6 +46,5 @@ public class ConverterTest extends TestCase {
 				"[Ljava.lang.String;");
 		assertTrue(arrayOfStrings == arrayOfStrings2);
 	}
-
 
 }

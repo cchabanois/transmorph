@@ -19,14 +19,14 @@ import java.math.BigDecimal;
 
 import junit.framework.TestCase;
 import net.entropysoft.transmorph.ConverterException;
-import net.entropysoft.transmorph.ConverterTest;
+import net.entropysoft.transmorph.TransmorphTest;
 import net.entropysoft.transmorph.DefaultConverters;
 import net.entropysoft.transmorph.Transmorph;
 
 public class StringToNumberTest extends TestCase {
 
 	public void testStringToPrimitive() throws Exception {
-		Transmorph converter = new Transmorph(ConverterTest.class
+		Transmorph converter = new Transmorph(StringToNumberTest.class
 				.getClassLoader(), new DefaultConverters());
 
 		// String => int (StringToNumberConverter)
@@ -46,7 +46,7 @@ public class StringToNumberTest extends TestCase {
 	}
 
 	public void testStringToBigDecimal() throws Exception {
-		Transmorph converter = new Transmorph(ConverterTest.class
+		Transmorph converter = new Transmorph(StringToNumberTest.class
 				.getClassLoader(), new DefaultConverters());
 
 		// String => BigDecimal (StringToNumberConverter)
@@ -58,7 +58,7 @@ public class StringToNumberTest extends TestCase {
 	}
 
 	public void testStringToNumber() throws Exception {
-		Transmorph converter = new Transmorph(ConverterTest.class
+		Transmorph converter = new Transmorph(StringToNumberTest.class
 				.getClassLoader(), new DefaultConverters());
 
 		Number number = (Number) converter.convert(

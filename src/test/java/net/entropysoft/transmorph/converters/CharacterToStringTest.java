@@ -16,14 +16,14 @@
 package net.entropysoft.transmorph.converters;
 
 import junit.framework.TestCase;
-import net.entropysoft.transmorph.ConverterTest;
+import net.entropysoft.transmorph.TransmorphTest;
 import net.entropysoft.transmorph.DefaultConverters;
 import net.entropysoft.transmorph.Transmorph;
 
 public class CharacterToStringTest extends TestCase {
 
 	public void testCharacterToString() throws Exception {
-		Transmorph transmorph = new Transmorph(ConverterTest.class
+		Transmorph transmorph = new Transmorph(CharacterArrayToStringTest.class
 				.getClassLoader(), new DefaultConverters());
 		char myChar = 'c';
 		String str = (String) transmorph.convert(myChar, String.class);

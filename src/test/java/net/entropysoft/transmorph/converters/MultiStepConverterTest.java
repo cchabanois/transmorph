@@ -23,7 +23,7 @@ import java.util.Locale;
 import junit.framework.TestCase;
 import net.entropysoft.transmorph.ConversionContext;
 import net.entropysoft.transmorph.ConverterException;
-import net.entropysoft.transmorph.ConverterTest;
+import net.entropysoft.transmorph.TransmorphTest;
 import net.entropysoft.transmorph.IConverter;
 import net.entropysoft.transmorph.Transmorph;
 import net.entropysoft.transmorph.converters.collections.ArrayToCollection;
@@ -36,7 +36,7 @@ import sun.io.Converters;
 public class MultiStepConverterTest extends TestCase {
 
 	public void testMultiStepConverter() throws Exception {
-		TypeFactory typeFactory = new TypeFactory(ConverterTest.class
+		TypeFactory typeFactory = new TypeFactory(MultiStepConverterTest.class
 				.getClassLoader());
 
 		MultiStepConverter multiStepConverter = new MultiStepConverter(
@@ -68,7 +68,7 @@ public class MultiStepConverterTest extends TestCase {
 	}
 
 	public void testMultiStepWithConverters() throws Exception {
-		TypeFactory typeFactory = new TypeFactory(ConverterTest.class
+		TypeFactory typeFactory = new TypeFactory(MultiStepConverterTest.class
 				.getClassLoader());
 
 		// we will convert an array of Dates to a List of uppercased strings
@@ -81,7 +81,7 @@ public class MultiStepConverterTest extends TestCase {
 		ArrayToCollection arrayToCollection = new ArrayToCollection();
 		arrayToCollection.setElementConverter(dateToString);
 
-		Transmorph converter = new Transmorph(ConverterTest.class
+		Transmorph converter = new Transmorph(MultiStepConverterTest.class
 				.getClassLoader(), arrayToCollection);
 
 		Date[] dates = new Date[] { new Date(0), new Date(1232621965342L) };

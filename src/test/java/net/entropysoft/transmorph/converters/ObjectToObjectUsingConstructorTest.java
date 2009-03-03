@@ -20,7 +20,7 @@ import java.net.URL;
 
 import junit.framework.TestCase;
 import net.entropysoft.transmorph.ConverterException;
-import net.entropysoft.transmorph.ConverterTest;
+import net.entropysoft.transmorph.TransmorphTest;
 import net.entropysoft.transmorph.Transmorph;
 import sun.io.Converters;
 
@@ -31,7 +31,7 @@ public class ObjectToObjectUsingConstructorTest extends TestCase {
 		objectToObjectUsingConstructor
 				.setHandledDestinationClasses(ObjectToObjectUsingConstructor.ALL_DESTINATION_CLASSES);
 
-		Transmorph converter = new Transmorph(ConverterTest.class
+		Transmorph converter = new Transmorph(ObjectToObjectUsingConstructorTest.class
 				.getClassLoader(), objectToObjectUsingConstructor);
 		File file = (File) converter.convert("c:\temp", File.class);
 		assertNotNull(file);
@@ -44,7 +44,7 @@ public class ObjectToObjectUsingConstructorTest extends TestCase {
 	public void testStringToUrl() throws Exception {
 		ObjectToObjectUsingConstructor objectToObjectUsingConstructor = new ObjectToObjectUsingConstructor();
 
-		Transmorph converter = new Transmorph(ConverterTest.class
+		Transmorph converter = new Transmorph(ObjectToObjectUsingConstructorTest.class
 				.getClassLoader(), objectToObjectUsingConstructor);
 
 		objectToObjectUsingConstructor

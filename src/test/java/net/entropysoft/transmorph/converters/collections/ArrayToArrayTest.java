@@ -17,14 +17,14 @@ package net.entropysoft.transmorph.converters.collections;
 
 import junit.framework.TestCase;
 import net.entropysoft.transmorph.ConverterException;
-import net.entropysoft.transmorph.ConverterTest;
+import net.entropysoft.transmorph.TransmorphTest;
 import net.entropysoft.transmorph.DefaultConverters;
 import net.entropysoft.transmorph.Transmorph;
 
 public class ArrayToArrayTest extends TestCase {
 
 	public void testObjectArrayToStringArray() throws Exception {
-		Transmorph converter = new Transmorph(ConverterTest.class
+		Transmorph converter = new Transmorph(ArrayToArrayTest.class
 				.getClassLoader(), new DefaultConverters());
 
 		// Object[] => String[] (ArrayToArrayConverter)
@@ -37,7 +37,7 @@ public class ArrayToArrayTest extends TestCase {
 	}
 	
 	public void testMultidimentionalArray() throws Exception {
-		Transmorph converter = new Transmorph(ConverterTest.class
+		Transmorph converter = new Transmorph(ArrayToArrayTest.class
 				.getClassLoader(), new DefaultConverters());
 		
 		// int[][] => String[][] (ArrayToArrayConverter)

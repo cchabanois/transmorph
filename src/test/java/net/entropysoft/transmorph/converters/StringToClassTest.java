@@ -16,14 +16,14 @@
 package net.entropysoft.transmorph.converters;
 
 import junit.framework.TestCase;
-import net.entropysoft.transmorph.ConverterTest;
+import net.entropysoft.transmorph.TransmorphTest;
 import net.entropysoft.transmorph.DefaultConverters;
 import net.entropysoft.transmorph.Transmorph;
 
 public class StringToClassTest extends TestCase {
 
 	public void testStringToClass() throws Exception {
-		Transmorph converter = new Transmorph(ConverterTest.class
+		Transmorph converter = new Transmorph(StringToCharacterArrayTest.class
 				.getClassLoader(), new DefaultConverters());
 
 		Class clazz = (Class) converter.convert(this.getClass().getName(),

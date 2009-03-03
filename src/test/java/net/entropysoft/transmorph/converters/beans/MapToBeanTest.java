@@ -21,7 +21,7 @@ import java.util.Map;
 
 import junit.framework.TestCase;
 import net.entropysoft.transmorph.Transmorph;
-import net.entropysoft.transmorph.ConverterTest;
+import net.entropysoft.transmorph.TransmorphTest;
 import net.entropysoft.transmorph.DefaultConverters;
 import net.entropysoft.transmorph.type.TypeFactory;
 import samples.MyBean1;
@@ -31,7 +31,7 @@ import samples.MyBean3;
 public class MapToBeanTest extends TestCase {
 
 	public void testMapToBean() throws Exception {
-		TypeFactory typeFactory = new TypeFactory(ConverterTest.class
+		TypeFactory typeFactory = new TypeFactory(BeanToBeanTest.class
 				.getClassLoader());
 
 		DefaultConverters defaultConverters = new DefaultConverters();

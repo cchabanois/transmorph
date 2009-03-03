@@ -22,7 +22,7 @@ import java.util.Properties;
 
 import junit.framework.TestCase;
 import net.entropysoft.transmorph.ConversionContext;
-import net.entropysoft.transmorph.ConverterTest;
+import net.entropysoft.transmorph.TransmorphTest;
 import net.entropysoft.transmorph.DefaultConverters;
 import net.entropysoft.transmorph.Transmorph;
 import net.entropysoft.transmorph.signature.parser.ClassFileTypeSignatureParser;
@@ -30,7 +30,7 @@ import net.entropysoft.transmorph.signature.parser.ClassFileTypeSignatureParser;
 public class MapToMapTest extends TestCase {
 
 	public void testMapToMap() throws Exception {
-		Transmorph converter = new Transmorph(ConverterTest.class
+		Transmorph converter = new Transmorph(MapToMapTest.class
 				.getClassLoader(), new DefaultConverters());
 		converter.setTypeSignatureParser(new ClassFileTypeSignatureParser(false));
 
@@ -65,7 +65,7 @@ public class MapToMapTest extends TestCase {
 	}
 
 	public void testMapToProperties() throws Exception {
-		Transmorph converter = new Transmorph(ConverterTest.class
+		Transmorph converter = new Transmorph(MapToMapTest.class
 				.getClassLoader(), new DefaultConverters());
 
 		Map<String, Integer> map = new HashMap<String, Integer>();

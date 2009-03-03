@@ -20,7 +20,7 @@ import java.util.Calendar;
 
 import junit.framework.TestCase;
 import net.entropysoft.transmorph.ConverterException;
-import net.entropysoft.transmorph.ConverterTest;
+import net.entropysoft.transmorph.TransmorphTest;
 import net.entropysoft.transmorph.Transmorph;
 import sun.io.Converters;
 
@@ -37,7 +37,7 @@ public class StringToCalendarTest extends TestCase {
 		simpleDateFormat2.setLenient(false);
 		stringToCalendarConverter2.setDateFormat(simpleDateFormat2);
 
-		Transmorph converter = new Transmorph(ConverterTest.class
+		Transmorph converter = new Transmorph(StringToCalendarTest.class
 				.getClassLoader(), stringToCalendarConverter1,
 				stringToCalendarConverter2);
 		Calendar calendar = (Calendar) converter.convert("29/12/2008",

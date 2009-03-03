@@ -16,14 +16,14 @@
 package net.entropysoft.transmorph.converters;
 
 import junit.framework.TestCase;
-import net.entropysoft.transmorph.ConverterTest;
+import net.entropysoft.transmorph.TransmorphTest;
 import net.entropysoft.transmorph.DefaultConverters;
 import net.entropysoft.transmorph.Transmorph;
 
 public class WrapperToPrimitiveTest extends TestCase {
 
 	public void testWrapperToPrimitive() throws Exception {
-		Transmorph converter = new Transmorph(ConverterTest.class
+		Transmorph converter = new Transmorph(WrapperToPrimitiveTest.class
 				.getClassLoader(), new DefaultConverters());
 		Boolean[] booleanWrappers = new Boolean[] { true, false };
 		boolean[] booleans = (boolean[]) converter.convert(booleanWrappers,

@@ -8,6 +8,8 @@ import net.entropysoft.transmorph.converters.IdentityConverter;
 import net.entropysoft.transmorph.modifiers.IModifier;
 import net.entropysoft.transmorph.modifiers.TrimString;
 import net.entropysoft.transmorph.signature.parser.ClassFileTypeSignatureParser;
+import net.entropysoft.transmorph.signature.parser.ClassGetNameTypeSignatureParser;
+import net.entropysoft.transmorph.signature.parser.JavaTypeSignatureParser;
 
 public class TransmorphTest extends TestCase {
 
@@ -47,4 +49,20 @@ public class TransmorphTest extends TestCase {
 		assertTrue(arrayOfStrings == arrayOfStrings2);
 	}
 
+	public void testTransmorphWithJavaTypeSignatureParser() throws Exception {
+		Transmorph transmorph = new Transmorph(TransmorphTest.class
+				.getClassLoader(), new DefaultConverters());
+		transmorph.setTypeSignatureParser(new JavaTypeSignatureParser());
+		Long longNumber = (Long)transmorph.convert(55, "Long");
+		assertEquals(55, longNumber.longValue());
+	}
+
+	public void testTransmorphWithClassGetNameTypeSignatureParser() throws Exception {
+		Transmorph transmorph = new Transmorph(TransmorphTest.class
+				.getClassLoader(), new DefaultConverters());
+		transmorph.setTypeSignatureParser(new ClassGetNameTypeSignatureParser());
+		Long longNumber = (Long)transmorph.convert(55, "java.lang.Long");
+		assertEquals(55, longNumber.longValue());
+	}
+	
 }

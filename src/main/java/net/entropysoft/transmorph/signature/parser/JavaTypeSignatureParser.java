@@ -38,6 +38,10 @@ public class JavaTypeSignatureParser implements ITypeSignatureParser {
 	private boolean acceptGenerics = true;
 	private IImportedClassesProvider[] importedClassesProviders = { new JavaLangImportedClassesProvider() };
 	
+	public JavaTypeSignatureParser() {
+		
+	}
+	
 	public JavaTypeSignatureParser(String typeSignature) {
 		setTypeSignature(typeSignature);
 	}	

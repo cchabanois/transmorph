@@ -24,8 +24,8 @@ import net.entropysoft.transmorph.signature.FieldTypeSignature;
 import net.entropysoft.transmorph.signature.PrimitiveTypeSignature;
 import net.entropysoft.transmorph.signature.TypeArgSignature;
 import net.entropysoft.transmorph.signature.TypeSignature;
-import net.entropysoft.transmorph.signature.parser.JavaTypeSignatureLexer.Token;
-import net.entropysoft.transmorph.signature.parser.JavaTypeSignatureLexer.TokenType;
+import net.entropysoft.transmorph.signature.parser.JavaSyntaxTypeSignatureLexer.Token;
+import net.entropysoft.transmorph.signature.parser.JavaSyntaxTypeSignatureLexer.TokenType;
 
 /**
  * Parser for java type signatures
@@ -33,16 +33,16 @@ import net.entropysoft.transmorph.signature.parser.JavaTypeSignatureLexer.TokenT
  * @author Cedric Chabanois (cchabanois at gmail.com)
  * 
  */
-public class JavaTypeSignatureParser implements ITypeSignatureParser {
-	private JavaTypeSignatureLexer lexer;
+public class JavaSyntaxTypeSignatureParser implements ITypeSignatureParser {
+	private JavaSyntaxTypeSignatureLexer lexer;
 	private boolean acceptGenerics = true;
 	private IImportedClassesProvider[] importedClassesProviders = { new JavaLangImportedClassesProvider() };
 	
-	public JavaTypeSignatureParser() {
+	public JavaSyntaxTypeSignatureParser() {
 		
 	}
 	
-	public JavaTypeSignatureParser(String typeSignature) {
+	public JavaSyntaxTypeSignatureParser(String typeSignature) {
 		setTypeSignature(typeSignature);
 	}	
 	
@@ -53,7 +53,7 @@ public class JavaTypeSignatureParser implements ITypeSignatureParser {
 	}
 
 	public void setTypeSignature(String signature) {
-		lexer = new JavaTypeSignatureLexer(signature);
+		lexer = new JavaSyntaxTypeSignatureLexer(signature);
 	}
 
 	public boolean isAcceptGenerics() {

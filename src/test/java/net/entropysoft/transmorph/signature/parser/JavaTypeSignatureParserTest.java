@@ -6,35 +6,35 @@ import net.entropysoft.transmorph.signature.TypeSignature;
 public class JavaTypeSignatureParserTest extends TestCase {
 
 	public void testParsePrimitive() {
-		JavaTypeSignatureParser typeSignatureParser = new JavaTypeSignatureParser(
+		JavaSyntaxTypeSignatureParser typeSignatureParser = new JavaSyntaxTypeSignatureParser(
 				"long");
 		TypeSignature typeSignature = typeSignatureParser.parseTypeSignature();
 		assertEquals("J", typeSignature.getSignature());
 	}
 
 	public void testParseArrayOfPrimitives() {
-		JavaTypeSignatureParser typeSignatureParser = new JavaTypeSignatureParser(
+		JavaSyntaxTypeSignatureParser typeSignatureParser = new JavaSyntaxTypeSignatureParser(
 				"long[][]");
 		TypeSignature typeSignature = typeSignatureParser.parseTypeSignature();
 		assertEquals("[[J", typeSignature.getSignature());
 	}
 
 	public void testParseClassName() {
-		JavaTypeSignatureParser typeSignatureParser = new JavaTypeSignatureParser(
+		JavaSyntaxTypeSignatureParser typeSignatureParser = new JavaSyntaxTypeSignatureParser(
 				"String");
 		TypeSignature typeSignature = typeSignatureParser.parseTypeSignature();
 		assertEquals("Ljava/lang/String;", typeSignature.getSignature());
 	}
 
 	public void testParseArrayOfClasses() {
-		JavaTypeSignatureParser typeSignatureParser = new JavaTypeSignatureParser(
+		JavaSyntaxTypeSignatureParser typeSignatureParser = new JavaSyntaxTypeSignatureParser(
 				"java.lang.String[][][]");
 		TypeSignature typeSignature = typeSignatureParser.parseTypeSignature();
 		assertEquals("[[[Ljava/lang/String;", typeSignature.getSignature());
 	}
 
 	public void testParseWithGenerics() {
-		JavaTypeSignatureParser typeSignatureParser = new JavaTypeSignatureParser(
+		JavaSyntaxTypeSignatureParser typeSignatureParser = new JavaSyntaxTypeSignatureParser(
 				"java.util.Map<java.lang.String, java.util.List<java.lang.String>>");
 		TypeSignature typeSignature = typeSignatureParser.parseTypeSignature();
 		assertEquals(
@@ -43,12 +43,12 @@ public class JavaTypeSignatureParserTest extends TestCase {
 	}
 
 	public void testParseGenericsWildcard() {
-		JavaTypeSignatureParser typeSignatureParser = new JavaTypeSignatureParser(
+		JavaSyntaxTypeSignatureParser typeSignatureParser = new JavaSyntaxTypeSignatureParser(
 				"java.util.List<?>");
 		TypeSignature typeSignature = typeSignatureParser.parseTypeSignature();
 		assertEquals("Ljava/util/List<*>;", typeSignature.getSignature());
 
-		typeSignatureParser = new JavaTypeSignatureParser(
+		typeSignatureParser = new JavaSyntaxTypeSignatureParser(
 				"java.util.List<? extends java.lang.Number>");
 		typeSignature = typeSignatureParser.parseTypeSignature();
 		assertEquals("Ljava/util/List<+Ljava/lang/Number;>;", typeSignature
@@ -56,7 +56,7 @@ public class JavaTypeSignatureParserTest extends TestCase {
 	}
 
 	public void testImports() {
-		JavaTypeSignatureParser typeSignatureParser = new JavaTypeSignatureParser(
+		JavaSyntaxTypeSignatureParser typeSignatureParser = new JavaSyntaxTypeSignatureParser(
 				"List<String>");
 		ImportedClassesProvider importedClassesProvider = new ImportedClassesProvider();
 		importedClassesProvider.importClass("java.util.List");

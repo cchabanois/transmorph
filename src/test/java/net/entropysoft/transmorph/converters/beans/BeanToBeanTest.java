@@ -23,6 +23,7 @@ import net.entropysoft.transmorph.ConversionContext;
 import net.entropysoft.transmorph.TransmorphTest;
 import net.entropysoft.transmorph.DefaultConverters;
 import net.entropysoft.transmorph.Transmorph;
+import net.entropysoft.transmorph.signature.formatter.JavaSyntaxTypeSignatureFormatter;
 import samples.MyBean4;
 import samples.MyBean4TransferObject;
 import samples.MyBeanAB;
@@ -96,7 +97,7 @@ public class BeanToBeanTest extends TestCase {
 		
 		MyBean4TransferObject myBean4TransferObject = (MyBean4TransferObject) converter
 				.convert(context, myBean4, MyBean4TransferObject.class);
-		System.out.println(context.getUsedConverters().toString());
+		System.out.println(context.getUsedConverters().toString(new JavaSyntaxTypeSignatureFormatter()));
 		
 		assertEquals("hello world", myBean4TransferObject.getMyString());
 		assertEquals("first", myBean4TransferObject.getMyStrings()[0]);

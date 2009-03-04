@@ -15,7 +15,7 @@
  */
 package net.entropysoft.transmorph.signature;
 
-import net.entropysoft.transmorph.signature.formatter.TypeSignatureFormatter;
+import net.entropysoft.transmorph.signature.formatter.ClassFileTypeSignatureFormatter;
 
 public class TypeVarSignature extends FieldTypeSignature {
 
@@ -41,7 +41,7 @@ public class TypeVarSignature extends FieldTypeSignature {
 	
 	public String getSignature() {
 		if (signature == null) {
-			TypeSignatureFormatter typeSignatureFormatter = new TypeSignatureFormatter();
+			ClassFileTypeSignatureFormatter typeSignatureFormatter = new ClassFileTypeSignatureFormatter();
 			signature = typeSignatureFormatter.formatTypeVarSignature(this);
 		}
 		return signature;

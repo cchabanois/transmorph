@@ -15,7 +15,7 @@
  */
 package net.entropysoft.transmorph.signature;
 
-import net.entropysoft.transmorph.signature.formatter.TypeSignatureFormatter;
+import net.entropysoft.transmorph.signature.formatter.ClassFileTypeSignatureFormatter;
 
 /**
  * Signature for type (primitive, array or class)
@@ -46,7 +46,7 @@ public abstract class TypeSignature implements ISignature {
 	
 	public String getSignature() {
 		if (signature == null) {
-			TypeSignatureFormatter typeSignatureFormatter = new TypeSignatureFormatter();
+			ClassFileTypeSignatureFormatter typeSignatureFormatter = new ClassFileTypeSignatureFormatter();
 			signature = typeSignatureFormatter.format(this);
 		}
 		return signature;

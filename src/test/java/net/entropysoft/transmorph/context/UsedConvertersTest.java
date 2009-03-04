@@ -1,15 +1,14 @@
 package net.entropysoft.transmorph.context;
 
+import java.text.MessageFormat;
+
+import junit.framework.TestCase;
 import net.entropysoft.transmorph.ConversionContext;
-import net.entropysoft.transmorph.TransmorphTest;
 import net.entropysoft.transmorph.DefaultConverters;
 import net.entropysoft.transmorph.Transmorph;
 import net.entropysoft.transmorph.converters.MultiConverter;
 import net.entropysoft.transmorph.converters.NumberToNumber;
 import net.entropysoft.transmorph.converters.collections.ArrayToArray;
-
-import java.text.MessageFormat;
-import junit.framework.TestCase;
 
 public class UsedConvertersTest extends TestCase {
 

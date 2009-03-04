@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Set;
 
 import net.entropysoft.transmorph.IConverter;
+import net.entropysoft.transmorph.signature.formatter.ITypeSignatureFormatter;
 import net.entropysoft.transmorph.type.Type;
 
 /**
@@ -42,7 +43,7 @@ public class UsedConverters {
 		usedConvertersList.clear();
 		usedConvertersSet.clear();
 	}
-	
+
 	/**
 	 * add a converter that has been used to convert from sourceObject to
 	 * destination type (if it has not already been added)
@@ -83,9 +84,31 @@ public class UsedConverters {
 									usedConverter.getConverter().getClass()
 											.getSimpleName(),
 									usedConverter.getSourceObjectClass() == null ? "null"
-											: usedConverter.getSourceObjectClass()
-													.getName(),
-									usedConverter.getDestinationType().toString()));
+											: usedConverter
+													.getSourceObjectClass()
+													.getName(), usedConverter
+											.getDestinationType().toString()));
+			sb.append('\n');
+		}
+		return sb.toString();
+	}
+
+	public String toString(ITypeSignatureFormatter formatter) {
+		StringBuilder sb = new StringBuilder();
+		for (UsedConverter usedConverter : usedConvertersList) {
+			sb
+					.append(MessageFormat
+							.format(
+									"Converter ''{0}'' used to convert from ''{1}'' to destination type ''{2}''.",
+									usedConverter.getConverter().getClass()
+											.getSimpleName(),
+									usedConverter.getSourceObjectClass() == null ? "null"
+											: usedConverter
+													.getSourceObjectClass()
+													.getName(), formatter
+											.format(usedConverter
+													.getDestinationType()
+													.getTypeSignature())));
 			sb.append('\n');
 		}
 		return sb.toString();

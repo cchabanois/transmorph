@@ -9,7 +9,7 @@ import net.entropysoft.transmorph.modifiers.IModifier;
 import net.entropysoft.transmorph.modifiers.TrimString;
 import net.entropysoft.transmorph.signature.parser.ClassFileTypeSignatureParser;
 import net.entropysoft.transmorph.signature.parser.ClassGetNameTypeSignatureParser;
-import net.entropysoft.transmorph.signature.parser.JavaTypeSignatureParser;
+import net.entropysoft.transmorph.signature.parser.JavaSyntaxTypeSignatureParser;
 
 public class TransmorphTest extends TestCase {
 
@@ -52,7 +52,7 @@ public class TransmorphTest extends TestCase {
 	public void testTransmorphWithJavaTypeSignatureParser() throws Exception {
 		Transmorph transmorph = new Transmorph(TransmorphTest.class
 				.getClassLoader(), new DefaultConverters());
-		transmorph.setTypeSignatureParser(new JavaTypeSignatureParser());
+		transmorph.setTypeSignatureParser(new JavaSyntaxTypeSignatureParser());
 		Long longNumber = (Long)transmorph.convert(55, "Long");
 		assertEquals(55, longNumber.longValue());
 	}

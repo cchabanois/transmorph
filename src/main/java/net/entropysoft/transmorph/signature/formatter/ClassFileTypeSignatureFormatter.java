@@ -31,16 +31,16 @@ import net.entropysoft.transmorph.signature.TypeVarSignature;
  * @author Cedric Chabanois (cchabanois at gmail.com)
  *
  */
-public class TypeSignatureFormatter implements ITypeSignatureFormatter {
+public class ClassFileTypeSignatureFormatter implements ITypeSignatureFormatter {
 
 	private char packageSeparator = '/';
 	private char innerClassPrefix = '.';	
 	
-	public TypeSignatureFormatter() {
+	public ClassFileTypeSignatureFormatter() {
 		
 	}
 	
-	public TypeSignatureFormatter(boolean useInternalFormFullyQualifiedName) {
+	public ClassFileTypeSignatureFormatter(boolean useInternalFormFullyQualifiedName) {
 		setUseInternalFormFullyQualifiedName(useInternalFormFullyQualifiedName);
 	}	
 	

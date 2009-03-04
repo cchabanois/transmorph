@@ -33,7 +33,7 @@ import net.entropysoft.transmorph.signature.TypeVarSignature;
 public class ClassGetNameSignatureFormatter implements ITypeSignatureFormatter {
 
 	private static Map<Character, String> primitiveTypesMap = new HashMap<Character, String>();
-	private TypeSignatureFormatter typeSignatureFormatter = new TypeSignatureFormatter(false);
+	private ClassFileTypeSignatureFormatter typeSignatureFormatter = new ClassFileTypeSignatureFormatter(false);
 	
 	
 	static {

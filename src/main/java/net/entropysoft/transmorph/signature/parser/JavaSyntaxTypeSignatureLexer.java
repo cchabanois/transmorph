@@ -19,12 +19,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Provides tokens to {@link JavaTypeSignatureParser}
+ * Provides tokens to {@link JavaSyntaxTypeSignatureParser}
  * 
  * @author Cedric Chabanois (cchabanois at gmail.com)
  * 
  */
-public class JavaTypeSignatureLexer {
+public class JavaSyntaxTypeSignatureLexer {
 	private CharacterBuffer characterBuffer;
 	private Token[] tokens;
 	private int position = 0;
@@ -55,7 +55,7 @@ public class JavaTypeSignatureLexer {
 		int tokenEnd;
 	}
 
-	public JavaTypeSignatureLexer(String str) {
+	public JavaSyntaxTypeSignatureLexer(String str) {
 		this.characterBuffer = new CharacterBuffer(str);
 	}
 

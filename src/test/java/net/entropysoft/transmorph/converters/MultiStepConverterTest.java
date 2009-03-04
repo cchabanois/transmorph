@@ -23,7 +23,6 @@ import java.util.Locale;
 import junit.framework.TestCase;
 import net.entropysoft.transmorph.ConversionContext;
 import net.entropysoft.transmorph.ConverterException;
-import net.entropysoft.transmorph.TransmorphTest;
 import net.entropysoft.transmorph.IConverter;
 import net.entropysoft.transmorph.Transmorph;
 import net.entropysoft.transmorph.converters.collections.ArrayToCollection;
@@ -31,7 +30,6 @@ import net.entropysoft.transmorph.modifiers.IModifier;
 import net.entropysoft.transmorph.modifiers.UppercaseString;
 import net.entropysoft.transmorph.type.Type;
 import net.entropysoft.transmorph.type.TypeFactory;
-import sun.io.Converters;
 
 public class MultiStepConverterTest extends TestCase {
 

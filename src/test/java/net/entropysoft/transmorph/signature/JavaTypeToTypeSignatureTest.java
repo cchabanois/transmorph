@@ -3,9 +3,6 @@ package net.entropysoft.transmorph.signature;
 import java.lang.reflect.Method;
 import java.util.List;
 
-import net.entropysoft.transmorph.signature.JavaTypeToTypeSignature;
-import net.entropysoft.transmorph.signature.TypeSignature;
-
 import junit.framework.TestCase;
 
 public class JavaTypeToTypeSignatureTest extends TestCase {

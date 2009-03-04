@@ -2,9 +2,6 @@ package net.entropysoft.transmorph.signature;
 
 import java.util.Map;
 
-import net.entropysoft.transmorph.signature.TypeSignature;
-import net.entropysoft.transmorph.signature.TypeSignatureFactory;
-
 import junit.framework.TestCase;
 
 public class TypeSignatureFactoryTest extends TestCase {

@@ -10,7 +10,6 @@ import java.util.Random;
 
 import junit.framework.TestCase;
 import net.entropysoft.transmorph.converters.StringToBoolean;
-import net.entropysoft.transmorph.signature.TypeSignature;
 import net.entropysoft.transmorph.signature.TypeSignatureFactory;
 import net.entropysoft.transmorph.signature.parser.ClassFileTypeSignatureParser;
 import net.entropysoft.transmorph.type.Type;

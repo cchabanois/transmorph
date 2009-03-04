@@ -2,8 +2,6 @@ package net.entropysoft.transmorph.signature.parser;
 
 import junit.framework.TestCase;
 import net.entropysoft.transmorph.signature.TypeSignature;
-import net.entropysoft.transmorph.signature.parser.InvalidSignatureException;
-import net.entropysoft.transmorph.signature.parser.ClassFileTypeSignatureParser;
 
 public class TypeSignatureParserTest extends TestCase {
 

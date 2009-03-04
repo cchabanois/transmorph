@@ -16,9 +16,7 @@
 package net.entropysoft.transmorph.converters;
 
 import junit.framework.TestCase;
-import net.entropysoft.transmorph.TransmorphTest;
 import net.entropysoft.transmorph.Transmorph;
-import sun.io.Converters;
 
 public class SingleElementToArrayTest extends TestCase {
 

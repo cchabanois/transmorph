@@ -20,9 +20,7 @@ import java.net.URL;
 
 import junit.framework.TestCase;
 import net.entropysoft.transmorph.ConverterException;
-import net.entropysoft.transmorph.TransmorphTest;
 import net.entropysoft.transmorph.Transmorph;
-import sun.io.Converters;
 
 public class ObjectToObjectUsingConstructorTest extends TestCase {
 

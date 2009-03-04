@@ -2,11 +2,8 @@ package net.entropysoft.transmorph.signature;
 
 import java.util.Map;
 
-import net.entropysoft.transmorph.signature.ClassFactory;
-import net.entropysoft.transmorph.signature.TypeSignature;
-import net.entropysoft.transmorph.signature.parser.ClassFileTypeSignatureParser;
-
 import junit.framework.TestCase;
+import net.entropysoft.transmorph.signature.parser.ClassFileTypeSignatureParser;
 
 public class ClassFactoryTest extends TestCase {
 

@@ -20,10 +20,7 @@ import java.util.Locale;
 
 import junit.framework.TestCase;
 import net.entropysoft.transmorph.ConverterException;
-import net.entropysoft.transmorph.TransmorphTest;
-import net.entropysoft.transmorph.IConverter;
 import net.entropysoft.transmorph.Transmorph;
-import sun.io.Converters;
 
 public class FormattedStringToNumberTest extends TestCase {
 

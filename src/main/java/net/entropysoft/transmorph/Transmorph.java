@@ -21,8 +21,8 @@ import net.entropysoft.transmorph.converters.MultiConverter;
 import net.entropysoft.transmorph.signature.ClassFactory;
 import net.entropysoft.transmorph.signature.TypeSignature;
 import net.entropysoft.transmorph.signature.TypeSignatureFactory;
-import net.entropysoft.transmorph.signature.parser.ITypeSignatureParser;
 import net.entropysoft.transmorph.signature.parser.ClassFileTypeSignatureParser;
+import net.entropysoft.transmorph.signature.parser.ITypeSignatureParser;
 import net.entropysoft.transmorph.type.Type;
 import net.entropysoft.transmorph.type.TypeFactory;
 

@@ -18,8 +18,6 @@ package net.entropysoft.transmorph.converters;
 import javax.xml.namespace.QName;
 
 import junit.framework.TestCase;
-import net.entropysoft.transmorph.TransmorphTest;
-import net.entropysoft.transmorph.DefaultConverters;
 import net.entropysoft.transmorph.Transmorph;
 
 public class StringToQNameTest extends TestCase {

@@ -2,8 +2,8 @@ package net.entropysoft.transmorph.signature.formatter;
 
 import java.util.Map;
 
-import net.entropysoft.transmorph.signature.TypeSignatureFactory;
 import junit.framework.TestCase;
+import net.entropysoft.transmorph.signature.TypeSignatureFactory;
 
 public class TypeSignatureFormatterTest extends TestCase {
 

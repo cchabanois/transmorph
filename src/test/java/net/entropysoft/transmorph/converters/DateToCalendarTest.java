@@ -19,7 +19,6 @@ import java.util.Calendar;
 import java.util.Date;
 
 import junit.framework.TestCase;
-import net.entropysoft.transmorph.TransmorphTest;
 import net.entropysoft.transmorph.DefaultConverters;
 import net.entropysoft.transmorph.Transmorph;
 

@@ -20,9 +20,8 @@ import java.util.List;
 import java.util.Map;
 
 import junit.framework.TestCase;
-import net.entropysoft.transmorph.Transmorph;
-import net.entropysoft.transmorph.TransmorphTest;
 import net.entropysoft.transmorph.DefaultConverters;
+import net.entropysoft.transmorph.Transmorph;
 import net.entropysoft.transmorph.type.TypeFactory;
 import samples.MyBean1;
 import samples.MyBean2;

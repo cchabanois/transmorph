@@ -19,7 +19,6 @@ import java.net.URI;
 import java.net.URL;
 
 import junit.framework.TestCase;
-import net.entropysoft.transmorph.TransmorphTest;
 import net.entropysoft.transmorph.DefaultConverters;
 import net.entropysoft.transmorph.Transmorph;
 

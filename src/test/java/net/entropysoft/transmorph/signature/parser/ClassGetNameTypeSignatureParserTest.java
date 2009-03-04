@@ -1,9 +1,8 @@
 package net.entropysoft.transmorph.signature.parser;
 
-import samples.BeanWithInnerBean;
-import net.entropysoft.transmorph.signature.TypeSignature;
-import net.entropysoft.transmorph.signature.parser.ClassGetNameTypeSignatureParser;
 import junit.framework.TestCase;
+import net.entropysoft.transmorph.signature.TypeSignature;
+import samples.BeanWithInnerBean;
 
 public class ClassGetNameTypeSignatureParserTest extends TestCase {
 

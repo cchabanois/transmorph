@@ -55,6 +55,14 @@ public class TransmorphTest extends TestCase {
 		transmorph.setTypeSignatureParser(new JavaSyntaxTypeSignatureParser());
 		Long longNumber = (Long)transmorph.convert(55, "Long");
 		assertEquals(55, longNumber.longValue());
+		
+		List<String> listOfStrings = (List<String>)transmorph.convert(new long[] {1,2,3,4,5}, "java.util.List<String>");
+		assertEquals(5, listOfStrings.size());
+		assertEquals("1", listOfStrings.get(0));
+		assertEquals("2", listOfStrings.get(1));
+		assertEquals("3", listOfStrings.get(2));
+		assertEquals("4", listOfStrings.get(3));
+		assertEquals("5", listOfStrings.get(4));
 	}
 
 	public void testTransmorphWithClassGetNameTypeSignatureParser() throws Exception {

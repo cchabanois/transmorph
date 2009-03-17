@@ -114,10 +114,6 @@ public class MultiConverter extends AbstractContainerConverter {
 					try {
 						Object result = converter.convert(context,
 								sourceObject, destinationType);
-						if (converterList.getFirst() != converter) {
-							converterList.remove(converter);
-							converterList.addFirst(converter);
-						}
 						return result;
 					} catch (ConverterException e) {
 						if (firstException == null)

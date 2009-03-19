@@ -9,11 +9,14 @@ public class AllTests {
 		TestSuite suite = new TestSuite(
 				"Test for net.entropysoft.transmorph.converters.collections");
 		//$JUnit-BEGIN$
-		suite.addTestSuite(CollectionToCollectionTest.class);
-		suite.addTestSuite(MapToMapTest.class);
-		suite.addTestSuite(ArrayToArrayTest.class);
+		suite.addTestSuite(ArrayToStringTest.class);
+		suite.addTestSuite(MapToStringTest.class);
 		suite.addTestSuite(ArrayToCollectionTest.class);
 		suite.addTestSuite(CollectionToArrayTest.class);
+		suite.addTestSuite(CollectionToStringTest.class);
+		suite.addTestSuite(MapToMapTest.class);
+		suite.addTestSuite(CollectionToCollectionTest.class);
+		suite.addTestSuite(ArrayToArrayTest.class);
 		//$JUnit-END$
 		return suite;
 	}

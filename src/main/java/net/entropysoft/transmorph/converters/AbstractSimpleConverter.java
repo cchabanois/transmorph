@@ -38,20 +38,20 @@ public abstract class AbstractSimpleConverter<S, D> implements IConverter {
 	private final static IModifier[] EMPTY_MODIFIERS = new IModifier[0];
 
 	private IModifier<D>[] modifiers = EMPTY_MODIFIERS;
-	private Class sourceClass;
-	private Class destinationClass;
+	private Class<S> sourceClass;
+	private Class<D> destinationClass;
 	protected boolean useObjectPool = false;
 
-	protected AbstractSimpleConverter(Class sourceClass, Class destinationClass) {
+	protected AbstractSimpleConverter(Class<S> sourceClass, Class<D> destinationClass) {
 		this.sourceClass = sourceClass;
 		this.destinationClass = destinationClass;
 	}
 
-	public Class getSourceClass() {
+	public Class<S> getSourceClass() {
 		return sourceClass;
 	}
 
-	public Class getDestinationClass() {
+	public Class<D> getDestinationClass() {
 		return destinationClass;
 	}
 

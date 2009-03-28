@@ -23,7 +23,7 @@ public class AllTests {
 	public static Test suite() {
 		TestSuite suite = new TestSuite(
 				"Test for net.entropysoft.transmorph.converters");
-		//$JUnit-BEGIN$
+		// $JUnit-BEGIN$
 		suite.addTestSuite(StringToURITest.class);
 		suite.addTestSuite(IdentityConverterTest.class);
 		suite.addTestSuite(StringToDateTest.class);
@@ -55,7 +55,7 @@ public class AllTests {
 		suite.addTestSuite(StringToFileTest.class);
 		suite.addTestSuite(ObjectToObjectUsingConstructorTest.class);
 		suite.addTestSuite(URLToURITest.class);
-		//$JUnit-END$
+		// $JUnit-END$
 
 		suite.addTest(net.entropysoft.transmorph.converters.beans.AllTests
 				.suite());
@@ -64,6 +64,10 @@ public class AllTests {
 						.suite());
 		suite.addTest(net.entropysoft.transmorph.converters.enums.AllTests
 				.suite());
+
+		suite
+				.addTest(net.entropysoft.transmorph.converters.propertyeditors.AllTests
+						.suite());
 
 		return suite;
 	}

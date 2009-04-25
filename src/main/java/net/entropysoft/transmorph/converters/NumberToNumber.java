@@ -17,11 +17,13 @@ package net.entropysoft.transmorph.converters;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.text.MessageFormat;
 
 import net.entropysoft.transmorph.ConversionContext;
 import net.entropysoft.transmorph.ConverterException;
 import net.entropysoft.transmorph.type.Type;
 import net.entropysoft.transmorph.type.TypeUtils;
+import net.entropysoft.transmorph.utils.NumberInRange;
 
 /**
  * Converter used when source is a Number and destination is also a number
@@ -33,11 +35,12 @@ import net.entropysoft.transmorph.type.TypeUtils;
  */
 public class NumberToNumber extends AbstractConverter {
 	private Number nullReplacementForPrimitive = null;
+	private boolean checkOutOfRange = true;
 
 	public NumberToNumber() {
 		// number are immutable
 		// it would make conversion slower and would take more memory when we
-		// have to convert big arrays 
+		// have to convert big arrays
 		this.useObjectPool = false;
 	}
 
@@ -47,6 +50,14 @@ public class NumberToNumber extends AbstractConverter {
 
 	public void setNullReplacementForPrimitive(Number nullReplacement) {
 		this.nullReplacementForPrimitive = nullReplacement;
+	}
+
+	public void setCheckOutOfRange(boolean checkOutOfRange) {
+		this.checkOutOfRange = checkOutOfRange;
+	}
+
+	public boolean isCheckOutOfRange() {
+		return checkOutOfRange;
 	}
 
 	public Object doConvert(ConversionContext context, Object sourceObject,
@@ -72,26 +83,32 @@ public class NumberToNumber extends AbstractConverter {
 			}
 			if (destinationType.getType().equals(Byte.TYPE)
 					|| destinationType.getType().equals(Byte.class)) {
+				checkInRangeIfNecessary(sourceNumber, NumberInRange.BYTE_MIN, NumberInRange.BYTE_MAX);
 				return sourceNumber.byteValue();
 			}
 			if (destinationType.getType().equals(Double.TYPE)
 					|| destinationType.getType().equals(Double.class)) {
+				checkInRangeIfNecessary(sourceNumber, NumberInRange.DOUBLE_MIN, NumberInRange.DOUBLE_MAX);
 				return sourceNumber.doubleValue();
 			}
 			if (destinationType.getType().equals(Float.TYPE)
 					|| destinationType.getType().equals(Float.class)) {
+				checkInRangeIfNecessary(sourceNumber, NumberInRange.FLOAT_MIN, NumberInRange.FLOAT_MAX);
 				return sourceNumber.floatValue();
 			}
 			if (destinationType.getType().equals(Integer.TYPE)
 					|| destinationType.getType().equals(Integer.class)) {
+				checkInRangeIfNecessary(sourceNumber, NumberInRange.INTEGER_MIN, NumberInRange.INTEGER_MAX);
 				return sourceNumber.intValue();
 			}
 			if (destinationType.getType().equals(Long.TYPE)
 					|| destinationType.getType().equals(Long.class)) {
+				checkInRangeIfNecessary(sourceNumber, NumberInRange.LONG_MIN, NumberInRange.LONG_MAX);
 				return sourceNumber.longValue();
 			}
 			if (destinationType.getType().equals(Short.TYPE)
 					|| destinationType.getType().equals(Short.class)) {
+				checkInRangeIfNecessary(sourceNumber, NumberInRange.SHORT_MIN, NumberInRange.SHORT_MAX);
 				return sourceNumber.shortValue();
 			}
 			if (destinationType.getType().equals(BigInteger.class)) {
@@ -108,6 +125,28 @@ public class NumberToNumber extends AbstractConverter {
 		}
 	}
 
+	private void checkInRangeIfNecessary(Number number, BigInteger min,
+			BigInteger max) throws ConverterException {
+		if (checkOutOfRange) {
+			if (!NumberInRange.isInRange(number, min, max)) {
+				throw new ConverterException(MessageFormat.format(
+						"Could not convert {0} : out of range [{1},{2}]",
+						number, min, max));
+			}
+		}
+	}
+
+	private void checkInRangeIfNecessary(Number number, BigDecimal min,
+			BigDecimal max) throws ConverterException {
+		if (checkOutOfRange) {
+			if (!NumberInRange.isInRange(number, min, max)) {
+				throw new ConverterException(MessageFormat.format(
+						"Could not convert {0} : out of range [{1},{2}]",
+						number, min, max));
+			}
+		}
+	}	
+	
 	protected boolean canHandleDestinationType(Type destinationType) {
 		try {
 			return TypeUtils.isNumberType(destinationType);

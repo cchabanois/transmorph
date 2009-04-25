@@ -25,8 +25,9 @@ import net.entropysoft.transmorph.Transmorph;
 public class NumberToNumberTest extends TestCase {
 
 	public void testNumberPrimitiveToNumberPrimitive() throws Exception {
+		DefaultConverters defaultConverters = new DefaultConverters();
 		Transmorph converter = new Transmorph(NumberToNumberTest.class
-				.getClassLoader(), new DefaultConverters());
+				.getClassLoader(), defaultConverters);
 
 		// int => long (NumberToNumberConverter)
 		int myInt = 55;
@@ -39,7 +40,16 @@ public class NumberToNumberTest extends TestCase {
 		} catch (ConverterException e) {
 
 		}
+		defaultConverters.getNumberToNumber().setCheckOutOfRange(false);
 		assertEquals((byte) -126, converter.convert(130, Byte.TYPE));
+		defaultConverters.getNumberToNumber().setCheckOutOfRange(true);
+		try {
+			converter.convert(130, Byte.TYPE);
+			fail("Should not have been able to convert");
+		} catch (ConverterException e) {
+
+		}
+
 	}
 
 	public void testNumberWrapperToNumberWrapper() throws Exception {

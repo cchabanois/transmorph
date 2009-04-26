@@ -31,11 +31,12 @@ public class ObjectToString extends AbstractConverter {
 	public final static Class[] ALL_SOURCE_CLASSES = new Class[] { Object.class };
 
 	private Class[] handledSourceClasses = ALL_SOURCE_CLASSES;
+	private boolean failIfDefaultObjectToString = true;
 
 	public ObjectToString() {
 		this.useObjectPool = false;
 	}
-	
+
 	public Class[] getHandledSourceClasses() {
 		return handledSourceClasses;
 	}
@@ -44,12 +45,27 @@ public class ObjectToString extends AbstractConverter {
 		this.handledSourceClasses = handledSourceClasses;
 	}
 
-	public Object doConvert(ConversionContext context, Object sourceObject, Type destinationType) throws ConverterException {
+	public void setFailIfDefaultObjectToString(
+			boolean failIfDefaultObjectToString) {
+		this.failIfDefaultObjectToString = failIfDefaultObjectToString;
+	}
+	
+	public boolean isFailIfDefaultObjectToString() {
+		return failIfDefaultObjectToString;
+	}
+	
+	public Object doConvert(ConversionContext context, Object sourceObject,
+			Type destinationType) throws ConverterException {
 		if (sourceObject == null) {
 			return null;
 		}
 
-		return sourceObject.toString();
+		String result = sourceObject.toString();
+		if (failIfDefaultObjectToString && result.equals(getDefaultObjectToString(sourceObject))) {
+			throw new ConverterException("Cannot convert to string : toString() method has not been overridden");
+		}
+		
+		return result;
 	}
 
 	protected boolean canHandleDestinationType(Type destinationType) {
@@ -70,6 +86,10 @@ public class ObjectToString extends AbstractConverter {
 			}
 		}
 		return false;
+	}
+
+	private String getDefaultObjectToString(Object object) {
+		return object.getClass().getName() + "@" + Integer.toHexString(object.hashCode());
 	}
 
 }

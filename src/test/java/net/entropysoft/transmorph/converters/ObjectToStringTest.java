@@ -49,6 +49,42 @@ public class ObjectToStringTest extends TestCase {
 				String.class);
 		assertEquals("http://www.entropysoft.net", str);
 	}
-	
-	
+
+	public void testObjectToStringNotOverridden() throws Exception {
+		DefaultConverters defaultConverters = new DefaultConverters();
+		ObjectToString objectToString = defaultConverters.getObjectToString();
+
+		Transmorph converter = new Transmorph(ObjectToStringTest.class
+				.getClassLoader(), defaultConverters);
+
+		try {
+			String str = (String) converter.convert(
+					new MyClassWithToStringNotOverriden(), String.class);
+			fail("Conversion should have failed");
+		} catch (ConverterException e) {
+
+		}
+		assertEquals("my string", (String) converter.convert(
+				new MyClassWithToStringOverriden("my string"), String.class));
+
+	}
+
+	private static class MyClassWithToStringNotOverriden {
+		private String myString;
+
+	}
+
+	private static class MyClassWithToStringOverriden {
+		private String myString;
+
+		public MyClassWithToStringOverriden(String value) {
+			this.myString = value;
+		}
+
+		@Override
+		public String toString() {
+			return myString;
+		}
+	}
+
 }

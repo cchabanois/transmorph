@@ -50,6 +50,23 @@ public class MultiConverter extends AbstractContainerConverter {
 
 	}
 
+	/**
+	 * add converter at given index. The index can be changed during conversion
+	 * if canReorder is true
+	 * 
+	 * @param index
+	 * @param converter
+	 */
+	public void addConverter(int index, IConverter converter) {
+		converterList.add(index, converter);
+		if (converter instanceof IContainerConverter) {
+			IContainerConverter containerConverter = (IContainerConverter) converter;
+			if (containerConverter.getElementConverter() == null) {
+				containerConverter.setElementConverter(elementConverter);
+			}
+		}
+	}
+
 	public void addConverter(IConverter converter) {
 		converterList.add(converter);
 		if (converter instanceof IContainerConverter) {

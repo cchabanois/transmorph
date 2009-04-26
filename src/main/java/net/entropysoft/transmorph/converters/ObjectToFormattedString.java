@@ -32,6 +32,7 @@ public class ObjectToFormattedString extends AbstractContainerConverter {
 	 *            format to use
 	 */
 	public ObjectToFormattedString(Class sourceClass, Format format) {
+		this.useObjectPool = true;
 		this.sourceClass = sourceClass;
 		this.formatExpectedClass = sourceClass;
 		this.format = format;
@@ -48,11 +49,16 @@ public class ObjectToFormattedString extends AbstractContainerConverter {
 	 */
 	public ObjectToFormattedString(Class sourceClass,
 			Class formatExpectedClass, Format format) {
+		this.useObjectPool = true;
 		this.sourceClass = sourceClass;
 		this.formatExpectedClass = formatExpectedClass;
 		this.format = format;
 	}
 
+	public Format getFormat() {
+		return format;
+	}
+	
 	public Object doConvert(ConversionContext context, Object sourceObject, Type destinationType) throws ConverterException {
 		if (sourceObject == null) {
 			return null;
@@ -64,9 +70,7 @@ public class ObjectToFormattedString extends AbstractContainerConverter {
 					sourceObject, destinationType.getTypeFactory().getType(
 							formatExpectedClass));
 		}
-		synchronized(this) {
-			return format.format(formatSource);
-		}
+		return format.format(formatSource);
 	}
 
 	protected boolean canHandleDestinationType(Type destinationType) {

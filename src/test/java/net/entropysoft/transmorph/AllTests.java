@@ -13,6 +13,8 @@ public class AllTests {
         suite.addTest(net.entropysoft.transmorph.type.AllTests.suite());
         suite.addTest(net.entropysoft.transmorph.utils.AllTests.suite());
         suite.addTest(net.entropysoft.transmorph.converters.AllTests.suite());
+        suite.addTestSuite(DefaultFromStringConvertersTest.class);
+        suite.addTestSuite(DefaultToStringConvertersTest.class);
         suite.addTestSuite(TransmorphTest.class);
         return suite;
     }

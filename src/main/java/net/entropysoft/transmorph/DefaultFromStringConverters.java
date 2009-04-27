@@ -25,7 +25,6 @@ import net.entropysoft.transmorph.converters.StringToDate;
 import net.entropysoft.transmorph.converters.StringToFile;
 import net.entropysoft.transmorph.converters.StringToInputStream;
 import net.entropysoft.transmorph.converters.StringToNumber;
-import net.entropysoft.transmorph.converters.StringToQName;
 import net.entropysoft.transmorph.converters.StringToStringBuffer;
 import net.entropysoft.transmorph.converters.StringToStringBuilder;
 import net.entropysoft.transmorph.converters.StringToTimeZone;
@@ -52,7 +51,6 @@ public class DefaultFromStringConverters extends MultiConverter {
 	private StringToFile stringToFile = new StringToFile();
 	private StringToInputStream stringToInputStream = new StringToInputStream();
 	private StringToNumber stringToNumber = new StringToNumber();
-	private StringToQName stringToQName = new StringToQName();
 	private StringToStringBuffer stringToStringBuffer = new StringToStringBuffer();
 	private StringToStringBuilder stringToStringBuilder = new StringToStringBuilder();
 	private StringToTimeZone stringToTimeZone = new StringToTimeZone();
@@ -72,7 +70,6 @@ public class DefaultFromStringConverters extends MultiConverter {
 		addConverter(stringToFile);
 		addConverter(stringToInputStream);
 		addConverter(stringToNumber);
-		addConverter(stringToQName);
 		addConverter(stringToStringBuffer);
 		addConverter(stringToStringBuilder);
 		addConverter(stringToTimeZone);
@@ -122,10 +119,6 @@ public class DefaultFromStringConverters extends MultiConverter {
 
 	public StringToNumber getStringToNumber() {
 		return stringToNumber;
-	}
-
-	public StringToQName getStringToQName() {
-		return stringToQName;
 	}
 
 	public StringToStringBuffer getStringToStringBuffer() {

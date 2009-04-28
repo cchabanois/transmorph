@@ -173,7 +173,7 @@ public class Transmorph implements IConverter {
 	 * @throws ConverterException
 	 *             if conversion failed
 	 */
-	public Object convert(Object source, Class clazz) throws ConverterException {
+	public Object convert(Object source, java.lang.reflect.Type clazz) throws ConverterException {
 		return convert(new ConversionContext(), source, clazz);
 	}
 
@@ -202,7 +202,7 @@ public class Transmorph implements IConverter {
 	 * @throws ConverterException
 	 *             if conversion failed
 	 */
-	public Object convert(ConversionContext context, Object source, Class clazz)
+	public Object convert(ConversionContext context, Object source, java.lang.reflect.Type clazz)
 			throws ConverterException {
 		TypeSignature typeSignature = TypeSignatureFactory
 				.getTypeSignature(clazz);

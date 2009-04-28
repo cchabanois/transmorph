@@ -16,6 +16,10 @@
 package net.entropysoft.transmorph.converters.beans.utils;
 
 import java.lang.reflect.Method;
+import java.util.HashMap;
+import java.util.Map;
+
+import net.entropysoft.transmorph.converters.beans.BeanToBeanMapping;
 
 /**
  * Some utility methods
@@ -61,4 +65,56 @@ public class BeanUtils {
 		}
 	}
 
+	/**
+	 * get a map of setters (propertyName -> Method)
+	 * 
+	 * @param clazz
+	 * @return
+	 */
+	public static Map<String, Method> getSetters(Class clazz) {
+		Map<String, Method> setters = new HashMap<String, Method>();
+		Method[] methods = clazz.getMethods();
+		for (Method method : methods) {
+			String methodName = method.getName();
+			if (method.getParameterTypes().length == 1
+					&& methodName.startsWith("set") && methodName.length() > 3
+					&& method.getReturnType() == Void.TYPE) {
+				String propertyName = methodName.substring(3, 4).toLowerCase();
+				if (methodName.length() > 4) {
+					propertyName += methodName.substring(4);
+				}
+				setters.put(propertyName, method);
+			}
+		}
+		return setters;
+	}	
+
+	/**
+	 * get the getter method corresponding to given property
+	 * 
+	 * @param sourceObject
+	 * @param destinationObject
+	 * @param destinationProperty
+	 * @return
+	 */
+	public static Method getGetterPropertyMethod(Object sourceObject, String propertyName) {
+		String sourceMethodName = "get"
+				+ BeanUtils.capitalizePropertyName(propertyName);
+
+		Method sourceMethod = BeanUtils.getMethod(sourceObject.getClass(),
+				sourceMethodName);
+
+		if (sourceMethod == null) {
+			sourceMethodName = "is"
+					+ BeanUtils.capitalizePropertyName(propertyName);
+			sourceMethod = BeanUtils.getMethod(sourceObject.getClass(),
+					sourceMethodName);
+			if (sourceMethod != null
+					&& sourceMethod.getReturnType() != Boolean.TYPE) {
+				sourceMethod = null;
+			}
+		}
+		return sourceMethod;
+	}	
+	
 }

@@ -83,7 +83,7 @@ public class BeanToBean extends AbstractContainerConverter {
 
 		// get destination property => method
 		Map<String, Method> destinationSetters;
-		destinationSetters = getDestinationSetters(destinationClass);
+		destinationSetters = BeanUtils.getSetters(destinationClass);
 
 		// create destination bean
 		Object resultBean;
@@ -202,30 +202,6 @@ public class BeanToBean extends AbstractContainerConverter {
 			propertyDestinationType = originalType;
 		}
 		return propertyDestinationType;
-	}
-
-	/**
-	 * get a map of setters (propertyName -> Method)
-	 * 
-	 * @param clazz
-	 * @return
-	 */
-	private Map<String, Method> getDestinationSetters(Class clazz) {
-		Map<String, Method> setters = new HashMap<String, Method>();
-		Method[] methods = clazz.getMethods();
-		for (Method method : methods) {
-			String methodName = method.getName();
-			if (method.getParameterTypes().length == 1
-					&& methodName.startsWith("set") && methodName.length() > 3
-					&& method.getReturnType() == Void.TYPE) {
-				String propertyName = methodName.substring(3, 4).toLowerCase();
-				if (methodName.length() > 4) {
-					propertyName += methodName.substring(4);
-				}
-				setters.put(propertyName, method);
-			}
-		}
-		return setters;
 	}
 
 	/**

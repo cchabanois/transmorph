@@ -77,7 +77,7 @@ public class TransmorphBeanInjector implements IBeanInjector {
 			throw new ConverterException(MessageFormat.format(
 					"Could not inject into bean ''{0}'' from object ''{1}''",
 					targetBean.getClass().getName(), source.getClass()
-							.getName()));
+							.getName()),e);
 		}
 	}
 

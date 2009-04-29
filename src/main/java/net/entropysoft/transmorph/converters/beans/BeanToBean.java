@@ -36,8 +36,6 @@ import net.entropysoft.transmorph.type.Type;
  * 
  */
 public class BeanToBean extends AbstractContainerConverter {
-
-	private JavaTypeToTypeSignature javaTypeSignature = new JavaTypeToTypeSignature();
 	private IBeanPropertyTypeProvider beanDestinationPropertyTypeProvider;
 	private Map<ClassPair, BeanToBeanMapping> beanToBeanMappings = new HashMap<ClassPair, BeanToBeanMapping>();
 
@@ -120,10 +118,7 @@ public class BeanToBean extends AbstractContainerConverter {
 
 			java.lang.reflect.Type parameterType = destinationMethod
 					.getGenericParameterTypes()[0];
-			TypeSignature parameterTypeSignature = javaTypeSignature
-					.getTypeSignature(parameterType);
-			Type originalType = destinationType.getTypeFactory().getType(
-					parameterTypeSignature);
+			Type originalType = destinationType.getTypeFactory().getType(parameterType);
 			Type propertyDestinationType = getBeanPropertyType(resultBean
 					.getClass(), destinationPropertyName, originalType);
 

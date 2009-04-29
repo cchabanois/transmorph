@@ -37,14 +37,12 @@ import net.entropysoft.transmorph.type.Type;
  * 
  */
 public class MapToBean extends AbstractContainerConverter {
-
-	private JavaTypeToTypeSignature javaTypeSignature = new JavaTypeToTypeSignature();
 	private IBeanPropertyTypeProvider beanDestinationPropertyTypeProvider;
 
 	public MapToBean() {
 		this.useObjectPool = true;
 	}
-	
+
 	public IBeanPropertyTypeProvider getBeanDestinationPropertyTypeProvider() {
 		return beanDestinationPropertyTypeProvider;
 	}
@@ -59,7 +57,8 @@ public class MapToBean extends AbstractContainerConverter {
 		this.beanDestinationPropertyTypeProvider = beanDestinationPropertyTypeProvider;
 	}
 
-	public Object doConvert(ConversionContext context, Object sourceObject, Type destinationType) throws ConverterException {
+	public Object doConvert(ConversionContext context, Object sourceObject,
+			Type destinationType) throws ConverterException {
 		if (sourceObject == null) {
 			return null;
 		}
@@ -82,9 +81,10 @@ public class MapToBean extends AbstractContainerConverter {
 							.getName()), e);
 		}
 		if (useObjectPool) {
-			context.getConvertedObjectPool().add(this, sourceObject, destinationType, resultBean);
+			context.getConvertedObjectPool().add(this, sourceObject,
+					destinationType, resultBean);
 		}
-		
+
 		for (String key : sourceMap.keySet()) {
 			Object value = sourceMap.get(key);
 			Method method = getSetterMethod(setterMethods, key);
@@ -95,15 +95,13 @@ public class MapToBean extends AbstractContainerConverter {
 			}
 			java.lang.reflect.Type parameterType = method
 					.getGenericParameterTypes()[0];
-			TypeSignature parameterTypeSignature = javaTypeSignature
-					.getTypeSignature(parameterType);
 			Type originalType = destinationType.getTypeFactory().getType(
-					parameterTypeSignature);
-			Type propertyDestinationType = getBeanPropertyType(
-					resultBean.getClass(), key, originalType);
+					parameterType);
+			Type propertyDestinationType = getBeanPropertyType(resultBean
+					.getClass(), key, originalType);
 
-			Object valueConverterd = elementConverter.convert(context,
-					value, propertyDestinationType);
+			Object valueConverterd = elementConverter.convert(context, value,
+					propertyDestinationType);
 
 			try {
 				method.invoke(resultBean, valueConverterd);
@@ -121,8 +119,7 @@ public class MapToBean extends AbstractContainerConverter {
 		Type propertyDestinationType = null;
 		if (beanDestinationPropertyTypeProvider != null) {
 			propertyDestinationType = beanDestinationPropertyTypeProvider
-					.getPropertyType(clazz, propertyName,
-							originalType);
+					.getPropertyType(clazz, propertyName, originalType);
 		}
 		if (propertyDestinationType == null) {
 			propertyDestinationType = originalType;
@@ -132,7 +129,8 @@ public class MapToBean extends AbstractContainerConverter {
 
 	protected Method getSetterMethod(Map<String, Method> setterMethods,
 			String propertyName) {
-		String methodName = "set" + BeanUtils.capitalizePropertyName(propertyName);
+		String methodName = "set"
+				+ BeanUtils.capitalizePropertyName(propertyName);
 		return setterMethods.get(methodName);
 	}
 

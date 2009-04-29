@@ -97,17 +97,17 @@ public class BeanUtils {
 	 * @param destinationProperty
 	 * @return
 	 */
-	public static Method getGetterPropertyMethod(Object sourceObject, String propertyName) {
+	public static Method getGetterPropertyMethod(Class type, String propertyName) {
 		String sourceMethodName = "get"
 				+ BeanUtils.capitalizePropertyName(propertyName);
 
-		Method sourceMethod = BeanUtils.getMethod(sourceObject.getClass(),
+		Method sourceMethod = BeanUtils.getMethod(type,
 				sourceMethodName);
 
 		if (sourceMethod == null) {
 			sourceMethodName = "is"
 					+ BeanUtils.capitalizePropertyName(propertyName);
-			sourceMethod = BeanUtils.getMethod(sourceObject.getClass(),
+			sourceMethod = BeanUtils.getMethod(type,
 					sourceMethodName);
 			if (sourceMethod != null
 					&& sourceMethod.getReturnType() != Boolean.TYPE) {

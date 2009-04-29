@@ -23,6 +23,7 @@ import java.util.Map;
 import net.entropysoft.transmorph.ConversionContext;
 import net.entropysoft.transmorph.ConverterException;
 import net.entropysoft.transmorph.converters.AbstractContainerConverter;
+import net.entropysoft.transmorph.converters.IdentityConverter;
 import net.entropysoft.transmorph.converters.beans.utils.BeanUtils;
 import net.entropysoft.transmorph.converters.beans.utils.ClassPair;
 import net.entropysoft.transmorph.type.Type;
@@ -40,7 +41,8 @@ import net.entropysoft.transmorph.type.Type;
 public class BeanToBean extends AbstractContainerConverter {
 	private IBeanPropertyTypeProvider beanDestinationPropertyTypeProvider;
 	private Map<ClassPair, BeanToBeanMapping> beanToBeanMappings = new HashMap<ClassPair, BeanToBeanMapping>();
-	
+	private boolean handleTargetClassSameAsSourceClass = true;
+
 	public BeanToBean() {
 		this.useObjectPool = true;
 	}
@@ -57,6 +59,23 @@ public class BeanToBean extends AbstractContainerConverter {
 	public void setBeanDestinationPropertyTypeProvider(
 			IBeanPropertyTypeProvider beanDestinationPropertyTypeProvider) {
 		this.beanDestinationPropertyTypeProvider = beanDestinationPropertyTypeProvider;
+	}
+
+	public boolean isHandleTargetClassSameAsSourceClass() {
+		return handleTargetClassSameAsSourceClass;
+	}
+
+	/**
+	 * By default, BeanToBean can handle the case where target class is the same
+	 * as source class. If you don't want it to handle this case (because you
+	 * are using {@link IdentityConverter} for this case for example), you can
+	 * set this property to false
+	 * 
+	 * @param useIfTargetClassSameAsSourceClass
+	 */
+	public void setHandleTargetClassSameAsSourceClass(
+			boolean useIfTargetClassSameAsSourceClass) {
+		this.handleTargetClassSameAsSourceClass = useIfTargetClassSameAsSourceClass;
 	}
 
 	public Object doConvert(ConversionContext context, Object sourceObject,
@@ -226,7 +245,7 @@ public class BeanToBean extends AbstractContainerConverter {
 	}
 
 	private boolean canHandle(Class sourceObjectClass, Class destinationClass) {
-		if (sourceObjectClass.equals(destinationClass)) {
+		if (handleTargetClassSameAsSourceClass && sourceObjectClass.equals(destinationClass)) {
 			return true;
 		}
 		BeanToBeanMapping beanToBeanMapping = beanToBeanMappings

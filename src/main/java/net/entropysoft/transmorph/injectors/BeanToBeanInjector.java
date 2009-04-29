@@ -38,17 +38,17 @@ import net.entropysoft.transmorph.type.Type;
 public class BeanToBeanInjector extends AbstractBeanInjector {
 	private IBeanPropertyTypeProvider beanDestinationPropertyTypeProvider;
 	private Map<ClassPair, BeanToBeanMapping> beanToBeanMappings = new HashMap<ClassPair, BeanToBeanMapping>();
-	
+	private boolean handleTargetClassSameAsSourceClass = true;
+
 	public BeanToBeanInjector() {
 		// by default, we don't do any conversion
 		propertyValueConverter = new MultiConverter(new IdentityConverter());
 	}
-	
-	
+
 	public IBeanPropertyTypeProvider getBeanDestinationPropertyTypeProvider() {
 		return beanDestinationPropertyTypeProvider;
 	}
-	
+
 	/**
 	 * Add a mapping of properties between two beans
 	 * 
@@ -58,8 +58,24 @@ public class BeanToBeanInjector extends AbstractBeanInjector {
 		beanToBeanMappings.put(new ClassPair(
 				beanToBeanMapping.getSourceClass(), beanToBeanMapping
 						.getDestinationClass()), beanToBeanMapping);
-	}	
-	
+	}
+
+	public boolean isHandleTargetClassSameAsSourceClass() {
+		return handleTargetClassSameAsSourceClass;
+	}
+
+	/**
+	 * By default, BeanToBeanInjector can handle the case where target class is
+	 * the same as source class. If you don't want it to handle this case, you
+	 * can set this property to false
+	 * 
+	 * @param useIfTargetClassSameAsSourceClass
+	 */
+	public void setHandleTargetClassSameAsSourceClass(
+			boolean useIfTargetClassSameAsSourceClass) {
+		this.handleTargetClassSameAsSourceClass = useIfTargetClassSameAsSourceClass;
+	}
+
 	public boolean canHandle(Object sourceObject, Type targetType) {
 		try {
 			return canHandle(sourceObject.getClass(), targetType.getType());
@@ -108,8 +124,10 @@ public class BeanToBeanInjector extends AbstractBeanInjector {
 
 			java.lang.reflect.Type parameterType = destinationMethod
 					.getGenericParameterTypes()[0];
-			Type originalType = targetType.getTypeFactory().getType(parameterType);
-			Type propertyDestinationType = getBeanPropertyType(destinationClass, destinationPropertyName, originalType);
+			Type originalType = targetType.getTypeFactory().getType(
+					parameterType);
+			Type propertyDestinationType = getBeanPropertyType(
+					destinationClass, destinationPropertyName, originalType);
 
 			Object destinationPropertyValue = propertyValueConverter.convert(
 					context, sourcePropertyValue, propertyDestinationType);
@@ -163,8 +181,8 @@ public class BeanToBeanInjector extends AbstractBeanInjector {
 			}
 		}
 		return sourceMethod;
-	}	
-	
+	}
+
 	/**
 	 * get the bean property type
 	 * 
@@ -184,15 +202,16 @@ public class BeanToBeanInjector extends AbstractBeanInjector {
 			propertyDestinationType = originalType;
 		}
 		return propertyDestinationType;
-	}	
+	}
 
 	private boolean canHandle(Class sourceObjectClass, Class destinationClass) {
-		if (sourceObjectClass.equals(destinationClass)) {
+		if (handleTargetClassSameAsSourceClass
+				&& sourceObjectClass.equals(destinationClass)) {
 			return true;
 		}
 		BeanToBeanMapping beanToBeanMapping = beanToBeanMappings
 				.get(new ClassPair(sourceObjectClass, destinationClass));
 		return beanToBeanMapping != null;
-	}	
-	
+	}
+
 }

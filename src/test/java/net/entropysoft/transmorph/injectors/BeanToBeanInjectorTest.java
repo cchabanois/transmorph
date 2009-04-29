@@ -5,14 +5,12 @@ import java.util.List;
 
 import junit.framework.TestCase;
 import net.entropysoft.transmorph.DefaultConverters;
-import net.entropysoft.transmorph.Transmorph;
 import net.entropysoft.transmorph.TransmorphBeanInjector;
 import net.entropysoft.transmorph.converters.ImmutableIdentityConverter;
 import net.entropysoft.transmorph.converters.MultiConverter;
 import net.entropysoft.transmorph.converters.WrapperToPrimitive;
 import net.entropysoft.transmorph.converters.beans.BeanToBean;
 import net.entropysoft.transmorph.converters.beans.BeanToBeanMapping;
-import net.entropysoft.transmorph.converters.beans.BeanToBeanTest;
 import net.entropysoft.transmorph.converters.collections.CollectionToCollection;
 import net.entropysoft.transmorph.converters.collections.MapToMap;
 import samples.MyBean4;
@@ -59,8 +57,9 @@ public class BeanToBeanInjectorTest extends TestCase {
 				BeanToBeanInjectorTest.class.getClassLoader(),
 				new BeanToBeanInjector());
 		transmorphBeanInjector.setPropertyValueConverter(new MultiConverter(
-				new BeanToBean(), new ImmutableIdentityConverter(), new WrapperToPrimitive(),
-				new CollectionToCollection(), new MapToMap()));
+				new BeanToBean(), new ImmutableIdentityConverter(),
+				new WrapperToPrimitive(), new CollectionToCollection(),
+				new MapToMap()));
 
 		MyBeanAB myBeanAB = new MyBeanAB();
 		myBeanAB.setId(55L);
@@ -75,16 +74,19 @@ public class BeanToBeanInjectorTest extends TestCase {
 		myBeanAB.setMyBeanBA(myBeanBA);
 		myBeanBA.setMyBeanAB(myBeanAB);
 
-		MyBeanAB myBeanABCopy = new MyBeanAB(); 
+		MyBeanAB myBeanABCopy = new MyBeanAB();
 		transmorphBeanInjector.inject(myBeanAB, myBeanABCopy);
-		
+
 		assertFalse(myBeanAB == myBeanABCopy);
 		assertEquals(1, myBeanABCopy.getMyIntegers().get(0).intValue());
 		assertEquals(2, myBeanABCopy.getMyIntegers().get(1).intValue());
 		assertEquals(3, myBeanABCopy.getMyIntegers().get(2).intValue());
 		assertNotNull(myBeanABCopy.getMyBeanBA());
 		assertEquals(75, myBeanABCopy.getMyBeanBA().getMyNumber());
-		assertTrue(myBeanABCopy == myBeanABCopy.getMyBeanBA().getMyBeanAB());
+
+		// note that for this reason, you should use Transmorph instead when you
+		// want to make a copy of an object
+		assertFalse(myBeanABCopy == myBeanABCopy.getMyBeanBA().getMyBeanAB());
 
 	}
 

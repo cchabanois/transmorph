@@ -49,8 +49,8 @@ public class TypeFactory {
 		return classFactory;
 	}
 
-	public Type getType(Class clazz) {
-		return getType(TypeSignatureFactory.getTypeSignature(clazz));
+	public Type getType(java.lang.reflect.Type type) {
+		return getType(TypeSignatureFactory.getTypeSignature(type));
 	}
 
 	public Type getType(Class clazz, Class[] typeArgs) {

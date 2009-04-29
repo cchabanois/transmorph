@@ -43,7 +43,7 @@ public class Transmorph implements IConverter {
 	private ITypeSignatureParser typeSignatureParser = new ClassFileTypeSignatureParser();
 
 	/**
-	 * Creates a Converter object
+	 * Creates Transmorph object
 	 * 
 	 * @param classLoader
 	 *            classLoader to use when loading classes by name
@@ -58,7 +58,7 @@ public class Transmorph implements IConverter {
 	}
 
 	/**
-	 * Creates a Converter object
+	 * Creates Transmorph object
 	 * 
 	 * @param classLoader
 	 *            classLoader to use when loading classes by name
@@ -71,7 +71,7 @@ public class Transmorph implements IConverter {
 	}
 
 	/**
-	 * Creates a Converter Object.
+	 * Creates Transmorph Object.
 	 * 
 	 * <p>
 	 * The classLoader used when loading classes by name will be the context
@@ -99,7 +99,7 @@ public class Transmorph implements IConverter {
 	}
 
 	/**
-	 * Creates a Converter Object.
+	 * Creates Transmorph Object.
 	 * 
 	 * @param typeFactory
 	 *            factory that creates types from their signatures

@@ -22,6 +22,10 @@ import junit.framework.TestCase;
 import net.entropysoft.transmorph.ConversionContext;
 import net.entropysoft.transmorph.DefaultConverters;
 import net.entropysoft.transmorph.Transmorph;
+import net.entropysoft.transmorph.converters.ImmutableIdentityConverter;
+import net.entropysoft.transmorph.converters.WrapperToPrimitive;
+import net.entropysoft.transmorph.converters.collections.CollectionToCollection;
+import net.entropysoft.transmorph.converters.collections.MapToMap;
 import net.entropysoft.transmorph.signature.formatter.JavaSyntaxTypeSignatureFormatter;
 import samples.MyBean4;
 import samples.MyBean4TransferObject;
@@ -41,11 +45,13 @@ public class BeanToBeanTest extends TestCase {
 
 		BeanToBeanMapping beanToBeanMapping = new BeanToBeanMapping(
 				MyBeanAB.class, MyBeanABTransferObject.class);
-		defaultConverters.getBeanToBean().addBeanToBeanMapping(beanToBeanMapping);
+		defaultConverters.getBeanToBean().addBeanToBeanMapping(
+				beanToBeanMapping);
 
 		beanToBeanMapping = new BeanToBeanMapping(MyBeanBA.class,
 				MyBeanBATransferObject.class);
-		defaultConverters.getBeanToBean().addBeanToBeanMapping(beanToBeanMapping);
+		defaultConverters.getBeanToBean().addBeanToBeanMapping(
+				beanToBeanMapping);
 
 		MyBeanAB myBeanAB = new MyBeanAB();
 		myBeanAB.setId(55L);
@@ -71,16 +77,17 @@ public class BeanToBeanTest extends TestCase {
 		assertTrue(myBeanABTransferObject == myBeanABTransferObject
 				.getMyBeanBA().getMyBeanAB());
 	}
-	
+
 	public void testBeanToBean() throws Exception {
 		DefaultConverters defaultConverters = new DefaultConverters();
 		Transmorph converter = new Transmorph(BeanToBeanTest.class
 				.getClassLoader(), defaultConverters);
-		
+
 		BeanToBeanMapping beanToBeanMapping = new BeanToBeanMapping(
 				MyBean4.class, MyBean4TransferObject.class);
 		beanToBeanMapping.addMapping("size", "length");
-		defaultConverters.getBeanToBean().addBeanToBeanMapping(beanToBeanMapping);
+		defaultConverters.getBeanToBean().addBeanToBeanMapping(
+				beanToBeanMapping);
 
 		MyBean4 myBean4 = new MyBean4();
 		myBean4.setMyString("hello world");
@@ -93,33 +100,70 @@ public class BeanToBeanTest extends TestCase {
 
 		ConversionContext context = new ConversionContext();
 		context.setStoreUsedConverters(true);
-		
+
 		MyBean4TransferObject myBean4TransferObject = (MyBean4TransferObject) converter
 				.convert(context, myBean4, MyBean4TransferObject.class);
-		System.out.println(context.getUsedConverters().toString(new JavaSyntaxTypeSignatureFormatter()));
-		
+		System.out.println(context.getUsedConverters().toString(
+				new JavaSyntaxTypeSignatureFormatter()));
+
 		assertEquals("hello world", myBean4TransferObject.getMyString());
 		assertEquals("first", myBean4TransferObject.getMyStrings()[0]);
 		assertEquals("second", myBean4TransferObject.getMyStrings()[1]);
 		assertEquals("third", myBean4TransferObject.getMyStrings()[2]);
 		assertEquals(55, myBean4TransferObject.getLength());
-	}	
-	
+	}
+
 	public void testBeanToBeanWithPrivateProperties() throws Exception {
 		DefaultConverters defaultConverters = new DefaultConverters();
 		Transmorph converter = new Transmorph(BeanToBeanTest.class
 				.getClassLoader(), defaultConverters);
-		
+
 		BeanToBeanMapping beanToBeanMapping = new BeanToBeanMapping(
-				PrivatePropertyBean.class, PrivatePropertyBeanTransferObject.class);
-		defaultConverters.getBeanToBean().addBeanToBeanMapping(beanToBeanMapping);
-		
+				PrivatePropertyBean.class,
+				PrivatePropertyBeanTransferObject.class);
+		defaultConverters.getBeanToBean().addBeanToBeanMapping(
+				beanToBeanMapping);
+
 		PrivatePropertyBean bean = new PrivatePropertyBean(55);
 		bean.setPublicProperty(22);
-	
-		PrivatePropertyBeanTransferObject beanTO = (PrivatePropertyBeanTransferObject)converter.convert(bean, PrivatePropertyBeanTransferObject.class);
+
+		PrivatePropertyBeanTransferObject beanTO = (PrivatePropertyBeanTransferObject) converter
+				.convert(bean, PrivatePropertyBeanTransferObject.class);
 		assertEquals("22", beanTO.getPublicProperty());
-		assertEquals("Public property:22\nPrivate property:null", beanTO.toString());
+		assertEquals("Public property:22\nPrivate property:null", beanTO
+				.toString());
 	}
-	
+
+	public void testCopyBean() throws Exception {
+		Transmorph converter = new Transmorph(BeanToBeanTest.class
+				.getClassLoader(), new BeanToBean(),
+				new ImmutableIdentityConverter(), new WrapperToPrimitive(),
+				new CollectionToCollection(), new MapToMap());
+
+		MyBeanAB myBeanAB = new MyBeanAB();
+		myBeanAB.setId(55L);
+		List<Integer> listOfInteger = new ArrayList<Integer>();
+		listOfInteger.add(1);
+		listOfInteger.add(2);
+		listOfInteger.add(3);
+		myBeanAB.setMyIntegers(listOfInteger);
+		MyBeanBA myBeanBA = new MyBeanBA();
+		myBeanBA.setId(56L);
+		myBeanBA.setMyNumber(75);
+		myBeanAB.setMyBeanBA(myBeanBA);
+		myBeanBA.setMyBeanAB(myBeanAB);
+
+		MyBeanAB myBeanABCopy = (MyBeanAB) converter.convert(myBeanAB, myBeanAB
+				.getClass());
+		assertFalse(myBeanAB == myBeanABCopy);
+		assertEquals(1, myBeanABCopy.getMyIntegers().get(0).intValue());
+		assertEquals(2, myBeanABCopy.getMyIntegers().get(1).intValue());
+		assertEquals(3, myBeanABCopy.getMyIntegers().get(2).intValue());
+		assertNotNull(myBeanABCopy.getMyBeanBA());
+		assertEquals(75, myBeanABCopy.getMyBeanBA().getMyNumber());
+		assertTrue(myBeanABCopy == myBeanABCopy
+				.getMyBeanBA().getMyBeanAB());
+
+	}
+
 }

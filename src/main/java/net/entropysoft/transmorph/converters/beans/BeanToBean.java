@@ -25,12 +25,14 @@ import net.entropysoft.transmorph.ConverterException;
 import net.entropysoft.transmorph.converters.AbstractContainerConverter;
 import net.entropysoft.transmorph.converters.beans.utils.BeanUtils;
 import net.entropysoft.transmorph.converters.beans.utils.ClassPair;
-import net.entropysoft.transmorph.signature.JavaTypeToTypeSignature;
-import net.entropysoft.transmorph.signature.TypeSignature;
 import net.entropysoft.transmorph.type.Type;
 
 /**
  * Converter used to convert a Bean to another bean.
+ * 
+ * By default, it will only work if destination bean class is the same as source
+ * bean class. You must add {@link BeanToBeanMapping}s for converting between
+ * beans with different types.
  * 
  * @author Cedric Chabanois (cchabanois at gmail.com)
  * 
@@ -38,11 +40,11 @@ import net.entropysoft.transmorph.type.Type;
 public class BeanToBean extends AbstractContainerConverter {
 	private IBeanPropertyTypeProvider beanDestinationPropertyTypeProvider;
 	private Map<ClassPair, BeanToBeanMapping> beanToBeanMappings = new HashMap<ClassPair, BeanToBeanMapping>();
-
+	
 	public BeanToBean() {
 		this.useObjectPool = true;
 	}
-	
+
 	public IBeanPropertyTypeProvider getBeanDestinationPropertyTypeProvider() {
 		return beanDestinationPropertyTypeProvider;
 	}
@@ -57,8 +59,8 @@ public class BeanToBean extends AbstractContainerConverter {
 		this.beanDestinationPropertyTypeProvider = beanDestinationPropertyTypeProvider;
 	}
 
-	public Object doConvert(ConversionContext context, Object sourceObject, Type destinationType)
-			throws ConverterException {
+	public Object doConvert(ConversionContext context, Object sourceObject,
+			Type destinationType) throws ConverterException {
 		Class destinationClass;
 		try {
 			destinationClass = destinationType.getType();
@@ -67,16 +69,12 @@ public class BeanToBean extends AbstractContainerConverter {
 					"Could not get destination type class", e);
 		}
 
-		// we can only convert if there is a bean to bean mapping between the
-		// two classes
-		BeanToBeanMapping beanToBeanMapping = beanToBeanMappings
-				.get(new ClassPair(sourceObject.getClass(), destinationClass));
-		if (beanToBeanMapping == null) {
-			throw new ConverterException("Could not get bean to bean mapping");
-		}
-
 		if (sourceObject == null) {
 			return null;
+		}
+
+		if (!canHandle(sourceObject.getClass(), destinationClass)) {
+			throw new ConverterException("Could not get bean to bean mapping");
 		}
 
 		// get destination property => method
@@ -93,9 +91,10 @@ public class BeanToBean extends AbstractContainerConverter {
 							.getName()), e);
 		}
 		if (useObjectPool) {
-			context.getConvertedObjectPool().add(this, sourceObject, destinationType, resultBean);
+			context.getConvertedObjectPool().add(this, sourceObject,
+					destinationType, resultBean);
 		}
-		
+
 		for (String destinationPropertyName : destinationSetters.keySet()) {
 			Method destinationMethod = destinationSetters
 					.get(destinationPropertyName);
@@ -118,12 +117,13 @@ public class BeanToBean extends AbstractContainerConverter {
 
 			java.lang.reflect.Type parameterType = destinationMethod
 					.getGenericParameterTypes()[0];
-			Type originalType = destinationType.getTypeFactory().getType(parameterType);
+			Type originalType = destinationType.getTypeFactory().getType(
+					parameterType);
 			Type propertyDestinationType = getBeanPropertyType(resultBean
 					.getClass(), destinationPropertyName, originalType);
 
-			Object destinationPropertyValue = elementConverter.convert(
-					context, sourcePropertyValue, propertyDestinationType);
+			Object destinationPropertyValue = elementConverter.convert(context,
+					sourcePropertyValue, propertyDestinationType);
 
 			try {
 				destinationMethod.invoke(resultBean, destinationPropertyValue);
@@ -225,19 +225,28 @@ public class BeanToBean extends AbstractContainerConverter {
 		return true;
 	}
 
+	private boolean canHandle(Class sourceObjectClass, Class destinationClass) {
+		if (sourceObjectClass.equals(destinationClass)) {
+			return true;
+		}
+		BeanToBeanMapping beanToBeanMapping = beanToBeanMappings
+				.get(new ClassPair(sourceObjectClass, destinationClass));
+		return beanToBeanMapping != null;
+	}
+
 	@Override
-	public boolean canHandle(ConversionContext context, Object sourceObject, Type destinationType) {
-		try {
-			BeanToBeanMapping beanToBeanMapping = beanToBeanMappings
-					.get(new ClassPair(sourceObject.getClass(), destinationType
-							.getType()));
-			if (beanToBeanMapping == null) {
+	public boolean canHandle(ConversionContext context, Object sourceObject,
+			Type destinationType) {
+		if (sourceObject != null) {
+			try {
+				if (!canHandle(sourceObject.getClass(), destinationType
+						.getType())) {
+					return false;
+				}
+			} catch (ClassNotFoundException e) {
 				return false;
 			}
-		} catch (ClassNotFoundException e) {
-			return false;
 		}
 		return super.canHandle(context, sourceObject, destinationType);
 	}
-
 }

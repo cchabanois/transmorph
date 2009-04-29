@@ -61,7 +61,11 @@ public class BeanToBeanInjector extends AbstractBeanInjector {
 	}	
 	
 	public boolean canHandle(Object sourceObject, Type targetType) {
-		return true;
+		try {
+			return canHandle(sourceObject.getClass(), targetType.getType());
+		} catch (ClassNotFoundException e) {
+			return false;
+		}
 	}
 
 	public void inject(ConversionContext context, Object sourceObject,
@@ -74,11 +78,7 @@ public class BeanToBeanInjector extends AbstractBeanInjector {
 					"Could not get destination type class", e);
 		}
 
-		// we can only convert if there is a bean to bean mapping between the
-		// two classes
-		BeanToBeanMapping beanToBeanMapping = beanToBeanMappings
-				.get(new ClassPair(sourceObject.getClass(), destinationClass));
-		if (beanToBeanMapping == null) {
+		if (!canHandle(sourceObject.getClass(), destinationClass)) {
 			throw new ConverterException("Could not get bean to bean mapping");
 		}
 
@@ -184,6 +184,15 @@ public class BeanToBeanInjector extends AbstractBeanInjector {
 			propertyDestinationType = originalType;
 		}
 		return propertyDestinationType;
+	}	
+
+	private boolean canHandle(Class sourceObjectClass, Class destinationClass) {
+		if (sourceObjectClass.equals(destinationClass)) {
+			return true;
+		}
+		BeanToBeanMapping beanToBeanMapping = beanToBeanMappings
+				.get(new ClassPair(sourceObjectClass, destinationClass));
+		return beanToBeanMapping != null;
 	}	
 	
 }

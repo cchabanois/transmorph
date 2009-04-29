@@ -18,9 +18,6 @@ package net.entropysoft.transmorph.injectors;
 import net.entropysoft.transmorph.IBeanInjector;
 import net.entropysoft.transmorph.IContainerConverter;
 import net.entropysoft.transmorph.IConverter;
-import net.entropysoft.transmorph.converters.IdentityConverter;
-import net.entropysoft.transmorph.converters.MultiConverter;
-import net.entropysoft.transmorph.converters.WrapperToPrimitive;
 
 /**
  * Base class for bean injectors

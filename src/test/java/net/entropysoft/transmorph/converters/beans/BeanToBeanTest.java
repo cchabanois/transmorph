@@ -24,6 +24,7 @@ import net.entropysoft.transmorph.DefaultConverters;
 import net.entropysoft.transmorph.Transmorph;
 import net.entropysoft.transmorph.converters.ImmutableIdentityConverter;
 import net.entropysoft.transmorph.converters.WrapperToPrimitive;
+import net.entropysoft.transmorph.converters.collections.ArrayToArray;
 import net.entropysoft.transmorph.converters.collections.CollectionToCollection;
 import net.entropysoft.transmorph.converters.collections.MapToMap;
 import net.entropysoft.transmorph.signature.formatter.JavaSyntaxTypeSignatureFormatter;
@@ -138,7 +139,7 @@ public class BeanToBeanTest extends TestCase {
 		Transmorph converter = new Transmorph(BeanToBeanTest.class
 				.getClassLoader(), new BeanToBean(),
 				new ImmutableIdentityConverter(), new WrapperToPrimitive(),
-				new CollectionToCollection(), new MapToMap());
+				new CollectionToCollection(), new ArrayToArray(), new MapToMap());
 
 		MyBeanAB myBeanAB = new MyBeanAB();
 		myBeanAB.setId(55L);

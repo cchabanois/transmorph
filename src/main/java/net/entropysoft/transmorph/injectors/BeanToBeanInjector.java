@@ -163,24 +163,7 @@ public class BeanToBeanInjector extends AbstractBeanInjector {
 		if (sourceProperty == null) {
 			sourceProperty = destinationProperty;
 		}
-
-		String sourceMethodName = "get"
-				+ BeanUtils.capitalizePropertyName(sourceProperty);
-
-		Method sourceMethod = BeanUtils.getMethod(sourceObject.getClass(),
-				sourceMethodName);
-
-		if (sourceMethod == null) {
-			sourceMethodName = "is"
-					+ BeanUtils.capitalizePropertyName(sourceProperty);
-			sourceMethod = BeanUtils.getMethod(sourceObject.getClass(),
-					sourceMethodName);
-			if (sourceMethod != null
-					&& sourceMethod.getReturnType() != Boolean.TYPE) {
-				sourceMethod = null;
-			}
-		}
-		return sourceMethod;
+		return BeanUtils.getGetterPropertyMethod(sourceObject.getClass(), sourceProperty);
 	}
 
 	/**

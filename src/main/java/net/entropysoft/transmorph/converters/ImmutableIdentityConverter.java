@@ -37,32 +37,29 @@ public class ImmutableIdentityConverter extends AbstractConverter {
 		return sourceObject;
 	}
 
-	protected boolean canHandleDestinationType(Type destinationType) {
-		try {
-			return ImmutableClasses.isKnownImmutableClass(destinationType.getType());
-		} catch (ClassNotFoundException e) {
-			return false;
-		}
-	}
-
-	protected boolean canHandleSourceObject(Object sourceObject) {
-		return true;
-	}
-
 	@Override
 	public boolean canHandle(ConversionContext context, Object sourceObject,
 			Type destinationType) {
-		if (!super.canHandle(context, sourceObject, destinationType)) {
+		if (sourceObject == null) {
+			return !destinationType.isPrimitive();
+		}
+		if (!canHandleSourceObject(sourceObject)) {
 			return false;
 		}
 		try {
-			if (sourceObject == null) {
-				return true;
-			}
-
 			return destinationType.isInstance(sourceObject);
 		} catch (ClassNotFoundException e) {
 			return false;
 		}
+	}
+
+	@Override
+	protected boolean canHandleDestinationType(Type destinationType) {
+		return true;
+	}
+
+	@Override
+	protected boolean canHandleSourceObject(Object sourceObject) {
+		return ImmutableClasses.isKnownImmutableClass(sourceObject.getClass());
 	}
 }

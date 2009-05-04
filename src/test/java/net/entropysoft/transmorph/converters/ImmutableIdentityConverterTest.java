@@ -8,7 +8,7 @@ import net.entropysoft.transmorph.Transmorph;
 public class ImmutableIdentityConverterTest extends TestCase {
 
 	public void testPrimitiveToWrapper() throws Exception {
-		Transmorph converter = new Transmorph(IdentityConverterTest.class
+		Transmorph converter = new Transmorph(ImmutableIdentityConverterTest.class
 				.getClassLoader(), new DefaultConverters());
 		ConversionContext conversionContext = new ConversionContext();
 		conversionContext.setStoreUsedConverters(true);
@@ -22,4 +22,11 @@ public class ImmutableIdentityConverterTest extends TestCase {
 				.getClass());
 	}
 
+	public void testImmutableToObject() throws Exception {
+		Transmorph converter = new Transmorph(ImmutableIdentityConverterTest.class
+				.getClassLoader(), new ImmutableIdentityConverter());
+		assertEquals(45, converter.convert(45, Object.class));
+		assertEquals(45, converter.convert(45, Number.class));
+	}
+	
 }

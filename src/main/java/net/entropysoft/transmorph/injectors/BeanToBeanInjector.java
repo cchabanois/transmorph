@@ -23,6 +23,7 @@ import net.entropysoft.transmorph.ConversionContext;
 import net.entropysoft.transmorph.ConverterException;
 import net.entropysoft.transmorph.converters.IdentityConverter;
 import net.entropysoft.transmorph.converters.MultiConverter;
+import net.entropysoft.transmorph.converters.WrapperToPrimitive;
 import net.entropysoft.transmorph.converters.beans.BeanToBeanMapping;
 import net.entropysoft.transmorph.converters.beans.IBeanPropertyTypeProvider;
 import net.entropysoft.transmorph.converters.beans.utils.BeanUtils;
@@ -42,7 +43,7 @@ public class BeanToBeanInjector extends AbstractBeanInjector {
 
 	public BeanToBeanInjector() {
 		// by default, we don't do any conversion
-		propertyValueConverter = new MultiConverter(new IdentityConverter());
+		propertyValueConverter = new MultiConverter(new IdentityConverter(), new WrapperToPrimitive());
 	}
 
 	public IBeanPropertyTypeProvider getBeanDestinationPropertyTypeProvider() {

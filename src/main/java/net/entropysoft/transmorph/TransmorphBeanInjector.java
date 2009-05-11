@@ -51,6 +51,10 @@ public class TransmorphBeanInjector implements IBeanInjector {
 		this.beanInjector = beanInjector;
 	}
 
+	public TypeFactory getTypeFactory() {
+		return typeFactory;
+	}
+	
 	public void inject(Object source, Object targetBean)
 			throws ConverterException {
 		inject(source, targetBean, targetBean.getClass());

@@ -20,6 +20,28 @@ import samples.MyBeanBA;
 
 public class BeanToBeanInjectorTest extends TestCase {
 
+	public void testBeanToBeanInjectorNoConversion() throws Exception {
+		BeanToBeanInjector beanInjector = new BeanToBeanInjector();
+		TransmorphBeanInjector transmorphBeanInjector = new TransmorphBeanInjector(
+				BeanToBeanInjectorTest.class.getClassLoader(), beanInjector);
+
+		MyBean4 myBean4 = new MyBean4();
+		myBean4.setMyString("hello world");
+		myBean4.setSize(55);
+		List<String> myStrings = new ArrayList<String>();
+		myStrings.add("first");
+		myStrings.add("second");
+		myStrings.add("third");
+		myBean4.setMyStrings(myStrings);
+		
+		MyBean4 myBean4Injected = new MyBean4();
+		transmorphBeanInjector.inject(myBean4, myBean4Injected);
+		
+		assertEquals("hello world", myBean4Injected.getMyString());
+		assertEquals(55, myBean4Injected.getSize());
+		assertEquals(myStrings, myBean4Injected.getMyStrings());
+	}
+	
 	public void testBeanToBeanInjector() throws Exception {
 		DefaultConverters defaultConverters = new DefaultConverters();
 		BeanToBeanInjector beanInjector = new BeanToBeanInjector();

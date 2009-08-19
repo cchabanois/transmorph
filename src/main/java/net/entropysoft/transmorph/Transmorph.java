@@ -218,7 +218,7 @@ public class Transmorph implements IConverter {
 	 * @param parameterizedTypeSignature
 	 * @return
 	 * @throws ConverterException
-	 * @see {@link #setUseInternalFormFullyQualifiedName(boolean)}
+	 * @see {@link #setTypeSignatureParser(ITypeSignatureParser)}
 	 */
 	public Object convert(Object source, String parameterizedTypeSignature)
 			throws ConverterException {

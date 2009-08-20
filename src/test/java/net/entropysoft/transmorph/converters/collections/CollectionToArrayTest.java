@@ -33,7 +33,7 @@ public class CollectionToArrayTest extends TestCase {
 		source.add(40);
 		source.add(50);
 
-		String[] array = (String[]) converter.convert(source, String[].class);
+		String[] array = converter.convert(source, String[].class);
 		assertNotNull(array);
 		assertEquals(3, array.length);
 		assertEquals("30", array[0]);
@@ -58,7 +58,7 @@ public class CollectionToArrayTest extends TestCase {
 		listInteger.add(23);
 		listListInteger.add(listInteger);
 
-		String[][] array2D = (String[][]) converter.convert(listListInteger,
+		String[][] array2D = converter.convert(listListInteger,
 				String[][].class);
 		assertEquals("11", array2D[0][0]);
 		assertEquals("12", array2D[0][1]);

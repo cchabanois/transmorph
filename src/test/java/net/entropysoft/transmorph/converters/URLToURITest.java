@@ -28,10 +28,10 @@ public class URLToURITest extends TestCase {
 		Transmorph converter = new Transmorph(URIToURLTest.class
 				.getClassLoader(), new DefaultConverters());
 
-		URI uri = (URI) converter.convert(
-				new URL("http://www.entropysoft.net"), URI.class);
+		URI uri = converter.convert(new URL("http://www.entropysoft.net"),
+				URI.class);
 		assertNotNull(uri);
 		assertEquals("http://www.entropysoft.net", uri.toString());
-	}	
-	
+	}
+
 }

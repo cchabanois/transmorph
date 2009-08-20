@@ -38,19 +38,19 @@ public class StringToCalendarTest extends TestCase {
 		Transmorph converter = new Transmorph(StringToCalendarTest.class
 				.getClassLoader(), stringToCalendarConverter1,
 				stringToCalendarConverter2);
-		Calendar calendar = (Calendar) converter.convert("29/12/2008",
+		Calendar calendar = converter.convert("29/12/2008",
 				Calendar.class);
 		assertNotNull(calendar);
 		assertEquals(2008, calendar.get(Calendar.YEAR));
 		assertEquals(11, calendar.get(Calendar.MONTH));
 		assertEquals(29, calendar.get(Calendar.DAY_OF_MONTH));
 
-		calendar = (Calendar) converter.convert("2009", Calendar.class);
+		calendar = converter.convert("2009", Calendar.class);
 		assertNotNull(calendar);
 		assertEquals(2009, calendar.get(Calendar.YEAR));
 
 		try {
-			calendar = (Calendar) converter.convert("200A", Calendar.class);
+			calendar = converter.convert("200A", Calendar.class);
 			fail("Should not have been converted");
 		} catch (ConverterException e) {
 

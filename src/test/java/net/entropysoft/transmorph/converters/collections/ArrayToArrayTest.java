@@ -28,21 +28,21 @@ public class ArrayToArrayTest extends TestCase {
 
 		// Object[] => String[] (ArrayToArrayConverter)
 		Object[] arrayOfObjects = new Object[] { "one", "two", "three" };
-		String[] arrayOfStrings = (String[]) converter.convert(arrayOfObjects,
+		String[] arrayOfStrings = converter.convert(arrayOfObjects,
 				(new String[0]).getClass());
 		assertEquals("one", arrayOfStrings[0]);
 		assertEquals("two", arrayOfStrings[1]);
 		assertEquals("three", arrayOfStrings[2]);
 	}
-	
+
 	public void testMultidimentionalArray() throws Exception {
 		Transmorph converter = new Transmorph(ArrayToArrayTest.class
 				.getClassLoader(), new DefaultConverters());
-		
+
 		// int[][] => String[][] (ArrayToArrayConverter)
 		int[][] arrayOfArrayOfInts = new int[][] { { 11, 12, 13 },
 				{ 21, 22, 23 }, { 31 } };
-		String[][] arrayOfArrayOfStrings = (String[][]) converter.convert(
+		String[][] arrayOfArrayOfStrings = converter.convert(
 				arrayOfArrayOfInts, (new String[0][0]).getClass());
 		for (int i = 0; i < arrayOfArrayOfInts.length; i++) {
 			for (int j = 0; j < arrayOfArrayOfInts[i].length; j++) {
@@ -54,12 +54,12 @@ public class ArrayToArrayTest extends TestCase {
 		// int[] => String[][] (ArrayToArrayConverter)
 		int[] arrayOfInts = new int[] { 0, 1, 2, 3, 4, 5 };
 		try {
-			arrayOfArrayOfStrings = (String[][]) converter.convert(arrayOfInts,
+			arrayOfArrayOfStrings = converter.convert(arrayOfInts,
 					(new String[0][0]).getClass());
 			fail("Should not have been able to convert");
 		} catch (ConverterException e) {
 
 		}
-	}	
-	
+	}
+
 }

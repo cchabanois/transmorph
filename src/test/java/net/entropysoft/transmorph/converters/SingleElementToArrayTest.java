@@ -24,7 +24,7 @@ public class SingleElementToArrayTest extends TestCase {
 		Transmorph converter = new Transmorph(SingleElementToArrayTest.class
 				.getClassLoader(), new SingleElementToArray(), new StringToNumber());
 
-		int[] array = (int[]) converter.convert("55", int[].class);
+		int[] array = converter.convert("55", int[].class);
 		assertNotNull(array);
 		assertEquals(1, array.length);
 		assertEquals(55, array[0]);

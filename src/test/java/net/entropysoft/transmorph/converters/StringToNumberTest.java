@@ -30,13 +30,13 @@ public class StringToNumberTest extends TestCase {
 
 		// String => int (StringToNumberConverter)
 		String myStr = "50";
-		int myInt = (Integer) converter.convert(myStr, Integer.TYPE);
+		int myInt = converter.convert(myStr, Integer.TYPE);
 		assertEquals(50, myInt);
 
 		try {
 			myStr = "129";
 			// Value out of range
-			byte myByte = (Byte) converter.convert(myStr, Byte.TYPE);
+			byte myByte = converter.convert(myStr, Byte.TYPE);
 			assertEquals(50, myInt);
 			fail("Should not be able to convert");
 		} catch (ConverterException e) {
@@ -49,7 +49,7 @@ public class StringToNumberTest extends TestCase {
 				.getClassLoader(), new DefaultConverters());
 
 		// String => BigDecimal (StringToNumberConverter)
-		BigDecimal bigDecimal = (BigDecimal) converter
+		BigDecimal bigDecimal = converter
 				.convert("5.56564546546464646577775612321443244664456",
 						BigDecimal.class);
 		assertEquals("5.56564546546464646577775612321443244664456", bigDecimal
@@ -60,7 +60,7 @@ public class StringToNumberTest extends TestCase {
 		Transmorph converter = new Transmorph(StringToNumberTest.class
 				.getClassLoader(), new DefaultConverters());
 
-		Number number = (Number) converter.convert(
+		Number number = converter.convert(
 				"5.56564546546464646577775612321443244664456", Number.class);
 		assertNotNull(number);
 		assertTrue(number instanceof Double);

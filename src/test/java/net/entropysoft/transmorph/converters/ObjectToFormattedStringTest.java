@@ -33,35 +33,35 @@ public class ObjectToFormattedStringTest extends TestCase {
 				Date.class, df);
 
 		Transmorph converter = new Transmorph(ObjectToFormattedStringTest.class
-				.getClassLoader(),objectToFormattedStringConverter);
+				.getClassLoader(), objectToFormattedStringConverter);
 
 		Calendar calendar = Calendar.getInstance(Locale.FRANCE);
 		calendar.set(2009, 0, 1, 0, 0, 0);
-		String str = (String) converter.convert(calendar.getTime(),
-				String.class);
+		String str = converter.convert(calendar.getTime(), String.class);
 		assertNotNull(str);
 		assertEquals("01/01/09", str);
 
-	}	
-	
+	}
+
 	public void testIndirectObjectToFormattedString() throws Exception {
 		DateFormat df = DateFormat.getDateInstance(DateFormat.SHORT,
 				Locale.FRANCE);
-		// source class is different from formatExpectedClass : we will use the elementConverter to convert
+		// source class is different from formatExpectedClass : we will use the
+		// elementConverter to convert
 		// from source class to formatExpectedClass
 		ObjectToFormattedString objectToFormattedStringConverter = new ObjectToFormattedString(
 				Calendar.class, Date.class, df);
 
-		Transmorph converter = new Transmorph(ObjectToFormattedStringTest.class.getClassLoader(),
-				objectToFormattedStringConverter,
-						new CalendarToDate());
+		Transmorph converter = new Transmorph(ObjectToFormattedStringTest.class
+				.getClassLoader(), objectToFormattedStringConverter,
+				new CalendarToDate());
 
 		Calendar calendar = Calendar.getInstance(Locale.FRANCE);
 		calendar.set(2009, 0, 1, 0, 0, 0);
-		String str = (String) converter.convert(calendar, String.class);
+		String str = converter.convert(calendar, String.class);
 		assertNotNull(str);
 		assertEquals("01/01/09", str);
-		
+
 	}
-	
+
 }

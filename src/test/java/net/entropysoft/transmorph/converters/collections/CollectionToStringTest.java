@@ -18,7 +18,7 @@ public class CollectionToStringTest extends TestCase {
 		source.add(40);
 		source.add(50);
 
-		String str = (String) converter.convert(source, String.class);
+		String str = converter.convert(source, String.class);
 		assertNotNull(str);
 		assertEquals("[30, 40, 50]", str);
 	}	

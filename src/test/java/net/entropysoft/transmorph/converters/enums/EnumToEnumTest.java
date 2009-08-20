@@ -40,13 +40,13 @@ public class EnumToEnumTest extends TestCase {
 
 		Enum1 enum1 = Enum1.SECOND;
 
-		Enum2 enum2 = (Enum2) converter.convert(enum1, Enum2.class);
+		Enum2 enum2 = converter.convert(enum1, Enum2.class);
 		assertEquals(enum2, Enum2.SECOND);
 
 		enum2 = Enum2.FOURTH;
 
 		try {
-			enum1 = (Enum1) converter.convert(enum2, Enum1.class);
+			enum1 = converter.convert(enum2, Enum1.class);
 			fail("Should not convert");
 		} catch (ConverterException e) {
 
@@ -55,16 +55,16 @@ public class EnumToEnumTest extends TestCase {
 
 	public void testEnumToEnumWithMapping() throws Exception {
 		DefaultConverters defaultConverters = new DefaultConverters();
-		EnumToEnum enumToEnum =  defaultConverters.getEnumToEnum();
+		EnumToEnum enumToEnum = defaultConverters.getEnumToEnum();
 		enumToEnum.addEnumToEnum(Enum2.FIRST, Enum3.ONE);
 		enumToEnum.addEnumToEnum(Enum2.SECOND, Enum3.TWO);
 		enumToEnum.addEnumToEnum(Enum2.THIRD, Enum3.THREE);
 		enumToEnum.addEnumToEnum(Enum2.FOURTH, Enum3.THREE);
-		
+
 		Transmorph converter = new Transmorph(getClass().getClassLoader(),
 				defaultConverters);
-		Enum3[] arrayOfEnum3 = (Enum3[])converter.convert(new Enum2[] { Enum2.FIRST, Enum2.SECOND, Enum2.THIRD,
-				Enum2.FOURTH }, Enum3[].class);
+		Enum3[] arrayOfEnum3 = converter.convert(new Enum2[] { Enum2.FIRST,
+				Enum2.SECOND, Enum2.THIRD, Enum2.FOURTH }, Enum3[].class);
 		assertEquals(Enum3.ONE, arrayOfEnum3[0]);
 		assertEquals(Enum3.TWO, arrayOfEnum3[1]);
 		assertEquals(Enum3.THREE, arrayOfEnum3[2]);
@@ -73,20 +73,22 @@ public class EnumToEnumTest extends TestCase {
 
 	public void testEnumToNull() throws Exception {
 		DefaultConverters defaultConverters = new DefaultConverters();
-		EnumToEnum enumToEnum =  defaultConverters.getEnumToEnum();
+		EnumToEnum enumToEnum = defaultConverters.getEnumToEnum();
 		enumToEnum.addEnumToEnum(Enum2.FIRST, Enum3.ONE);
 		enumToEnum.addEnumToEnum(Enum2.SECOND, Enum3.TWO);
 		enumToEnum.addEnumToEnum(Enum2.THIRD, Enum3.THREE);
 		enumToEnum.addEnumToNull(Enum2.FOURTH, Enum3.class);
 
-		Transmorph converter = new Transmorph(getClass().getClassLoader(), defaultConverters);
-		Enum3[] arrayOfEnum3 = (Enum3[])converter.convert(new Enum2[] { Enum2.FIRST, Enum2.SECOND, Enum2.THIRD,
-				Enum2.FOURTH }, Enum3[].class);
+		Transmorph converter = new Transmorph(getClass().getClassLoader(),
+				defaultConverters);
+		Enum3[] arrayOfEnum3 = converter.convert(new Enum2[] {
+				Enum2.FIRST, Enum2.SECOND, Enum2.THIRD, Enum2.FOURTH },
+				Enum3[].class);
 		assertEquals(Enum3.ONE, arrayOfEnum3[0]);
 		assertEquals(Enum3.TWO, arrayOfEnum3[1]);
 		assertEquals(Enum3.THREE, arrayOfEnum3[2]);
 		assertEquals(null, arrayOfEnum3[3]);
-		
+
 	}
-	
+
 }

@@ -8,8 +8,7 @@ public class DefaultFromStringConvertersTest extends TestCase {
 		Transmorph transmorph = new Transmorph(
 				new DefaultFromStringConverters());
 
-		assertEquals(52.32, (Float) transmorph.convert("52.32", Float.TYPE),
-				0.001);
+		assertEquals(52.32, transmorph.convert("52.32", Float.TYPE), 0.001);
 		assertEquals(
 				DefaultFromStringConvertersTest.class,
 				(Class) transmorph

@@ -35,7 +35,7 @@ public class CollectionToCollectionTest extends TestCase {
 		source.add(40);
 		source.add(50);
 
-		Set<String> set = (Set<String>) converter.convert(source, Set.class,
+		Set<String> set = converter.convert(source, Set.class,
 				new Class[] { String.class });
 		assertNotNull(set);
 		assertEquals(3, set.size());
@@ -53,7 +53,7 @@ public class CollectionToCollectionTest extends TestCase {
 		source.add(40);
 		source.add(50);
 		
-		LinkedHashSet<String> linkedHashSet = (LinkedHashSet<String>) converter
+		LinkedHashSet<String> linkedHashSet = converter
 				.convert(source, LinkedHashSet.class,
 						new Class[] { String.class });
 		assertNotNull(linkedHashSet);

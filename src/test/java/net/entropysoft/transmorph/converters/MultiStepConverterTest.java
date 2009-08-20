@@ -59,10 +59,11 @@ public class MultiStepConverterTest extends TestCase {
 
 		};
 
-		Transmorph converter = new Transmorph(typeFactory, new IConverter[] { new StringToNumber(),
-				new NumberToNumber(), intToBoolean, multiStepConverter });
-		assertTrue((Boolean) converter.convert("22", Boolean.TYPE));
-		assertFalse((Boolean) converter.convert("0", Boolean.TYPE));
+		Transmorph converter = new Transmorph(typeFactory, new IConverter[] {
+				new StringToNumber(), new NumberToNumber(), intToBoolean,
+				multiStepConverter });
+		assertTrue(converter.convert("22", Boolean.TYPE));
+		assertFalse(converter.convert("0", Boolean.TYPE));
 	}
 
 	public void testMultiStepWithConverters() throws Exception {
@@ -83,11 +84,10 @@ public class MultiStepConverterTest extends TestCase {
 				.getClassLoader(), arrayToCollection);
 
 		Date[] dates = new Date[] { new Date(0), new Date(1232621965342L) };
-		List<String> listOfstrings = (List<String>) converter.convert(dates,
-				List.class, new Class[] { String.class });
+		List<String> listOfstrings = converter.convert(dates, List.class,
+				new Class[] { String.class });
 		assertEquals("THU, JAN 1, 70", listOfstrings.get(0));
 		assertEquals("THU, JAN 22, 09", listOfstrings.get(1));
 	}
-	
-	
+
 }

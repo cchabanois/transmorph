@@ -31,7 +31,8 @@ public class MapToMapTest extends TestCase {
 	public void testMapToMap() throws Exception {
 		Transmorph converter = new Transmorph(MapToMapTest.class
 				.getClassLoader(), new DefaultConverters());
-		converter.setTypeSignatureParser(new ClassFileTypeSignatureParser(false));
+		converter
+				.setTypeSignatureParser(new ClassFileTypeSignatureParser(false));
 
 		// Map[String, String[]] => Map<String,List<String>> (MapToMapConverter
 		// and ArrayToListConverter)
@@ -71,12 +72,10 @@ public class MapToMapTest extends TestCase {
 		map.put("key1", 1);
 		map.put("key2", 2);
 
-		Properties properties = (Properties) converter.convert(map,
-				Properties.class);
+		Properties properties = converter.convert(map, Properties.class);
 		assertNotNull(properties);
 		assertEquals("1", properties.get("key1"));
 		assertEquals("2", properties.get("key2"));
 	}
-	
-	
+
 }

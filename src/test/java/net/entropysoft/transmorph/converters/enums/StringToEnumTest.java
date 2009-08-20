@@ -28,18 +28,16 @@ public class StringToEnumTest extends TestCase {
 		Transmorph converter = new Transmorph(StringToEnumTest.class
 				.getClassLoader(), new DefaultConverters());
 
-		RetentionPolicy retentionPolicy = (RetentionPolicy) converter.convert(
-				"CLASS", RetentionPolicy.class);
+		RetentionPolicy retentionPolicy = converter.convert("CLASS",
+				RetentionPolicy.class);
 		assertEquals(RetentionPolicy.CLASS, retentionPolicy);
 
 		try {
-			retentionPolicy = (RetentionPolicy) converter.convert("class",
-					RetentionPolicy.class);
+			retentionPolicy = converter.convert("class", RetentionPolicy.class);
 			fail("Should not have been converted");
 		} catch (ConverterException e) {
 
 		}
 	}
-	
-	
+
 }

@@ -39,14 +39,14 @@ public class StringToDateTest extends TestCase {
 		Transmorph converter = new Transmorph(StringToDateTest.class
 				.getClassLoader(), stringToDateConverter1,
 				stringToDateConverter2);
-		Date date = (Date) converter.convert("29/12/2008", Date.class);
+		Date date = converter.convert("29/12/2008", Date.class);
 		assertNotNull(date);
 
-		date = (Date) converter.convert("2009", Date.class);
+		date = converter.convert("2009", Date.class);
 		assertNotNull(date);
 
 		try {
-			date = (Date) converter.convert("200A", Date.class);
+			date = converter.convert("200A", Date.class);
 			fail("Should not have been converted");
 		} catch (ConverterException e) {
 

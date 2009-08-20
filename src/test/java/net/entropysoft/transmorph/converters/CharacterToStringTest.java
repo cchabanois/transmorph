@@ -25,7 +25,7 @@ public class CharacterToStringTest extends TestCase {
 		Transmorph transmorph = new Transmorph(CharacterArrayToStringTest.class
 				.getClassLoader(), new DefaultConverters());
 		char myChar = 'c';
-		String str = (String) transmorph.convert(myChar, String.class);
+		String str = transmorph.convert(myChar, String.class);
 		assertEquals("c", str);
 	}	
 	

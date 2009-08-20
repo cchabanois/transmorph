@@ -55,7 +55,7 @@ public class MapToBeanTest extends TestCase {
 		mapBean3.put("myList", new int[] { 1, 2, 3 });
 		mapBean1.put("myBean3", mapBean3);
 
-		MyBean1 myBean1 = (MyBean1) converter.convert(mapBean1, MyBean1.class);
+		MyBean1 myBean1 = converter.convert(mapBean1, MyBean1.class);
 		assertNotNull(myBean1);
 		assertEquals(15, myBean1.getMyInt());
 		List<String> listOfStrings = myBean1.getMyListOfStrings();

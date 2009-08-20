@@ -29,7 +29,7 @@ public class StringToFileTest extends TestCase {
 		Transmorph converter = new Transmorph(StringToDateTest.class
 				.getClassLoader(), new DefaultConverters());
 
-		File file = (File) converter.convert("c:\\temp", File.class);
+		File file = converter.convert("c:\\temp", File.class);
 		assertNotNull(file);
 		assertEquals("c:\\temp", file.toString());
 	}
@@ -40,7 +40,7 @@ public class StringToFileTest extends TestCase {
 		stringToFile.setModifiers(new IModifier[] { new CanonicalizeFile() });
 		Transmorph converter = new Transmorph(StringToFileTest.class
 				.getClassLoader(), defaultConverters);
-		File file = (File) converter.convert("temp", File.class);
+		File file = converter.convert("temp", File.class);
 		assertNotNull(file);
 		// getCanonicalFile is OS-dependant
 		assertEquals((new File("temp")).getCanonicalFile(), file);

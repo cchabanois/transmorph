@@ -29,9 +29,9 @@ public class StringToTimeZoneTest extends TestCase {
 
 		String[] ids = TimeZone.getAvailableIDs();
 
-		TimeZone timezone = (TimeZone) converter.convert("Asia/Kuala_Lumpur",
+		TimeZone timezone = converter.convert("Asia/Kuala_Lumpur",
 				TimeZone.class);
 		assertNotNull(timezone);
 	}
-	
+
 }

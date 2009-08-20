@@ -25,10 +25,10 @@ public class WrapperToPrimitiveTest extends TestCase {
 		Transmorph converter = new Transmorph(WrapperToPrimitiveTest.class
 				.getClassLoader(), new DefaultConverters());
 		Boolean[] booleanWrappers = new Boolean[] { true, false };
-		boolean[] booleans = (boolean[]) converter.convert(booleanWrappers,
-				boolean[].class);
+		boolean[] booleans = converter
+				.convert(booleanWrappers, boolean[].class);
 		assertEquals(true, booleans[0]);
 		assertEquals(false, booleans[1]);
-	}	
-	
+	}
+
 }

@@ -29,12 +29,13 @@ public class ObjectToObjectUsingConstructorTest extends TestCase {
 		objectToObjectUsingConstructor
 				.setHandledDestinationClasses(ObjectToObjectUsingConstructor.ALL_DESTINATION_CLASSES);
 
-		Transmorph converter = new Transmorph(ObjectToObjectUsingConstructorTest.class
-				.getClassLoader(), objectToObjectUsingConstructor);
-		File file = (File) converter.convert("c:\temp", File.class);
+		Transmorph converter = new Transmorph(
+				ObjectToObjectUsingConstructorTest.class.getClassLoader(),
+				objectToObjectUsingConstructor);
+		File file = converter.convert("c:\temp", File.class);
 		assertNotNull(file);
 
-		URL url = (URL) converter.convert("http://www.entropysoft.net",
+		URL url = converter.convert("http://www.entropysoft.net",
 				URL.class);
 		assertEquals("http://www.entropysoft.net", url.toString());
 	}
@@ -42,20 +43,20 @@ public class ObjectToObjectUsingConstructorTest extends TestCase {
 	public void testStringToUrl() throws Exception {
 		ObjectToObjectUsingConstructor objectToObjectUsingConstructor = new ObjectToObjectUsingConstructor();
 
-		Transmorph converter = new Transmorph(ObjectToObjectUsingConstructorTest.class
-				.getClassLoader(), objectToObjectUsingConstructor);
+		Transmorph converter = new Transmorph(
+				ObjectToObjectUsingConstructorTest.class.getClassLoader(),
+				objectToObjectUsingConstructor);
 
 		objectToObjectUsingConstructor
 				.setHandledDestinationClasses(new Class[] { URL.class });
 		try {
-			File file = (File) converter.convert("c:\temp", File.class);
+			File file = converter.convert("c:\temp", File.class);
 			fail("Convertion should have failed");
 		} catch (ConverterException e) {
 
 		}
 
-		URL url = (URL) converter.convert("http://www.entropysoft.net",
-				URL.class);
+		URL url = converter.convert("http://www.entropysoft.net", URL.class);
 		assertEquals("http://www.entropysoft.net", url.toString());
 	}
 

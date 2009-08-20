@@ -30,7 +30,7 @@ public class CalendarToDateTest extends TestCase {
 		
 		Calendar calendar = Calendar.getInstance(Locale.FRANCE);
 		calendar.set(2009, 0, 29, 8, 38, 0);
-		Date date = (Date)transmorph.convert(calendar, Date.class);
+		Date date = transmorph.convert(calendar, Date.class);
 		assertNotNull(date);
 	}
 

@@ -28,18 +28,16 @@ public class StringToURLTest extends TestCase {
 		Transmorph converter = new Transmorph(StringToURLTest.class
 				.getClassLoader(), new DefaultConverters());
 
-		URL url = (URL) converter.convert("http://www.entropysoft.net",
-				URL.class);
+		URL url = converter.convert("http://www.entropysoft.net", URL.class);
 		assertNotNull(url);
 		assertEquals("http://www.entropysoft.net", url.toString());
 
 		try {
-			url = (URL) converter.convert("httpa://www.entropysoft.net",
-					URL.class);
+			url = converter.convert("httpa://www.entropysoft.net", URL.class);
 			fail("Should not have been converted");
 		} catch (ConverterException e) {
 
 		}
-	}	
-	
+	}
+
 }

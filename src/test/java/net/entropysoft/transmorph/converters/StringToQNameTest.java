@@ -26,9 +26,9 @@ public class StringToQNameTest extends TestCase {
 		Transmorph converter = new Transmorph(StringToNumberTest.class
 				.getClassLoader(), new StringToQName());
 
-		QName qname = (QName) converter.convert(
+		QName qname = converter.convert(
 				"{http://www.entropysoft.ney}localPart", QName.class);
 		assertNotNull(qname);
-	}	
-	
+	}
+
 }

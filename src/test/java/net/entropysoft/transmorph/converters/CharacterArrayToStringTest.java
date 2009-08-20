@@ -25,7 +25,7 @@ public class CharacterArrayToStringTest extends TestCase {
 		Transmorph transmorph = new Transmorph(CharacterArrayToStringTest.class
 				.getClassLoader(), new DefaultConverters());
 
-		String str = (String) transmorph.convert(new char[] { 'h', 'e', 'l',
+		String str = transmorph.convert(new char[] { 'h', 'e', 'l',
 				'l', 'o' }, String.class);
 		assertNotNull(str);
 		assertEquals("hello", str);

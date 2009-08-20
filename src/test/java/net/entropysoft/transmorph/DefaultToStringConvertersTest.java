@@ -1,6 +1,5 @@
 package net.entropysoft.transmorph;
 
-import java.awt.List;
 import java.util.Arrays;
 
 import junit.framework.TestCase;

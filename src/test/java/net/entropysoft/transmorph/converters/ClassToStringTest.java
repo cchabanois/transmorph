@@ -25,7 +25,7 @@ public class ClassToStringTest extends TestCase {
 	public void testClassToString() throws Exception {
 		Transmorph converter = new Transmorph(ClassToStringTest.class
 				.getClassLoader(), new DefaultConverters());
-		String str = (String) converter.convert(TransmorphTest.class,
+		String str = converter.convert(TransmorphTest.class,
 				String.class);
 		assertEquals(TransmorphTest.class.getName(), str);
 	}	

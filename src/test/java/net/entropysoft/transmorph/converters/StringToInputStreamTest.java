@@ -26,7 +26,7 @@ public class StringToInputStreamTest extends TestCase {
 		Transmorph converter = new Transmorph(StringToDateTest.class
 				.getClassLoader(), new StringToInputStream());
 
-		InputStream is = (InputStream) converter.convert("Hello world", InputStream.class);
+		InputStream is = converter.convert("Hello world", InputStream.class);
 		assertNotNull(is);
 	}
 	

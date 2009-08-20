@@ -24,9 +24,8 @@ public class StringToStringBuilderTest extends TestCase {
 	public void testStringToStringBuilder() throws Exception {
 		Transmorph converter = new Transmorph(StringToStringBufferTest.class
 				.getClassLoader(), new DefaultConverters());
-		StringBuilder sb = (StringBuilder) converter.convert("My string",
-				StringBuilder.class);
+		StringBuilder sb = converter.convert("My string", StringBuilder.class);
 		assertEquals("My string", sb.toString());
-	}	
-	
+	}
+
 }

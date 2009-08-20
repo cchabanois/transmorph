@@ -25,7 +25,7 @@ public class StringToCharacterArrayTest extends TestCase {
 		Transmorph converter = new Transmorph(StringToCharacterArrayTest.class
 				.getClassLoader(), new DefaultConverters());
 
-		char[] chars = (char[]) converter.convert("hello", char[].class);
+		char[] chars = converter.convert("hello", char[].class);
 		assertNotNull(chars);
 		assertEquals("hello".length(), chars.length);
 	}	

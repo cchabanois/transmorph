@@ -12,7 +12,7 @@ public class ArrayToStringTest extends TestCase {
 
 		// Object[] => String (ArrayToArray)
 		Object[] arrayOfObjects = new Object[] { "one", "two", "three" };
-		String str = (String) converter.convert(arrayOfObjects, String.class);
+		String str = converter.convert(arrayOfObjects, String.class);
 		assertEquals("[one, two, three]", str);
 	}
 
@@ -23,7 +23,7 @@ public class ArrayToStringTest extends TestCase {
 		// int[][] => String (ArrayToString)
 		int[][] arrayOfArrayOfInts = new int[][] { { 11, 12, 13 },
 				{ 21, 22, 23 }, { 31 } };
-		String str = (String) converter.convert(arrayOfArrayOfInts,
+		String str = converter.convert(arrayOfArrayOfInts,
 				String.class);
 		assertEquals("[[11, 12, 13], [21, 22, 23], [31]]", str);
 	}

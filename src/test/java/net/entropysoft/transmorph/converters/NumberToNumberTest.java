@@ -31,17 +31,17 @@ public class NumberToNumberTest extends TestCase {
 
 		// int => long (NumberToNumberConverter)
 		int myInt = 55;
-		long myLong = (Long) converter.convert(myInt, Long.TYPE);
+		long myLong = converter.convert(myInt, Long.TYPE);
 		assertEquals(55, myLong);
 
 		try {
-			Long myLong2 = (Long) converter.convert(null, Long.TYPE);
+			Long myLong2 = converter.convert(null, Long.TYPE);
 			fail("Should not have been able to convert");
 		} catch (ConverterException e) {
 
 		}
 		defaultConverters.getNumberToNumber().setCheckOutOfRange(false);
-		assertEquals((byte) -126, converter.convert(130, Byte.TYPE));
+		assertEquals((byte) -126, (byte)converter.convert(130, Byte.TYPE));
 		defaultConverters.getNumberToNumber().setCheckOutOfRange(true);
 		try {
 			converter.convert(130, Byte.TYPE);
@@ -56,11 +56,11 @@ public class NumberToNumberTest extends TestCase {
 		Transmorph converter = new Transmorph(NumberToNumberTest.class
 				.getClassLoader(), new DefaultConverters());
 
-		Long myLongWrapper = (Long) converter.convert(new Integer(44),
+		Long myLongWrapper = converter.convert(new Integer(44),
 				Long.class);
 		assertEquals(Long.valueOf(44), myLongWrapper);
 
-		myLongWrapper = (Long) converter.convert(null, Long.class);
+		myLongWrapper = converter.convert(null, Long.class);
 		assertEquals(null, myLongWrapper);
 	}
 
@@ -72,7 +72,7 @@ public class NumberToNumberTest extends TestCase {
 		assertEquals(new Long(55), converter.convert(55, Long.class));
 
 		// int => BigInteger (NumberToNumberConverter)
-		assertEquals(BigInteger.valueOf(55), (BigInteger) converter.convert(55,
+		assertEquals(BigInteger.valueOf(55), converter.convert(55,
 				BigInteger.class));
 	}
 
@@ -82,8 +82,8 @@ public class NumberToNumberTest extends TestCase {
 		numberToNumber.setNullReplacementForPrimitive(0);
 		Transmorph converter = new Transmorph(NumberToNumberTest.class
 				.getClassLoader(), defaultConverters);
-		long[] longsArray = (long[]) converter.convert(new Integer[] { 1, 2,
-				null, 4 }, long[].class);
+		long[] longsArray = converter.convert(new Integer[] { 1, 2, null, 4 },
+				long[].class);
 		assertEquals(1, longsArray[0]);
 		assertEquals(2, longsArray[1]);
 		assertEquals(0, longsArray[2]);

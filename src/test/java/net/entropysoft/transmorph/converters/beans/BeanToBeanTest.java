@@ -67,7 +67,7 @@ public class BeanToBeanTest extends TestCase {
 		myBeanAB.setMyBeanBA(myBeanBA);
 		myBeanBA.setMyBeanAB(myBeanAB);
 
-		MyBeanABTransferObject myBeanABTransferObject = (MyBeanABTransferObject) converter
+		MyBeanABTransferObject myBeanABTransferObject = converter
 				.convert(myBeanAB, MyBeanABTransferObject.class);
 		assertNotNull(myBeanABTransferObject);
 		assertEquals(1, myBeanABTransferObject.getMyIntegers()[0]);
@@ -128,7 +128,7 @@ public class BeanToBeanTest extends TestCase {
 		PrivatePropertyBean bean = new PrivatePropertyBean(55);
 		bean.setPublicProperty(22);
 
-		PrivatePropertyBeanTransferObject beanTO = (PrivatePropertyBeanTransferObject) converter
+		PrivatePropertyBeanTransferObject beanTO = converter
 				.convert(bean, PrivatePropertyBeanTransferObject.class);
 		assertEquals("22", beanTO.getPublicProperty());
 		assertEquals("Public property:22\nPrivate property:null", beanTO
@@ -154,7 +154,7 @@ public class BeanToBeanTest extends TestCase {
 		myBeanAB.setMyBeanBA(myBeanBA);
 		myBeanBA.setMyBeanAB(myBeanAB);
 
-		MyBeanAB myBeanABCopy = (MyBeanAB) converter.convert(myBeanAB, myBeanAB
+		MyBeanAB myBeanABCopy = converter.convert(myBeanAB, myBeanAB
 				.getClass());
 		assertFalse(myBeanAB == myBeanABCopy);
 		assertEquals(1, myBeanABCopy.getMyIntegers().get(0).intValue());

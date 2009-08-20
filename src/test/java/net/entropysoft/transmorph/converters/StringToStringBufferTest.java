@@ -24,7 +24,7 @@ public class StringToStringBufferTest extends TestCase {
 	public void testStringToStringBuffer() throws Exception {
 		Transmorph converter = new Transmorph(StringToStringBufferTest.class
 				.getClassLoader(), new DefaultConverters());
-		StringBuffer sb = (StringBuffer) converter.convert("My string",
+		StringBuffer sb = converter.convert("My string",
 				StringBuffer.class);
 		assertEquals("My string", sb.toString());
 	}

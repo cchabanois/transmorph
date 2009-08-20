@@ -28,7 +28,7 @@ public class DateToCalendarTest extends TestCase {
 		Transmorph converter = new Transmorph(DateToCalendarTest.class
 				.getClassLoader(), new DefaultConverters());
 
-		Calendar calendar = (Calendar) converter.convert(new Date(0),
+		Calendar calendar = converter.convert(new Date(0),
 				Calendar.class);
 		assertNotNull(calendar);
 		assertEquals(1970, calendar.get(Calendar.YEAR));

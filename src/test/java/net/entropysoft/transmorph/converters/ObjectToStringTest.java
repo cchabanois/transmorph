@@ -31,21 +31,21 @@ public class ObjectToStringTest extends TestCase {
 
 		Transmorph converter = new Transmorph(ObjectToStringTest.class
 				.getClassLoader(), defaultConverters);
-		String str = (String) converter.convert(new URL(
-				"http://www.entropysoft.net"), String.class);
+		String str = converter.convert(new URL("http://www.entropysoft.net"),
+				String.class);
 		assertEquals("http://www.entropysoft.net", str);
-		str = (String) converter.convert(new File("c:\temp"), String.class);
+		str = converter.convert(new File("c:\temp"), String.class);
 		assertEquals("c:\temp", str);
 
 		objectToString.setHandledSourceClasses(new Class[] { URL.class });
 		try {
-			str = (String) converter.convert(new File("c:\temp"), String.class);
+			str = converter.convert(new File("c:\temp"), String.class);
 			fail("Convertion should have failed");
 		} catch (ConverterException e) {
 
 		}
 
-		str = (String) converter.convert(new URL("http://www.entropysoft.net"),
+		str = converter.convert(new URL("http://www.entropysoft.net"),
 				String.class);
 		assertEquals("http://www.entropysoft.net", str);
 	}
@@ -58,13 +58,13 @@ public class ObjectToStringTest extends TestCase {
 				.getClassLoader(), defaultConverters);
 
 		try {
-			String str = (String) converter.convert(
+			String str = converter.convert(
 					new MyClassWithToStringNotOverriden(), String.class);
 			fail("Conversion should have failed");
 		} catch (ConverterException e) {
 
 		}
-		assertEquals("my string", (String) converter.convert(
+		assertEquals("my string", converter.convert(
 				new MyClassWithToStringOverriden("my string"), String.class));
 
 	}

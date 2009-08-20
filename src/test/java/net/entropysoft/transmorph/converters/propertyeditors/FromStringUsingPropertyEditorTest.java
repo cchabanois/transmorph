@@ -24,7 +24,7 @@ public class FromStringUsingPropertyEditorTest extends TestCase {
 		Transmorph transmorph = new Transmorph(
 				FromStringUsingPropertyEditorTest.class.getClassLoader(),
 				new FromStringUsingPropertyEditor());
-		int myInt = (Integer) transmorph.convert("56", Integer.TYPE);
+		int myInt = transmorph.convert("56", Integer.TYPE);
 		assertEquals(56, myInt);	
 	}
 	

@@ -27,13 +27,13 @@ public class StringToBooleanTest extends TestCase {
 				new DefaultConverters());
 
 		// String => boolean (StringToBooleanConverter)
-		boolean myBoolean = (Boolean) converter.convert("false", Boolean.TYPE);
+		boolean myBoolean = converter.convert("false", Boolean.TYPE);
 		assertEquals(false, myBoolean);
-		myBoolean = (Boolean) converter.convert("true", Boolean.TYPE);
+		myBoolean = converter.convert("true", Boolean.TYPE);
 		assertEquals(true, myBoolean);
 
 		try {
-			myBoolean = (Boolean) converter.convert(null, Boolean.TYPE);
+			myBoolean = converter.convert(null, Boolean.TYPE);
 			fail("Should not have been converted");
 		} catch (ConverterException e) {
 		}
@@ -41,13 +41,14 @@ public class StringToBooleanTest extends TestCase {
 
 	public void testOtherStringToBooleanPrimitive() throws Exception {
 		DefaultConverters defaultConverters = new DefaultConverters();
-		StringToBoolean stringToBoolean = defaultConverters.getStringToBoolean();
+		StringToBoolean stringToBoolean = defaultConverters
+				.getStringToBoolean();
 		Transmorph converter = new Transmorph(this.getClass().getClassLoader(),
 				defaultConverters);
 
 		boolean myBoolean;
 		try {
-			myBoolean = (Boolean) converter.convert("faux", Boolean.TYPE);
+			myBoolean = converter.convert("faux", Boolean.TYPE);
 			fail("Should not have been converted");
 		} catch (ConverterException e) {
 		}
@@ -55,18 +56,17 @@ public class StringToBooleanTest extends TestCase {
 		stringToBoolean.setTrueString("vrai");
 		stringToBoolean.setFalseString("faux");
 
-		myBoolean = (Boolean) converter.convert("Faux", Boolean.TYPE);
+		myBoolean = converter.convert("Faux", Boolean.TYPE);
 		assertEquals(false, myBoolean);
 
-		myBoolean = (Boolean) converter.convert("Vrai", Boolean.TYPE);
+		myBoolean = converter.convert("Vrai", Boolean.TYPE);
 		assertEquals(true, myBoolean);
 	}
 
 	public void testBooleanToBooleanWrapper() throws Exception {
 		Transmorph converter = new Transmorph(this.getClass().getClassLoader(),
 				new DefaultConverters());
-		Boolean booleanObject = (Boolean) converter
-				.convert(null, Boolean.class);
+		Boolean booleanObject = converter.convert(null, Boolean.class);
 		assertNull(booleanObject);
 	}
 

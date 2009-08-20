@@ -25,7 +25,7 @@ public class StringToClassTest extends TestCase {
 		Transmorph converter = new Transmorph(StringToCharacterArrayTest.class
 				.getClassLoader(), new DefaultConverters());
 
-		Class clazz = (Class) converter.convert(this.getClass().getName(),
+		Class clazz = converter.convert(this.getClass().getName(),
 				Class.class);
 		assertEquals(this.getClass(), clazz);
 	}

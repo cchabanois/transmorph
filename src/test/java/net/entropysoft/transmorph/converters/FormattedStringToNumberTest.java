@@ -31,22 +31,21 @@ public class FormattedStringToNumberTest extends TestCase {
 		formattedStringToNumberConverter.setNumberFormat(numberFormat);
 
 		Transmorph converter = new Transmorph(FormattedStringToNumberTest.class
-				.getClassLoader(),
-				formattedStringToNumberConverter);
+				.getClassLoader(), formattedStringToNumberConverter);
 
-		float result = (Float) converter.convert("-22,33", Float.TYPE);
+		float result = converter.convert("-22,33", Float.TYPE);
 		assertNotNull(result);
 		assertEquals(-22.33, result, 0.001);
 
 		try {
-			result = (Float) converter.convert("-22,33A", Float.TYPE);
+			result = converter.convert("-22,33A", Float.TYPE);
 			fail("Should not convert");
 		} catch (ConverterException e) {
 
 		}
 
 		try {
-			result = (Float) converter.convert(null, Float.TYPE);
+			result = converter.convert(null, Float.TYPE);
 			fail("Should not convert");
 		} catch (ConverterException e) {
 
@@ -54,6 +53,5 @@ public class FormattedStringToNumberTest extends TestCase {
 
 		assertNull(converter.convert(null, Float.class));
 	}
-	
-	
+
 }

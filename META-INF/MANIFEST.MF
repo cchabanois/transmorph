@@ -1,0 +1,7 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Transmorph
+Bundle-SymbolicName: net.entropysoft.transmorph
+Bundle-Version: 2.2.1
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Bundle-Vendor: EntropySoft

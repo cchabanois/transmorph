@@ -51,8 +51,8 @@ public class Transmorph implements IConverter {
 	 *            the converter that will be used.
 	 */
 	public Transmorph(ClassLoader classLoader, IConverter converter) {
-		// this constructor is not really needed but when converted to JDK 1.4, it is
-		// useful
+		// this constructor is not really needed but when converted to JDK 1.4,
+		// it is useful
 		this(new TypeFactory(new ClassFactory(classLoader)),
 				new IConverter[] { converter });
 	}
@@ -87,14 +87,14 @@ public class Transmorph implements IConverter {
 	}
 
 	public Transmorph(IConverter converter) {
-		// this constructor is not really needed but when converted to JDK 1.4, it is
-		// useful
+		// this constructor is not really needed but when converted to JDK 1.4,
+		// it is useful
 		this(new IConverter[] { converter });
 	}
 
 	public Transmorph(TypeFactory typeFactory, IConverter converter) {
-		// this constructor is not really needed but when converted to JDK 1.4, it is
-		// useful
+		// this constructor is not really needed but when converted to JDK 1.4,
+		// it is useful
 		this(typeFactory, new IConverter[] { converter });
 	}
 
@@ -162,11 +162,11 @@ public class Transmorph implements IConverter {
 			Class<T> clazz, Class[] typeArgs) throws ConverterException {
 		Type destinationType = typeFactory.getType(clazz, typeArgs);
 
-		return (T)convert(context, source, destinationType);
+		return (T) convert(context, source, destinationType);
 	}
 
 	/**
-	 * Convert an object to another object with given type 
+	 * Convert an object to another object with given type
 	 * 
 	 * @param source
 	 *            object to convert
@@ -176,30 +176,37 @@ public class Transmorph implements IConverter {
 	 * @throws ConverterException
 	 *             if conversion failed
 	 */
-	public Object convert(Object source, java.lang.reflect.Type type) throws ConverterException {
+	public Object convert(Object source, java.lang.reflect.Type type)
+			throws ConverterException {
 		return convert(new ConversionContext(), source, type);
 	}
 
 	/**
 	 * Convert an object to another object with given class
+	 * 
 	 * @param <T>
 	 * @param source
+	 *            object to convert
 	 * @param clazz
-	 * @return
+	 *            destination class
+	 * @return the converted object
 	 * @throws ConverterException
+	 *             if conversion failed
 	 */
-	@SuppressWarnings("unchecked")
-	public <T> T convert(Object source, Class<T> clazz) throws ConverterException {
-		return (T)convert(new ConversionContext(), source, clazz);
+	public <T> T convert(Object source, Class<T> clazz)
+			throws ConverterException {
+		return (T) convert(new ConversionContext(), source, clazz);
 	}
-	
+
 	/**
 	 * Convert an object to another object with given type
 	 * 
 	 * @param source
+	 *            object to convert
 	 * @param destinationType
-	 * @return
+	 * @return the converted object
 	 * @throws ConverterException
+	 *             if conversion failed
 	 */
 	public Object convert(Object source, Type destinationType)
 			throws ConverterException {
@@ -218,8 +225,8 @@ public class Transmorph implements IConverter {
 	 * @throws ConverterException
 	 *             if conversion failed
 	 */
-	public Object convert(ConversionContext context, Object source, java.lang.reflect.Type type)
-			throws ConverterException {
+	public Object convert(ConversionContext context, Object source,
+			java.lang.reflect.Type type) throws ConverterException {
 		TypeSignature typeSignature = TypeSignatureFactory
 				.getTypeSignature(type);
 		Type destinationType = typeFactory.getType(typeSignature);
@@ -228,12 +235,34 @@ public class Transmorph implements IConverter {
 	}
 
 	/**
+	 * Convert an object to another object with given class
+	 * 
+	 * @param <T>
+	 * @param context
+	 * @param source
+	 *            object to convert
+	 * @param clazz
+	 *            destination class
+	 * @return the converted object
+	 * @throws ConverterException
+	 *             if conversion failed
+	 */
+	public <T> T convert(ConversionContext context, Object source,
+			Class<T> clazz) throws ConverterException {
+		return convert(context, source, clazz);
+	}
+
+	/**
 	 * Convert an object to another object given a parameterized type signature
 	 * 
 	 * @param source
+	 *            object to convert
 	 * @param parameterizedTypeSignature
-	 * @return
+	 *            the destination type as a string. The expected format depends
+	 *            on the type signature parser
+	 * @return the converted object
 	 * @throws ConverterException
+	 *             if conversion failed
 	 * @see {@link #setTypeSignatureParser(ITypeSignatureParser)}
 	 */
 	public Object convert(Object source, String parameterizedTypeSignature)
@@ -250,9 +279,13 @@ public class Transmorph implements IConverter {
 	 * 
 	 * @param context
 	 * @param source
+	 *            object to convert
 	 * @param parameterizedTypeSignature
-	 * @return
+	 *            the destination type as a string. The expected format depends
+	 *            on the type signature parser
+	 * @return the converted object
 	 * @throws ConverterException
+	 *             if conversion failed
 	 * @see {@link #setUseInternalFormFullyQualifiedName(boolean)}
 	 */
 	public Object convert(ConversionContext context, Object source,
@@ -267,6 +300,7 @@ public class Transmorph implements IConverter {
 	/**
 	 * Convert an object to another object given a parameterized type signature
 	 * 
+	 * @param context
 	 * @param destinationType
 	 *            the destination type
 	 * @param source
@@ -274,6 +308,7 @@ public class Transmorph implements IConverter {
 	 * 
 	 * @return the converted object
 	 * @throws ConverterException
+	 *             if conversion failed
 	 */
 	public Object convert(ConversionContext context, Object source,
 			Type destinationType) throws ConverterException {

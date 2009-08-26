@@ -102,7 +102,7 @@ public class BeanToBeanTest extends TestCase {
 		ConversionContext context = new ConversionContext();
 		context.setStoreUsedConverters(true);
 
-		MyBean4TransferObject myBean4TransferObject = (MyBean4TransferObject) converter
+		MyBean4TransferObject myBean4TransferObject = converter
 				.convert(context, myBean4, MyBean4TransferObject.class);
 		System.out.println(context.getUsedConverters().toString(
 				new JavaSyntaxTypeSignatureFormatter()));

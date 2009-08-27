@@ -19,8 +19,6 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.entropysoft.transmorph.converters.beans.BeanToBeanMapping;
-
 /**
  * Some utility methods
  * 
@@ -87,34 +85,41 @@ public class BeanUtils {
 			}
 		}
 		return setters;
-	}	
+	}
 
 	/**
 	 * get the getter method corresponding to given property
 	 * 
-	 * @param sourceObject
-	 * @param destinationObject
-	 * @param destinationProperty
-	 * @return
 	 */
 	public static Method getGetterPropertyMethod(Class type, String propertyName) {
 		String sourceMethodName = "get"
 				+ BeanUtils.capitalizePropertyName(propertyName);
 
-		Method sourceMethod = BeanUtils.getMethod(type,
-				sourceMethodName);
+		Method sourceMethod = BeanUtils.getMethod(type, sourceMethodName);
 
 		if (sourceMethod == null) {
 			sourceMethodName = "is"
 					+ BeanUtils.capitalizePropertyName(propertyName);
-			sourceMethod = BeanUtils.getMethod(type,
-					sourceMethodName);
+			sourceMethod = BeanUtils.getMethod(type, sourceMethodName);
 			if (sourceMethod != null
 					&& sourceMethod.getReturnType() != Boolean.TYPE) {
 				sourceMethod = null;
 			}
 		}
 		return sourceMethod;
-	}	
-	
+	}
+
+	/**
+	 * get the setter method corresponding to given property
+	 * 
+	 */
+	public static Method getSetterPropertyMethod(Class type, String propertyName) {
+		String sourceMethodName = "set"
+				+ BeanUtils.capitalizePropertyName(propertyName);
+
+		Method sourceMethod = BeanUtils.getMethod(type, sourceMethodName);
+
+		return sourceMethod;
+	}
+
 }

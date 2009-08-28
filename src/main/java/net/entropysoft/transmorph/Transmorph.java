@@ -247,9 +247,10 @@ public class Transmorph implements IConverter {
 	 * @throws ConverterException
 	 *             if conversion failed
 	 */
+	@SuppressWarnings("unchecked")
 	public <T> T convert(ConversionContext context, Object source,
 			Class<T> clazz) throws ConverterException {
-		return convert(context, source, clazz);
+		return (T)convert(context, source, (java.lang.reflect.Type)clazz);
 	}
 
 	/**

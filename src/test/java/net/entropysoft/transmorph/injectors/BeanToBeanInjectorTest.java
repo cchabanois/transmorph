@@ -14,6 +14,7 @@ import net.entropysoft.transmorph.converters.beans.BeanToBeanMapping;
 import net.entropysoft.transmorph.converters.collections.CollectionToCollection;
 import net.entropysoft.transmorph.converters.collections.MapToMap;
 import samples.MyBean4;
+import samples.MyBean4Ancestor;
 import samples.MyBean4TransferObject;
 import samples.MyBeanAB;
 import samples.MyBeanBA;
@@ -41,6 +42,26 @@ public class BeanToBeanInjectorTest extends TestCase {
 		assertEquals(55, myBean4Injected.getSize());
 		assertEquals(myStrings, myBean4Injected.getMyStrings());
 	}
+	
+	public void testBeanToBeanSubClassToAncestor() throws Exception {
+		BeanToBeanInjector beanInjector = new BeanToBeanInjector();
+		TransmorphBeanInjector transmorphBeanInjector = new TransmorphBeanInjector(
+				BeanToBeanInjectorTest.class.getClassLoader(), beanInjector);
+
+		MyBean4 myBean4 = new MyBean4();
+		myBean4.setMyString("hello world");
+		myBean4.setSize(55);
+		List<String> myStrings = new ArrayList<String>();
+		myStrings.add("first");
+		myStrings.add("second");
+		myStrings.add("third");
+		myBean4.setMyStrings(myStrings);
+		
+		MyBean4Ancestor myBean4Injected = new MyBean4Ancestor();
+		transmorphBeanInjector.inject(myBean4, myBean4Injected);
+		
+		assertEquals(55, myBean4Injected.getSize());
+	}	
 	
 	public void testBeanToBeanInjector() throws Exception {
 		DefaultConverters defaultConverters = new DefaultConverters();

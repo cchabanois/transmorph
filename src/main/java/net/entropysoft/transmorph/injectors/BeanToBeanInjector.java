@@ -41,6 +41,7 @@ public class BeanToBeanInjector extends AbstractBeanInjector {
 	private IBeanPropertyTypeProvider beanDestinationPropertyTypeProvider;
 	private Map<ClassPair, BeanToBeanMapping> beanToBeanMappings = new HashMap<ClassPair, BeanToBeanMapping>();
 	private boolean handleTargetClassSameAsSourceClass = true;
+	private boolean handleTargetClassIsSuperClassOfSourceClass = true;
 
 	public BeanToBeanInjector() {
 		// by default, we don't do any conversion
@@ -65,6 +66,10 @@ public class BeanToBeanInjector extends AbstractBeanInjector {
 
 	public boolean isHandleTargetClassSameAsSourceClass() {
 		return handleTargetClassSameAsSourceClass;
+	}
+
+	public boolean isHandleTargetClassIsSuperClassOfSourceClass() {
+		return handleTargetClassIsSuperClassOfSourceClass;
 	}
 
 	/**
@@ -98,12 +103,10 @@ public class BeanToBeanInjector extends AbstractBeanInjector {
 		}
 
 		if (!canHandle(sourceObject.getClass(), destinationClass)) {
-			throw new ConverterException(
-					MessageFormat
-							.format(
-									"Could not get bean to bean mapping for ''{0}''=>''{1}''",
-									sourceObject.getClass().getName(),
-									destinationClass.getName()));
+			throw new ConverterException(MessageFormat.format(
+					"Could not get bean to bean mapping for ''{0}''=>''{1}''",
+					sourceObject.getClass().getName(), destinationClass
+							.getName()));
 		}
 
 		// get destination property => method
@@ -199,6 +202,10 @@ public class BeanToBeanInjector extends AbstractBeanInjector {
 	private boolean canHandle(Class sourceObjectClass, Class destinationClass) {
 		if (handleTargetClassSameAsSourceClass
 				&& sourceObjectClass.equals(destinationClass)) {
+			return true;
+		}
+		if (handleTargetClassIsSuperClassOfSourceClass
+				&& destinationClass.isAssignableFrom(sourceObjectClass)) {
 			return true;
 		}
 		BeanToBeanMapping beanToBeanMapping = beanToBeanMappings

@@ -16,6 +16,7 @@
 package net.entropysoft.transmorph.injectors;
 
 import java.lang.reflect.Method;
+import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -43,7 +44,8 @@ public class BeanToBeanInjector extends AbstractBeanInjector {
 
 	public BeanToBeanInjector() {
 		// by default, we don't do any conversion
-		propertyValueConverter = new MultiConverter(new IdentityConverter(), new WrapperToPrimitive());
+		propertyValueConverter = new MultiConverter(new IdentityConverter(),
+				new WrapperToPrimitive());
 	}
 
 	public IBeanPropertyTypeProvider getBeanDestinationPropertyTypeProvider() {
@@ -96,7 +98,12 @@ public class BeanToBeanInjector extends AbstractBeanInjector {
 		}
 
 		if (!canHandle(sourceObject.getClass(), destinationClass)) {
-			throw new ConverterException("Could not get bean to bean mapping");
+			throw new ConverterException(
+					MessageFormat
+							.format(
+									"Could not get bean to bean mapping for ''{0}''=>''{1}''",
+									sourceObject.getClass().getName(),
+									destinationClass.getName()));
 		}
 
 		// get destination property => method
@@ -164,7 +171,8 @@ public class BeanToBeanInjector extends AbstractBeanInjector {
 		if (sourceProperty == null) {
 			sourceProperty = destinationProperty;
 		}
-		return BeanUtils.getGetterPropertyMethod(sourceObject.getClass(), sourceProperty);
+		return BeanUtils.getGetterPropertyMethod(sourceObject.getClass(),
+				sourceProperty);
 	}
 
 	/**

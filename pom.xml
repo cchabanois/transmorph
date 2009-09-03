@@ -28,39 +28,7 @@
 	<groupId>net.sf.transmorph</groupId>
 	<artifactId>transmorph</artifactId>
 	<packaging>jar</packaging>
-	<version>2.2.1</version>
 	<name>transmorph</name>
-
-	<inceptionYear>2008</inceptionYear>
-	<description>Java library to convert a Java object of one type into
-		an object of another type (with another signature, possibly
-		parameterized).</description>
-
-	<url>http://transmorph.sourceforge.net/
-	</url>
-
-	<developers>
-		<developer>
-			<name>Cedric Chabanois</name>
-			<id>cchabanois</id>
-			<email></email>
-			<organization>Entropysoft</organization>
-		</developer>
-	</developers>
-
-	<licenses>
-		<license>
-			<name>The Apache Software License, Version 2.0</name>
-			<url>http://www.apache.org/licenses/LICENSE-2.0.txt
-			</url>
-			<distribution>repo</distribution>
-		</license>
-	</licenses>
-
-	<organization>
-		<name>EntropySoft</name>
-		<url>http://www.entropysoft.net</url>
-	</organization>
 
 	<scm>
 		<developerConnection>

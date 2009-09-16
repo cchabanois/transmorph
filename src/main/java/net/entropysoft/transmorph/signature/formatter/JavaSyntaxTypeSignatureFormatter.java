@@ -139,7 +139,7 @@ public class JavaSyntaxTypeSignatureFormatter implements
 				.substring(fullyQualifiedName.lastIndexOf(".") + 1);
 	}
 
-	public String formatTypeArgSignature(TypeArgSignature typeArgSignature) {
+	private String formatTypeArgSignature(TypeArgSignature typeArgSignature) {
 		StringBuilder sb = new StringBuilder();
 		char wildcard = typeArgSignature.getWildcard();
 		if (wildcard == TypeArgSignature.LOWERBOUND_WILDCARD) {

@@ -24,6 +24,7 @@ import junit.framework.TestCase;
 import net.entropysoft.transmorph.DefaultConverters;
 import net.entropysoft.transmorph.Transmorph;
 import net.entropysoft.transmorph.signature.parser.ClassFileTypeSignatureParser;
+import net.entropysoft.transmorph.type.TypeReference;
 
 public class ArrayToCollectionTest extends TestCase {
 
@@ -70,6 +71,28 @@ public class ArrayToCollectionTest extends TestCase {
 		for (int i = 0; i < 6; i++) {
 			assertEquals(i, arrayOfSomething.get(i));
 		}
+
+		// this works also with TypeReference
+		TypeReference<List<?>> typeRef = new TypeReference<List<?>>() {
+		};
+		arrayOfSomething = converter.convert(arrayOfInts, typeRef);
+	}
+
+	public void testArrayOfObjectsToGenericListUnbounded() throws Exception {
+		Transmorph converter = new Transmorph(ArrayToCollectionTest.class
+				.getClassLoader(), new DefaultConverters());
+		Object[] objects = new Object[] { 0, 1, 2, 3, 4, 5 };
+		TypeReference<List<?>> typeRef = new TypeReference<List<?>>() {
+		};
+		List<?> arrayOfSomething = converter.convert(objects, typeRef);
+		assertNotNull(arrayOfSomething);
+		assertEquals(6, arrayOfSomething.size());
+		for (int i = 0; i < 6; i++) {
+			assertEquals(i, arrayOfSomething.get(i));
+		}
+
+		objects = new Object[] { 0, 1, 2, 3, 4, 5, "a string" };
+		arrayOfSomething = converter.convert(objects, typeRef);
 	}
 
 	public void testArrayToGenericListUpperbound() throws Exception {

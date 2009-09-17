@@ -25,6 +25,7 @@ import net.entropysoft.transmorph.signature.parser.ClassFileTypeSignatureParser;
 import net.entropysoft.transmorph.signature.parser.ITypeSignatureParser;
 import net.entropysoft.transmorph.type.Type;
 import net.entropysoft.transmorph.type.TypeFactory;
+import net.entropysoft.transmorph.type.TypeReference;
 
 /**
  * Convert an object to another object.
@@ -157,12 +158,11 @@ public class Transmorph implements IConverter {
 	 * @throws ConverterException
 	 *             if conversion failed
 	 */
-	@SuppressWarnings("unchecked")
 	public <T> T convert(ConversionContext context, Object source,
 			Class<T> clazz, Class[] typeArgs) throws ConverterException {
 		Type destinationType = typeFactory.getType(clazz, typeArgs);
 
-		return (T) convert(context, source, destinationType);
+		return clazz.cast(convert(context, source, destinationType));
 	}
 
 	/**
@@ -179,6 +179,23 @@ public class Transmorph implements IConverter {
 	public Object convert(Object source, java.lang.reflect.Type type)
 			throws ConverterException {
 		return convert(new ConversionContext(), source, type);
+	}
+
+	/**
+	 * Convert an object to another object with given type
+	 * 
+	 * @param <T>
+	 * @param source
+	 *            object to convert
+	 * @param typeReference
+	 *            reference to {@link java.lang.reflect.Type}
+	 * @return the converted object if conversion failed
+	 * @throws ConverterException
+	 */
+	@SuppressWarnings("unchecked")
+	public <T> T convert(Object source, TypeReference<T> typeReference)
+			throws ConverterException {
+		return (T) convert(source, typeReference.getType());
 	}
 
 	/**
@@ -234,6 +251,12 @@ public class Transmorph implements IConverter {
 		return convert(context, source, destinationType);
 	}
 
+	@SuppressWarnings("unchecked")	
+	public <T> T convert(ConversionContext context, Object source,
+			TypeReference<T> typeReference) throws ConverterException {
+		return (T)convert(context, source, typeReference.getType());
+	}
+	
 	/**
 	 * Convert an object to another object with given class
 	 * 
@@ -247,10 +270,9 @@ public class Transmorph implements IConverter {
 	 * @throws ConverterException
 	 *             if conversion failed
 	 */
-	@SuppressWarnings("unchecked")
 	public <T> T convert(ConversionContext context, Object source,
 			Class<T> clazz) throws ConverterException {
-		return (T)convert(context, source, (java.lang.reflect.Type)clazz);
+		return clazz.cast(convert(context, source, (java.lang.reflect.Type) clazz));
 	}
 
 	/**

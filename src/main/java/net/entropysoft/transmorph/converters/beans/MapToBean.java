@@ -24,8 +24,6 @@ import net.entropysoft.transmorph.ConversionContext;
 import net.entropysoft.transmorph.ConverterException;
 import net.entropysoft.transmorph.converters.AbstractContainerConverter;
 import net.entropysoft.transmorph.converters.beans.utils.BeanUtils;
-import net.entropysoft.transmorph.signature.JavaTypeToTypeSignature;
-import net.entropysoft.transmorph.signature.TypeSignature;
 import net.entropysoft.transmorph.type.Type;
 
 /**

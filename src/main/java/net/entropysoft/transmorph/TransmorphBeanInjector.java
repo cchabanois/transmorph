@@ -16,6 +16,7 @@
 package net.entropysoft.transmorph;
 
 import java.text.MessageFormat;
+
 import net.entropysoft.transmorph.signature.ClassFactory;
 import net.entropysoft.transmorph.signature.TypeSignature;
 import net.entropysoft.transmorph.signature.TypeSignatureFactory;

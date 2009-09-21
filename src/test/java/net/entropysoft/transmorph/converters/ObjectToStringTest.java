@@ -29,8 +29,7 @@ public class ObjectToStringTest extends TestCase {
 		DefaultConverters defaultConverters = new DefaultConverters();
 		ObjectToString objectToString = defaultConverters.getObjectToString();
 
-		Transmorph converter = new Transmorph(ObjectToStringTest.class
-				.getClassLoader(), defaultConverters);
+		Transmorph converter = new Transmorph(defaultConverters);
 		String str = converter.convert(new URL("http://www.entropysoft.net"),
 				String.class);
 		assertEquals("http://www.entropysoft.net", str);
@@ -54,8 +53,7 @@ public class ObjectToStringTest extends TestCase {
 		DefaultConverters defaultConverters = new DefaultConverters();
 		ObjectToString objectToString = defaultConverters.getObjectToString();
 
-		Transmorph converter = new Transmorph(ObjectToStringTest.class
-				.getClassLoader(), defaultConverters);
+		Transmorph converter = new Transmorph(defaultConverters);
 
 		try {
 			String str = converter.convert(

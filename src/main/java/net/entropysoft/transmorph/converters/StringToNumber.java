@@ -21,8 +21,7 @@ import java.text.MessageFormat;
 
 import net.entropysoft.transmorph.ConversionContext;
 import net.entropysoft.transmorph.ConverterException;
-import net.entropysoft.transmorph.type.Type;
-import net.entropysoft.transmorph.type.TypeUtils;
+import net.entropysoft.transmorph.type.TypeReference;
 
 /**
  * Converter used when source object is a String and destination type is a
@@ -41,7 +40,7 @@ public class StringToNumber extends AbstractConverter {
 	}
 
 	public Object doConvert(ConversionContext context, Object sourceObject,
-			Type destinationType) throws ConverterException {
+			TypeReference<?> destinationType) throws ConverterException {
 		if (sourceObject == null) {
 			if (destinationType.isPrimitive()) {
 				throw new ConverterException(
@@ -96,17 +95,11 @@ public class StringToNumber extends AbstractConverter {
 									"Could not convert from ''{0}'' to object with type signature ''{1}''",
 									sourceString, destinationType.toString()),
 					e);
-		} catch (ClassNotFoundException e) {
-			throw new ConverterException("Could not convert", e);
 		}
 	}
 
-	protected boolean canHandleDestinationType(Type destinationType) {
-		try {
-			return TypeUtils.isNumberType(destinationType);
-		} catch (ClassNotFoundException e) {
-			return false;
-		}
+	protected boolean canHandleDestinationType(TypeReference<?> destinationType) {
+		return destinationType.isNumber();
 	}
 
 	protected boolean canHandleSourceObject(Object sourceObject) {

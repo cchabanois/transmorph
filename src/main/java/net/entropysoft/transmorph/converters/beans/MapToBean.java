@@ -25,6 +25,7 @@ import net.entropysoft.transmorph.ConverterException;
 import net.entropysoft.transmorph.converters.AbstractContainerConverter;
 import net.entropysoft.transmorph.converters.beans.utils.BeanUtils;
 import net.entropysoft.transmorph.type.Type;
+import net.entropysoft.transmorph.type.TypeReference;
 
 /**
  * Converter used to convert a Map to a bean.
@@ -56,23 +57,17 @@ public class MapToBean extends AbstractContainerConverter {
 	}
 
 	public Object doConvert(ConversionContext context, Object sourceObject,
-			Type destinationType) throws ConverterException {
+			TypeReference<?> destinationType) throws ConverterException {
 		if (sourceObject == null) {
 			return null;
 		}
 		Map<String, Object> sourceMap = (Map<String, Object>) sourceObject;
 		Map<String, Method> setterMethods;
-		try {
-			setterMethods = getSetterMethods(destinationType.getType());
-		} catch (ClassNotFoundException e) {
-			throw new ConverterException(MessageFormat.format(
-					"Could not get setter methods for ''{0}''", destinationType
-							.getName()), e);
-		}
+		setterMethods = getSetterMethods(destinationType.getRawType());
 
 		Object resultBean;
 		try {
-			resultBean = destinationType.getType().newInstance();
+			resultBean = destinationType.getRawType().newInstance();
 		} catch (Exception e) {
 			throw new ConverterException(MessageFormat.format(
 					"Could not create instance of ''{0}''", destinationType
@@ -93,10 +88,9 @@ public class MapToBean extends AbstractContainerConverter {
 			}
 			java.lang.reflect.Type parameterType = method
 					.getGenericParameterTypes()[0];
-			Type originalType = destinationType.getTypeFactory().getType(
-					parameterType);
-			Type propertyDestinationType = getBeanPropertyType(resultBean
-					.getClass(), key, originalType);
+			TypeReference<?> originalType = TypeReference.get(parameterType);
+			TypeReference<?> propertyDestinationType = getBeanPropertyType(
+					resultBean.getClass(), key, originalType);
 
 			Object valueConverterd = elementConverter.convert(context, value,
 					propertyDestinationType);
@@ -112,9 +106,9 @@ public class MapToBean extends AbstractContainerConverter {
 		return resultBean;
 	}
 
-	protected Type getBeanPropertyType(Class clazz, String propertyName,
-			Type originalType) {
-		Type propertyDestinationType = null;
+	protected TypeReference<?> getBeanPropertyType(Class clazz,
+			String propertyName, TypeReference<?> originalType) {
+		TypeReference<?> propertyDestinationType = null;
 		if (beanDestinationPropertyTypeProvider != null) {
 			propertyDestinationType = beanDestinationPropertyTypeProvider
 					.getPropertyType(clazz, propertyName, originalType);
@@ -145,9 +139,9 @@ public class MapToBean extends AbstractContainerConverter {
 		return setters;
 	}
 
-	protected boolean canHandleDestinationType(Type destinationType) {
+	protected boolean canHandleDestinationType(TypeReference<?> destinationType) {
 		try {
-			destinationType.getType().getConstructor(new Class[0]);
+			destinationType.getRawType().getConstructor(new Class[0]);
 			return true;
 		} catch (Exception e) {
 			return false;

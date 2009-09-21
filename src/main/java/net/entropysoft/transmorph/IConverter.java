@@ -15,7 +15,7 @@
  */
 package net.entropysoft.transmorph;
 
-import net.entropysoft.transmorph.type.Type;
+import net.entropysoft.transmorph.type.TypeReference;
 
 /**
  * Converters implement this interface
@@ -37,7 +37,7 @@ public interface IConverter {
 	 * @throws ConverterException
 	 */
 	public Object convert(ConversionContext context, Object sourceObject,
-			Type destinationType) throws ConverterException;
+			TypeReference<?> destinationType) throws ConverterException;
 
 	/**
 	 * Check if this converter can handle the conversion between given source
@@ -50,6 +50,6 @@ public interface IConverter {
 	 * @return true if convert can be call to try a conversion
 	 */
 	public boolean canHandle(ConversionContext context, Object sourceObject,
-			Type destinationType);
+			TypeReference<?> destinationType);
 
 }

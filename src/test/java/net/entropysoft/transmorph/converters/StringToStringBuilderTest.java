@@ -22,8 +22,7 @@ import net.entropysoft.transmorph.Transmorph;
 public class StringToStringBuilderTest extends TestCase {
 
 	public void testStringToStringBuilder() throws Exception {
-		Transmorph converter = new Transmorph(StringToStringBufferTest.class
-				.getClassLoader(), new DefaultConverters());
+		Transmorph converter = new Transmorph(new DefaultConverters());
 		StringBuilder sb = converter.convert("My string", StringBuilder.class);
 		assertEquals("My string", sb.toString());
 	}

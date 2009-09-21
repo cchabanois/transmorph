@@ -25,8 +25,7 @@ import net.entropysoft.transmorph.Transmorph;
 public class StringToEnumTest extends TestCase {
 
 	public void testStringToEnum() throws Exception {
-		Transmorph converter = new Transmorph(StringToEnumTest.class
-				.getClassLoader(), new DefaultConverters());
+		Transmorph converter = new Transmorph(new DefaultConverters());
 
 		RetentionPolicy retentionPolicy = converter.convert("CLASS",
 				RetentionPolicy.class);

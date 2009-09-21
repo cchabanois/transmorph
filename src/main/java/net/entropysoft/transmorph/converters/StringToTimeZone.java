@@ -19,7 +19,7 @@ import java.util.TimeZone;
 
 import net.entropysoft.transmorph.ConversionContext;
 import net.entropysoft.transmorph.ConverterException;
-import net.entropysoft.transmorph.type.Type;
+import net.entropysoft.transmorph.type.TypeReference;
 
 /**
  * Converter used when source is a String and destination is a TimeZone
@@ -35,7 +35,7 @@ public class StringToTimeZone extends AbstractSimpleConverter<String, TimeZone> 
 	}
 
 	@Override
-	public TimeZone doConvert(ConversionContext context, String sourceObject, Type destinationType) throws ConverterException {
+	public TimeZone doConvert(ConversionContext context, String sourceObject, TypeReference<?> destinationType) throws ConverterException {
 		return TimeZone.getTimeZone(sourceObject);
 	}
 

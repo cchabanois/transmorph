@@ -25,7 +25,7 @@ import java.util.GregorianCalendar;
 
 import net.entropysoft.transmorph.ConversionContext;
 import net.entropysoft.transmorph.ConverterException;
-import net.entropysoft.transmorph.type.Type;
+import net.entropysoft.transmorph.type.TypeReference;
 
 /**
  * Converter used to convert a String to a Calendar or a GregorianCalendar
@@ -50,7 +50,8 @@ public class StringToCalendar extends AbstractConverter {
 		this.dateFormat = dateFormat;
 	}
 
-	public Object doConvert(ConversionContext context, Object sourceObject, Type destinationType) throws ConverterException {
+	public Object doConvert(ConversionContext context, Object sourceObject,
+			TypeReference<?> destinationType) throws ConverterException {
 		if (sourceObject == null) {
 			return null;
 		}
@@ -73,13 +74,9 @@ public class StringToCalendar extends AbstractConverter {
 		return calendar;
 	}
 
-	protected boolean canHandleDestinationType(Type destinationType) {
-		try {
-			return destinationType.isType(Calendar.class) || destinationType.isType(GregorianCalendar.class);
-		} catch (ClassNotFoundException e) {
-			return false;
-		}
-
+	protected boolean canHandleDestinationType(TypeReference<?> destinationType) {
+		return destinationType.isType(Calendar.class)
+				|| destinationType.isType(GregorianCalendar.class);
 	}
 
 	protected boolean canHandleSourceObject(Object sourceObject) {

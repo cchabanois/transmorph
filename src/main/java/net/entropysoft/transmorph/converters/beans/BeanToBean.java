@@ -27,6 +27,7 @@ import net.entropysoft.transmorph.converters.IdentityConverter;
 import net.entropysoft.transmorph.converters.beans.utils.BeanUtils;
 import net.entropysoft.transmorph.converters.beans.utils.ClassPair;
 import net.entropysoft.transmorph.type.Type;
+import net.entropysoft.transmorph.type.TypeReference;
 
 /**
  * Converter used to convert a Bean to another bean.
@@ -79,14 +80,8 @@ public class BeanToBean extends AbstractContainerConverter {
 	}
 
 	public Object doConvert(ConversionContext context, Object sourceObject,
-			Type destinationType) throws ConverterException {
-		Class destinationClass;
-		try {
-			destinationClass = destinationType.getType();
-		} catch (ClassNotFoundException e) {
-			throw new ConverterException(
-					"Could not get destination type class", e);
-		}
+			TypeReference<?> destinationType) throws ConverterException {
+		Class destinationClass = destinationType.getRawType();
 
 		if (sourceObject == null) {
 			return null;
@@ -136,9 +131,9 @@ public class BeanToBean extends AbstractContainerConverter {
 
 			java.lang.reflect.Type parameterType = destinationMethod
 					.getGenericParameterTypes()[0];
-			Type originalType = destinationType.getTypeFactory().getType(
+			TypeReference<?> originalType = TypeReference.get(
 					parameterType);
-			Type propertyDestinationType = getBeanPropertyType(resultBean
+			TypeReference<?> propertyDestinationType = getBeanPropertyType(resultBean
 					.getClass(), destinationPropertyName, originalType);
 
 			Object destinationPropertyValue = elementConverter.convert(context,
@@ -178,7 +173,8 @@ public class BeanToBean extends AbstractContainerConverter {
 			sourceProperty = destinationProperty;
 		}
 
-		return BeanUtils.getGetterPropertyMethod(sourceObject.getClass(), sourceProperty);
+		return BeanUtils.getGetterPropertyMethod(sourceObject.getClass(),
+				sourceProperty);
 	}
 
 	/**
@@ -189,9 +185,9 @@ public class BeanToBean extends AbstractContainerConverter {
 	 * @param originalType
 	 * @return
 	 */
-	protected Type getBeanPropertyType(Class clazz, String propertyName,
-			Type originalType) {
-		Type propertyDestinationType = null;
+	protected TypeReference<?> getBeanPropertyType(Class clazz, String propertyName,
+			TypeReference<?> originalType) {
+		TypeReference<?> propertyDestinationType = null;
 		if (beanDestinationPropertyTypeProvider != null) {
 			propertyDestinationType = beanDestinationPropertyTypeProvider
 					.getPropertyType(clazz, propertyName, originalType);
@@ -213,11 +209,11 @@ public class BeanToBean extends AbstractContainerConverter {
 						.getDestinationClass()), beanToBeanMapping);
 	}
 
-	protected boolean canHandleDestinationType(Type destinationType) {
+	protected boolean canHandleDestinationType(TypeReference<?> destinationType) {
 		try {
 			// make sure that destinationType has a constructor with no
 			// parameters
-			destinationType.getType().getConstructor(new Class[0]);
+			destinationType.getRawType().getConstructor(new Class[0]);
 			return true;
 		} catch (Exception e) {
 			return false;
@@ -229,7 +225,8 @@ public class BeanToBean extends AbstractContainerConverter {
 	}
 
 	private boolean canHandle(Class sourceObjectClass, Class destinationClass) {
-		if (handleTargetClassSameAsSourceClass && sourceObjectClass.equals(destinationClass)) {
+		if (handleTargetClassSameAsSourceClass
+				&& sourceObjectClass.equals(destinationClass)) {
 			return true;
 		}
 		BeanToBeanMapping beanToBeanMapping = beanToBeanMappings
@@ -239,14 +236,10 @@ public class BeanToBean extends AbstractContainerConverter {
 
 	@Override
 	public boolean canHandle(ConversionContext context, Object sourceObject,
-			Type destinationType) {
+			TypeReference<?> destinationType) {
 		if (sourceObject != null) {
-			try {
-				if (!canHandle(sourceObject.getClass(), destinationType
-						.getType())) {
-					return false;
-				}
-			} catch (ClassNotFoundException e) {
+			if (!canHandle(sourceObject.getClass(), destinationType
+					.getRawType())) {
 				return false;
 			}
 		}

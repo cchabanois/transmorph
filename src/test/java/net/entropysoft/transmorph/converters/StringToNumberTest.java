@@ -25,8 +25,7 @@ import net.entropysoft.transmorph.Transmorph;
 public class StringToNumberTest extends TestCase {
 
 	public void testStringToPrimitive() throws Exception {
-		Transmorph converter = new Transmorph(StringToNumberTest.class
-				.getClassLoader(), new DefaultConverters());
+		Transmorph converter = new Transmorph(new DefaultConverters());
 
 		// String => int (StringToNumberConverter)
 		String myStr = "50";
@@ -45,8 +44,7 @@ public class StringToNumberTest extends TestCase {
 	}
 
 	public void testStringToBigDecimal() throws Exception {
-		Transmorph converter = new Transmorph(StringToNumberTest.class
-				.getClassLoader(), new DefaultConverters());
+		Transmorph converter = new Transmorph(new DefaultConverters());
 
 		// String => BigDecimal (StringToNumberConverter)
 		BigDecimal bigDecimal = converter
@@ -57,8 +55,7 @@ public class StringToNumberTest extends TestCase {
 	}
 
 	public void testStringToNumber() throws Exception {
-		Transmorph converter = new Transmorph(StringToNumberTest.class
-				.getClassLoader(), new DefaultConverters());
+		Transmorph converter = new Transmorph(new DefaultConverters());
 
 		Number number = converter.convert(
 				"5.56564546546464646577775612321443244664456", Number.class);

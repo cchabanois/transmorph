@@ -22,7 +22,7 @@ import net.entropysoft.transmorph.ConversionContext;
 import net.entropysoft.transmorph.ConverterException;
 import net.entropysoft.transmorph.IContainerConverter;
 import net.entropysoft.transmorph.IConverter;
-import net.entropysoft.transmorph.type.Type;
+import net.entropysoft.transmorph.type.TypeReference;
 
 /**
  * This converter tries each converter in order
@@ -82,7 +82,7 @@ public class MultiConverter extends AbstractContainerConverter {
 	}
 
 	public Object doConvert(ConversionContext context, Object sourceObject,
-			Type destinationType) throws ConverterException {
+			TypeReference<?> destinationType) throws ConverterException {
 		ConverterException firstException = null;
 
 		if (canReorder && converterList.size() > 1) {
@@ -176,7 +176,7 @@ public class MultiConverter extends AbstractContainerConverter {
 	}
 
 	@Override
-	protected boolean canHandleDestinationType(Type destinationType) {
+	protected boolean canHandleDestinationType(TypeReference<?> destinationType) {
 		return true;
 	}
 

@@ -17,6 +17,7 @@ package net.entropysoft.transmorph.context;
 
 import net.entropysoft.transmorph.IConverter;
 import net.entropysoft.transmorph.type.Type;
+import net.entropysoft.transmorph.type.TypeReference;
 
 /**
  * Converter that has been used for a given conversion
@@ -27,11 +28,11 @@ import net.entropysoft.transmorph.type.Type;
 public class UsedConverter {
 
 	private IConverter converter;
-	private Class sourceObjectClass;
-	private Type destinationType;
+	private Class<?> sourceObjectClass;
+	private TypeReference<?> destinationType;
 
-	public UsedConverter(IConverter converter, Class sourceObjectClass,
-			Type destinationType) {
+	public UsedConverter(IConverter converter, Class<?> sourceObjectClass,
+			TypeReference<?> destinationType) {
 		this.converter = converter;
 		this.sourceObjectClass = sourceObjectClass;
 		this.destinationType = destinationType;
@@ -41,11 +42,11 @@ public class UsedConverter {
 		return converter;
 	}
 
-	public Class getSourceObjectClass() {
+	public Class<?> getSourceObjectClass() {
 		return sourceObjectClass;
 	}
 
-	public Type getDestinationType() {
+	public TypeReference<?> getDestinationType() {
 		return destinationType;
 	}
 

@@ -25,14 +25,12 @@ import net.entropysoft.transmorph.ConversionContext;
 import net.entropysoft.transmorph.DefaultConverters;
 import net.entropysoft.transmorph.Transmorph;
 import net.entropysoft.transmorph.signature.parser.ClassFileTypeSignatureParser;
+import net.entropysoft.transmorph.type.TypeReference;
 
 public class MapToMapTest extends TestCase {
 
 	public void testMapToMap() throws Exception {
-		Transmorph converter = new Transmorph(MapToMapTest.class
-				.getClassLoader(), new DefaultConverters());
-		converter
-				.setTypeSignatureParser(new ClassFileTypeSignatureParser(false));
+		Transmorph converter = new Transmorph(new DefaultConverters());
 
 		// Map[String, String[]] => Map<String,List<String>> (MapToMapConverter
 		// and ArrayToListConverter)
@@ -44,9 +42,10 @@ public class MapToMapTest extends TestCase {
 		map.put(null, new String[] { "value5-1", "value5-2" });
 		ConversionContext context = new ConversionContext();
 		context.setStoreUsedConverters(true);
+		TypeReference<Map<String,List<String>>> typeReference = new TypeReference<Map<String,List<String>>>() {
+		};
 		Map<String, List<String>> converted = (Map<String, List<String>>) converter
-				.convert(context, map,
-						"Ljava.util.Map<Ljava.lang.String;Ljava.util.List<Ljava.lang.String;>;>;");
+				.convert(context, map, typeReference);
 		List<String> list1 = converted.get("key1");
 		assertEquals("value1-1", list1.get(0));
 		assertEquals("value1-2", list1.get(1));
@@ -65,8 +64,7 @@ public class MapToMapTest extends TestCase {
 	}
 
 	public void testMapToProperties() throws Exception {
-		Transmorph converter = new Transmorph(MapToMapTest.class
-				.getClassLoader(), new DefaultConverters());
+		Transmorph converter = new Transmorph(new DefaultConverters());
 
 		Map<String, Integer> map = new HashMap<String, Integer>();
 		map.put("key1", 1);

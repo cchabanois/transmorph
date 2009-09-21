@@ -4,8 +4,7 @@ import java.text.Format;
 
 import net.entropysoft.transmorph.ConversionContext;
 import net.entropysoft.transmorph.ConverterException;
-import net.entropysoft.transmorph.IConverter;
-import net.entropysoft.transmorph.type.Type;
+import net.entropysoft.transmorph.type.TypeReference;
 
 /**
  * Converter used to convert an object to a formatted string
@@ -16,22 +15,22 @@ import net.entropysoft.transmorph.type.Type;
 public class ObjectToFormattedString extends AbstractContainerConverter {
 
 	private Format format;
-	private Class sourceClass;
-	private Class formatExpectedClass;
-	private IConverter converter;
+	private Class<?> sourceClass;
+	private Class<?> formatExpectedClass;
 
 	public ObjectToFormattedString() {
 		this.useObjectPool = true;
 	}
-	
+
 	/**
 	 * 
 	 * @param sourceClass
-	 *            class of the objects we want to format. Must be supported by given Format
+	 *            class of the objects we want to format. Must be supported by
+	 *            given Format
 	 * @param format
 	 *            format to use
 	 */
-	public ObjectToFormattedString(Class sourceClass, Format format) {
+	public ObjectToFormattedString(Class<?> sourceClass, Format format) {
 		this.useObjectPool = true;
 		this.sourceClass = sourceClass;
 		this.formatExpectedClass = sourceClass;
@@ -47,8 +46,8 @@ public class ObjectToFormattedString extends AbstractContainerConverter {
 	 * @param format
 	 *            format to use
 	 */
-	public ObjectToFormattedString(Class sourceClass,
-			Class formatExpectedClass, Format format) {
+	public ObjectToFormattedString(Class<?> sourceClass,
+			Class<?> formatExpectedClass, Format format) {
 		this.useObjectPool = true;
 		this.sourceClass = sourceClass;
 		this.formatExpectedClass = formatExpectedClass;
@@ -58,27 +57,23 @@ public class ObjectToFormattedString extends AbstractContainerConverter {
 	public Format getFormat() {
 		return format;
 	}
-	
-	public Object doConvert(ConversionContext context, Object sourceObject, Type destinationType) throws ConverterException {
+
+	public Object doConvert(ConversionContext context, Object sourceObject,
+			TypeReference<?> destinationType) throws ConverterException {
 		if (sourceObject == null) {
 			return null;
 		}
 
 		Object formatSource = sourceObject;
 		if (sourceClass != formatExpectedClass) {
-			formatSource = elementConverter.convert(context,
-					sourceObject, destinationType.getTypeFactory().getType(
-							formatExpectedClass));
+			formatSource = elementConverter.convert(context, sourceObject,
+					TypeReference.get(formatExpectedClass));
 		}
 		return format.format(formatSource);
 	}
 
-	protected boolean canHandleDestinationType(Type destinationType) {
-		try {
-			return destinationType.isType(String.class);
-		} catch (ClassNotFoundException e) {
-			return false;
-		}
+	protected boolean canHandleDestinationType(TypeReference<?> destinationType) {
+		return destinationType.isType(String.class);
 	}
 
 	protected boolean canHandleSourceObject(Object sourceObject) {

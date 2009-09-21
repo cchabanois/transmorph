@@ -27,6 +27,7 @@ import net.entropysoft.transmorph.converters.WrapperToPrimitive;
 import net.entropysoft.transmorph.converters.beans.IBeanPropertyTypeProvider;
 import net.entropysoft.transmorph.converters.beans.utils.BeanUtils;
 import net.entropysoft.transmorph.type.Type;
+import net.entropysoft.transmorph.type.TypeReference;
 
 /**
  * Copy values from map to bean
@@ -89,9 +90,8 @@ public class MapToBeanInjector extends AbstractBeanInjector {
 			}
 			java.lang.reflect.Type parameterType = method
 					.getGenericParameterTypes()[0];
-			Type originalType = targetType.getTypeFactory().getType(
-					parameterType);
-			Type propertyDestinationType = getBeanPropertyType(targetTypeClass,
+			TypeReference<?> originalType = TypeReference.get(parameterType);
+			TypeReference<?> propertyDestinationType = getBeanPropertyType(targetTypeClass,
 					key, originalType);
 
 			Object valueConverted = propertyValueConverter.convert(context,
@@ -106,9 +106,9 @@ public class MapToBeanInjector extends AbstractBeanInjector {
 		}
 	}
 
-	protected Type getBeanPropertyType(Class targetClass, String propertyName,
-			Type originalType) {
-		Type propertyDestinationType = null;
+	protected TypeReference<?> getBeanPropertyType(Class targetClass, String propertyName,
+			TypeReference<?> originalType) {
+		TypeReference<?> propertyDestinationType = null;
 		if (beanDestinationPropertyTypeProvider != null) {
 			propertyDestinationType = beanDestinationPropertyTypeProvider
 					.getPropertyType(targetClass, propertyName, originalType);

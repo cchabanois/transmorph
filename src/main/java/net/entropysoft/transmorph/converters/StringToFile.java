@@ -19,7 +19,7 @@ import java.io.File;
 
 import net.entropysoft.transmorph.ConversionContext;
 import net.entropysoft.transmorph.ConverterException;
-import net.entropysoft.transmorph.type.Type;
+import net.entropysoft.transmorph.type.TypeReference;
 
 /**
  * Converter used when source is a String and destination is a File
@@ -35,7 +35,7 @@ public class StringToFile extends AbstractSimpleConverter<String, File> {
 	}
 
 	@Override
-	public File doConvert(ConversionContext context, String sourceObject, Type destinationType)
+	public File doConvert(ConversionContext context, String sourceObject, TypeReference<?> destinationType)
 			throws ConverterException {
 		File file = new File(sourceObject);
 		return file;

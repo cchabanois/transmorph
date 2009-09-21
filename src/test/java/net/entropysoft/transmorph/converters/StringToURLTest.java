@@ -25,8 +25,7 @@ import net.entropysoft.transmorph.Transmorph;
 public class StringToURLTest extends TestCase {
 
 	public void testStringToURL() throws Exception {
-		Transmorph converter = new Transmorph(StringToURLTest.class
-				.getClassLoader(), new DefaultConverters());
+		Transmorph converter = new Transmorph(new DefaultConverters());
 
 		URL url = converter.convert("http://www.entropysoft.net", URL.class);
 		assertNotNull(url);

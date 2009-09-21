@@ -21,8 +21,7 @@ import java.text.MessageFormat;
 
 import net.entropysoft.transmorph.ConversionContext;
 import net.entropysoft.transmorph.ConverterException;
-import net.entropysoft.transmorph.type.Type;
-import net.entropysoft.transmorph.type.TypeUtils;
+import net.entropysoft.transmorph.type.TypeReference;
 import net.entropysoft.transmorph.utils.NumberInRange;
 
 /**
@@ -61,7 +60,7 @@ public class NumberToNumber extends AbstractConverter {
 	}
 
 	public Object doConvert(ConversionContext context, Object sourceObject,
-			Type destinationType) throws ConverterException {
+			TypeReference<?> destinationType) throws ConverterException {
 		if (sourceObject == null) {
 			if (destinationType.isPrimitive()) {
 				if (nullReplacementForPrimitive != null) {
@@ -120,8 +119,6 @@ public class NumberToNumber extends AbstractConverter {
 			throw new ConverterException("Could not convert");
 		} catch (NumberFormatException e) {
 			throw new ConverterException("Could not convert", e);
-		} catch (ClassNotFoundException e) {
-			throw new ConverterException("Could not convert", e);
 		}
 	}
 
@@ -147,12 +144,8 @@ public class NumberToNumber extends AbstractConverter {
 		}
 	}	
 	
-	protected boolean canHandleDestinationType(Type destinationType) {
-		try {
-			return TypeUtils.isNumberType(destinationType);
-		} catch (ClassNotFoundException e) {
-			return false;
-		}
+	protected boolean canHandleDestinationType(TypeReference<?> destinationType) {
+		return destinationType.isNumber();
 	}
 
 	protected boolean canHandleSourceObject(Object sourceObject) {

@@ -17,8 +17,7 @@ package net.entropysoft.transmorph.converters;
 
 import net.entropysoft.transmorph.ConversionContext;
 import net.entropysoft.transmorph.ConverterException;
-import net.entropysoft.transmorph.type.ArrayType;
-import net.entropysoft.transmorph.type.Type;
+import net.entropysoft.transmorph.type.TypeReference;
 
 /**
  * Converter used when source is a char array and destination is a String
@@ -31,8 +30,9 @@ public class StringToCharacterArray extends AbstractConverter {
 	public StringToCharacterArray() {
 		this.useObjectPool = false;
 	}
-	
-	public Object doConvert(ConversionContext context, Object sourceObject, Type destinationType) throws ConverterException {
+
+	public Object doConvert(ConversionContext context, Object sourceObject,
+			TypeReference<?> destinationType) throws ConverterException {
 		if (sourceObject == null) {
 			return null;
 		}
@@ -41,19 +41,14 @@ public class StringToCharacterArray extends AbstractConverter {
 		return str.toCharArray();
 	}
 
-	protected boolean canHandleDestinationType(Type destinationType) {
-		try {
-			if (!destinationType.isArray()) {
-				return false;
-			}
-			if (!((ArrayType) destinationType).getComponentType().isType(
-					Character.TYPE)) {
-				return false;
-			}
-			return true;
-		} catch (ClassNotFoundException e) {
+	protected boolean canHandleDestinationType(TypeReference<?> destinationType) {
+		if (!destinationType.isArray()) {
 			return false;
 		}
+		if (!destinationType.getArrayComponentType().isType(Character.TYPE)) {
+			return false;
+		}
+		return true;
 	}
 
 	protected boolean canHandleSourceObject(Object sourceObject) {

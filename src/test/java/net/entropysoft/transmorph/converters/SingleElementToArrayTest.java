@@ -21,8 +21,7 @@ import net.entropysoft.transmorph.Transmorph;
 public class SingleElementToArrayTest extends TestCase {
 
 	public void testSingleElementToArray() throws Exception {
-		Transmorph converter = new Transmorph(SingleElementToArrayTest.class
-				.getClassLoader(), new SingleElementToArray(), new StringToNumber());
+		Transmorph converter = new Transmorph(new SingleElementToArray(), new StringToNumber());
 
 		int[] array = converter.convert("55", int[].class);
 		assertNotNull(array);

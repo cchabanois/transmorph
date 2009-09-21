@@ -11,8 +11,7 @@ import samples.CloneableBean;
 public class CloneableConverterTest extends TestCase {
 
 	public void testIdentity() throws Exception {
-		Transmorph converter = new Transmorph(CloneableConverterTest.class
-				.getClassLoader(), new CloneableConverter());
+		Transmorph converter = new Transmorph(new CloneableConverter());
 
 		CloneableBean cloneableBean = new CloneableBean();
 		cloneableBean.setMyDates(new ArrayList<Date>(Arrays.asList(new Date(0),

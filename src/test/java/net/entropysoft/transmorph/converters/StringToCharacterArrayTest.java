@@ -22,8 +22,7 @@ import net.entropysoft.transmorph.Transmorph;
 public class StringToCharacterArrayTest extends TestCase {
 
 	public void testStringToCharacterArray() throws Exception {
-		Transmorph converter = new Transmorph(StringToCharacterArrayTest.class
-				.getClassLoader(), new DefaultConverters());
+		Transmorph converter = new Transmorph(new DefaultConverters());
 
 		char[] chars = converter.convert("hello", char[].class);
 		assertNotNull(chars);

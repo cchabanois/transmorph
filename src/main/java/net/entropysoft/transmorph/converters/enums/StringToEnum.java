@@ -20,7 +20,7 @@ import java.text.MessageFormat;
 import net.entropysoft.transmorph.ConversionContext;
 import net.entropysoft.transmorph.ConverterException;
 import net.entropysoft.transmorph.converters.AbstractConverter;
-import net.entropysoft.transmorph.type.Type;
+import net.entropysoft.transmorph.type.TypeReference;
 
 /**
  * Convert a string to the corresponding enumeration
@@ -33,8 +33,9 @@ public class StringToEnum extends AbstractConverter {
 	public StringToEnum() {
 		this.useObjectPool = true;
 	}
-	
-	public Object doConvert(ConversionContext context, Object sourceObject, Type destinationType) throws ConverterException {
+
+	public Object doConvert(ConversionContext context, Object sourceObject,
+			TypeReference<?> destinationType) throws ConverterException {
 
 		if (sourceObject == null) {
 			return null;
@@ -42,10 +43,8 @@ public class StringToEnum extends AbstractConverter {
 		String sourceString = (String) sourceObject;
 
 		try {
-			return Enum.valueOf(destinationType.getType(), sourceString);
-		} catch (ClassNotFoundException e) {
-			throw new ConverterException("Could not find class for "
-					+ destinationType.getName());
+			return Enum.valueOf((Class<Enum>) destinationType.getRawType(),
+					sourceString);
 		} catch (IllegalArgumentException e) {
 			throw new ConverterException(
 					MessageFormat
@@ -55,12 +54,8 @@ public class StringToEnum extends AbstractConverter {
 		}
 	}
 
-	protected boolean canHandleDestinationType(Type destinationType) {
-		try {
-			return destinationType.getType().isEnum();
-		} catch (ClassNotFoundException e) {
-			return false;
-		}
+	protected boolean canHandleDestinationType(TypeReference<?> destinationType) {
+		return destinationType.getRawType().isEnum();
 	}
 
 	protected boolean canHandleSourceObject(Object sourceObject) {

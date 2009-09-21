@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import net.entropysoft.transmorph.ConversionContext;
 import net.entropysoft.transmorph.ConverterException;
-import net.entropysoft.transmorph.type.Type;
+import net.entropysoft.transmorph.type.TypeReference;
 import net.entropysoft.transmorph.utils.SerialClone;
 
 /**
@@ -24,12 +24,8 @@ public class SerializableConverter extends AbstractConverter {
 	}
 
 	@Override
-	protected boolean canHandleDestinationType(Type destinationType) {
-		try {
-			return destinationType.isSubOf(Serializable.class);
-		} catch (ClassNotFoundException e) {
-			return false;
-		}
+	protected boolean canHandleDestinationType(TypeReference<?> destinationType) {
+		return destinationType.isSubOf(Serializable.class);
 	}
 
 	@Override
@@ -39,7 +35,7 @@ public class SerializableConverter extends AbstractConverter {
 
 	@Override
 	public Object doConvert(ConversionContext context, Object sourceObject,
-			Type destinationType) throws ConverterException {
+			TypeReference<?> destinationType) throws ConverterException {
 		try {
 			return SerialClone.clone(sourceObject);
 		} catch (IllegalArgumentException e) {
@@ -50,14 +46,10 @@ public class SerializableConverter extends AbstractConverter {
 
 	@Override
 	public boolean canHandle(ConversionContext context, Object sourceObject,
-			Type destinationType) {
-		try {
-			return super.canHandle(context, sourceObject, destinationType)
-					&& (sourceObject == null || destinationType
-							.isInstance(sourceObject));
-		} catch (ClassNotFoundException e) {
-			return false;
-		}
+			TypeReference<?> destinationType) {
+		return super.canHandle(context, sourceObject, destinationType)
+				&& (sourceObject == null || destinationType
+						.isInstance(sourceObject));
 	}
 
 }

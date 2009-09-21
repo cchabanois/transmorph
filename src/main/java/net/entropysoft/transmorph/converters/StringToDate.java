@@ -23,7 +23,7 @@ import java.util.Date;
 
 import net.entropysoft.transmorph.ConversionContext;
 import net.entropysoft.transmorph.ConverterException;
-import net.entropysoft.transmorph.type.Type;
+import net.entropysoft.transmorph.type.TypeReference;
 
 /**
  * Converter used to convert a String to a Date
@@ -50,7 +50,7 @@ public class StringToDate extends AbstractSimpleConverter<String, Date> {
 	}
 
 	@Override
-	public Date doConvert(ConversionContext context, String sourceObject, Type destinationType) throws ConverterException {
+	public Date doConvert(ConversionContext context, String sourceObject, TypeReference<?> destinationType) throws ConverterException {
 		ParsePosition pos = new ParsePosition(0);
 		Date result;
 		synchronized(this) {

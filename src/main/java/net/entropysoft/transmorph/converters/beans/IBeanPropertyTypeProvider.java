@@ -15,7 +15,7 @@
  */
 package net.entropysoft.transmorph.converters.beans;
 
-import net.entropysoft.transmorph.type.Type;
+import net.entropysoft.transmorph.type.TypeReference;
 
 /**
  * Provides the type of a property of a bean. This is mostly useful for
@@ -29,7 +29,7 @@ import net.entropysoft.transmorph.type.Type;
  */
 public interface IBeanPropertyTypeProvider {
 
-	public Type getPropertyType(Class clazz, String propertyName,
-			Type originalType);
+	public TypeReference<?> getPropertyType(Class clazz, String propertyName,
+			TypeReference<?> originalType);
 
 }

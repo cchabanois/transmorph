@@ -20,8 +20,7 @@ public class UsedConvertersTest extends TestCase {
 		ConversionContext conversionContext = new ConversionContext();
 		conversionContext.setStoreUsedConverters(true);
 
-		Transmorph converter = new Transmorph(UsedConvertersTest.class
-				.getClassLoader(), defaultConverters);
+		Transmorph converter = new Transmorph(defaultConverters);
 		long[] longsArray = (long[]) converter.convert(conversionContext,
 				new Integer[] { 1, 2, null, 4 }, long[].class);
 

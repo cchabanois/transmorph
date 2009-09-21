@@ -17,8 +17,7 @@ package net.entropysoft.transmorph.converters;
 
 import net.entropysoft.transmorph.ConversionContext;
 import net.entropysoft.transmorph.ConverterException;
-import net.entropysoft.transmorph.type.PrimitiveType;
-import net.entropysoft.transmorph.type.Type;
+import net.entropysoft.transmorph.type.TypeReference;
 
 /**
  * Used to convert from a wrapper to a primitive type
@@ -30,7 +29,7 @@ public class WrapperToPrimitive extends AbstractConverter {
 
 	
 	@Override
-	protected boolean canHandleDestinationType(Type destinationType) {
+	protected boolean canHandleDestinationType(TypeReference<?> destinationType) {
 		return destinationType.isPrimitive();
 	}
 
@@ -41,24 +40,23 @@ public class WrapperToPrimitive extends AbstractConverter {
 
 	@Override
 	public boolean canHandle(ConversionContext context, Object sourceObject,
-			Type destinationType) {
+			TypeReference<?> destinationType) {
 		if (super.canHandle(context, sourceObject, destinationType)) {
-			PrimitiveType primitiveType = (PrimitiveType) destinationType;
-			if (primitiveType.isBoolean() && sourceObject instanceof Boolean) {
+			if (destinationType.isType(Boolean.TYPE) && sourceObject instanceof Boolean) {
 				return true;
-			} else if (primitiveType.isByte() && sourceObject instanceof Byte) {
+			} else if (destinationType.isType(Byte.TYPE) && sourceObject instanceof Byte) {
 				return true;
-			} else if (primitiveType.isChar() && sourceObject instanceof Character) {
+			} else if (destinationType.isType(Character.TYPE) && sourceObject instanceof Character) {
 				return true;
-			} else if (primitiveType.isDouble() && sourceObject instanceof Double) {
+			} else if (destinationType.isType(Double.TYPE) && sourceObject instanceof Double) {
 				return true;
-			} else if (primitiveType.isFloat() && sourceObject instanceof Float) {
+			} else if (destinationType.isType(Float.TYPE) && sourceObject instanceof Float) {
 				return true;
-			} else if (primitiveType.isInt() && sourceObject instanceof Integer) {
+			} else if (destinationType.isType(Integer.TYPE) && sourceObject instanceof Integer) {
 				return true;
-			} else if (primitiveType.isLong() && sourceObject instanceof Long) {
+			} else if (destinationType.isType(Long.TYPE) && sourceObject instanceof Long) {
 				return true;
-			} else if (primitiveType.isShort() && sourceObject instanceof Short) {
+			} else if (destinationType.isType(Short.TYPE) && sourceObject instanceof Short) {
 				return true;
 			}
 		}
@@ -67,7 +65,7 @@ public class WrapperToPrimitive extends AbstractConverter {
 
 	@Override
 	public Object doConvert(ConversionContext context, Object sourceObject,
-			Type destinationType) throws ConverterException {
+			TypeReference<?> destinationType) throws ConverterException {
 		return sourceObject;
 	}
 

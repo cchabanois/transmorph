@@ -20,7 +20,7 @@ import java.beans.PropertyEditor;
 import net.entropysoft.transmorph.ConversionContext;
 import net.entropysoft.transmorph.ConverterException;
 import net.entropysoft.transmorph.converters.AbstractConverter;
-import net.entropysoft.transmorph.type.Type;
+import net.entropysoft.transmorph.type.TypeReference;
 
 /**
  * Converter that converts from string using a {@link PropertyEditor}
@@ -42,13 +42,9 @@ public class FromStringUsingPropertyEditor extends AbstractConverter {
 	}
 
 	@Override
-	protected boolean canHandleDestinationType(Type destinationType) {
-		try {
-			return propertyEditorProvider.getPropertyEditor(destinationType
-					.getType()) != null;
-		} catch (ClassNotFoundException e) {
-			return false;
-		}
+	protected boolean canHandleDestinationType(TypeReference<?> destinationType) {
+		return propertyEditorProvider.getPropertyEditor(destinationType
+				.getRawType()) != null;
 	}
 
 	@Override
@@ -61,17 +57,13 @@ public class FromStringUsingPropertyEditor extends AbstractConverter {
 
 	@Override
 	public Object doConvert(ConversionContext context, Object sourceObject,
-			Type destinationType) throws ConverterException {
+			TypeReference<?> destinationType) throws ConverterException {
 		if (sourceObject == null) {
 			return null;
 		}
 		PropertyEditor propertyEditor;
-		try {
-			propertyEditor = propertyEditorProvider
-					.getPropertyEditor(destinationType.getType());
-		} catch (ClassNotFoundException e) {
-			throw new ConverterException("Could not get property editor", e);
-		}
+		propertyEditor = propertyEditorProvider
+				.getPropertyEditor(destinationType.getRawType());
 
 		String text = (String) sourceObject;
 		propertyEditor.setAsText(text);

@@ -36,8 +36,7 @@ public class StringToDateTest extends TestCase {
 		simpleDateFormat2.setLenient(false);
 		stringToDateConverter2.setDateFormat(simpleDateFormat2);
 
-		Transmorph converter = new Transmorph(StringToDateTest.class
-				.getClassLoader(), stringToDateConverter1,
+		Transmorph converter = new Transmorph(stringToDateConverter1,
 				stringToDateConverter2);
 		Date date = converter.convert("29/12/2008", Date.class);
 		assertNotNull(date);

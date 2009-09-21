@@ -17,7 +17,7 @@ package net.entropysoft.transmorph.converters;
 
 import net.entropysoft.transmorph.ConversionContext;
 import net.entropysoft.transmorph.ConverterException;
-import net.entropysoft.transmorph.type.Type;
+import net.entropysoft.transmorph.type.TypeReference;
 
 /**
  * Converter used when source object type is a Class and destination type is
@@ -35,7 +35,7 @@ public class ClassToString extends AbstractSimpleConverter<Class, String> {
 
 	@Override
 	public String doConvert(ConversionContext context, Class sourceObject,
-			Type destinationType) throws ConverterException {
+			TypeReference<?> destinationType) throws ConverterException {
 		return sourceObject.getName();
 	}
 

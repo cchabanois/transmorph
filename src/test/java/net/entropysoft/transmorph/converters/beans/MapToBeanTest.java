@@ -23,6 +23,7 @@ import junit.framework.TestCase;
 import net.entropysoft.transmorph.DefaultConverters;
 import net.entropysoft.transmorph.Transmorph;
 import net.entropysoft.transmorph.type.TypeFactory;
+import net.entropysoft.transmorph.type.TypeReference;
 import samples.MyBean1;
 import samples.MyBean2;
 import samples.MyBean3;
@@ -30,19 +31,16 @@ import samples.MyBean3;
 public class MapToBeanTest extends TestCase {
 
 	public void testMapToBean() throws Exception {
-		TypeFactory typeFactory = new TypeFactory(BeanToBeanTest.class
-				.getClassLoader());
-
 		DefaultConverters defaultConverters = new DefaultConverters();
 		
 		BeanPropertyTypeProvider beanDestinationPropertyTypeProvider = new BeanPropertyTypeProvider();
 		beanDestinationPropertyTypeProvider.setPropertyDestinationType(
-				MyBean3.class, "myList", typeFactory.getType(List.class,
+				MyBean3.class, "myList", TypeReference.get(List.class,
 						new Class[] { String.class }));
 		defaultConverters.getMapToBean()
 				.setBeanPropertyTypeProvider(beanDestinationPropertyTypeProvider);
 
-		Transmorph converter = new Transmorph(typeFactory, defaultConverters);
+		Transmorph converter = new Transmorph(defaultConverters);
 		Map<String, Object> mapBean1 = new HashMap<String, Object>();
 		mapBean1.put("myInt", "15");
 		mapBean1.put("myListOfStrings", new int[] { 1, 2, 3 });

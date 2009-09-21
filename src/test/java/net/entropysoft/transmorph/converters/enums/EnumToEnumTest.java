@@ -35,8 +35,7 @@ public class EnumToEnumTest extends TestCase {
 	}
 
 	public void testEnumToEnumNoMapping() throws Exception {
-		Transmorph converter = new Transmorph(getClass().getClassLoader(),
-				new DefaultConverters());
+		Transmorph converter = new Transmorph(new DefaultConverters());
 
 		Enum1 enum1 = Enum1.SECOND;
 
@@ -61,8 +60,7 @@ public class EnumToEnumTest extends TestCase {
 		enumToEnum.addEnumToEnum(Enum2.THIRD, Enum3.THREE);
 		enumToEnum.addEnumToEnum(Enum2.FOURTH, Enum3.THREE);
 
-		Transmorph converter = new Transmorph(getClass().getClassLoader(),
-				defaultConverters);
+		Transmorph converter = new Transmorph(defaultConverters);
 		Enum3[] arrayOfEnum3 = converter.convert(new Enum2[] { Enum2.FIRST,
 				Enum2.SECOND, Enum2.THIRD, Enum2.FOURTH }, Enum3[].class);
 		assertEquals(Enum3.ONE, arrayOfEnum3[0]);
@@ -79,8 +77,7 @@ public class EnumToEnumTest extends TestCase {
 		enumToEnum.addEnumToEnum(Enum2.THIRD, Enum3.THREE);
 		enumToEnum.addEnumToNull(Enum2.FOURTH, Enum3.class);
 
-		Transmorph converter = new Transmorph(getClass().getClassLoader(),
-				defaultConverters);
+		Transmorph converter = new Transmorph(defaultConverters);
 		Enum3[] arrayOfEnum3 = converter.convert(new Enum2[] {
 				Enum2.FIRST, Enum2.SECOND, Enum2.THIRD, Enum2.FOURTH },
 				Enum3[].class);

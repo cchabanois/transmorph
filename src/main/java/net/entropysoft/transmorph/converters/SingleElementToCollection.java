@@ -9,8 +9,7 @@ import java.util.Set;
 
 import net.entropysoft.transmorph.ConversionContext;
 import net.entropysoft.transmorph.ConverterException;
-import net.entropysoft.transmorph.type.ClassType;
-import net.entropysoft.transmorph.type.Type;
+import net.entropysoft.transmorph.type.TypeReference;
 
 /**
  * Converter used to convert a single element to a collection (with one element)
@@ -39,11 +38,11 @@ public class SingleElementToCollection extends AbstractContainerConverter {
 		this.defaultListClass = defaultListClass;
 	}
 
-	public Object doConvert(ConversionContext context, Object sourceObject, Type destinationType) throws ConverterException {
+	public Object doConvert(ConversionContext context, Object sourceObject,
+			TypeReference<?> destinationType) throws ConverterException {
 		if (sourceObject == null) {
 			return null;
 		}
-		ClassType collectionClassType = (ClassType) destinationType;
 		Collection<Object> destinationCollection;
 		try {
 			destinationCollection = createDestinationCollection(destinationType);
@@ -52,39 +51,37 @@ public class SingleElementToCollection extends AbstractContainerConverter {
 					"Could not create destination collection", e);
 		}
 
-		Type[] destinationTypeArguments = collectionClassType
-				.getTypeArguments();
+		TypeReference<?>[] destinationTypeArguments = destinationType.getTypeArguments();
 		if (destinationTypeArguments.length == 0) {
-			destinationTypeArguments = new Type[] { destinationType
-					.getTypeFactory().getObjectType() };
+			destinationTypeArguments = new TypeReference<?>[] { TypeReference.get(Object.class) };
 		}
 
-		Object convertedObj = elementConverter.convert(context,
-				sourceObject, destinationTypeArguments[0]);
+		Object convertedObj = elementConverter.convert(context, sourceObject,
+				destinationTypeArguments[0]);
 		destinationCollection.add(convertedObj);
 		return destinationCollection;
 
 	}
 
-	private Collection<Object> createDestinationCollection(Type destinationType)
-			throws InstantiationException, IllegalAccessException,
-			ClassNotFoundException {
+	private Collection<Object> createDestinationCollection(
+			TypeReference<?> destinationType) throws InstantiationException,
+			IllegalAccessException, ClassNotFoundException {
 		Class<? extends Collection> clazz = getConcreteCollectionDestinationClass(destinationType);
 		return clazz.newInstance();
 	}
 
 	protected Class<? extends Collection> getConcreteCollectionDestinationClass(
-			Type destinationType) throws ClassNotFoundException {
-		if (destinationType.isType(Set.class)) {
+			TypeReference<?> destinationType) throws ClassNotFoundException {
+		if (destinationType.hasRawType(Set.class)) {
 			return defaultSetClass;
 		}
-		if (destinationType.isType(List.class)) {
+		if (destinationType.hasRawType(List.class)) {
 			return defaultListClass;
 		}
-		if (destinationType.isType(Collection.class)) {
+		if (destinationType.hasRawType(Collection.class)) {
 			return defaultListClass;
 		}
-		Class destinationClass = destinationType.getType();
+		Class<?> destinationClass = (Class<?>) destinationType.getRawType();
 		if (destinationClass.isInterface()
 				|| Modifier.isAbstract(destinationClass.getModifiers())) {
 			return null;
@@ -94,15 +91,12 @@ public class SingleElementToCollection extends AbstractContainerConverter {
 		} catch (Exception e) {
 			return null;
 		}
-		return destinationClass;
+		return (Class<? extends Collection>)destinationClass;
 	}
 
-	protected boolean canHandleDestinationType(Type destinationType) {
-		try {
-			return destinationType.isSubOf(Collection.class);
-		} catch (ClassNotFoundException e) {
-			return false;
-		}
+	protected boolean canHandleDestinationType(TypeReference<?> destinationType) {
+		return destinationType.isSubOf(Collection.class);
+
 	}
 
 	protected boolean canHandleSourceObject(Object sourceObject) {

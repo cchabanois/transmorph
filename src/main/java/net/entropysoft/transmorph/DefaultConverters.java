@@ -63,7 +63,7 @@ public class DefaultConverters extends MultiConverter {
 	private StringToNumber stringToNumber = new StringToNumber();
 	private StringToBoolean stringToBoolean = new StringToBoolean();
 	private StringToEnum stringToEnum = new StringToEnum();
-	private StringToClass stringToClass = new StringToClass();
+	private StringToClass stringToClass = new StringToClass(DefaultConverters.class.getClassLoader());
 	private ClassToString classToString = new ClassToString();
 	private StringToStringBuffer stringToStringBuffer = new StringToStringBuffer();
 	private StringToStringBuilder stringToStringBuilder = new StringToStringBuilder();

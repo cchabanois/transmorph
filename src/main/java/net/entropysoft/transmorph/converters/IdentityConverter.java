@@ -17,7 +17,7 @@ package net.entropysoft.transmorph.converters;
 
 import net.entropysoft.transmorph.ConversionContext;
 import net.entropysoft.transmorph.ConverterException;
-import net.entropysoft.transmorph.type.Type;
+import net.entropysoft.transmorph.type.TypeReference;
 
 /**
  * converter used when source object type and destination type are compatible.
@@ -33,11 +33,11 @@ public class IdentityConverter extends AbstractConverter {
 	}
 	
 	public Object doConvert(ConversionContext context, Object sourceObject,
-			Type destinationType) throws ConverterException {
+			TypeReference<?> destinationType) throws ConverterException {
 		return sourceObject;
 	}
 
-	protected boolean canHandleDestinationType(Type destinationType) {
+	protected boolean canHandleDestinationType(TypeReference<?> destinationType) {
 		return true;
 	}
 
@@ -47,16 +47,12 @@ public class IdentityConverter extends AbstractConverter {
 
 	@Override
 	public boolean canHandle(ConversionContext context, Object sourceObject,
-			Type destinationType) {
+			TypeReference<?> destinationType) {
 		if (sourceObject == null && !destinationType.isPrimitive()) {
 			return true;
 		}
 
-		try {
-			return destinationType.isInstance(sourceObject);
-		} catch (ClassNotFoundException e) {
-			return false;
-		}
+		return destinationType.isInstance(sourceObject);
 	}
 
 }

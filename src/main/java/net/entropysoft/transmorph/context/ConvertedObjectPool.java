@@ -20,6 +20,7 @@ import java.util.Map;
 
 import net.entropysoft.transmorph.IConverter;
 import net.entropysoft.transmorph.type.Type;
+import net.entropysoft.transmorph.type.TypeReference;
 
 /**
  * Pool of created objects by converters that use object pool
@@ -41,7 +42,7 @@ public class ConvertedObjectPool {
 	 * @return
 	 */
 	public Object get(IConverter converter, Object sourceObject,
-			Type destinationType) {
+			TypeReference<?> destinationType) {
 		return convertedObjects.get(new ConvertedObjectsKey(converter,
 				sourceObject, destinationType));
 	}
@@ -59,7 +60,7 @@ public class ConvertedObjectPool {
 	 *            the converted object
 	 */
 	public void add(IConverter converter, Object sourceObject,
-			Type destinationType, Object convertedObject) {
+			TypeReference<?> destinationType, Object convertedObject) {
 		convertedObjects.put(new ConvertedObjectsKey(converter, sourceObject,
 				destinationType), convertedObject);
 	}
@@ -72,7 +73,7 @@ public class ConvertedObjectPool {
 	 * @param destinationType
 	 */
 	public void remove(IConverter converter, Object sourceObject,
-			Type destinationType) {
+			TypeReference<?> destinationType) {
 		convertedObjects.remove(new ConvertedObjectsKey(converter,
 				sourceObject, destinationType));
 	}
@@ -80,10 +81,10 @@ public class ConvertedObjectPool {
 	private static class ConvertedObjectsKey {
 		private IConverter converter;
 		private Object sourceObject;
-		private Type destinationType;
+		private TypeReference<?> destinationType;
 
 		public ConvertedObjectsKey(IConverter converter, Object sourceObject,
-				Type destinationType) {
+				TypeReference<?> destinationType) {
 			this.converter = converter;
 			this.sourceObject = sourceObject;
 			this.destinationType = destinationType;

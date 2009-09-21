@@ -24,8 +24,7 @@ import net.entropysoft.transmorph.Transmorph;
 public class StringToURITest extends TestCase {
 
 	public void testStringToURI() throws Exception {
-		Transmorph converter = new Transmorph(StringToURITest.class
-				.getClassLoader(), new DefaultConverters());
+		Transmorph converter = new Transmorph(new DefaultConverters());
 
 		URI uri = converter.convert("http://www.entropysoft.net", URI.class);
 		assertNotNull(uri);

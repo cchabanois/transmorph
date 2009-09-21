@@ -22,8 +22,7 @@ import net.entropysoft.transmorph.Transmorph;
 public class WrapperToPrimitiveTest extends TestCase {
 
 	public void testWrapperToPrimitive() throws Exception {
-		Transmorph converter = new Transmorph(WrapperToPrimitiveTest.class
-				.getClassLoader(), new DefaultConverters());
+		Transmorph converter = new Transmorph(new DefaultConverters());
 		Boolean[] booleanWrappers = new Boolean[] { true, false };
 		boolean[] booleans = converter
 				.convert(booleanWrappers, boolean[].class);

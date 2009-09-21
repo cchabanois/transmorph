@@ -26,8 +26,7 @@ import net.entropysoft.transmorph.modifiers.IModifier;
 public class StringToFileTest extends TestCase {
 
 	public void testStringToFile() throws Exception {
-		Transmorph converter = new Transmorph(StringToDateTest.class
-				.getClassLoader(), new DefaultConverters());
+		Transmorph converter = new Transmorph(new DefaultConverters());
 
 		File file = converter.convert("c:\\temp", File.class);
 		assertNotNull(file);
@@ -38,8 +37,7 @@ public class StringToFileTest extends TestCase {
 		DefaultConverters defaultConverters = new DefaultConverters();
 		StringToFile stringToFile = defaultConverters.getStringToFile();
 		stringToFile.setModifiers(new IModifier[] { new CanonicalizeFile() });
-		Transmorph converter = new Transmorph(StringToFileTest.class
-				.getClassLoader(), defaultConverters);
+		Transmorph converter = new Transmorph(defaultConverters);
 		File file = converter.convert("temp", File.class);
 		assertNotNull(file);
 		// getCanonicalFile is OS-dependant

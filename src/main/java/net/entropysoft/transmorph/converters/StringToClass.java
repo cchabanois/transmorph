@@ -19,7 +19,7 @@ import java.text.MessageFormat;
 
 import net.entropysoft.transmorph.ConversionContext;
 import net.entropysoft.transmorph.ConverterException;
-import net.entropysoft.transmorph.type.Type;
+import net.entropysoft.transmorph.type.TypeReference;
 
 /**
  * Converter used when source is a String and destination is a Class
@@ -28,17 +28,26 @@ import net.entropysoft.transmorph.type.Type;
  * 
  */
 public class StringToClass extends AbstractSimpleConverter<String, Class> {
-
-	public StringToClass() {
+	private ClassLoader classLoader;
+	
+	public StringToClass(ClassLoader classLoader) {
 		super(String.class, Class.class);
+		this.classLoader = classLoader;
 		this.useObjectPool = true;
 	}
 
+	public void setClassLoader(ClassLoader classLoader) {
+		this.classLoader = classLoader;
+	}
+	
+	public ClassLoader getClassLoader() {
+		return classLoader;
+	}
+	
 	@Override
-	public Class doConvert(ConversionContext context, String sourceObject, Type destinationType) throws ConverterException {
+	public Class doConvert(ConversionContext context, String sourceObject, TypeReference<?> destinationType) throws ConverterException {
 		try {
-			return destinationType.getClassFactory().getClassLoader()
-					.loadClass(sourceObject);
+			return classLoader.loadClass(sourceObject);
 		} catch (ClassNotFoundException e) {
 			throw new ConverterException(MessageFormat.format(
 					"Could not find class for ''{0}''", sourceObject), e);

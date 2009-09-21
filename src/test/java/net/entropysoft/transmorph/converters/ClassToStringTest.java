@@ -23,8 +23,7 @@ import net.entropysoft.transmorph.TransmorphTest;
 public class ClassToStringTest extends TestCase {
 
 	public void testClassToString() throws Exception {
-		Transmorph converter = new Transmorph(ClassToStringTest.class
-				.getClassLoader(), new DefaultConverters());
+		Transmorph converter = new Transmorph(new DefaultConverters());
 		String str = converter.convert(TransmorphTest.class,
 				String.class);
 		assertEquals(TransmorphTest.class.getName(), str);

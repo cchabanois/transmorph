@@ -18,7 +18,7 @@ package net.entropysoft.transmorph;
 import java.text.MessageFormat;
 
 import net.entropysoft.transmorph.signature.ClassFactory;
-import net.entropysoft.transmorph.signature.TypeSignature;
+import net.entropysoft.transmorph.signature.Signature;
 import net.entropysoft.transmorph.signature.TypeSignatureFactory;
 import net.entropysoft.transmorph.type.Type;
 import net.entropysoft.transmorph.type.TypeFactory;
@@ -68,7 +68,7 @@ public class TransmorphBeanInjector implements IBeanInjector {
 
 	public void inject(ConversionContext context, Object source,
 			Object targetBean, Class targetClass) throws ConverterException {
-		TypeSignature typeSignature = TypeSignatureFactory
+		Signature typeSignature = TypeSignatureFactory
 				.getTypeSignature(targetClass);
 		Type destinationType = typeFactory.getType(typeSignature);
 		inject(context, source, targetBean, destinationType);

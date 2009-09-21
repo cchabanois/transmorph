@@ -30,8 +30,7 @@ public class FormattedStringToNumberTest extends TestCase {
 				.getNumberInstance(Locale.FRENCH);
 		formattedStringToNumberConverter.setNumberFormat(numberFormat);
 
-		Transmorph converter = new Transmorph(FormattedStringToNumberTest.class
-				.getClassLoader(), formattedStringToNumberConverter);
+		Transmorph converter = new Transmorph(formattedStringToNumberConverter);
 
 		float result = converter.convert("-22,33", Float.TYPE);
 		assertNotNull(result);

@@ -23,8 +23,7 @@ import net.entropysoft.transmorph.Transmorph;
 public class StringToInputStreamTest extends TestCase {
 
 	public void testStringToInputStream() throws Exception {
-		Transmorph converter = new Transmorph(StringToDateTest.class
-				.getClassLoader(), new StringToInputStream());
+		Transmorph converter = new Transmorph(new StringToInputStream());
 
 		InputStream is = converter.convert("Hello world", InputStream.class);
 		assertNotNull(is);

@@ -23,12 +23,12 @@ import net.entropysoft.transmorph.signature.formatter.ClassFileTypeSignatureForm
  * @author Cedric Chabanois (cchabanois at gmail.com)
  * 
  */
-public class TypeArgSignature implements ISignature {
+public class TypeArgSignature extends Signature {
 
-	public static char NO_WILDCARD = ' ';
-	public static char UNBOUNDED_WILDCARD = '*';
-	public static char UPPERBOUND_WILDCARD = '+';
-	public static char LOWERBOUND_WILDCARD = '-';
+	public static char NO_WILDCARD = ' ';         // <Type>
+	public static char UNBOUNDED_WILDCARD = '*';  // <?>
+	public static char UPPERBOUND_WILDCARD = '+'; // <N extends Type>
+	public static char LOWERBOUND_WILDCARD = '-'; // <N super Type>
 	private char wildcard;
 	private FieldTypeSignature fieldTypeSignature;
 	private String signature;

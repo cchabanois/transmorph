@@ -10,8 +10,7 @@ import junit.framework.TestCase;
 public class CollectionToStringTest extends TestCase {
 
 	public void testListToArray() throws Exception {
-		Transmorph converter = new Transmorph(ArrayToCollectionTest.class
-				.getClassLoader(), new DefaultConverters());
+		Transmorph converter = new Transmorph(new DefaultConverters());
 
 		List<Integer> source = new ArrayList<Integer>();
 		source.add(30);

@@ -21,7 +21,7 @@ import net.entropysoft.transmorph.IConverter;
 import net.entropysoft.transmorph.context.ConvertedObjectPool;
 import net.entropysoft.transmorph.modifiers.IModifier;
 import net.entropysoft.transmorph.modifiers.ModifierException;
-import net.entropysoft.transmorph.type.Type;
+import net.entropysoft.transmorph.type.TypeReference;
 
 /**
  * Abstract converter that adds the notion of modifiers to IConverter
@@ -37,7 +37,7 @@ public abstract class AbstractConverter implements IConverter {
 	protected boolean useObjectPool = false;
 
 	public Object convert(ConversionContext context, Object sourceObject,
-			Type destinationType) throws ConverterException {
+			TypeReference<?> destinationType) throws ConverterException {
 		Object convertedObject;
 		ConvertedObjectPool objectPool = context.getConvertedObjectPool();
 		if (useObjectPool) {
@@ -76,8 +76,9 @@ public abstract class AbstractConverter implements IConverter {
 	/**
 	 * Generally when context.isStoreUsedConverters is true, a converter that
 	 * has been used is added to the list of used converters. But for some
-	 * converters this would just make the list longer without added value
-	 * (this is the case for MultiConverter that delegates all its work to another converter)
+	 * converters this would just make the list longer without added value (this
+	 * is the case for MultiConverter that delegates all its work to another
+	 * converter)
 	 * 
 	 * @return
 	 */
@@ -86,11 +87,11 @@ public abstract class AbstractConverter implements IConverter {
 	}
 
 	public abstract Object doConvert(ConversionContext context,
-			Object sourceObject, Type destinationType)
+			Object sourceObject, TypeReference<?> destinationType)
 			throws ConverterException;
 
 	protected Object applyModifiers(ConversionContext context, Object object,
-			Type destinationType) throws ConverterException {
+			TypeReference<?> destinationType) throws ConverterException {
 		Object initialObject = object;
 		for (IModifier modifier : modifiers) {
 			try {
@@ -109,15 +110,10 @@ public abstract class AbstractConverter implements IConverter {
 		}
 
 		if (modifiers.length > 0 && object != initialObject && object != null) {
-			try {
-				if (!destinationType.isInstance(object)) {
-					throw new ConverterException(
-							"A modifier has modified the object type and it is no more compatible with expected destination type");
-				}
-			} catch (ClassNotFoundException e) {
+
+			if (!destinationType.isInstance(object)) {
 				throw new ConverterException(
-						"Could not verify type of the object modified by modifiers",
-						e);
+						"A modifier has modified the object type and it is no more compatible with expected destination type");
 			}
 		}
 		return object;
@@ -140,12 +136,12 @@ public abstract class AbstractConverter implements IConverter {
 	}
 
 	public boolean canHandle(ConversionContext context, Object sourceObject,
-			Type destinationType) {
+			TypeReference<?> destinationType) {
 		return canHandleDestinationType(destinationType)
 				&& canHandleSourceObject(sourceObject);
 	}
 
-	protected abstract boolean canHandleDestinationType(Type destinationType);
+	protected abstract boolean canHandleDestinationType(TypeReference<?> destinationType);
 
 	protected abstract boolean canHandleSourceObject(Object sourceObject);
 

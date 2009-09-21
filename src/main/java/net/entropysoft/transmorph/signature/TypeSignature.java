@@ -22,25 +22,9 @@ import net.entropysoft.transmorph.signature.formatter.ClassFileTypeSignatureForm
  * @author Cedric Chabanois (cchabanois at gmail.com)
  *
  */
-public abstract class TypeSignature implements ISignature {
+public abstract class TypeSignature extends Signature {
 
 	private String signature;
-	
-	public boolean isPrimitiveType() {
-		return false;
-	}
-
-	public boolean isArrayType() {
-		return false;
-	}
-
-	public boolean isClassType() {
-		return false;
-	}
-	
-	public boolean isTypeVar() {
-		return false;
-	}
 	
 	public abstract TypeSignature getTypeErasureSignature();
 	
@@ -52,26 +36,4 @@ public abstract class TypeSignature implements ISignature {
 		return signature;
 	}
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + getSignature().hashCode();
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		TypeSignature other = (TypeSignature) obj;
-		if (!getSignature().equals(other.getSignature()))
-			return false;
-		return true;
-	}
-	
 }

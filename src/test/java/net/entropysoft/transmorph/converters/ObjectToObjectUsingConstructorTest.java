@@ -29,9 +29,7 @@ public class ObjectToObjectUsingConstructorTest extends TestCase {
 		objectToObjectUsingConstructor
 				.setHandledDestinationClasses(ObjectToObjectUsingConstructor.ALL_DESTINATION_CLASSES);
 
-		Transmorph converter = new Transmorph(
-				ObjectToObjectUsingConstructorTest.class.getClassLoader(),
-				objectToObjectUsingConstructor);
+		Transmorph converter = new Transmorph(objectToObjectUsingConstructor);
 		File file = converter.convert("c:\temp", File.class);
 		assertNotNull(file);
 
@@ -43,9 +41,7 @@ public class ObjectToObjectUsingConstructorTest extends TestCase {
 	public void testStringToUrl() throws Exception {
 		ObjectToObjectUsingConstructor objectToObjectUsingConstructor = new ObjectToObjectUsingConstructor();
 
-		Transmorph converter = new Transmorph(
-				ObjectToObjectUsingConstructorTest.class.getClassLoader(),
-				objectToObjectUsingConstructor);
+		Transmorph converter = new Transmorph(objectToObjectUsingConstructor);
 
 		objectToObjectUsingConstructor
 				.setHandledDestinationClasses(new Class[] { URL.class });

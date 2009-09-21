@@ -17,7 +17,7 @@ package net.entropysoft.transmorph.converters;
 
 import net.entropysoft.transmorph.ConversionContext;
 import net.entropysoft.transmorph.ConverterException;
-import net.entropysoft.transmorph.type.Type;
+import net.entropysoft.transmorph.type.TypeReference;
 
 /**
  * Converter used when source is an array of chars and destination is a String
@@ -31,7 +31,7 @@ public class CharacterArrayToString extends AbstractConverter {
 		this.useObjectPool = false;
 	}
 	
-	public Object doConvert(ConversionContext context, Object sourceObject, Type destinationType) throws ConverterException {
+	public Object doConvert(ConversionContext context, Object sourceObject, TypeReference<?> destinationType) throws ConverterException {
 		if (sourceObject == null) {
 			return null;
 		}
@@ -40,12 +40,8 @@ public class CharacterArrayToString extends AbstractConverter {
 		return String.valueOf(charArray);
 	}
 
-	protected boolean canHandleDestinationType(Type destinationType) {
-		try {
-			return destinationType.isType(String.class);
-		} catch (ClassNotFoundException e) {
-			return false;
-		}
+	protected boolean canHandleDestinationType(TypeReference<?> destinationType) {
+		return destinationType.isType(String.class);
 	}
 
 	protected boolean canHandleSourceObject(Object sourceObject) {

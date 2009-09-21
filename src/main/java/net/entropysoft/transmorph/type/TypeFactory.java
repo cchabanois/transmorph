@@ -23,6 +23,7 @@ import net.entropysoft.transmorph.signature.ArrayTypeSignature;
 import net.entropysoft.transmorph.signature.ClassFactory;
 import net.entropysoft.transmorph.signature.ClassTypeSignature;
 import net.entropysoft.transmorph.signature.PrimitiveTypeSignature;
+import net.entropysoft.transmorph.signature.Signature;
 import net.entropysoft.transmorph.signature.TypeSignature;
 import net.entropysoft.transmorph.signature.TypeSignatureFactory;
 
@@ -33,8 +34,8 @@ import net.entropysoft.transmorph.signature.TypeSignatureFactory;
  * 
  */
 public class TypeFactory {
-	private Map<TypeSignature, Type> typesCache = Collections
-			.synchronizedMap(new LRUMap<TypeSignature, Type>(200));
+	private Map<Signature, Type> typesCache = Collections
+			.synchronizedMap(new LRUMap<Signature, Type>(200));
 	private ClassFactory classFactory;
 
 	public TypeFactory(ClassLoader classLoader) {
@@ -59,7 +60,7 @@ public class TypeFactory {
 		return getType(typeSignature);
 	}
 
-	public Type getType(TypeSignature typeSignature) {
+	public Type getType(Signature typeSignature) {
 		Type type = typesCache.get(typeSignature);
 
 		if (type == null) {

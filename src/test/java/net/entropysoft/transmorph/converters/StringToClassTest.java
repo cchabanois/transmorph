@@ -22,8 +22,7 @@ import net.entropysoft.transmorph.Transmorph;
 public class StringToClassTest extends TestCase {
 
 	public void testStringToClass() throws Exception {
-		Transmorph converter = new Transmorph(StringToCharacterArrayTest.class
-				.getClassLoader(), new DefaultConverters());
+		Transmorph converter = new Transmorph(new DefaultConverters());
 
 		Class clazz = converter.convert(this.getClass().getName(),
 				Class.class);

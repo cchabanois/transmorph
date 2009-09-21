@@ -20,7 +20,7 @@ import java.text.MessageFormat;
 
 import net.entropysoft.transmorph.ConversionContext;
 import net.entropysoft.transmorph.ConverterException;
-import net.entropysoft.transmorph.type.Type;
+import net.entropysoft.transmorph.type.TypeReference;
 
 /**
  * Converter that converts an Object to another Object that has a constructor
@@ -33,13 +33,13 @@ public class ObjectToObjectUsingConstructor extends AbstractConverter {
 
 	public final static Class[] ALL_DESTINATION_CLASSES = null;
 	public final static Class[] NO_DESTINATION_CLASSES = new Class[0];
-	
+
 	private Class[] handledDestinationClasses = NO_DESTINATION_CLASSES;
 
 	public ObjectToObjectUsingConstructor() {
 		this.useObjectPool = true;
 	}
-	
+
 	public Class[] getHandledDestinationClasses() {
 		return handledDestinationClasses;
 	}
@@ -48,19 +48,22 @@ public class ObjectToObjectUsingConstructor extends AbstractConverter {
 		this.handledDestinationClasses = handledDestinationClasses;
 	}
 
-	public Object doConvert(ConversionContext context, Object sourceObject, Type destinationType) throws ConverterException {
+	public Object doConvert(ConversionContext context, Object sourceObject,
+			TypeReference<?> destinationType) throws ConverterException {
 
 		try {
 			Constructor compatibleConstructor = getCompatibleConstructor(
-					destinationType.getType(), sourceObject.getClass());
+					destinationType.getRawType(), sourceObject.getClass());
 
 			if (compatibleConstructor == null) {
-				throw new ConverterException(MessageFormat
-						.format(
-								"Could not convert ''{0}'' to destination type ''{1}''",
-								sourceObject.getClass(), destinationType.getName()));
+				throw new ConverterException(
+						MessageFormat
+								.format(
+										"Could not convert ''{0}'' to destination type ''{1}''",
+										sourceObject.getClass(),
+										destinationType.getName()));
 			}
-			
+
 			return compatibleConstructor
 					.newInstance(new Object[] { sourceObject });
 		} catch (Exception e) {
@@ -98,17 +101,13 @@ public class ObjectToObjectUsingConstructor extends AbstractConverter {
 		return null;
 	}
 
-	protected boolean canHandleDestinationType(Type destinationType) {
+	protected boolean canHandleDestinationType(TypeReference<?> destinationType) {
 		if (handledDestinationClasses == ALL_DESTINATION_CLASSES) {
 			return true;
 		}
 		for (Class handledClass : handledDestinationClasses) {
-			try {
-				if (destinationType.isType(handledClass)) {
-					return true;
-				}
-			} catch (ClassNotFoundException e) {
-				return false;
+			if (destinationType.isType(handledClass)) {
+				return true;
 			}
 		}
 		return false;

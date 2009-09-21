@@ -21,7 +21,7 @@ import net.entropysoft.transmorph.IConverter;
 import net.entropysoft.transmorph.context.ConvertedObjectPool;
 import net.entropysoft.transmorph.modifiers.IModifier;
 import net.entropysoft.transmorph.modifiers.ModifierException;
-import net.entropysoft.transmorph.type.Type;
+import net.entropysoft.transmorph.type.TypeReference;
 
 /**
  * Abstract simple converter used to convert from an object of a given Class to
@@ -55,18 +55,15 @@ public abstract class AbstractSimpleConverter<S, D> implements IConverter {
 		return destinationClass;
 	}
 
+	@Override
 	public boolean canHandle(ConversionContext context, Object sourceObject,
-			Type destinationType) {
+			TypeReference<?> destinationType) {
 		return canHandleDestinationType(destinationType)
 				&& canHandleSourceObject(sourceObject);
 	}
 
-	protected boolean canHandleDestinationType(Type destinationType) {
-		try {
-			return destinationType.isType(destinationClass);
-		} catch (ClassNotFoundException e) {
-			return false;
-		}
+	protected boolean canHandleDestinationType(TypeReference<?> destinationType) {
+		return destinationType.isType(destinationClass);
 	}
 
 	protected boolean canHandleSourceObject(Object sourceObject) {
@@ -76,8 +73,9 @@ public abstract class AbstractSimpleConverter<S, D> implements IConverter {
 		return sourceClass.isInstance(sourceObject);
 	}
 
+	@Override
 	public Object convert(ConversionContext context, Object sourceObject,
-			Type destinationType) throws ConverterException {
+			TypeReference<?> destinationType) throws ConverterException {
 		if (sourceObject == null) {
 			if (destinationType.isPrimitive()) {
 				throw new ConverterException(
@@ -121,9 +119,9 @@ public abstract class AbstractSimpleConverter<S, D> implements IConverter {
 	}
 
 	public abstract D doConvert(ConversionContext context, S sourceObject,
-			Type destinationType) throws ConverterException;
+			TypeReference<?> destinationType) throws ConverterException;
 
-	protected D applyModifiers(ConversionContext context, D object, Type destinationType) throws ConverterException {
+	protected D applyModifiers(ConversionContext context, D object, TypeReference<?> destinationType) throws ConverterException {
 		Object initialObject = object;
 		for (IModifier<D> modifier : modifiers) {
 			try {

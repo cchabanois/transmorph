@@ -23,8 +23,7 @@ import net.entropysoft.transmorph.Transmorph;
 public class StringToQNameTest extends TestCase {
 
 	public void testStringToQName() throws Exception {
-		Transmorph converter = new Transmorph(StringToNumberTest.class
-				.getClassLoader(), new StringToQName());
+		Transmorph converter = new Transmorph(new StringToQName());
 
 		QName qname = converter.convert(
 				"{http://www.entropysoft.ney}localPart", QName.class);

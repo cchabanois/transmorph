@@ -19,7 +19,7 @@ import javax.xml.namespace.QName;
 
 import net.entropysoft.transmorph.ConversionContext;
 import net.entropysoft.transmorph.ConverterException;
-import net.entropysoft.transmorph.type.Type;
+import net.entropysoft.transmorph.type.TypeReference;
 
 /**
  * Converter used when source object is a String and destination type is a
@@ -36,7 +36,7 @@ public class StringToQName extends AbstractSimpleConverter<String, QName> {
 	}
 
 	@Override
-	public QName doConvert(ConversionContext context, String sourceObject, Type destinationType) throws ConverterException {
+	public QName doConvert(ConversionContext context, String sourceObject, TypeReference<?> destinationType) throws ConverterException {
 		if (sourceObject == null) {
 			return null;
 		}

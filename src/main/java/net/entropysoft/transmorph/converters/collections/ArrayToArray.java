@@ -22,6 +22,7 @@ import net.entropysoft.transmorph.ConverterException;
 import net.entropysoft.transmorph.converters.AbstractContainerConverter;
 import net.entropysoft.transmorph.type.ArrayType;
 import net.entropysoft.transmorph.type.Type;
+import net.entropysoft.transmorph.type.TypeReference;
 
 /**
  * Converter used when source object type is array and destination type is also
@@ -37,24 +38,17 @@ public class ArrayToArray extends AbstractContainerConverter {
 	}
 
 	public Object doConvert(ConversionContext context, Object sourceObject,
-			Type destinationType) throws ConverterException {
+			TypeReference<?> destinationType) throws ConverterException {
 		if (sourceObject == null) {
 			return null;
 		}
 
 		Object array = sourceObject;
-		ArrayType arrayDestinationType = (ArrayType) destinationType;
 
-		Type componentType = arrayDestinationType.getComponentType();
+		TypeReference<?> componentType = destinationType.getArrayComponentType();
 		int arrayLength = Array.getLength(array);
 
-		Class componentTypeClass;
-		try {
-			componentTypeClass = componentType.getType();
-		} catch (ClassNotFoundException e) {
-			throw new ConverterException("Could not find class for "
-					+ componentType.getName());
-		}
+		Class componentTypeClass = componentType.getRawType();
 
 		Object destinationArray = Array.newInstance(componentTypeClass,
 				arrayLength);
@@ -62,7 +56,7 @@ public class ArrayToArray extends AbstractContainerConverter {
 		if (useObjectPool) {
 			// add now to the pool so that array elements could reference it
 			context.getConvertedObjectPool().add(this, sourceObject,
-					arrayDestinationType, destinationArray);
+					destinationType, destinationArray);
 		}
 
 		for (int i = 0; i < arrayLength; i++) {
@@ -75,7 +69,7 @@ public class ArrayToArray extends AbstractContainerConverter {
 		return destinationArray;
 	}
 
-	protected boolean canHandleDestinationType(Type destinationType) {
+	protected boolean canHandleDestinationType(TypeReference<?> destinationType) {
 		return destinationType.isArray();
 	}
 

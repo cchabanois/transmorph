@@ -21,8 +21,7 @@ import java.text.ParsePosition;
 
 import net.entropysoft.transmorph.ConversionContext;
 import net.entropysoft.transmorph.ConverterException;
-import net.entropysoft.transmorph.type.Type;
-import net.entropysoft.transmorph.type.TypeUtils;
+import net.entropysoft.transmorph.type.TypeReference;
 
 /**
  * Convert a formatted String to a Number using NumberFormat
@@ -47,7 +46,7 @@ public class FormattedStringToNumber extends AbstractConverter {
 		this.numberFormat = numberFormat;
 	}
 
-	public Object doConvert(ConversionContext context, Object sourceObject, Type destinationType) throws ConverterException {
+	public Object doConvert(ConversionContext context, Object sourceObject, TypeReference<?> destinationType) throws ConverterException {
 		if (sourceObject == null) {
 			if (destinationType.isPrimitive()) {
 				throw new ConverterException("Cannot convert null to a primitive number");
@@ -74,12 +73,8 @@ public class FormattedStringToNumber extends AbstractConverter {
 		return numberToNumberConverter.convert(context, number, destinationType);
 	}
 
-	protected boolean canHandleDestinationType(Type destinationType) {
-		try {
-			return TypeUtils.isNumberType(destinationType);
-		} catch (ClassNotFoundException e) {
-			return false;
-		}
+	protected boolean canHandleDestinationType(TypeReference<?> destinationType) {
+		return destinationType.isNumber();
 	}
 
 	protected boolean canHandleSourceObject(Object sourceObject) {

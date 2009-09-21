@@ -23,7 +23,7 @@ import java.util.Set;
 
 import net.entropysoft.transmorph.IConverter;
 import net.entropysoft.transmorph.signature.formatter.ITypeSignatureFormatter;
-import net.entropysoft.transmorph.type.Type;
+import net.entropysoft.transmorph.type.TypeReference;
 
 /**
  * Maintains a list of all used converters for a given conversion
@@ -53,7 +53,7 @@ public class UsedConverters {
 	 * @param destinationType
 	 */
 	public void addUsedConverter(IConverter converter, Object sourceObject,
-			Type destinationType) {
+			TypeReference<?> destinationType) {
 		UsedConverter usedConverter = new UsedConverter(converter,
 				sourceObject == null ? null : sourceObject.getClass(),
 				destinationType);
@@ -96,6 +96,9 @@ public class UsedConverters {
 	public String toString(ITypeSignatureFormatter formatter) {
 		StringBuilder sb = new StringBuilder();
 		for (UsedConverter usedConverter : usedConvertersList) {
+//			String destinationName = formatter.format(usedConverter
+//					.getDestinationType().getTypeSignature());
+			String destinationName = usedConverter.getDestinationType().getName();
 			sb
 					.append(MessageFormat
 							.format(
@@ -105,10 +108,7 @@ public class UsedConverters {
 									usedConverter.getSourceObjectClass() == null ? "null"
 											: usedConverter
 													.getSourceObjectClass()
-													.getName(), formatter
-											.format(usedConverter
-													.getDestinationType()
-													.getTypeSignature())));
+													.getName(), destinationName));
 			sb.append('\n');
 		}
 		return sb.toString();

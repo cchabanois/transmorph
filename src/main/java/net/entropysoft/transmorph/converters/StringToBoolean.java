@@ -17,7 +17,7 @@ package net.entropysoft.transmorph.converters;
 
 import net.entropysoft.transmorph.ConversionContext;
 import net.entropysoft.transmorph.ConverterException;
-import net.entropysoft.transmorph.type.Type;
+import net.entropysoft.transmorph.type.TypeReference;
 
 /**
  * Converter used when source object is a String and destination type is boolean
@@ -34,7 +34,7 @@ public class StringToBoolean extends AbstractConverter {
 	public StringToBoolean() {
 		this.useObjectPool = true;
 	}
-	
+
 	public String getTrueString() {
 		return trueString;
 	}
@@ -59,10 +59,12 @@ public class StringToBoolean extends AbstractConverter {
 		this.caseSensitive = caseSensitive;
 	}
 
-	public Object doConvert(ConversionContext context, Object sourceObject, Type destinationType) throws ConverterException {
+	public Object doConvert(ConversionContext context, Object sourceObject,
+			TypeReference<?> destinationType) throws ConverterException {
 		if (sourceObject == null) {
 			if (destinationType.isPrimitive()) {
-				throw new ConverterException("Could not convert null to boolean primitive type");
+				throw new ConverterException(
+						"Could not convert null to boolean primitive type");
 			}
 			return null;
 		}
@@ -89,12 +91,9 @@ public class StringToBoolean extends AbstractConverter {
 		}
 	}
 
-	protected boolean canHandleDestinationType(Type destinationType) {
-		try {
-			return destinationType.getType().equals(Boolean.TYPE) || destinationType.getType().equals(Boolean.class);
-		} catch (ClassNotFoundException e) {
-			return false;
-		}
+	protected boolean canHandleDestinationType(TypeReference<?> destinationType) {
+		return destinationType.getType().equals(Boolean.TYPE)
+				|| destinationType.getType().equals(Boolean.class);
 	}
 
 	protected boolean canHandleSourceObject(Object sourceObject) {

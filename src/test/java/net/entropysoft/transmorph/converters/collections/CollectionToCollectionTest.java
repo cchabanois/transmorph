@@ -27,8 +27,7 @@ import net.entropysoft.transmorph.Transmorph;
 public class CollectionToCollectionTest extends TestCase {
 
 	public void testListToSet() throws Exception {
-		Transmorph converter = new Transmorph(CollectionToCollectionTest.class
-				.getClassLoader(), new DefaultConverters());
+		Transmorph converter = new Transmorph(new DefaultConverters());
 
 		List<Integer> source = new ArrayList<Integer>();
 		source.add(30);
@@ -45,8 +44,7 @@ public class CollectionToCollectionTest extends TestCase {
 	}
 
 	public void testListToConcreteSet() throws Exception {
-		Transmorph converter = new Transmorph(CollectionToCollectionTest.class
-				.getClassLoader(), new DefaultConverters());
+		Transmorph converter = new Transmorph(new DefaultConverters());
 		
 		List<Integer> source = new ArrayList<Integer>();
 		source.add(30);

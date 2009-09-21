@@ -6,11 +6,11 @@ import java.text.MessageFormat;
 
 import net.entropysoft.transmorph.ConversionContext;
 import net.entropysoft.transmorph.ConverterException;
-import net.entropysoft.transmorph.type.Type;
+import net.entropysoft.transmorph.type.TypeReference;
 
 /**
  * converter used when source object type and destination type are compatible
- * and source object is cloneable. 
+ * and source object is cloneable.
  * 
  * The source object is cloned.
  * 
@@ -24,12 +24,8 @@ public class CloneableConverter extends AbstractConverter {
 	}
 
 	@Override
-	protected boolean canHandleDestinationType(Type destinationType) {
-		try {
-			return destinationType.isSubOf(Cloneable.class);
-		} catch (ClassNotFoundException e) {
-			return false;
-		}
+	protected boolean canHandleDestinationType(TypeReference<?> destinationType) {
+		return destinationType.isSubOf(Cloneable.class);
 	}
 
 	@Override
@@ -39,7 +35,7 @@ public class CloneableConverter extends AbstractConverter {
 
 	@Override
 	public Object doConvert(ConversionContext context, Object sourceObject,
-			Type destinationType) throws ConverterException {
+			TypeReference<?> destinationType) throws ConverterException {
 		try {
 			Method cloneableMethod = sourceObject.getClass().getMethod("clone");
 			if (!Modifier.isPublic(cloneableMethod.getModifiers())) {
@@ -56,13 +52,10 @@ public class CloneableConverter extends AbstractConverter {
 
 	@Override
 	public boolean canHandle(ConversionContext context, Object sourceObject,
-			Type destinationType) {
-		try {
-			return super.canHandle(context, sourceObject, destinationType)
-					&& destinationType.isInstance(sourceObject);
-		} catch (ClassNotFoundException e) {
-			return false;
-		}
+			TypeReference<?> destinationType) {
+		return super.canHandle(context, sourceObject, destinationType)
+				&& destinationType.isInstance(sourceObject);
+
 	}
 
 }

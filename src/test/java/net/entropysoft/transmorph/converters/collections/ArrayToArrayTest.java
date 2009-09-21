@@ -23,8 +23,7 @@ import net.entropysoft.transmorph.Transmorph;
 public class ArrayToArrayTest extends TestCase {
 
 	public void testObjectArrayToStringArray() throws Exception {
-		Transmorph converter = new Transmorph(ArrayToArrayTest.class
-				.getClassLoader(), new DefaultConverters());
+		Transmorph converter = new Transmorph(new DefaultConverters());
 
 		// Object[] => String[] (ArrayToArrayConverter)
 		Object[] arrayOfObjects = new Object[] { "one", "two", "three" };
@@ -36,8 +35,7 @@ public class ArrayToArrayTest extends TestCase {
 	}
 
 	public void testMultidimentionalArray() throws Exception {
-		Transmorph converter = new Transmorph(ArrayToArrayTest.class
-				.getClassLoader(), new DefaultConverters());
+		Transmorph converter = new Transmorph(new DefaultConverters());
 
 		// int[][] => String[][] (ArrayToArrayConverter)
 		int[][] arrayOfArrayOfInts = new int[][] { { 11, 12, 13 },

@@ -25,8 +25,7 @@ import net.entropysoft.transmorph.Transmorph;
 public class IdentityConverterTest extends TestCase {
 
 	public void testIdentity() throws Exception {
-		Transmorph converter = new Transmorph(IdentityConverterTest.class
-				.getClassLoader(), new DefaultConverters());
+		Transmorph converter = new Transmorph(new DefaultConverters());
 
 		assertSame("my string", converter.convert("my string", String.class));
 

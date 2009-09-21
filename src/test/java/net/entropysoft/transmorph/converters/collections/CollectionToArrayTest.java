@@ -25,8 +25,7 @@ import net.entropysoft.transmorph.Transmorph;
 public class CollectionToArrayTest extends TestCase {
 
 	public void testListToArray() throws Exception {
-		Transmorph converter = new Transmorph(ArrayToCollectionTest.class
-				.getClassLoader(), new DefaultConverters());
+		Transmorph converter = new Transmorph(new DefaultConverters());
 
 		List<Integer> source = new ArrayList<Integer>();
 		source.add(30);
@@ -42,8 +41,7 @@ public class CollectionToArrayTest extends TestCase {
 	}
 
 	public void testListOfListToArray2D() throws Exception {
-		Transmorph converter = new Transmorph(ArrayToCollectionTest.class
-				.getClassLoader(), new DefaultConverters());
+		Transmorph converter = new Transmorph(new DefaultConverters());
 
 		List<List<Integer>> listListInteger = new ArrayList<List<Integer>>();
 		List<Integer> listInteger = new ArrayList<Integer>();
@@ -69,15 +67,13 @@ public class CollectionToArrayTest extends TestCase {
 	}
 
 	public void testListNotParameterizedToArray() throws Exception {
-		Transmorph transmorph = new Transmorph(ArrayToCollectionTest.class
-				.getClassLoader(), new DefaultConverters());
+		Transmorph transmorph = new Transmorph(new DefaultConverters());
 		List list = new ArrayList();
 		list.add(new Integer(1));
 		list.add(new Integer(2));
 		list.add(new Integer(3));
 
-		String[] arrayOfStrings = (String[]) transmorph.convert(list,
-				"[Ljava/lang/String;");
+		String[] arrayOfStrings = (String[]) transmorph.convert(list, String[].class);
 	}
 
 }

@@ -27,6 +27,7 @@ import net.entropysoft.transmorph.IConverter;
 import net.entropysoft.transmorph.converters.AbstractContainerConverter;
 import net.entropysoft.transmorph.type.ClassType;
 import net.entropysoft.transmorph.type.Type;
+import net.entropysoft.transmorph.type.TypeReference;
 
 /**
  * Converter used when source objet type and destination type are maps
@@ -39,11 +40,11 @@ public class MapToMap extends AbstractContainerConverter {
 	private Class<? extends Map> defaultMapClass = HashMap.class;
 	private IConverter keyConverter;
 	private IConverter valueConverter;
-	
+
 	public MapToMap() {
 		this.useObjectPool = true;
 	}
-	
+
 	public IConverter getKeyConverter() {
 		return keyConverter;
 	}
@@ -60,15 +61,15 @@ public class MapToMap extends AbstractContainerConverter {
 		this.valueConverter = valueConverter;
 	}
 
-	public Object doConvert(ConversionContext context, Object sourceObject, Type destinationType) throws ConverterException {
+	public Object doConvert(ConversionContext context, Object sourceObject,
+			TypeReference<?> destinationType) throws ConverterException {
 		if (sourceObject == null) {
 			return null;
 		}
-		ClassType mapDestinationType = (ClassType) destinationType;
 		Map<Object, Object> sourceMap = (Map<Object, Object>) sourceObject;
 		Map<Object, Object> destinationMap;
 		try {
-			destinationMap = createDestinationMap(sourceMap, mapDestinationType);
+			destinationMap = createDestinationMap(sourceMap, destinationType);
 		} catch (Exception e) {
 			throw new ConverterException("Could not create destination map", e);
 		}
@@ -77,16 +78,11 @@ public class MapToMap extends AbstractContainerConverter {
 		}
 
 		if (useObjectPool) {
-			context.getConvertedObjectPool().add(this, sourceObject, mapDestinationType, destinationMap);
+			context.getConvertedObjectPool().add(this, sourceObject,
+					destinationType, destinationMap);
 		}
-		
-		Type[] destinationTypeArguments;
-		try {
-			destinationTypeArguments = getDestinationTypeArguments(mapDestinationType);
-		} catch (ClassNotFoundException e) {
-			throw new ConverterException(
-					"Could not get destination type arguments", e);
-		}
+
+		TypeReference<?>[] destinationTypeArguments = getDestinationTypeArguments(destinationType);
 
 		for (Iterator<Map.Entry<Object, Object>> it = sourceMap.entrySet()
 				.iterator(); it.hasNext();) {
@@ -95,42 +91,42 @@ public class MapToMap extends AbstractContainerConverter {
 			if (converter == null) {
 				converter = elementConverter;
 			}
-			Object key = converter.convert(context, mapEntry
-							.getKey(), destinationTypeArguments[0]);
-			
+			Object key = converter.convert(context, mapEntry.getKey(),
+					destinationTypeArguments[0]);
+
 			converter = valueConverter;
 			if (converter == null) {
 				converter = elementConverter;
 			}
-			
-			Object value = converter.convert(context, mapEntry
-							.getValue(), destinationTypeArguments[1]);
+
+			Object value = converter.convert(context, mapEntry.getValue(),
+					destinationTypeArguments[1]);
 			destinationMap.put(key, value);
 		}
 
 		return destinationMap;
 	}
 
-	protected Type[] getDestinationTypeArguments(ClassType mapDestinationType)
-			throws ClassNotFoundException {
+	protected TypeReference<?>[] getDestinationTypeArguments(
+			TypeReference mapDestinationType) {
 		if (mapDestinationType.isSubOf(Properties.class)) {
 			// Properties extends Hashtable<Object,Object> but should contain
 			// only strings
-			return new Type[] {
-					mapDestinationType.getTypeFactory().getStringType(),
-					mapDestinationType.getTypeFactory().getStringType() };
+			return new TypeReference<?>[] { TypeReference.get(String.class),
+					TypeReference.get(String.class) };
 		}
-		Type[] destinationTypeArguments = mapDestinationType.getTypeArguments();
+		TypeReference[] destinationTypeArguments = mapDestinationType
+				.getTypeArguments();
 		if (destinationTypeArguments.length == 0) {
-			destinationTypeArguments = new Type[] {
-					mapDestinationType.getTypeFactory().getObjectType(),
-					mapDestinationType.getTypeFactory().getObjectType() };
+			destinationTypeArguments = new TypeReference[] {
+					TypeReference.get(Object.class),
+					TypeReference.get(Object.class) };
 		}
 		return destinationTypeArguments;
 	}
 
 	private Map<Object, Object> createDestinationMap(Map sourceObject,
-			Type destinationType) throws InstantiationException,
+			TypeReference<?> destinationType) throws InstantiationException,
 			IllegalAccessException, ClassNotFoundException {
 		Class<? extends Map> clazz = getConcreteMapDestinationClass(
 				sourceObject, destinationType);
@@ -141,12 +137,12 @@ public class MapToMap extends AbstractContainerConverter {
 	}
 
 	protected Class<? extends Map> getConcreteMapDestinationClass(
-			Map sourceObject, Type destinationType)
+			Map sourceObject, TypeReference<?> destinationType)
 			throws ClassNotFoundException {
-		if (destinationType.isType(Map.class)) {
+		if (destinationType.hasRawType(Map.class)) {
 			return defaultMapClass;
 		}
-		Class destinationClass = destinationType.getType();
+		Class destinationClass = destinationType.getRawType();
 		if (destinationClass.isInterface()
 				|| Modifier.isAbstract(destinationClass.getModifiers())) {
 			return null;
@@ -159,12 +155,8 @@ public class MapToMap extends AbstractContainerConverter {
 		return destinationClass;
 	}
 
-	protected boolean canHandleDestinationType(Type destinationType) {
-		try {
-			return destinationType.isSubOf(Map.class);
-		} catch (ClassNotFoundException e) {
-			return false;
-		}
+	protected boolean canHandleDestinationType(TypeReference<?> destinationType) {
+		return destinationType.isSubOf(Map.class);
 	}
 
 	protected boolean canHandleSourceObject(Object sourceObject) {

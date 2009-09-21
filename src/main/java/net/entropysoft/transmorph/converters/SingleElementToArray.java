@@ -4,8 +4,7 @@ import java.lang.reflect.Array;
 
 import net.entropysoft.transmorph.ConversionContext;
 import net.entropysoft.transmorph.ConverterException;
-import net.entropysoft.transmorph.type.ArrayType;
-import net.entropysoft.transmorph.type.Type;
+import net.entropysoft.transmorph.type.TypeReference;
 
 /**
  * Converter used to convert a single element to an array (with one element)
@@ -15,21 +14,13 @@ import net.entropysoft.transmorph.type.Type;
  */
 public class SingleElementToArray extends AbstractContainerConverter {
 
-	public Object doConvert(ConversionContext context, Object sourceObject, Type destinationType) throws ConverterException {
+	public Object doConvert(ConversionContext context, Object sourceObject, TypeReference<?> destinationType) throws ConverterException {
 		if (sourceObject == null) {
 			return null;
 		}
 
-		ArrayType arrayDestinationType = (ArrayType) destinationType;
-
-		Type elementType = arrayDestinationType.getElementType();
-		Class destinationComponentType;
-		try {
-			destinationComponentType = elementType.getType();
-		} catch (ClassNotFoundException e) {
-			throw new ConverterException("Could not find class for "
-					+ elementType.getName());
-		}
+		TypeReference<?> elementType = destinationType.getArrayElementType();
+		Class<?> destinationComponentType = elementType.getRawType();
 
 		Object destinationArray = Array
 				.newInstance(destinationComponentType, 1);
@@ -41,12 +32,12 @@ public class SingleElementToArray extends AbstractContainerConverter {
 		return destinationArray;
 	}
 
-	protected boolean canHandleDestinationType(Type destinationType) {
+	protected boolean canHandleDestinationType(TypeReference<?> destinationType) {
 		if (!destinationType.isArray()) {
 			return false;
 		}
 		// we don't handle arrays with more than one dimension
-		if (((ArrayType) destinationType).getNumDimensions() > 1) {
+		if (destinationType.getArrayNumDimensions() > 1) {
 			return false;
 		}
 		return true;

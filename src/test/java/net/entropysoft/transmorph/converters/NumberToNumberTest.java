@@ -26,8 +26,7 @@ public class NumberToNumberTest extends TestCase {
 
 	public void testNumberPrimitiveToNumberPrimitive() throws Exception {
 		DefaultConverters defaultConverters = new DefaultConverters();
-		Transmorph converter = new Transmorph(NumberToNumberTest.class
-				.getClassLoader(), defaultConverters);
+		Transmorph converter = new Transmorph(defaultConverters);
 
 		// int => long (NumberToNumberConverter)
 		int myInt = 55;
@@ -53,8 +52,7 @@ public class NumberToNumberTest extends TestCase {
 	}
 
 	public void testNumberWrapperToNumberWrapper() throws Exception {
-		Transmorph converter = new Transmorph(NumberToNumberTest.class
-				.getClassLoader(), new DefaultConverters());
+		Transmorph converter = new Transmorph(new DefaultConverters());
 
 		Long myLongWrapper = converter.convert(new Integer(44),
 				Long.class);
@@ -65,8 +63,7 @@ public class NumberToNumberTest extends TestCase {
 	}
 
 	public void testNumberPrimitiveToNumberWrapper() throws Exception {
-		Transmorph converter = new Transmorph(NumberToNumberTest.class
-				.getClassLoader(), new DefaultConverters());
+		Transmorph converter = new Transmorph(new DefaultConverters());
 
 		// int => Long (NumberToNumberConverter)
 		assertEquals(new Long(55), converter.convert(55, Long.class));
@@ -80,8 +77,7 @@ public class NumberToNumberTest extends TestCase {
 		DefaultConverters defaultConverters = new DefaultConverters();
 		NumberToNumber numberToNumber = defaultConverters.getNumberToNumber();
 		numberToNumber.setNullReplacementForPrimitive(0);
-		Transmorph converter = new Transmorph(NumberToNumberTest.class
-				.getClassLoader(), defaultConverters);
+		Transmorph converter = new Transmorph(defaultConverters);
 		long[] longsArray = converter.convert(new Integer[] { 1, 2, null, 4 },
 				long[].class);
 		assertEquals(1, longsArray[0]);

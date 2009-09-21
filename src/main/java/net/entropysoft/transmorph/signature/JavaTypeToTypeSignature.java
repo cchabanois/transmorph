@@ -4,6 +4,7 @@ import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.lang.reflect.WildcardType;
+import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -80,8 +81,25 @@ public class JavaTypeToTypeSignature {
 	 * 
 	 * @param type
 	 * @return
+	 */	
+	public Signature getSignature(Type type) {
+		TypeSignature typeSignature = getTypeSignature(type);
+		if (typeSignature != null) {
+			return typeSignature;
+		}
+		if (type instanceof WildcardType) {
+			return getTypeArgSignature((WildcardType) type);
+		}
+		return null;
+	}
+	
+	/**
+	 * get the type signature corresponding to given java type
+	 * 
+	 * @param type
+	 * @return
 	 */
-	public TypeSignature getTypeSignature(Type type) {
+	private TypeSignature getTypeSignature(Type type) {
 		if (type instanceof Class) {
 			return getTypeSignature((Class) type);
 		}

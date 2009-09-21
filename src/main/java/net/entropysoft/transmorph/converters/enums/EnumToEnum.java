@@ -23,6 +23,7 @@ import net.entropysoft.transmorph.ConversionContext;
 import net.entropysoft.transmorph.ConverterException;
 import net.entropysoft.transmorph.converters.AbstractConverter;
 import net.entropysoft.transmorph.type.Type;
+import net.entropysoft.transmorph.type.TypeReference;
 
 /**
  * Convert from an enumeration type to another one
@@ -55,7 +56,7 @@ public class EnumToEnum extends AbstractConverter {
 		mapDestEnum.put(enumClass, null);
 	}
 
-	private Enum getDestinationEnum(Enum source, Type destinationType)
+	private Enum getDestinationEnum(Enum source, TypeReference<?> destinationType)
 			throws ClassNotFoundException, ConverterException {
 		Map<Class<? extends Enum>, Enum> mapDestEnum = enumToEnumMap.get(source);
 		if (mapDestEnum != null) {
@@ -65,7 +66,7 @@ public class EnumToEnum extends AbstractConverter {
 			}
 		}
 		try {
-			return Enum.valueOf(destinationType.getType(), source.name());
+			return Enum.valueOf((Class<Enum>)destinationType.getRawType(), source.name());
 		} catch (IllegalArgumentException e) {
 			throw new ConverterException(
 					MessageFormat
@@ -77,7 +78,7 @@ public class EnumToEnum extends AbstractConverter {
 	}
 
 	public Object doConvert(ConversionContext context, Object sourceObject,
-			Type destinationType) throws ConverterException {
+			TypeReference<?> destinationType) throws ConverterException {
 
 		if (sourceObject == null) {
 			return null;
@@ -92,12 +93,8 @@ public class EnumToEnum extends AbstractConverter {
 		}
 	}
 
-	protected boolean canHandleDestinationType(Type destinationType) {
-		try {
-			return destinationType.getType().isEnum();
-		} catch (ClassNotFoundException e) {
-			return false;
-		}
+	protected boolean canHandleDestinationType(TypeReference<?> destinationType) {
+		return destinationType.getRawType().isEnum();
 	}
 
 	protected boolean canHandleSourceObject(Object sourceObject) {

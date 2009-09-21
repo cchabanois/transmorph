@@ -20,7 +20,7 @@ import java.beans.PropertyEditor;
 import net.entropysoft.transmorph.ConversionContext;
 import net.entropysoft.transmorph.ConverterException;
 import net.entropysoft.transmorph.converters.AbstractConverter;
-import net.entropysoft.transmorph.type.Type;
+import net.entropysoft.transmorph.type.TypeReference;
 
 /**
  * Converter that converts to String using a {@link PropertyEditor}
@@ -42,12 +42,8 @@ public class ToStringUsingPropertyEditor extends AbstractConverter {
 	}
 
 	@Override
-	protected boolean canHandleDestinationType(Type destinationType) {
-		try {
-			return destinationType.isType(String.class);
-		} catch (ClassNotFoundException e) {
-			return false;
-		}
+	protected boolean canHandleDestinationType(TypeReference<?> destinationType) {
+		return destinationType.isType(String.class);
 	}
 
 	@Override
@@ -61,7 +57,7 @@ public class ToStringUsingPropertyEditor extends AbstractConverter {
 
 	@Override
 	public Object doConvert(ConversionContext context, Object sourceObject,
-			Type destinationType) throws ConverterException {
+			TypeReference<?> destinationType) throws ConverterException {
 		if (sourceObject == null) {
 			return null;
 		}

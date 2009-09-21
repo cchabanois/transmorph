@@ -22,7 +22,6 @@ import net.entropysoft.transmorph.signature.ArrayTypeSignature;
 import net.entropysoft.transmorph.signature.ClassTypeSignature;
 import net.entropysoft.transmorph.signature.PrimitiveTypeSignature;
 import net.entropysoft.transmorph.signature.TypeSignature;
-import net.entropysoft.transmorph.signature.TypeVarSignature;
 
 /**
  * Format a TypeSignature using the same format than Class.getName()
@@ -66,7 +65,8 @@ public class ClassGetNameSignatureFormatter implements ITypeSignatureFormatter {
 			return format((ClassTypeSignature) typeSignature);
 		}
 		if (typeSignature.isTypeVar()) {
-			return format((TypeVarSignature) typeSignature);
+			// TODO
+			// return format((TypeVarSignature) typeSignature);
 		}
 		return null;
 	}

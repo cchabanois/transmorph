@@ -24,8 +24,7 @@ import net.entropysoft.transmorph.Transmorph;
 public class StringToTimeZoneTest extends TestCase {
 
 	public void testStringToTimeZone() throws Exception {
-		Transmorph converter = new Transmorph(StringToTimeZoneTest.class
-				.getClassLoader(), new DefaultConverters());
+		Transmorph converter = new Transmorph(new DefaultConverters());
 
 		String[] ids = TimeZone.getAvailableIDs();
 

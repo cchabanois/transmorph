@@ -18,7 +18,7 @@ package net.entropysoft.transmorph.converters;
 import net.entropysoft.transmorph.ConversionContext;
 import net.entropysoft.transmorph.ConverterException;
 import net.entropysoft.transmorph.IConverter;
-import net.entropysoft.transmorph.type.Type;
+import net.entropysoft.transmorph.type.TypeReference;
 
 /**
  * Converter to convert from one type to another using multiple intermediate
@@ -29,7 +29,7 @@ import net.entropysoft.transmorph.type.Type;
  */
 public class MultiStepConverter extends AbstractContainerConverter {
 
-	private Type[] types;
+	private TypeReference<?>[] types;
 	private IConverter[] stepConverters;
 
 	/**
@@ -42,7 +42,7 @@ public class MultiStepConverter extends AbstractContainerConverter {
 	 *            less step than types
 	 * 
 	 */
-	public MultiStepConverter(Type[] types, IConverter[] stepConverters) {
+	public MultiStepConverter(TypeReference<?>[] types, IConverter[] stepConverters) {
 		this.types = types;
 		setStepConverters(stepConverters);
 	}
@@ -53,7 +53,7 @@ public class MultiStepConverter extends AbstractContainerConverter {
 	 *            first one is the source type. Last one is the destination
 	 *            type. Others are intermediate types
 	 */
-	public MultiStepConverter(Type[] types) {
+	public MultiStepConverter(TypeReference<?>[] types) {
 		this.types = types;
 	}
 
@@ -65,19 +65,15 @@ public class MultiStepConverter extends AbstractContainerConverter {
 		this.stepConverters = stepConverters;
 	}
 
-	protected boolean canHandleDestinationType(Type destinationType) {
+	protected boolean canHandleDestinationType(TypeReference<?> destinationType) {
 		return destinationType.equals(types[types.length - 1]);
 	}
 
 	protected boolean canHandleSourceObject(Object sourceObject) {
-		try {
-			return types[0].getType().equals(sourceObject.getClass());
-		} catch (ClassNotFoundException e) {
-			return false;
-		}
+		return types[0].isInstance(sourceObject);
 	}
 
-	public Object doConvert(ConversionContext context, Object sourceObject, Type destinationType)
+	public Object doConvert(ConversionContext context, Object sourceObject, TypeReference<?> destinationType)
 			throws ConverterException {
 		Object stepSourceObject = sourceObject;
 		for (int i = 1; i < types.length; i++) {

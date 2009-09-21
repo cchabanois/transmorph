@@ -23,6 +23,7 @@ import net.entropysoft.transmorph.ConverterException;
 import net.entropysoft.transmorph.converters.AbstractContainerConverter;
 import net.entropysoft.transmorph.type.ArrayType;
 import net.entropysoft.transmorph.type.Type;
+import net.entropysoft.transmorph.type.TypeReference;
 
 /**
  * Converter used when source object type is collection and destination type is
@@ -37,24 +38,16 @@ public class CollectionToArray extends AbstractContainerConverter {
 		this.useObjectPool = true;
 	}	
 	
-	public Object doConvert(ConversionContext context, Object sourceObject, Type destinationType) throws ConverterException {
+	public Object doConvert(ConversionContext context, Object sourceObject, TypeReference<?> destinationType) throws ConverterException {
 		if (sourceObject == null) {
 			return null;
 		}
 
 		Collection<Object> collection = (Collection<Object>) sourceObject;
 
-		ArrayType arrayDestinationType = (ArrayType) destinationType;
+		TypeReference<?> componentType = destinationType.getArrayComponentType();
 
-		Type componentType = arrayDestinationType.getComponentType();
-
-		Class componentTypeClass;
-		try {
-			componentTypeClass = componentType.getType();
-		} catch (ClassNotFoundException e) {
-			throw new ConverterException("Could not find class for "
-					+ componentType.getName());
-		}
+		Class componentTypeClass = componentType.getRawType();
 
 		Object destinationArray = Array.newInstance(componentTypeClass,
 				collection.size());
@@ -74,7 +67,7 @@ public class CollectionToArray extends AbstractContainerConverter {
 		return destinationArray;
 	}
 
-	protected boolean canHandleDestinationType(Type destinationType) {
+	protected boolean canHandleDestinationType(TypeReference<?> destinationType) {
 		return destinationType.isArray();
 	}
 

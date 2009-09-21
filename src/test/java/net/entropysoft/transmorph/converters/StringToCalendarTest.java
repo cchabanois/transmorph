@@ -35,8 +35,7 @@ public class StringToCalendarTest extends TestCase {
 		simpleDateFormat2.setLenient(false);
 		stringToCalendarConverter2.setDateFormat(simpleDateFormat2);
 
-		Transmorph converter = new Transmorph(StringToCalendarTest.class
-				.getClassLoader(), stringToCalendarConverter1,
+		Transmorph converter = new Transmorph(stringToCalendarConverter1,
 				stringToCalendarConverter2);
 		Calendar calendar = converter.convert("29/12/2008",
 				Calendar.class);

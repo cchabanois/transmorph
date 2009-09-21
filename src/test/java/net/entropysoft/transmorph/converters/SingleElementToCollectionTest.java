@@ -23,9 +23,7 @@ import net.entropysoft.transmorph.Transmorph;
 public class SingleElementToCollectionTest extends TestCase {
 
 	public void testSingleElementToCollection() throws Exception {
-		Transmorph converter = new Transmorph(
-				SingleElementToCollectionTest.class.getClassLoader(),
-				new SingleElementToCollection(), new StringToNumber());
+		Transmorph converter = new Transmorph(new SingleElementToCollection(), new StringToNumber());
 
 		List<Integer> list = converter.convert("55", List.class,
 				new Class[] { Integer.class });

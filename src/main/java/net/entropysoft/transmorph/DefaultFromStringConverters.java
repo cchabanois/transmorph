@@ -46,7 +46,7 @@ public class DefaultFromStringConverters extends MultiConverter {
 	private StringToBoolean stringToBoolean = new StringToBoolean();
 	private StringToCalendar stringToCalendar = new StringToCalendar();
 	private StringToCharacterArray stringToCharacterArray = new StringToCharacterArray();
-	private StringToClass stringToClass = new StringToClass();
+	private StringToClass stringToClass = new StringToClass(DefaultFromStringConverters.class.getClassLoader());
 	private StringToDate stringToDate = new StringToDate();
 	private StringToFile stringToFile = new StringToFile();
 	private StringToInputStream stringToInputStream = new StringToInputStream();

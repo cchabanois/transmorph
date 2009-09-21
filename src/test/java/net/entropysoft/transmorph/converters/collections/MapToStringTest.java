@@ -10,8 +10,7 @@ import net.entropysoft.transmorph.converters.ObjectToString;
 public class MapToStringTest extends TestCase {
 
 	public void testMapToString() throws Exception {
-		Transmorph converter = new Transmorph(MapToMapTest.class
-				.getClassLoader(), new MapToString(), new ArrayToString(),
+		Transmorph converter = new Transmorph(new MapToString(), new ArrayToString(),
 				new ObjectToString());
 
 		// Map[String, String[]] => String

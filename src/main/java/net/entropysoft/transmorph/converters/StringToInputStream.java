@@ -21,7 +21,7 @@ import java.io.UnsupportedEncodingException;
 
 import net.entropysoft.transmorph.ConversionContext;
 import net.entropysoft.transmorph.ConverterException;
-import net.entropysoft.transmorph.type.Type;
+import net.entropysoft.transmorph.type.TypeReference;
 
 /**
  * Converter used when source is a String and destination is an InputStream
@@ -47,7 +47,7 @@ public class StringToInputStream extends AbstractSimpleConverter<String, InputSt
 
 	@Override
 	public InputStream doConvert(ConversionContext context,
-			String sourceObject, Type destinationType)
+			String sourceObject, TypeReference<?> destinationType)
 			throws ConverterException {
 		try {
 			return new ByteArrayInputStream(sourceObject.getBytes(charsetName));

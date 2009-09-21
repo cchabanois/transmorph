@@ -21,7 +21,7 @@ import java.util.GregorianCalendar;
 
 import net.entropysoft.transmorph.ConversionContext;
 import net.entropysoft.transmorph.ConverterException;
-import net.entropysoft.transmorph.type.Type;
+import net.entropysoft.transmorph.type.TypeReference;
 
 /**
  * Converter used to convert a Date to a Calendar
@@ -34,8 +34,9 @@ public class DateToCalendar extends AbstractConverter {
 	public DateToCalendar() {
 		this.useObjectPool = true;
 	}
-	
-	public Object doConvert(ConversionContext context, Object sourceObject, Type destinationType) throws ConverterException {
+
+	public Object doConvert(ConversionContext context, Object sourceObject,
+			TypeReference<?> destinationType) throws ConverterException {
 
 		if (sourceObject == null) {
 			return null;
@@ -48,16 +49,12 @@ public class DateToCalendar extends AbstractConverter {
 		return calendar;
 	}
 
-	protected boolean canHandleDestinationType(Type destinationType) {
-		try {
-			if (!destinationType.isType(Calendar.class)
-					&& !destinationType.isType(GregorianCalendar.class)) {
-				return false;
-			}
-			return true;
-		} catch (ClassNotFoundException e) {
+	protected boolean canHandleDestinationType(TypeReference<?> destinationType) {
+		if (!destinationType.isType(Calendar.class)
+				&& !destinationType.isType(GregorianCalendar.class)) {
 			return false;
 		}
+		return true;
 	}
 
 	protected boolean canHandleSourceObject(Object sourceObject) {

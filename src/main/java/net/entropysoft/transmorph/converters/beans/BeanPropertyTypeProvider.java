@@ -19,6 +19,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import net.entropysoft.transmorph.type.Type;
+import net.entropysoft.transmorph.type.TypeReference;
 
 /**
  * default implementation for {@link IBeanPropertyTypeProvider}
@@ -29,7 +30,7 @@ import net.entropysoft.transmorph.type.Type;
  */
 public class BeanPropertyTypeProvider implements IBeanPropertyTypeProvider {
 
-	private Map<ClassProperty, Type> propertiesDestinationTypes = new HashMap<ClassProperty, Type>();
+	private Map<ClassProperty, TypeReference<?>> propertiesDestinationTypes = new HashMap<ClassProperty, TypeReference<?>>();
 
 	/**
 	 * set the property destination type for given property
@@ -38,12 +39,12 @@ public class BeanPropertyTypeProvider implements IBeanPropertyTypeProvider {
 	 * @param destinationType
 	 */
 	public void setPropertyDestinationType(Class clazz, String propertyName,
-			Type destinationType) {
+			TypeReference<?> destinationType) {
 		propertiesDestinationTypes.put(new ClassProperty(clazz, propertyName), destinationType);
 	}
 
-	public Type getPropertyType(Class clazz, String propertyName,
-			Type originalType) {
+	public TypeReference<?> getPropertyType(Class clazz, String propertyName,
+			TypeReference<?> originalType) {
 		return propertiesDestinationTypes.get(new ClassProperty(clazz, propertyName));
 	}
 

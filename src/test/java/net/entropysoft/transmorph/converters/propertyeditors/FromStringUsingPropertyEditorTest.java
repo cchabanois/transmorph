@@ -21,9 +21,7 @@ import junit.framework.TestCase;
 public class FromStringUsingPropertyEditorTest extends TestCase {
 
 	public void testFromStringUsingPropertyEditor() throws Exception {
-		Transmorph transmorph = new Transmorph(
-				FromStringUsingPropertyEditorTest.class.getClassLoader(),
-				new FromStringUsingPropertyEditor());
+		Transmorph transmorph = new Transmorph(new FromStringUsingPropertyEditor());
 		int myInt = transmorph.convert("56", Integer.TYPE);
 		assertEquals(56, myInt);	
 	}

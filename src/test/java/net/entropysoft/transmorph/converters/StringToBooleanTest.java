@@ -23,8 +23,7 @@ import net.entropysoft.transmorph.Transmorph;
 public class StringToBooleanTest extends TestCase {
 
 	public void testStringToBooleanPrimitive() throws Exception {
-		Transmorph converter = new Transmorph(this.getClass().getClassLoader(),
-				new DefaultConverters());
+		Transmorph converter = new Transmorph(new DefaultConverters());
 
 		// String => boolean (StringToBooleanConverter)
 		boolean myBoolean = converter.convert("false", Boolean.TYPE);
@@ -43,8 +42,7 @@ public class StringToBooleanTest extends TestCase {
 		DefaultConverters defaultConverters = new DefaultConverters();
 		StringToBoolean stringToBoolean = defaultConverters
 				.getStringToBoolean();
-		Transmorph converter = new Transmorph(this.getClass().getClassLoader(),
-				defaultConverters);
+		Transmorph converter = new Transmorph(defaultConverters);
 
 		boolean myBoolean;
 		try {
@@ -64,8 +62,7 @@ public class StringToBooleanTest extends TestCase {
 	}
 
 	public void testBooleanToBooleanWrapper() throws Exception {
-		Transmorph converter = new Transmorph(this.getClass().getClassLoader(),
-				new DefaultConverters());
+		Transmorph converter = new Transmorph(new DefaultConverters());
 		Boolean booleanObject = converter.convert(null, Boolean.class);
 		assertNull(booleanObject);
 	}

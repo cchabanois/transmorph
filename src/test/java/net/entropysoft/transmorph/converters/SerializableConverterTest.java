@@ -1,19 +1,15 @@
 package net.entropysoft.transmorph.converters;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 
-import samples.SerializableBean;
-
-import net.entropysoft.transmorph.Transmorph;
 import junit.framework.TestCase;
+import net.entropysoft.transmorph.Transmorph;
+import samples.SerializableBean;
 
 public class SerializableConverterTest extends TestCase {
 
 	public void testSerializableConverter() throws Exception {
-		Transmorph converter = new Transmorph(SerializableConverterTest.class
-				.getClassLoader(), new SerializableConverter());
+		Transmorph converter = new Transmorph(new SerializableConverter());
 
 		SerializableBean serializableBean = new SerializableBean();
 		serializableBean.setMyString("Hello world");

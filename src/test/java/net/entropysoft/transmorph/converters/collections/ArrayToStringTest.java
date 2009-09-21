@@ -7,8 +7,7 @@ import net.entropysoft.transmorph.converters.ObjectToString;
 public class ArrayToStringTest extends TestCase {
 
 	public void testObjectArrayToString() throws Exception {
-		Transmorph converter = new Transmorph(ArrayToArrayTest.class
-				.getClassLoader(), new ArrayToString(), new ObjectToString());
+		Transmorph converter = new Transmorph(new ArrayToString(), new ObjectToString());
 
 		// Object[] => String (ArrayToArray)
 		Object[] arrayOfObjects = new Object[] { "one", "two", "three" };
@@ -17,8 +16,7 @@ public class ArrayToStringTest extends TestCase {
 	}
 
 	public void testMultidimentionalArrayToString() throws Exception {
-		Transmorph converter = new Transmorph(ArrayToArrayTest.class
-				.getClassLoader(), new ArrayToString(), new ObjectToString());
+		Transmorph converter = new Transmorph(new ArrayToString(), new ObjectToString());
 
 		// int[][] => String (ArrayToString)
 		int[][] arrayOfArrayOfInts = new int[][] { { 11, 12, 13 },

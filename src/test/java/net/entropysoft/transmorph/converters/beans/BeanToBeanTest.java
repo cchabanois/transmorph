@@ -41,8 +41,7 @@ public class BeanToBeanTest extends TestCase {
 
 	public void testBiDirectionalBean() throws Exception {
 		DefaultConverters defaultConverters = new DefaultConverters();
-		Transmorph converter = new Transmorph(BeanToBeanTest.class
-				.getClassLoader(), defaultConverters);
+		Transmorph converter = new Transmorph(defaultConverters);
 
 		BeanToBeanMapping beanToBeanMapping = new BeanToBeanMapping(
 				MyBeanAB.class, MyBeanABTransferObject.class);
@@ -81,8 +80,7 @@ public class BeanToBeanTest extends TestCase {
 
 	public void testBeanToBean() throws Exception {
 		DefaultConverters defaultConverters = new DefaultConverters();
-		Transmorph converter = new Transmorph(BeanToBeanTest.class
-				.getClassLoader(), defaultConverters);
+		Transmorph converter = new Transmorph(defaultConverters);
 
 		BeanToBeanMapping beanToBeanMapping = new BeanToBeanMapping(
 				MyBean4.class, MyBean4TransferObject.class);
@@ -116,8 +114,7 @@ public class BeanToBeanTest extends TestCase {
 
 	public void testBeanToBeanWithPrivateProperties() throws Exception {
 		DefaultConverters defaultConverters = new DefaultConverters();
-		Transmorph converter = new Transmorph(BeanToBeanTest.class
-				.getClassLoader(), defaultConverters);
+		Transmorph converter = new Transmorph(defaultConverters);
 
 		BeanToBeanMapping beanToBeanMapping = new BeanToBeanMapping(
 				PrivatePropertyBean.class,
@@ -136,8 +133,7 @@ public class BeanToBeanTest extends TestCase {
 	}
 
 	public void testCopyBean() throws Exception {
-		Transmorph converter = new Transmorph(BeanToBeanTest.class
-				.getClassLoader(), new BeanToBean(),
+		Transmorph converter = new Transmorph(new BeanToBean(),
 				new ImmutableIdentityConverter(), new WrapperToPrimitive(),
 				new CollectionToCollection(), new ArrayToArray(), new MapToMap());
 

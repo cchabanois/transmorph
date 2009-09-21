@@ -30,24 +30,22 @@ import net.entropysoft.transmorph.modifiers.IModifier;
 import net.entropysoft.transmorph.modifiers.UppercaseString;
 import net.entropysoft.transmorph.type.Type;
 import net.entropysoft.transmorph.type.TypeFactory;
+import net.entropysoft.transmorph.type.TypeReference;
 
 public class MultiStepConverterTest extends TestCase {
 
 	public void testMultiStepConverter() throws Exception {
-		TypeFactory typeFactory = new TypeFactory(MultiStepConverterTest.class
-				.getClassLoader());
-
 		MultiStepConverter multiStepConverter = new MultiStepConverter(
-				new Type[] { typeFactory.getType(String.class),
-						typeFactory.getType(Integer.class),
-						typeFactory.getType(Boolean.TYPE) });
+				new TypeReference[] { TypeReference.get(String.class),
+						TypeReference.get(Integer.class),
+						TypeReference.get(Boolean.TYPE) });
 
 		IConverter intToBoolean = new AbstractSimpleConverter(Integer.class,
 				Boolean.TYPE) {
 
 			@Override
 			public Object doConvert(ConversionContext context,
-					Object sourceObject, Type destinationType)
+					Object sourceObject, TypeReference destinationType)
 					throws ConverterException {
 				int theInt = ((Number) sourceObject).intValue();
 				if (theInt == 0) {
@@ -59,7 +57,7 @@ public class MultiStepConverterTest extends TestCase {
 
 		};
 
-		Transmorph converter = new Transmorph(typeFactory, new IConverter[] {
+		Transmorph converter = new Transmorph(new IConverter[] {
 				new StringToNumber(), new NumberToNumber(), intToBoolean,
 				multiStepConverter });
 		assertTrue(converter.convert("22", Boolean.TYPE));
@@ -80,8 +78,7 @@ public class MultiStepConverterTest extends TestCase {
 		ArrayToCollection arrayToCollection = new ArrayToCollection();
 		arrayToCollection.setElementConverter(dateToString);
 
-		Transmorph converter = new Transmorph(MultiStepConverterTest.class
-				.getClassLoader(), arrayToCollection);
+		Transmorph converter = new Transmorph(arrayToCollection);
 
 		Date[] dates = new Date[] { new Date(0), new Date(1232621965342L) };
 		List<String> listOfstrings = converter.convert(dates, List.class,

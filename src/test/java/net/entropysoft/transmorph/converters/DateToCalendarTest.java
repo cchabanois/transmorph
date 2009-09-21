@@ -25,8 +25,7 @@ import net.entropysoft.transmorph.Transmorph;
 public class DateToCalendarTest extends TestCase {
 
 	public void testDateToCalendar() throws Exception {
-		Transmorph converter = new Transmorph(DateToCalendarTest.class
-				.getClassLoader(), new DefaultConverters());
+		Transmorph converter = new Transmorph(new DefaultConverters());
 
 		Calendar calendar = converter.convert(new Date(0),
 				Calendar.class);

@@ -17,7 +17,7 @@ package net.entropysoft.transmorph.converters;
 
 import net.entropysoft.transmorph.ConversionContext;
 import net.entropysoft.transmorph.ConverterException;
-import net.entropysoft.transmorph.type.Type;
+import net.entropysoft.transmorph.type.TypeReference;
 
 /**
  * Converter used when destination is a String. It uses toString() method on the
@@ -49,31 +49,29 @@ public class ObjectToString extends AbstractConverter {
 			boolean failIfDefaultObjectToString) {
 		this.failIfDefaultObjectToString = failIfDefaultObjectToString;
 	}
-	
+
 	public boolean isFailIfDefaultObjectToString() {
 		return failIfDefaultObjectToString;
 	}
-	
+
 	public Object doConvert(ConversionContext context, Object sourceObject,
-			Type destinationType) throws ConverterException {
+			TypeReference<?> destinationType) throws ConverterException {
 		if (sourceObject == null) {
 			return null;
 		}
 
 		String result = sourceObject.toString();
-		if (failIfDefaultObjectToString && result.equals(getDefaultObjectToString(sourceObject))) {
-			throw new ConverterException("Cannot convert to string : toString() method has not been overridden");
+		if (failIfDefaultObjectToString
+				&& result.equals(getDefaultObjectToString(sourceObject))) {
+			throw new ConverterException(
+					"Cannot convert to string : toString() method has not been overridden");
 		}
-		
+
 		return result;
 	}
 
-	protected boolean canHandleDestinationType(Type destinationType) {
-		try {
-			return destinationType.isType(String.class);
-		} catch (ClassNotFoundException e) {
-			return false;
-		}
+	protected boolean canHandleDestinationType(TypeReference<?> destinationType) {
+		return destinationType.isType(String.class);
 	}
 
 	protected boolean canHandleSourceObject(Object sourceObject) {
@@ -89,7 +87,8 @@ public class ObjectToString extends AbstractConverter {
 	}
 
 	private String getDefaultObjectToString(Object object) {
-		return object.getClass().getName() + "@" + Integer.toHexString(object.hashCode());
+		return object.getClass().getName() + "@"
+				+ Integer.toHexString(object.hashCode());
 	}
 
 }

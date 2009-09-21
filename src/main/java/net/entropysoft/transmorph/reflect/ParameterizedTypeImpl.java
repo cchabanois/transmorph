@@ -54,4 +54,5 @@ public final class ParameterizedTypeImpl implements ParameterizedType {
         ^ (owner == null ? 0 : owner.hashCode())
         ^ (rawType == null ? 0 : rawType.hashCode());
   }
+  
 }

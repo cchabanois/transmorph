@@ -26,8 +26,6 @@ public abstract class TypeSignature extends Signature {
 
 	private String signature;
 	
-	public abstract TypeSignature getTypeErasureSignature();
-	
 	public String getSignature() {
 		if (signature == null) {
 			ClassFileTypeSignatureFormatter typeSignatureFormatter = new ClassFileTypeSignatureFormatter();

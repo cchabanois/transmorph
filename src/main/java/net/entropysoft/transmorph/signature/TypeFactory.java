@@ -39,7 +39,8 @@ public class TypeFactory {
 		return classLoader;
 	}
 
-	public Type getType(TypeSignature typeSignature) throws ClassNotFoundException {
+	public Type getType(TypeSignature typeSignature)
+			throws ClassNotFoundException {
 		if (typeSignature.isPrimitiveType()) {
 			return getType((PrimitiveTypeSignature) typeSignature);
 		}
@@ -60,13 +61,15 @@ public class TypeFactory {
 				.getPrimitiveTypeChar());
 	}
 
-	public GenericArrayType getType(ArrayTypeSignature arrayTypeSignature) throws ClassNotFoundException {
+	public GenericArrayType getType(ArrayTypeSignature arrayTypeSignature)
+			throws ClassNotFoundException {
 		Type componentType = getType(arrayTypeSignature
 				.getComponentTypeSignature());
 		return new GenericArrayTypeImpl(componentType);
 	}
 
-	public Type getType(ClassTypeSignature classTypeSignature) throws ClassNotFoundException {
+	public Type getType(ClassTypeSignature classTypeSignature)
+			throws ClassNotFoundException {
 		TypeArgSignature[] typeArgSignatures = classTypeSignature
 				.getTypeArgSignatures();
 		if (typeArgSignatures.length == 0) {
@@ -94,16 +97,18 @@ public class TypeFactory {
 		return Class.forName(className, true, classLoader);
 	}
 
-	private Type getType(TypeArgSignature typeArgSignature) throws ClassNotFoundException {
+	private Type getType(TypeArgSignature typeArgSignature)
+			throws ClassNotFoundException {
 		char wildcard = typeArgSignature.getWildcard();
 		if (wildcard == TypeArgSignature.NO_WILDCARD) {
 			return getType(typeArgSignature.getFieldTypeSignature());
 		}
 		if (wildcard == TypeArgSignature.UNBOUNDED_WILDCARD) {
-			return new WildcardTypeImpl(new Type[0], new Type[0]);
+			return new WildcardTypeImpl(new Type[] { Object.class },
+					new Type[0]);
 		}
 		if (wildcard == TypeArgSignature.LOWERBOUND_WILDCARD) {
-			return new WildcardTypeImpl(new Type[0],
+			return new WildcardTypeImpl(new Type[] { Object.class },
 					new Type[] { getType(typeArgSignature
 							.getFieldTypeSignature()) });
 		}
@@ -111,6 +116,7 @@ public class TypeFactory {
 			return new WildcardTypeImpl(new Type[] { getType(typeArgSignature
 					.getFieldTypeSignature()) }, new Type[0]);
 		}
-		throw new ClassNotFoundException("Invalid wildcard in type arg signature");
+		throw new ClassNotFoundException(
+				"Invalid wildcard in type arg signature");
 	}
 }

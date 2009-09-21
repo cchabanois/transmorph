@@ -42,6 +42,10 @@ public class TypeArgSignature extends Signature {
 		return wildcard;
 	}
 
+	/**
+	 * get the signature of the type. Null if unbounded
+	 * @return
+	 */
 	public FieldTypeSignature getFieldTypeSignature() {
 		return fieldTypeSignature;
 	}
@@ -57,6 +61,11 @@ public class TypeArgSignature extends Signature {
 	@Override
 	public String toString() {
 		return getSignature();
+	}
+
+	@Override
+	public TypeSignature getTypeErasureSignature() {
+		return null;
 	}
 
 }

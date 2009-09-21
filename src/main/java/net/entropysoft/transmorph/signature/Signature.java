@@ -22,6 +22,8 @@ public abstract class Signature {
 		return false;
 	}
 	
+	public abstract TypeSignature getTypeErasureSignature();
+	
 	/**
 	 * get the signature using the "Internal Form of Fully Qualified Name"
 	 * 

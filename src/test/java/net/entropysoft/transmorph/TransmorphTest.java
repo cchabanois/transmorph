@@ -7,17 +7,19 @@ import junit.framework.TestCase;
 import net.entropysoft.transmorph.converters.IdentityConverter;
 import net.entropysoft.transmorph.modifiers.IModifier;
 import net.entropysoft.transmorph.modifiers.TrimString;
+import net.entropysoft.transmorph.signature.TypeFactory;
+import net.entropysoft.transmorph.signature.TypeSignature;
 import net.entropysoft.transmorph.signature.parser.ClassFileTypeSignatureParser;
 import net.entropysoft.transmorph.signature.parser.ClassGetNameTypeSignatureParser;
 import net.entropysoft.transmorph.signature.parser.JavaSyntaxTypeSignatureParser;
+import net.entropysoft.transmorph.type.TypeReference;
 
 public class TransmorphTest extends TestCase {
 
 	public void testTrimString() throws Exception {
 		IdentityConverter identityConverter = new IdentityConverter();
 		identityConverter.setModifiers(new IModifier[] { new TrimString() });
-		Transmorph transmorph = new Transmorph(TransmorphTest.class
-				.getClassLoader(), identityConverter);
+		Transmorph transmorph = new Transmorph(identityConverter);
 		String converted = (String) transmorph
 				.convert(
 						"    This is a string with leading and trailing white spaces    ",
@@ -27,9 +29,8 @@ public class TransmorphTest extends TestCase {
 	}
 
 	public void testConverterWithContext() throws Exception {
-		Transmorph transmorph = new Transmorph(TransmorphTest.class
-				.getClassLoader(), new DefaultConverters());
-		transmorph.setTypeSignatureParser(new ClassFileTypeSignatureParser(false));
+		Transmorph transmorph = new Transmorph(new DefaultConverters());
+
 		ConversionContext context = new ConversionContext();
 
 		List<Integer> list = new ArrayList<Integer>();
@@ -40,23 +41,23 @@ public class TransmorphTest extends TestCase {
 		// we use the same ConversionContext. This implies that the original
 		// objects to convert must not change
 		// until conversion is not finished
-
 		String[] arrayOfStrings = (String[]) transmorph.convert(context, list,
-				"[Ljava.lang.String;");
+				String[].class);
 
 		String[] arrayOfStrings2 = (String[]) transmorph.convert(context, list,
-				"[Ljava.lang.String;");
+				String[].class);
 		assertTrue(arrayOfStrings == arrayOfStrings2);
 	}
 
 	public void testTransmorphWithJavaTypeSignatureParser() throws Exception {
-		Transmorph transmorph = new Transmorph(TransmorphTest.class
-				.getClassLoader(), new DefaultConverters());
-		transmorph.setTypeSignatureParser(new JavaSyntaxTypeSignatureParser());
-		Long longNumber = (Long)transmorph.convert(55, "Long");
+		Transmorph transmorph = new Transmorph(new DefaultConverters());
+		Long longNumber = (Long) transmorph.convert(55, Long.class);
 		assertEquals(55, longNumber.longValue());
-		
-		List<String> listOfStrings = (List<String>)transmorph.convert(new long[] {1,2,3,4,5}, "java.util.List<String>");
+
+		TypeReference<List<String>> typeReference = new TypeReference<List<String>>() {
+		};
+		List<String> listOfStrings = (List<String>) transmorph.convert(
+				new long[] { 1, 2, 3, 4, 5 }, typeReference);
 		assertEquals(5, listOfStrings.size());
 		assertEquals("1", listOfStrings.get(0));
 		assertEquals("2", listOfStrings.get(1));
@@ -65,12 +66,11 @@ public class TransmorphTest extends TestCase {
 		assertEquals("5", listOfStrings.get(4));
 	}
 
-	public void testTransmorphWithClassGetNameTypeSignatureParser() throws Exception {
-		Transmorph transmorph = new Transmorph(TransmorphTest.class
-				.getClassLoader(), new DefaultConverters());
-		transmorph.setTypeSignatureParser(new ClassGetNameTypeSignatureParser());
-		Long longNumber = (Long)transmorph.convert(55, "java.lang.Long");
+	public void testTransmorphWithClassGetNameTypeSignatureParser()
+			throws Exception {
+		Transmorph transmorph = new Transmorph(new DefaultConverters());
+		Long longNumber = (Long) transmorph.convert(55, Long.class);
 		assertEquals(55, longNumber.longValue());
 	}
-	
+
 }

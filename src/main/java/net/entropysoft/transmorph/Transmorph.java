@@ -19,7 +19,6 @@ import java.lang.reflect.Type;
 import java.text.MessageFormat;
 
 import net.entropysoft.transmorph.converters.MultiConverter;
-import net.entropysoft.transmorph.type.TypeFactory;
 import net.entropysoft.transmorph.type.TypeReference;
 
 /**
@@ -35,7 +34,6 @@ import net.entropysoft.transmorph.type.TypeReference;
 public class Transmorph {
 
 	private MultiConverter multiConverter;
-	private TypeFactory typeFactory;
 
 	/**
 	 * Creates Transmorph object
@@ -76,7 +74,6 @@ public class Transmorph {
 	 * @return the converted object if conversion failed
 	 * @throws ConverterException
 	 */
-	@SuppressWarnings("unchecked")
 	public <T> T convert(Object source, TypeReference<T> typeReference)
 			throws ConverterException {
 		return (T) convert(new ConversionContext(), source, typeReference);
@@ -167,16 +164,6 @@ public class Transmorph {
 	public boolean canHandle(ConversionContext context, Object sourceObject,
 			TypeReference<?> destinationType) {
 		return multiConverter.canHandle(context, sourceObject, destinationType);
-	}
-
-	/**
-	 * get the type factory that can be used to create types from their
-	 * signatures
-	 * 
-	 * @return
-	 */
-	public TypeFactory getTypeFactory() {
-		return typeFactory;
 	}
 
 }

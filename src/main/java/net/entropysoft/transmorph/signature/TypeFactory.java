@@ -75,7 +75,7 @@ public class TypeFactory {
 		if (typeArgSignatures.length == 0) {
 			return getClass(classTypeSignature);
 		}
-		Type rawType = getType(classTypeSignature.getTypeErasureSignature());
+		Class<?> rawType = (Class<?>)getType(classTypeSignature.getTypeErasureSignature());
 		Type ownerType;
 		if (classTypeSignature.getOwnerTypeSignature() == null) {
 			ownerType = null;

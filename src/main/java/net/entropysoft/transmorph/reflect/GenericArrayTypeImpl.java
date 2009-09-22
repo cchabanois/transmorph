@@ -32,4 +32,18 @@ public final class GenericArrayTypeImpl implements GenericArrayType {
   public int hashCode() {
     return (genericComponentType == null) ? 0 : genericComponentType.hashCode();
   }
+  
+  public String toString() {
+      Type componentType = getGenericComponentType();
+      StringBuilder sb = new StringBuilder();
+
+      if (componentType instanceof Class)
+          sb.append(((Class<?>) componentType).getName());
+      else
+          sb.append(componentType.toString());
+      sb.append("[]");
+      return sb.toString();
+  }
+
+  
 }

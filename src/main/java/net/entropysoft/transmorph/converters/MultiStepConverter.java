@@ -70,7 +70,7 @@ public class MultiStepConverter extends AbstractContainerConverter {
 	}
 
 	protected boolean canHandleSourceObject(Object sourceObject) {
-		return types[0].isInstance(sourceObject);
+		return types[0].isRawTypeInstance(sourceObject);
 	}
 
 	public Object doConvert(ConversionContext context, Object sourceObject, TypeReference<?> destinationType)

@@ -111,7 +111,7 @@ public abstract class AbstractConverter implements IConverter {
 
 		if (modifiers.length > 0 && object != initialObject && object != null) {
 
-			if (!destinationType.isInstance(object)) {
+			if (!destinationType.isRawTypeInstance(object)) {
 				throw new ConverterException(
 						"A modifier has modified the object type and it is no more compatible with expected destination type");
 			}

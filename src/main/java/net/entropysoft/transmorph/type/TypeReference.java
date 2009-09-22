@@ -58,7 +58,7 @@ public abstract class TypeReference<T> implements Comparable<TypeReference<T>> {
 		}
 	}
 
-	public boolean isInstance(Object object) {
+	public boolean isRawTypeInstance(Object object) {
 		return rawType.isInstance(object);
 	}
 
@@ -77,7 +77,7 @@ public abstract class TypeReference<T> implements Comparable<TypeReference<T>> {
 				|| type == Boolean.TYPE;
 	}
 
-	public boolean isSubOf(Class<?> superClass) {
+	public boolean isRawTypeSubOf(Class<?> superClass) {
 		return superClass.isAssignableFrom(rawType);
 	}
 
@@ -94,7 +94,7 @@ public abstract class TypeReference<T> implements Comparable<TypeReference<T>> {
 				|| type == Double.TYPE) {
 			return true;
 		} else {
-			return isSubOf(Number.class);
+			return isRawTypeSubOf(Number.class);
 		}
 	}
 
@@ -104,7 +104,11 @@ public abstract class TypeReference<T> implements Comparable<TypeReference<T>> {
 	 * @return
 	 */
 	public String getName() {
-		return type.toString();
+		if (type instanceof Class) {
+			return ((Class)type).getName();
+		} else {
+			return type.toString();
+		}
 	}
 
 	public TypeReference<?>[] getTypeArguments() {

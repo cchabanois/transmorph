@@ -46,7 +46,7 @@ public class ImmutableIdentityConverter extends AbstractConverter {
 		if (!canHandleSourceObject(sourceObject)) {
 			return false;
 		}
-		return destinationType.isInstance(sourceObject);
+		return destinationType.isRawTypeInstance(sourceObject);
 	}
 
 	@Override

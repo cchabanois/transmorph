@@ -107,7 +107,7 @@ public class MapToMap extends AbstractContainerConverter {
 
 	protected TypeReference<?>[] getDestinationTypeArguments(
 			TypeReference mapDestinationType) {
-		if (mapDestinationType.isSubOf(Properties.class)) {
+		if (mapDestinationType.isRawTypeSubOf(Properties.class)) {
 			// Properties extends Hashtable<Object,Object> but should contain
 			// only strings
 			return new TypeReference<?>[] { TypeReference.get(String.class),
@@ -154,7 +154,7 @@ public class MapToMap extends AbstractContainerConverter {
 	}
 
 	protected boolean canHandleDestinationType(TypeReference<?> destinationType) {
-		return destinationType.isSubOf(Map.class);
+		return destinationType.isRawTypeSubOf(Map.class);
 	}
 
 	protected boolean canHandleSourceObject(Object sourceObject) {

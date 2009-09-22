@@ -142,7 +142,7 @@ public class ArrayToCollection extends AbstractContainerConverter {
 	}
 
 	protected boolean canHandleDestinationType(TypeReference<?> destinationType) {
-		if (!destinationType.isSubOf(Collection.class)) {
+		if (!destinationType.isRawTypeSubOf(Collection.class)) {
 			return false;
 		}
 		return true;

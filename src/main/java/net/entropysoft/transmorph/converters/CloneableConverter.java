@@ -25,7 +25,7 @@ public class CloneableConverter extends AbstractConverter {
 
 	@Override
 	protected boolean canHandleDestinationType(TypeReference<?> destinationType) {
-		return destinationType.isSubOf(Cloneable.class);
+		return destinationType.isRawTypeSubOf(Cloneable.class);
 	}
 
 	@Override
@@ -54,7 +54,7 @@ public class CloneableConverter extends AbstractConverter {
 	public boolean canHandle(ConversionContext context, Object sourceObject,
 			TypeReference<?> destinationType) {
 		return super.canHandle(context, sourceObject, destinationType)
-				&& destinationType.isInstance(sourceObject);
+				&& destinationType.isRawTypeInstance(sourceObject);
 
 	}
 

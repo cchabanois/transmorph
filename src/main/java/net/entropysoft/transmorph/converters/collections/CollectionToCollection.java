@@ -144,7 +144,7 @@ public class CollectionToCollection extends AbstractContainerConverter {
 	}
 
 	protected boolean canHandleDestinationType(TypeReference<?> destinationType) {
-		return destinationType.isSubOf(Collection.class);
+		return destinationType.isRawTypeSubOf(Collection.class);
 	}
 
 	protected boolean canHandleSourceObject(Object sourceObject) {

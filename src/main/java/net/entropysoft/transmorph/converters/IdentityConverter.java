@@ -52,7 +52,7 @@ public class IdentityConverter extends AbstractConverter {
 			return true;
 		}
 
-		return destinationType.isInstance(sourceObject);
+		return destinationType.isRawTypeInstance(sourceObject);
 	}
 
 }

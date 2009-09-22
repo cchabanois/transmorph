@@ -25,7 +25,7 @@ public class SerializableConverter extends AbstractConverter {
 
 	@Override
 	protected boolean canHandleDestinationType(TypeReference<?> destinationType) {
-		return destinationType.isSubOf(Serializable.class);
+		return destinationType.isRawTypeSubOf(Serializable.class);
 	}
 
 	@Override
@@ -49,7 +49,7 @@ public class SerializableConverter extends AbstractConverter {
 			TypeReference<?> destinationType) {
 		return super.canHandle(context, sourceObject, destinationType)
 				&& (sourceObject == null || destinationType
-						.isInstance(sourceObject));
+						.isRawTypeInstance(sourceObject));
 	}
 
 }

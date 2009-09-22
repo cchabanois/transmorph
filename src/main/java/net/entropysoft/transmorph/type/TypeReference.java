@@ -7,28 +7,21 @@ import java.lang.reflect.Type;
 import java.lang.reflect.WildcardType;
 
 import net.entropysoft.transmorph.reflect.ParameterizedTypeImpl;
-import net.entropysoft.transmorph.signature.ArrayTypeSignature;
-import net.entropysoft.transmorph.signature.PrimitiveTypeSignature;
-import net.entropysoft.transmorph.signature.Signature;
-import net.entropysoft.transmorph.signature.TypeSignatureFactory;
 
 public abstract class TypeReference<T> implements Comparable<TypeReference<T>> {
 	private final Type type;
 	private final Class<? super T> rawType;
-	private final Signature typeSignature;
 
 	@SuppressWarnings("unchecked")
 	protected TypeReference() {
 		this.type = getSuperclassTypeParameter(getClass());
 		this.rawType = (Class<? super T>) getRawType(type);
-		this.typeSignature = TypeSignatureFactory.getTypeSignature(type);
 	}
 
 	@SuppressWarnings("unchecked")
 	private TypeReference(Type type) {
 		this.type = type;
 		this.rawType = (Class<? super T>) getRawType(type);
-		this.typeSignature = TypeSignatureFactory.getTypeSignature(type);
 	}
 
 	/**
@@ -48,7 +41,7 @@ public abstract class TypeReference<T> implements Comparable<TypeReference<T>> {
 	public static TypeReference<?> get(Class<?> clazz, Class<?>[] typeArgs) {
 		return get(new ParameterizedTypeImpl(clazz, typeArgs, null));
 	}
-	
+
 	public Type getType() {
 		return type;
 	}
@@ -57,12 +50,14 @@ public abstract class TypeReference<T> implements Comparable<TypeReference<T>> {
 		return rawType;
 	}
 
-	public Signature getTypeSignature() {
-		return typeSignature;
-	}
-	
 	public boolean isArray() {
-		return typeSignature.isArrayType();
+		if (type instanceof Class) {
+			return ((Class<?>) type).isArray();
+		} else if (type instanceof GenericArrayType) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	public boolean isInstance(Object object) {
@@ -70,15 +65,18 @@ public abstract class TypeReference<T> implements Comparable<TypeReference<T>> {
 	}
 
 	public boolean isType(Type type) {
-		return this.type.equals(type);
+		return this.type == type;
 	}
-	
+
 	public boolean hasRawType(Class<?> type) {
-		return this.rawType.equals(type);
+		return rawType == type;
 	}
-	
+
 	public boolean isPrimitive() {
-		return typeSignature.isPrimitiveType();
+		return type == Byte.TYPE || type == Short.TYPE || type == Integer.TYPE
+				|| type == Long.TYPE || type == Float.TYPE
+				|| type == Double.TYPE || type == Character.TYPE
+				|| type == Boolean.TYPE;
 	}
 
 	public boolean isSubOf(Class<?> superClass) {
@@ -87,35 +85,36 @@ public abstract class TypeReference<T> implements Comparable<TypeReference<T>> {
 
 	/**
 	 * check if type is a number type (either primitive or instance of Number)
+	 * 
 	 * @param type
 	 * @return
-	 * @throws ClassNotFoundException 
+	 * @throws ClassNotFoundException
 	 */
 	public boolean isNumber() {
-		if (isPrimitive()) {
-			return  ((PrimitiveTypeSignature)typeSignature).isNumber();
+		if (type == Byte.TYPE || type == Short.TYPE || type == Integer.TYPE
+				|| type == Long.TYPE || type == Float.TYPE
+				|| type == Double.TYPE) {
+			return true;
 		} else {
 			return isSubOf(Number.class);
 		}
-	}	
-	
+	}
+
 	/**
 	 * get the type name (similar to Class.getName())
 	 * 
 	 * @return
 	 */
 	public String getName() {
-//		ClassGetNameSignatureFormatter classGetNameSignatureFormatter = new ClassGetNameSignatureFormatter();
-//		return classGetNameSignatureFormatter.format(typeSignature);
-		return typeSignature.getSignature();
-	}	
-	
+		return type.toString();
+	}
+
 	public TypeReference<?>[] getTypeArguments() {
 		if (type instanceof ParameterizedType) {
-			ParameterizedType parameterizedType = (ParameterizedType)type;
+			ParameterizedType parameterizedType = (ParameterizedType) type;
 			Type[] typeArguments = parameterizedType.getActualTypeArguments();
 			TypeReference<?>[] typeReferences = new TypeReference<?>[typeArguments.length];
-			for (int i = 0; i < typeArguments.length;i++) {
+			for (int i = 0; i < typeArguments.length; i++) {
 				typeReferences[i] = TypeReference.get(typeArguments[i]);
 			}
 			return typeReferences;
@@ -125,38 +124,43 @@ public abstract class TypeReference<T> implements Comparable<TypeReference<T>> {
 		}
 		return new TypeReference<?>[0];
 	}
-	
+
 	public TypeReference<?> getArrayElementType() {
 		if (!isArray()) {
 			return null;
 		}
 		TypeReference<?> componentType = getArrayComponentType();
-		while(componentType.isArray()) {
+		while (componentType.isArray()) {
 			componentType = componentType.getArrayComponentType();
 		}
 		return componentType;
 	}
-	
+
 	public TypeReference<?> getArrayComponentType() {
 		if (!isArray()) {
 			return null;
 		}
-		if (type instanceof GenericArrayType)  {
-			GenericArrayType genericArrayType = (GenericArrayType)type;
-			return TypeReference.get(genericArrayType.getGenericComponentType());
+		if (type instanceof GenericArrayType) {
+			GenericArrayType genericArrayType = (GenericArrayType) type;
+			return TypeReference
+					.get(genericArrayType.getGenericComponentType());
 		}
 		return TypeReference.get(rawType.getComponentType());
 	}
 
 	public int getArrayNumDimensions() {
-		if (typeSignature.isArrayType()) {
-			ArrayTypeSignature arrayTypeSignature = (ArrayTypeSignature)typeSignature;
-			return arrayTypeSignature.getNumDimensions();
-		} else {
+		if (!isArray()) {
 			return 0;
 		}
-	}	
-	
+		int numDim = 1;
+		TypeReference<?> componentType = getArrayComponentType();
+		while (componentType.isArray()) {
+			componentType = componentType.getArrayComponentType();
+			numDim++;
+		}
+		return numDim;
+	}
+
 	/**
 	 * The only reason we define this method (and require implementation of
 	 * <code>Comparable</code>) is to prevent constructing a reference without

@@ -16,7 +16,6 @@
 package net.entropysoft.transmorph.context;
 
 import net.entropysoft.transmorph.IConverter;
-import net.entropysoft.transmorph.type.Type;
 import net.entropysoft.transmorph.type.TypeReference;
 
 /**

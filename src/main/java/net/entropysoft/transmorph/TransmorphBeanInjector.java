@@ -17,11 +17,7 @@ package net.entropysoft.transmorph;
 
 import java.text.MessageFormat;
 
-import net.entropysoft.transmorph.signature.ClassFactory;
-import net.entropysoft.transmorph.signature.Signature;
-import net.entropysoft.transmorph.signature.TypeSignatureFactory;
-import net.entropysoft.transmorph.type.Type;
-import net.entropysoft.transmorph.type.TypeFactory;
+import net.entropysoft.transmorph.type.TypeReference;
 
 /**
  * Inject property values into a bean. If necessary, values will be converted.
@@ -35,47 +31,29 @@ import net.entropysoft.transmorph.type.TypeFactory;
  */
 public class TransmorphBeanInjector implements IBeanInjector {
 	private IBeanInjector beanInjector;
-	private TypeFactory typeFactory;
 
 	public TransmorphBeanInjector(IBeanInjector beanInjector) {
-		this(Thread.currentThread().getContextClassLoader(), beanInjector);
-	}
-
-	public TransmorphBeanInjector(ClassLoader classLoader,
-			IBeanInjector beanInjector) {
-		this(new TypeFactory(new ClassFactory(classLoader)), beanInjector);
-	}
-
-	public TransmorphBeanInjector(TypeFactory typeFactory,
-			IBeanInjector beanInjector) {
-		this.typeFactory = typeFactory;
 		this.beanInjector = beanInjector;
 	}
 
-	public TypeFactory getTypeFactory() {
-		return typeFactory;
-	}
 	
 	public void inject(Object source, Object targetBean)
 			throws ConverterException {
 		inject(source, targetBean, targetBean.getClass());
 	}
 
-	public void inject(Object source, Object targetBean, Class targetClass)
+	public void inject(Object source, Object targetBean, Class<?> targetClass)
 			throws ConverterException {
 		inject(new ConversionContext(), source, targetBean, targetClass);
 	}
 
 	public void inject(ConversionContext context, Object source,
-			Object targetBean, Class targetClass) throws ConverterException {
-		Signature typeSignature = TypeSignatureFactory
-				.getTypeSignature(targetClass);
-		Type destinationType = typeFactory.getType(typeSignature);
-		inject(context, source, targetBean, destinationType);
+			Object targetBean, Class<?> targetClass) throws ConverterException {
+		inject(context, source, targetBean, TypeReference.get(targetClass));
 	}
 
 	public void inject(ConversionContext context, Object source,
-			Object targetBean, Type targetType) throws ConverterException {
+			Object targetBean, TypeReference<?> targetType) throws ConverterException {
 		try {
 			beanInjector.inject(context, source, targetBean, targetType);
 		} catch (ConverterException e) {
@@ -86,7 +64,7 @@ public class TransmorphBeanInjector implements IBeanInjector {
 		}
 	}
 
-	public boolean canHandle(Object sourceObject, Type targetType) {
+	public boolean canHandle(Object sourceObject, TypeReference<?> targetType) {
 		return beanInjector.canHandle(sourceObject, targetType);
 	}
 

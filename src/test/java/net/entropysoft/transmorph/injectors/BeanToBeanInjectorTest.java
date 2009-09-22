@@ -24,7 +24,7 @@ public class BeanToBeanInjectorTest extends TestCase {
 	public void testBeanToBeanInjectorNoConversion() throws Exception {
 		BeanToBeanInjector beanInjector = new BeanToBeanInjector();
 		TransmorphBeanInjector transmorphBeanInjector = new TransmorphBeanInjector(
-				BeanToBeanInjectorTest.class.getClassLoader(), beanInjector);
+				beanInjector);
 
 		MyBean4 myBean4 = new MyBean4();
 		myBean4.setMyString("hello world");
@@ -34,19 +34,19 @@ public class BeanToBeanInjectorTest extends TestCase {
 		myStrings.add("second");
 		myStrings.add("third");
 		myBean4.setMyStrings(myStrings);
-		
+
 		MyBean4 myBean4Injected = new MyBean4();
 		transmorphBeanInjector.inject(myBean4, myBean4Injected);
-		
+
 		assertEquals("hello world", myBean4Injected.getMyString());
 		assertEquals(55, myBean4Injected.getSize());
 		assertEquals(myStrings, myBean4Injected.getMyStrings());
 	}
-	
+
 	public void testBeanToBeanSubClassToAncestor() throws Exception {
 		BeanToBeanInjector beanInjector = new BeanToBeanInjector();
 		TransmorphBeanInjector transmorphBeanInjector = new TransmorphBeanInjector(
-				BeanToBeanInjectorTest.class.getClassLoader(), beanInjector);
+				beanInjector);
 
 		MyBean4 myBean4 = new MyBean4();
 		myBean4.setMyString("hello world");
@@ -56,19 +56,19 @@ public class BeanToBeanInjectorTest extends TestCase {
 		myStrings.add("second");
 		myStrings.add("third");
 		myBean4.setMyStrings(myStrings);
-		
+
 		MyBean4Ancestor myBean4Injected = new MyBean4Ancestor();
 		transmorphBeanInjector.inject(myBean4, myBean4Injected);
-		
+
 		assertEquals(55, myBean4Injected.getSize());
-	}	
-	
+	}
+
 	public void testBeanToBeanInjector() throws Exception {
 		DefaultConverters defaultConverters = new DefaultConverters();
 		BeanToBeanInjector beanInjector = new BeanToBeanInjector();
 		beanInjector.setPropertyValueConverter(defaultConverters);
 		TransmorphBeanInjector transmorphBeanInjector = new TransmorphBeanInjector(
-				BeanToBeanInjectorTest.class.getClassLoader(), beanInjector);
+				beanInjector);
 
 		BeanToBeanMapping beanToBeanMapping = new BeanToBeanMapping(
 				MyBean4.class, MyBean4TransferObject.class);
@@ -97,7 +97,6 @@ public class BeanToBeanInjectorTest extends TestCase {
 
 	public void testCopyBeanUsingInjector() throws Exception {
 		TransmorphBeanInjector transmorphBeanInjector = new TransmorphBeanInjector(
-				BeanToBeanInjectorTest.class.getClassLoader(),
 				new BeanToBeanInjector());
 		transmorphBeanInjector.setPropertyValueConverter(new MultiConverter(
 				new BeanToBean(), new ImmutableIdentityConverter(),

@@ -26,7 +26,6 @@ import net.entropysoft.transmorph.converters.MultiConverter;
 import net.entropysoft.transmorph.converters.WrapperToPrimitive;
 import net.entropysoft.transmorph.converters.beans.IBeanPropertyTypeProvider;
 import net.entropysoft.transmorph.converters.beans.utils.BeanUtils;
-import net.entropysoft.transmorph.type.Type;
 import net.entropysoft.transmorph.type.TypeReference;
 
 /**
@@ -54,7 +53,7 @@ public class MapToBeanInjector extends AbstractBeanInjector {
 		return beanDestinationPropertyTypeProvider;
 	}
 
-	public boolean canHandle(Object sourceObject, Type targetType) {
+	public boolean canHandle(Object sourceObject, TypeReference<?> targetType) {
 		if (!(sourceObject instanceof Map)) {
 			return false;
 		}
@@ -67,18 +66,12 @@ public class MapToBeanInjector extends AbstractBeanInjector {
 	}
 
 	public void inject(ConversionContext context, Object sourceObject,
-			Object targetBean, Type targetType) throws ConverterException {
+			Object targetBean, TypeReference<?> targetType)
+			throws ConverterException {
 		Map<String, Object> sourceMap = (Map<String, Object>) sourceObject;
 		Map<String, Method> setterMethods;
-		Class targetTypeClass;
-		try {
-			targetTypeClass = targetType.getType();
-			setterMethods = BeanUtils.getSetters(targetTypeClass);
-		} catch (ClassNotFoundException e) {
-			throw new ConverterException(MessageFormat.format(
-					"Could not get setter methods for ''{0}''", targetType
-							.getName()), e);
-		}
+		Class targetTypeClass = targetType.getRawType();
+		setterMethods = BeanUtils.getSetters(targetTypeClass);
 
 		for (String key : sourceMap.keySet()) {
 			Object value = sourceMap.get(key);
@@ -91,8 +84,8 @@ public class MapToBeanInjector extends AbstractBeanInjector {
 			java.lang.reflect.Type parameterType = method
 					.getGenericParameterTypes()[0];
 			TypeReference<?> originalType = TypeReference.get(parameterType);
-			TypeReference<?> propertyDestinationType = getBeanPropertyType(targetTypeClass,
-					key, originalType);
+			TypeReference<?> propertyDestinationType = getBeanPropertyType(
+					targetTypeClass, key, originalType);
 
 			Object valueConverted = propertyValueConverter.convert(context,
 					value, propertyDestinationType);
@@ -106,8 +99,8 @@ public class MapToBeanInjector extends AbstractBeanInjector {
 		}
 	}
 
-	protected TypeReference<?> getBeanPropertyType(Class targetClass, String propertyName,
-			TypeReference<?> originalType) {
+	protected TypeReference<?> getBeanPropertyType(Class targetClass,
+			String propertyName, TypeReference<?> originalType) {
 		TypeReference<?> propertyDestinationType = null;
 		if (beanDestinationPropertyTypeProvider != null) {
 			propertyDestinationType = beanDestinationPropertyTypeProvider

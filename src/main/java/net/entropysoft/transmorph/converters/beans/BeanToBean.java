@@ -26,7 +26,6 @@ import net.entropysoft.transmorph.converters.AbstractContainerConverter;
 import net.entropysoft.transmorph.converters.IdentityConverter;
 import net.entropysoft.transmorph.converters.beans.utils.BeanUtils;
 import net.entropysoft.transmorph.converters.beans.utils.ClassPair;
-import net.entropysoft.transmorph.type.Type;
 import net.entropysoft.transmorph.type.TypeReference;
 
 /**

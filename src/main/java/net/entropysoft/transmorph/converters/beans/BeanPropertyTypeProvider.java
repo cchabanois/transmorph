@@ -18,7 +18,6 @@ package net.entropysoft.transmorph.converters.beans;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.entropysoft.transmorph.type.Type;
 import net.entropysoft.transmorph.type.TypeReference;
 
 /**

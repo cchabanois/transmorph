@@ -28,8 +28,7 @@ import net.entropysoft.transmorph.Transmorph;
 import net.entropysoft.transmorph.converters.collections.ArrayToCollection;
 import net.entropysoft.transmorph.modifiers.IModifier;
 import net.entropysoft.transmorph.modifiers.UppercaseString;
-import net.entropysoft.transmorph.type.Type;
-import net.entropysoft.transmorph.type.TypeFactory;
+import net.entropysoft.transmorph.signature.TypeFactory;
 import net.entropysoft.transmorph.type.TypeReference;
 
 public class MultiStepConverterTest extends TestCase {
@@ -65,9 +64,6 @@ public class MultiStepConverterTest extends TestCase {
 	}
 
 	public void testMultiStepWithConverters() throws Exception {
-		TypeFactory typeFactory = new TypeFactory(MultiStepConverterTest.class
-				.getClassLoader());
-
 		// we will convert an array of Dates to a List of uppercased strings
 
 		// use an ObjectToFormattedString to convert Date to string

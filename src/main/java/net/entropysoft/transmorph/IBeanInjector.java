@@ -15,14 +15,14 @@
  */
 package net.entropysoft.transmorph;
 
-import net.entropysoft.transmorph.type.Type;
+import net.entropysoft.transmorph.type.TypeReference;
 
 public interface IBeanInjector {
 
 	public void inject(ConversionContext conversionContext, Object source,
-			Object targetBean, Type targetType) throws ConverterException;
+			Object targetBean, TypeReference<?> targetType) throws ConverterException;
 
-	public boolean canHandle(Object sourceObject, Type targetType);
+	public boolean canHandle(Object sourceObject, TypeReference<?> targetType);
 
 	public void setPropertyValueConverter(IConverter converter);
 

@@ -29,7 +29,6 @@ import net.entropysoft.transmorph.converters.beans.BeanToBeanMapping;
 import net.entropysoft.transmorph.converters.beans.IBeanPropertyTypeProvider;
 import net.entropysoft.transmorph.converters.beans.utils.BeanUtils;
 import net.entropysoft.transmorph.converters.beans.utils.ClassPair;
-import net.entropysoft.transmorph.type.Type;
 import net.entropysoft.transmorph.type.TypeReference;
 
 /**
@@ -85,23 +84,14 @@ public class BeanToBeanInjector extends AbstractBeanInjector {
 		this.handleTargetClassSameAsSourceClass = useIfTargetClassSameAsSourceClass;
 	}
 
-	public boolean canHandle(Object sourceObject, Type targetType) {
-		try {
-			return canHandle(sourceObject.getClass(), targetType.getType());
-		} catch (ClassNotFoundException e) {
-			return false;
-		}
+	public boolean canHandle(Object sourceObject, TypeReference<?> targetType) {
+		return canHandle(sourceObject.getClass(), targetType.getRawType());
 	}
 
 	public void inject(ConversionContext context, Object sourceObject,
-			Object targetBean, Type targetType) throws ConverterException {
-		Class destinationClass;
-		try {
-			destinationClass = targetType.getType();
-		} catch (ClassNotFoundException e) {
-			throw new ConverterException(
-					"Could not get destination type class", e);
-		}
+			Object targetBean, TypeReference<?> targetType)
+			throws ConverterException {
+		Class destinationClass = targetType.getRawType();
 
 		if (!canHandle(sourceObject.getClass(), destinationClass)) {
 			throw new ConverterException(MessageFormat.format(
@@ -186,8 +176,8 @@ public class BeanToBeanInjector extends AbstractBeanInjector {
 	 * @param originalType
 	 * @return
 	 */
-	protected TypeReference<?> getBeanPropertyType(Class clazz, String propertyName,
-			TypeReference<?> originalType) {
+	protected TypeReference<?> getBeanPropertyType(Class clazz,
+			String propertyName, TypeReference<?> originalType) {
 		TypeReference<?> propertyDestinationType = null;
 		if (beanDestinationPropertyTypeProvider != null) {
 			propertyDestinationType = beanDestinationPropertyTypeProvider

@@ -6,8 +6,6 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.lang.reflect.WildcardType;
 
-import net.entropysoft.transmorph.reflect.ParameterizedTypeImpl;
-
 public abstract class TypeReference<T> implements Comparable<TypeReference<T>> {
 	private final Type type;
 	private final Class<? super T> rawType;

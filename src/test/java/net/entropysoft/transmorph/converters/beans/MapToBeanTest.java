@@ -22,7 +22,6 @@ import java.util.Map;
 import junit.framework.TestCase;
 import net.entropysoft.transmorph.DefaultConverters;
 import net.entropysoft.transmorph.Transmorph;
-import net.entropysoft.transmorph.type.TypeFactory;
 import net.entropysoft.transmorph.type.TypeReference;
 import samples.MyBean1;
 import samples.MyBean2;

@@ -19,7 +19,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import net.entropysoft.transmorph.IConverter;
-import net.entropysoft.transmorph.type.Type;
 import net.entropysoft.transmorph.type.TypeReference;
 
 /**

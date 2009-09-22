@@ -1,4 +1,4 @@
-package net.entropysoft.transmorph.reflect;
+package net.entropysoft.transmorph.type;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;

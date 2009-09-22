@@ -5,9 +5,9 @@ import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.entropysoft.transmorph.reflect.GenericArrayTypeImpl;
-import net.entropysoft.transmorph.reflect.ParameterizedTypeImpl;
-import net.entropysoft.transmorph.reflect.WildcardTypeImpl;
+import net.entropysoft.transmorph.type.GenericArrayTypeImpl;
+import net.entropysoft.transmorph.type.ParameterizedTypeImpl;
+import net.entropysoft.transmorph.type.WildcardTypeImpl;
 
 public class TypeFactory {
 	private static Map<Character, Class> primitiveTypesMap = new HashMap<Character, Class>();

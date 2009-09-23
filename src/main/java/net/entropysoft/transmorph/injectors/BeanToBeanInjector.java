@@ -27,9 +27,9 @@ import net.entropysoft.transmorph.converters.MultiConverter;
 import net.entropysoft.transmorph.converters.WrapperToPrimitive;
 import net.entropysoft.transmorph.converters.beans.BeanToBeanMapping;
 import net.entropysoft.transmorph.converters.beans.IBeanPropertyTypeProvider;
-import net.entropysoft.transmorph.converters.beans.utils.BeanUtils;
 import net.entropysoft.transmorph.converters.beans.utils.ClassPair;
 import net.entropysoft.transmorph.type.TypeReference;
+import net.entropysoft.transmorph.utils.BeanUtils;
 
 /**
  * Copy properties from one bean to another bean

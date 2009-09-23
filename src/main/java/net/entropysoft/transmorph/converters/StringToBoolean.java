@@ -92,8 +92,8 @@ public class StringToBoolean extends AbstractConverter {
 	}
 
 	protected boolean canHandleDestinationType(TypeReference<?> destinationType) {
-		return destinationType.getType().equals(Boolean.TYPE)
-				|| destinationType.getType().equals(Boolean.class);
+		return destinationType.hasRawType(Boolean.TYPE)
+				|| destinationType.hasRawType(Boolean.class);
 	}
 
 	protected boolean canHandleSourceObject(Object sourceObject) {

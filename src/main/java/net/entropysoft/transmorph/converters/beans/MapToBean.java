@@ -23,8 +23,8 @@ import java.util.Map;
 import net.entropysoft.transmorph.ConversionContext;
 import net.entropysoft.transmorph.ConverterException;
 import net.entropysoft.transmorph.converters.AbstractContainerConverter;
-import net.entropysoft.transmorph.converters.beans.utils.BeanUtils;
 import net.entropysoft.transmorph.type.TypeReference;
+import net.entropysoft.transmorph.utils.BeanUtils;
 
 /**
  * Converter used to convert a Map to a bean.

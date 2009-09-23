@@ -24,9 +24,9 @@ import net.entropysoft.transmorph.ConversionContext;
 import net.entropysoft.transmorph.ConverterException;
 import net.entropysoft.transmorph.converters.AbstractContainerConverter;
 import net.entropysoft.transmorph.converters.IdentityConverter;
-import net.entropysoft.transmorph.converters.beans.utils.BeanUtils;
 import net.entropysoft.transmorph.converters.beans.utils.ClassPair;
 import net.entropysoft.transmorph.type.TypeReference;
+import net.entropysoft.transmorph.utils.BeanUtils;
 
 /**
  * Converter used to convert a Bean to another bean.

@@ -25,8 +25,8 @@ import net.entropysoft.transmorph.converters.IdentityConverter;
 import net.entropysoft.transmorph.converters.MultiConverter;
 import net.entropysoft.transmorph.converters.WrapperToPrimitive;
 import net.entropysoft.transmorph.converters.beans.IBeanPropertyTypeProvider;
-import net.entropysoft.transmorph.converters.beans.utils.BeanUtils;
 import net.entropysoft.transmorph.type.TypeReference;
+import net.entropysoft.transmorph.utils.BeanUtils;
 
 /**
  * Copy values from map to bean

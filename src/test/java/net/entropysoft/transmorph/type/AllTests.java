@@ -9,6 +9,7 @@ public class AllTests {
 		TestSuite suite = new TestSuite(
 				"Test for net.entropysoft.transmorph.type");
 		//$JUnit-BEGIN$
+		suite.addTestSuite(TypeReferenceTest.class);
 		//$JUnit-END$
 		return suite;
 	}

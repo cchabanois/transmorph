@@ -50,37 +50,37 @@ public class StringToNumber extends AbstractConverter {
 		}
 		String sourceString = (String) sourceObject;
 		try {
-			if (destinationType.getType().equals(Byte.TYPE)
-					|| destinationType.getType().equals(Byte.class)) {
+			if (destinationType.hasRawType(Byte.TYPE)
+					|| destinationType.hasRawType(Byte.class)) {
 				return Byte.parseByte(sourceString);
 			}
-			if (destinationType.getType().equals(Double.TYPE)
-					|| destinationType.getType().equals(Double.class)) {
+			if (destinationType.hasRawType(Double.TYPE)
+					|| destinationType.hasRawType(Double.class)) {
 				return Double.parseDouble(sourceString);
 			}
-			if (destinationType.getType().equals(Float.TYPE)
-					|| destinationType.getType().equals(Float.class)) {
+			if (destinationType.hasRawType(Float.TYPE)
+					|| destinationType.hasRawType(Float.class)) {
 				return Float.parseFloat(sourceString);
 			}
-			if (destinationType.getType().equals(Integer.TYPE)
-					|| destinationType.getType().equals(Integer.class)) {
+			if (destinationType.hasRawType(Integer.TYPE)
+					|| destinationType.hasRawType(Integer.class)) {
 				return Integer.parseInt(sourceString);
 			}
-			if (destinationType.getType().equals(Long.TYPE)
-					|| destinationType.getType().equals(Long.class)) {
+			if (destinationType.hasRawType(Long.TYPE)
+					|| destinationType.hasRawType(Long.class)) {
 				return Long.parseLong(sourceString);
 			}
-			if (destinationType.getType().equals(Short.TYPE)
-					|| destinationType.getType().equals(Short.class)) {
+			if (destinationType.hasRawType(Short.TYPE)
+					|| destinationType.hasRawType(Short.class)) {
 				return Short.parseShort(sourceString);
 			}
-			if (destinationType.getType().equals(BigInteger.class)) {
+			if (destinationType.hasRawType(BigInteger.class)) {
 				return new BigInteger(sourceString);
 			}
-			if (destinationType.getType().equals(BigDecimal.class)) {
+			if (destinationType.hasRawType(BigDecimal.class)) {
 				return new BigDecimal(sourceString);
 			}
-			if (destinationType.getType().equals(Number.class)) {
+			if (destinationType.hasRawType(Number.class)) {
 				try {
 					return Long.parseLong(sourceString);
 				} catch (NumberFormatException e) {

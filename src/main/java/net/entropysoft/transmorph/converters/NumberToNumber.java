@@ -75,45 +75,44 @@ public class NumberToNumber extends AbstractConverter {
 
 		try {
 			Number sourceNumber = (Number) sourceObject;
-			if (destinationType.getType().equals(Number.class)
-					|| destinationType.getType()
-							.equals(sourceNumber.getClass())) {
+			if (destinationType.hasRawType(Number.class)
+					|| destinationType.hasRawType(sourceNumber.getClass())) {
 				return sourceNumber;
 			}
-			if (destinationType.getType().equals(Byte.TYPE)
-					|| destinationType.getType().equals(Byte.class)) {
+			if (destinationType.hasRawType(Byte.TYPE)
+					|| destinationType.hasRawType(Byte.class)) {
 				checkInRangeIfNecessary(sourceNumber, NumberInRange.BYTE_MIN, NumberInRange.BYTE_MAX);
 				return sourceNumber.byteValue();
 			}
-			if (destinationType.getType().equals(Double.TYPE)
-					|| destinationType.getType().equals(Double.class)) {
+			if (destinationType.hasRawType(Double.TYPE)
+					|| destinationType.hasRawType(Double.class)) {
 				checkInRangeIfNecessary(sourceNumber, NumberInRange.DOUBLE_MIN, NumberInRange.DOUBLE_MAX);
 				return sourceNumber.doubleValue();
 			}
-			if (destinationType.getType().equals(Float.TYPE)
-					|| destinationType.getType().equals(Float.class)) {
+			if (destinationType.hasRawType(Float.TYPE)
+					|| destinationType.hasRawType(Float.class)) {
 				checkInRangeIfNecessary(sourceNumber, NumberInRange.FLOAT_MIN, NumberInRange.FLOAT_MAX);
 				return sourceNumber.floatValue();
 			}
-			if (destinationType.getType().equals(Integer.TYPE)
-					|| destinationType.getType().equals(Integer.class)) {
+			if (destinationType.hasRawType(Integer.TYPE)
+					|| destinationType.hasRawType(Integer.class)) {
 				checkInRangeIfNecessary(sourceNumber, NumberInRange.INTEGER_MIN, NumberInRange.INTEGER_MAX);
 				return sourceNumber.intValue();
 			}
-			if (destinationType.getType().equals(Long.TYPE)
-					|| destinationType.getType().equals(Long.class)) {
+			if (destinationType.hasRawType(Long.TYPE)
+					|| destinationType.hasRawType(Long.class)) {
 				checkInRangeIfNecessary(sourceNumber, NumberInRange.LONG_MIN, NumberInRange.LONG_MAX);
 				return sourceNumber.longValue();
 			}
-			if (destinationType.getType().equals(Short.TYPE)
-					|| destinationType.getType().equals(Short.class)) {
+			if (destinationType.hasRawType(Short.TYPE)
+					|| destinationType.hasRawType(Short.class)) {
 				checkInRangeIfNecessary(sourceNumber, NumberInRange.SHORT_MIN, NumberInRange.SHORT_MAX);
 				return sourceNumber.shortValue();
 			}
-			if (destinationType.getType().equals(BigInteger.class)) {
+			if (destinationType.hasRawType(BigInteger.class)) {
 				return BigInteger.valueOf(sourceNumber.longValue());
 			}
-			if (destinationType.getType().equals(BigDecimal.class)) {
+			if (destinationType.hasRawType(BigDecimal.class)) {
 				return BigDecimal.valueOf(sourceNumber.doubleValue());
 			}
 			throw new ConverterException("Could not convert");

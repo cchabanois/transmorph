@@ -21,7 +21,7 @@ public class TypeReferenceTest extends TestCase {
 	}
 	
 	public void testPrimitiveWrapper() {
-		TypeReference<?> typeReference = TypeReference.get(Integer.class);
+		TypeReference<Integer> typeReference = TypeReference.get(Integer.class);
 		assertEquals("java.lang.Integer",typeReference.getName());
 		assertFalse(typeReference.isPrimitive());
 		assertTrue(typeReference.isNumber());
@@ -33,7 +33,7 @@ public class TypeReferenceTest extends TestCase {
 	}
 	
 	public void testRawClass() {
-		TypeReference<?> typeReference = TypeReference.get(String.class);
+		TypeReference<String> typeReference = TypeReference.get(String.class);
 		assertEquals("java.lang.String",typeReference.getName());
 		assertFalse(typeReference.isPrimitive());
 		assertFalse(typeReference.isNumber());
@@ -59,6 +59,59 @@ public class TypeReferenceTest extends TestCase {
 		assertTrue(typeReference.hasRawType(List.class));
 		assertTrue(typeReference.isRawTypeSubOf(List.class));
 		assertTrue(typeReference.isRawTypeSubOf(Collection.class));
+		assertEquals(1,typeReference.getTypeArguments().length);
+		assertEquals(String.class,typeReference.getTypeArguments()[0].getType());
 	}
+	
+	public void testArray() {
+		TypeReference<?> typeReference = TypeReference.get(int[][].class);
+		assertEquals("[[I",typeReference.getName());
+		assertFalse(typeReference.isPrimitive());
+		assertFalse(typeReference.isNumber());
+		assertTrue(typeReference.isRawTypeInstance(new int[][] { { 1, 2 }} ));
+		assertTrue(typeReference.isType(int[][].class));
+		assertTrue(typeReference.hasRawType(int[][].class));
+		assertTrue(typeReference.isRawTypeSubOf(int[][].class));
+		assertEquals(int[].class, typeReference.getArrayComponentType().getType());
+		assertEquals(int.class, typeReference.getArrayElementType().getType());
+		assertEquals(2, typeReference.getArrayNumDimensions());
+	}
+	
+	public void testGenericArray() {
+		TypeReference<ArrayList<String>[]> typeReference = new TypeReference<ArrayList<String>[]>() {
+		};
+		assertEquals("java.util.ArrayList<java.lang.String>[]",typeReference.getName());
+		assertFalse(typeReference.isPrimitive());
+		assertFalse(typeReference.isNumber());
+		assertTrue(typeReference.isRawTypeInstance(new ArrayList[0]));
+		assertEquals(new TypeReference<ArrayList<String>>() {}, typeReference.getArrayComponentType());
+		assertEquals(new TypeReference<ArrayList<String>>() {}, typeReference.getArrayElementType());
+		assertEquals(1, typeReference.getArrayNumDimensions());
+	}
+	
+	public void testUnboundedWildcardType() {
+		TypeReference<ArrayList<?>> typeReference1 = new TypeReference<ArrayList<?>>() {
+		};
+		TypeReference<?> typeReference = typeReference1.getTypeArguments()[0];
+		assertEquals(Object.class, typeReference.getRawType());
+		assertTrue(typeReference.hasRawType(Object.class));
+	}
+	
+	public void testUpperboundWildcardType() {
+		TypeReference<ArrayList<? extends Number>> typeReference1 = new TypeReference<ArrayList<? extends Number>>() {
+		};
+		TypeReference<?> typeReference = typeReference1.getTypeArguments()[0];
+		assertEquals(Number.class, typeReference.getRawType());
+		assertTrue(typeReference.hasRawType(Number.class));
+	}
+
+	public void testLowerboundWildcardType() {
+		TypeReference<ArrayList<? super Number>> typeReference1 = new TypeReference<ArrayList<? super Number>>() {
+		};
+		TypeReference<?> typeReference = typeReference1.getTypeArguments()[0];
+		assertEquals(Object.class, typeReference.getRawType());
+		assertTrue(typeReference.hasRawType(Object.class));
+	}
+	
 	
 }

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.entropysoft.transmorph.converters.beans.utils;
+package net.entropysoft.transmorph.utils;
 
 import java.lang.reflect.Method;
 import java.util.HashMap;

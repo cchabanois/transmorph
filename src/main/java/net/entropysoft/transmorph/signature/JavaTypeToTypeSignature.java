@@ -42,7 +42,7 @@ public class JavaTypeToTypeSignature {
 	 */
 	private ArrayTypeSignature getArrayTypeSignature(
 			GenericArrayType genericArrayType) {
-		TypeSignature componentTypeSignature = getTypeSignature(genericArrayType
+		FullTypeSignature componentTypeSignature = getTypeSignature(genericArrayType
 				.getGenericComponentType());
 		ArrayTypeSignature arrayTypeSignature = new ArrayTypeSignature(
 				componentTypeSignature);
@@ -81,8 +81,8 @@ public class JavaTypeToTypeSignature {
 	 * @param type
 	 * @return
 	 */	
-	public Signature getSignature(Type type) {
-		TypeSignature typeSignature = getTypeSignature(type);
+	public TypeSignature getSignature(Type type) {
+		FullTypeSignature typeSignature = getTypeSignature(type);
 		if (typeSignature != null) {
 			return typeSignature;
 		}
@@ -98,7 +98,7 @@ public class JavaTypeToTypeSignature {
 	 * @param type
 	 * @return
 	 */
-	private TypeSignature getTypeSignature(Type type) {
+	private FullTypeSignature getTypeSignature(Type type) {
 		if (type instanceof Class<?>) {
 			return getTypeSignature((Class<?>) type);
 		}
@@ -117,7 +117,7 @@ public class JavaTypeToTypeSignature {
 	 * @param clazz
 	 * @return
 	 */
-	private TypeSignature getTypeSignature(Class<?> clazz) {
+	private FullTypeSignature getTypeSignature(Class<?> clazz) {
 		StringBuilder sb = new StringBuilder();
 		if (clazz.isArray()) {
 			sb.append(clazz.getName());

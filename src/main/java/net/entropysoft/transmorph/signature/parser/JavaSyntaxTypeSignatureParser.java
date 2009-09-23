@@ -23,7 +23,7 @@ import net.entropysoft.transmorph.signature.ClassTypeSignature;
 import net.entropysoft.transmorph.signature.FieldTypeSignature;
 import net.entropysoft.transmorph.signature.PrimitiveTypeSignature;
 import net.entropysoft.transmorph.signature.TypeArgSignature;
-import net.entropysoft.transmorph.signature.TypeSignature;
+import net.entropysoft.transmorph.signature.FullTypeSignature;
 import net.entropysoft.transmorph.signature.parser.JavaSyntaxTypeSignatureLexer.Token;
 import net.entropysoft.transmorph.signature.parser.JavaSyntaxTypeSignatureLexer.TokenType;
 
@@ -46,8 +46,8 @@ public class JavaSyntaxTypeSignatureParser implements ITypeSignatureParser {
 		setTypeSignature(typeSignature);
 	}	
 	
-	public TypeSignature parseTypeSignature() throws InvalidSignatureException {
-		TypeSignature typeSignature = parseJavaTypeSignature();
+	public FullTypeSignature parseTypeSignature() throws InvalidSignatureException {
+		FullTypeSignature typeSignature = parseJavaTypeSignature();
 		lexer.nextToken(TokenType.END_OF_TOKENS);
 		return typeSignature;
 	}
@@ -72,8 +72,8 @@ public class JavaSyntaxTypeSignatureParser implements ITypeSignatureParser {
 		this.importedClassesProviders = importedClasses;
 	}
 
-	public TypeSignature parseJavaTypeSignature() {
-		TypeSignature typeSignature = parsePrimitiveTypeSignature();
+	public FullTypeSignature parseJavaTypeSignature() {
+		FullTypeSignature typeSignature = parsePrimitiveTypeSignature();
 		if (typeSignature == null) {
 			typeSignature = parseClassTypeSignature();
 		}
@@ -88,7 +88,7 @@ public class JavaSyntaxTypeSignatureParser implements ITypeSignatureParser {
 	}	
 	
 	public FieldTypeSignature parseFieldTypeSignature() {
-		TypeSignature typeSignature = parseJavaTypeSignature();
+		FullTypeSignature typeSignature = parseJavaTypeSignature();
 		if (!(typeSignature instanceof FieldTypeSignature)) {
 			throw new InvalidSignatureException("Invalid signature", lexer.peekToken(0).tokenStart);
 		}

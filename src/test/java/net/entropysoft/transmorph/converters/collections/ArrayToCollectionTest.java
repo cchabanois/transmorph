@@ -24,7 +24,7 @@ import junit.framework.TestCase;
 import net.entropysoft.transmorph.DefaultConverters;
 import net.entropysoft.transmorph.Transmorph;
 import net.entropysoft.transmorph.signature.TypeFactory;
-import net.entropysoft.transmorph.signature.TypeSignature;
+import net.entropysoft.transmorph.signature.FullTypeSignature;
 import net.entropysoft.transmorph.signature.parser.ClassFileTypeSignatureParser;
 import net.entropysoft.transmorph.type.TypeReference;
 
@@ -60,7 +60,7 @@ public class ArrayToCollectionTest extends TestCase {
 	public void testArrayToGenericListUnbounded() throws Exception {
 		ClassFileTypeSignatureParser classFileTypeSignatureParser = new ClassFileTypeSignatureParser(false);
 		classFileTypeSignatureParser.setTypeSignature("Ljava.util.List<*>;");
-		TypeSignature typeSignature = classFileTypeSignatureParser.parseTypeSignature();
+		FullTypeSignature typeSignature = classFileTypeSignatureParser.parseTypeSignature();
 		TypeFactory typeFactory = new TypeFactory(this.getClass().getClassLoader());
 				
 		Transmorph converter = new Transmorph(new DefaultConverters());

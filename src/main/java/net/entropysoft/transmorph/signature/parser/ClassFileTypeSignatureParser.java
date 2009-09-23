@@ -23,7 +23,7 @@ import net.entropysoft.transmorph.signature.ClassTypeSignature;
 import net.entropysoft.transmorph.signature.FieldTypeSignature;
 import net.entropysoft.transmorph.signature.PrimitiveTypeSignature;
 import net.entropysoft.transmorph.signature.TypeArgSignature;
-import net.entropysoft.transmorph.signature.TypeSignature;
+import net.entropysoft.transmorph.signature.FullTypeSignature;
 import net.entropysoft.transmorph.signature.TypeVarSignature;
 
 /**
@@ -116,19 +116,19 @@ public class ClassFileTypeSignatureParser implements ITypeSignatureParser {
 				|| ch == PrimitiveTypeSignature.PRIMITIVE_SHORT;
 	}
 
-	public TypeSignature parseTypeSignature() {
-		TypeSignature typeSignature = parseClassFileTypeSignature();
+	public FullTypeSignature parseTypeSignature() {
+		FullTypeSignature typeSignature = parseClassFileTypeSignature();
 		nextChar(EOS);
 		return typeSignature;
 	}
 
-	private TypeSignature parseClassFileTypeSignature() {
+	private FullTypeSignature parseClassFileTypeSignature() {
 		int ch = peekChar();
 		if (isPrimitiveTypeCharacter(ch)) {
-			TypeSignature typeSignature = parsePrimitiveTypeSignature();
+			FullTypeSignature typeSignature = parsePrimitiveTypeSignature();
 			return typeSignature;
 		} else {
-			TypeSignature typeSignature = parseFieldTypeSignature();
+			FullTypeSignature typeSignature = parseFieldTypeSignature();
 			return typeSignature;
 		}
 	}

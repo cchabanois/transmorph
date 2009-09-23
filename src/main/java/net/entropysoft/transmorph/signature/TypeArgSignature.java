@@ -23,7 +23,7 @@ import net.entropysoft.transmorph.signature.formatter.ClassFileTypeSignatureForm
  * @author Cedric Chabanois (cchabanois at gmail.com)
  * 
  */
-public class TypeArgSignature extends Signature {
+public class TypeArgSignature extends TypeSignature {
 
 	public static char NO_WILDCARD = ' ';         // <Type>
 	public static char UNBOUNDED_WILDCARD = '*';  // <?>
@@ -64,7 +64,7 @@ public class TypeArgSignature extends Signature {
 	}
 
 	@Override
-	public TypeSignature getTypeErasureSignature() {
+	public FullTypeSignature getTypeErasureSignature() {
 		return null;
 	}
 

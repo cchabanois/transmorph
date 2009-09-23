@@ -23,10 +23,10 @@ package net.entropysoft.transmorph.signature;
  */
 public class ArrayTypeSignature extends FieldTypeSignature {
 
-	private TypeSignature componentTypeSignature;
-	private TypeSignature typeErasureSignature;
+	private FullTypeSignature componentTypeSignature;
+	private FullTypeSignature typeErasureSignature;
 
-	public ArrayTypeSignature(TypeSignature componentTypeSignature) {
+	public ArrayTypeSignature(FullTypeSignature componentTypeSignature) {
 		this.componentTypeSignature = componentTypeSignature;
 	}
 
@@ -35,7 +35,7 @@ public class ArrayTypeSignature extends FieldTypeSignature {
 	 * 
 	 * @return
 	 */
-	public TypeSignature getComponentTypeSignature() {
+	public FullTypeSignature getComponentTypeSignature() {
 		return componentTypeSignature;
 	}
 
@@ -44,7 +44,7 @@ public class ArrayTypeSignature extends FieldTypeSignature {
 	 * 
 	 * @return
 	 */
-	public TypeSignature getElementTypeSignature() {
+	public FullTypeSignature getElementTypeSignature() {
 		if (getComponentTypeSignature().isArrayType()) {
 			return ((ArrayTypeSignature) getComponentTypeSignature())
 					.getElementTypeSignature();
@@ -77,7 +77,7 @@ public class ArrayTypeSignature extends FieldTypeSignature {
 	}
 
 	@Override
-	public TypeSignature getTypeErasureSignature() {
+	public FullTypeSignature getTypeErasureSignature() {
 		if (typeErasureSignature == null) {
 			typeErasureSignature = new ArrayTypeSignature(
 					componentTypeSignature.getTypeErasureSignature());

@@ -16,7 +16,7 @@
 package net.entropysoft.transmorph.signature.parser;
 
 import net.entropysoft.transmorph.signature.PrimitiveTypeSignature;
-import net.entropysoft.transmorph.signature.TypeSignature;
+import net.entropysoft.transmorph.signature.FullTypeSignature;
 
 /**
  * Parser for signatures as returned by Class.getName()
@@ -40,18 +40,18 @@ public class ClassGetNameTypeSignatureParser implements ITypeSignatureParser {
 		setTypeSignature(signature);
 	}
 
-	public TypeSignature parseTypeSignature() {
+	public FullTypeSignature parseTypeSignature() {
 		Character primitiveChar = PrimitiveTypeUtils.getChar(typeSignature.toString());
 		if (primitiveChar != null) {
 			return new PrimitiveTypeSignature(primitiveChar);
 		}
 		typeSignatureParser.setTypeSignature(typeSignature);
 		if (typeSignature.peekChar() == '[') {
-			TypeSignature typeSignature = typeSignatureParser.parseArrayTypeSignature();
+			FullTypeSignature typeSignature = typeSignatureParser.parseArrayTypeSignature();
 			nextChar(CharacterBuffer.EOS);
 			return typeSignature;
 		} else {
-			TypeSignature typeSignature = typeSignatureParser.parseClassName();
+			FullTypeSignature typeSignature = typeSignatureParser.parseClassName();
 			nextChar(CharacterBuffer.EOS);
 			return typeSignature;
 		}

@@ -10,7 +10,7 @@ public class JavaTypeToTypeSignatureTest extends TestCase {
 	public void testGenericJavaType() throws Exception {
 		JavaTypeToTypeSignature javaTypeToTypeSignature = new JavaTypeToTypeSignature();
 		Method method = JavaTypeToTypeSignatureTest.class.getMethod("methodWithGenericParameter", List.class);
-		Signature typeSignature = javaTypeToTypeSignature.getSignature(method.getGenericParameterTypes()[0]);
+		TypeSignature typeSignature = javaTypeToTypeSignature.getSignature(method.getGenericParameterTypes()[0]);
 		assertNotNull(typeSignature);
 		assertEquals("Ljava/util/List<Ljava/lang/String;>;", typeSignature.getSignature());
 	}
@@ -18,7 +18,7 @@ public class JavaTypeToTypeSignatureTest extends TestCase {
 	public void testNonGenericJavaType() throws Exception {
 		JavaTypeToTypeSignature javaTypeToTypeSignature = new JavaTypeToTypeSignature();
 		Method method = JavaTypeToTypeSignatureTest.class.getMethod("methodWithNonGenericParameter", List.class);
-		Signature typeSignature = javaTypeToTypeSignature.getSignature(method.getGenericParameterTypes()[0]);
+		TypeSignature typeSignature = javaTypeToTypeSignature.getSignature(method.getGenericParameterTypes()[0]);
 		assertNotNull(typeSignature);
 		assertEquals("Ljava/util/List;", typeSignature.getSignature());
 	}
@@ -26,7 +26,7 @@ public class JavaTypeToTypeSignatureTest extends TestCase {
 	public void testGenericArray() throws Exception {
 		JavaTypeToTypeSignature javaTypeToTypeSignature = new JavaTypeToTypeSignature();
 		Method method = JavaTypeToTypeSignatureTest.class.getMethod("methodWithGenericArray", List[].class);
-		Signature typeSignature = javaTypeToTypeSignature.getSignature(method.getGenericParameterTypes()[0]);
+		TypeSignature typeSignature = javaTypeToTypeSignature.getSignature(method.getGenericParameterTypes()[0]);
 		assertNotNull(typeSignature);
 		assertEquals("[Ljava/util/List<Ljava/lang/String;>;", typeSignature.getSignature());		
 	}
@@ -34,7 +34,7 @@ public class JavaTypeToTypeSignatureTest extends TestCase {
 	public void testNonGenericArray() throws Exception {
 		JavaTypeToTypeSignature javaTypeToTypeSignature = new JavaTypeToTypeSignature();
 		Method method = JavaTypeToTypeSignatureTest.class.getMethod("methodWithNonGenericArray", int[].class);
-		Signature typeSignature = javaTypeToTypeSignature.getSignature(method.getGenericParameterTypes()[0]);
+		TypeSignature typeSignature = javaTypeToTypeSignature.getSignature(method.getGenericParameterTypes()[0]);
 		assertNotNull(typeSignature);
 		assertEquals("[I", typeSignature.getSignature());		
 	}
@@ -42,7 +42,7 @@ public class JavaTypeToTypeSignatureTest extends TestCase {
 	public void testUnboundedWildcard() throws Exception {
 		JavaTypeToTypeSignature javaTypeToTypeSignature = new JavaTypeToTypeSignature();
 		Method method = JavaTypeToTypeSignatureTest.class.getMethod("methodWithUnboundedWildcard", List.class);
-		Signature typeSignature = javaTypeToTypeSignature.getSignature(method.getGenericParameterTypes()[0]);
+		TypeSignature typeSignature = javaTypeToTypeSignature.getSignature(method.getGenericParameterTypes()[0]);
 		assertNotNull(typeSignature);
 		assertEquals("Ljava/util/List<*Ljava/lang/Object;>;", typeSignature.getSignature());
 	}
@@ -50,7 +50,7 @@ public class JavaTypeToTypeSignatureTest extends TestCase {
 	public void testExtendsWildcard() throws Exception {
 		JavaTypeToTypeSignature javaTypeToTypeSignature = new JavaTypeToTypeSignature();
 		Method method = JavaTypeToTypeSignatureTest.class.getMethod("methodWithExtendsWildcard", List.class);
-		Signature typeSignature = javaTypeToTypeSignature.getSignature(method.getGenericParameterTypes()[0]);
+		TypeSignature typeSignature = javaTypeToTypeSignature.getSignature(method.getGenericParameterTypes()[0]);
 		assertNotNull(typeSignature);
 		assertEquals("Ljava/util/List<+Ljava/lang/Number;>;", typeSignature.getSignature());
 	}
@@ -58,7 +58,7 @@ public class JavaTypeToTypeSignatureTest extends TestCase {
 	public void testSuperWildcard() throws Exception {
 		JavaTypeToTypeSignature javaTypeToTypeSignature = new JavaTypeToTypeSignature();
 		Method method = JavaTypeToTypeSignatureTest.class.getMethod("methodWithSuperWildcard", List.class);
-		Signature typeSignature = javaTypeToTypeSignature.getSignature(method.getGenericParameterTypes()[0]);
+		TypeSignature typeSignature = javaTypeToTypeSignature.getSignature(method.getGenericParameterTypes()[0]);
 		assertNotNull(typeSignature);
 		assertEquals("Ljava/util/List<-Ljava/lang/Integer;>;", typeSignature.getSignature());
 	}	
@@ -66,7 +66,7 @@ public class JavaTypeToTypeSignatureTest extends TestCase {
 	public void testInnerClass() throws Exception {
 		JavaTypeToTypeSignature javaTypeToTypeSignature = new JavaTypeToTypeSignature();
 		Method method = JavaTypeToTypeSignatureTest.class.getMethod("methodWithInnerClass", InnerClass.class);
-		Signature typeSignature = javaTypeToTypeSignature.getSignature(method.getGenericParameterTypes()[0]);
+		TypeSignature typeSignature = javaTypeToTypeSignature.getSignature(method.getGenericParameterTypes()[0]);
 		assertNotNull(typeSignature);
 		assertEquals("Lnet/entropysoft/transmorph/signature/JavaTypeToTypeSignatureTest.InnerClass<Ljava/lang/Integer;>;", typeSignature.getSignature());
 	}
@@ -74,7 +74,7 @@ public class JavaTypeToTypeSignatureTest extends TestCase {
 	public void testInnerInnerClass() throws Exception {
 		JavaTypeToTypeSignature javaTypeToTypeSignature = new JavaTypeToTypeSignature();
 		Method method = JavaTypeToTypeSignatureTest.class.getMethod("methodWithInnerInnerClass", InnerClass.InnerInnerClass.class);
-		Signature typeSignature = javaTypeToTypeSignature.getSignature(method.getGenericParameterTypes()[0]);
+		TypeSignature typeSignature = javaTypeToTypeSignature.getSignature(method.getGenericParameterTypes()[0]);
 		assertNotNull(typeSignature);
 		assertEquals("Lnet/entropysoft/transmorph/signature/JavaTypeToTypeSignatureTest.InnerClass.InnerInnerClass<Ljava/lang/String;>;", typeSignature.getSignature());
 	}

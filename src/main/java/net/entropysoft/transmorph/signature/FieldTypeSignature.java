@@ -15,7 +15,7 @@
  */
 package net.entropysoft.transmorph.signature;
 
-public abstract class FieldTypeSignature extends TypeSignature{
+public abstract class FieldTypeSignature extends FullTypeSignature{
 	
 
 }

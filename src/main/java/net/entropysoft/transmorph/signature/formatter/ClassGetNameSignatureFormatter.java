@@ -21,8 +21,8 @@ import java.util.Map;
 import net.entropysoft.transmorph.signature.ArrayTypeSignature;
 import net.entropysoft.transmorph.signature.ClassTypeSignature;
 import net.entropysoft.transmorph.signature.PrimitiveTypeSignature;
-import net.entropysoft.transmorph.signature.Signature;
 import net.entropysoft.transmorph.signature.TypeSignature;
+import net.entropysoft.transmorph.signature.FullTypeSignature;
 
 /**
  * Format a TypeSignature using the same format than Class.getName()
@@ -55,7 +55,7 @@ public class ClassGetNameSignatureFormatter implements ITypeSignatureFormatter {
 				Short.TYPE.getName());
 	}
 
-	public String format(Signature typeSignature) {
+	public String format(TypeSignature typeSignature) {
 		if (typeSignature.isPrimitiveType()) {
 			return format((PrimitiveTypeSignature) typeSignature);
 		}
@@ -77,7 +77,7 @@ public class ClassGetNameSignatureFormatter implements ITypeSignatureFormatter {
 	}
 
 	private String format(ArrayTypeSignature typeSignature) {
-		TypeSignature typeErasureSignature = typeSignature.getTypeErasureSignature();
+		FullTypeSignature typeErasureSignature = typeSignature.getTypeErasureSignature();
 		return typeSignatureFormatter.format(typeErasureSignature);
 	}
 

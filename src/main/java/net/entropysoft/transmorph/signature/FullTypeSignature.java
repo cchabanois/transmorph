@@ -17,39 +17,21 @@ package net.entropysoft.transmorph.signature;
 
 import net.entropysoft.transmorph.signature.formatter.ClassFileTypeSignatureFormatter;
 
-public class TypeVarSignature extends FieldTypeSignature {
+/**
+ * Signature for type (primitive, array or class)
+ * @author Cedric Chabanois (cchabanois at gmail.com)
+ *
+ */
+public abstract class FullTypeSignature extends TypeSignature {
 
-	private String id;
 	private String signature;
-
-	public TypeVarSignature(String id) {
-		this.id = id;
-	}
-
-	@Override
-	public String toString() {
-		return getSignature();
-	}
-
-	public String getId() {
-		return id;
-	}
-
-	public boolean isTypeVar() {
-		return true;
-	}
 	
 	public String getSignature() {
 		if (signature == null) {
 			ClassFileTypeSignatureFormatter typeSignatureFormatter = new ClassFileTypeSignatureFormatter();
-			signature = typeSignatureFormatter.formatTypeVarSignature(this);
+			signature = typeSignatureFormatter.format(this);
 		}
 		return signature;
-	}
-
-	@Override
-	public FullTypeSignature getTypeErasureSignature() {
-		return this;
 	}
 
 }

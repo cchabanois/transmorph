@@ -30,8 +30,8 @@ import net.entropysoft.transmorph.signature.parser.ClassFileTypeSignatureParser;
  */
 public class TypeSignatureFactory {
 	private static JavaTypeToTypeSignature javaTypeToTypeSignature = new JavaTypeToTypeSignature();
-	private static Map<String, TypeSignature> typeSignatureCache = Collections
-			.synchronizedMap(new LRUMap<String, TypeSignature>(100));
+	private static Map<String, FullTypeSignature> typeSignatureCache = Collections
+			.synchronizedMap(new LRUMap<String, FullTypeSignature>(100));
 
 	/**
 	 * get TypeSignature given the signature
@@ -39,7 +39,7 @@ public class TypeSignatureFactory {
 	 * @param typeSignatureString
 	 * @return
 	 */
-	public static TypeSignature getTypeSignature(String typeSignatureString) {
+	public static FullTypeSignature getTypeSignature(String typeSignatureString) {
 		return getTypeSignature(typeSignatureString, true);
 	}
 
@@ -53,7 +53,7 @@ public class TypeSignatureFactory {
 	 *            'java.lang.Thread'
 	 * @return
 	 */
-	public static TypeSignature getTypeSignature(String typeSignatureString,
+	public static FullTypeSignature getTypeSignature(String typeSignatureString,
 			boolean useInternalFormFullyQualifiedName) {
 		String key;
 		if (!useInternalFormFullyQualifiedName) {
@@ -64,7 +64,7 @@ public class TypeSignatureFactory {
 		}
 
 		// we always use the internal form as a key for cache
-		TypeSignature typeSignature = typeSignatureCache
+		FullTypeSignature typeSignature = typeSignatureCache
 				.get(key);
 		if (typeSignature == null) {
 			ClassFileTypeSignatureParser typeSignatureParser = new ClassFileTypeSignatureParser(
@@ -82,7 +82,7 @@ public class TypeSignatureFactory {
 	 * @param clazz
 	 * @return
 	 */
-	public static Signature getTypeSignature(Type type) {
+	public static TypeSignature getTypeSignature(Type type) {
 		return javaTypeToTypeSignature.getSignature(type);
 	}
 
@@ -94,7 +94,7 @@ public class TypeSignatureFactory {
 	 * @param typeArgs
 	 * @return
 	 */
-	public static TypeSignature getTypeSignature(Class<?> clazz, Class<?>[] typeArgs) {
+	public static FullTypeSignature getTypeSignature(Class<?> clazz, Class<?>[] typeArgs) {
 		ClassTypeSignature rawClassTypeSignature = (ClassTypeSignature) javaTypeToTypeSignature
 				.getSignature(clazz);
 		TypeArgSignature[] typeArgSignatures = new TypeArgSignature[typeArgs.length];

@@ -23,8 +23,8 @@ import java.util.Map;
 import net.entropysoft.transmorph.signature.ArrayTypeSignature;
 import net.entropysoft.transmorph.signature.ClassTypeSignature;
 import net.entropysoft.transmorph.signature.PrimitiveTypeSignature;
-import net.entropysoft.transmorph.signature.Signature;
 import net.entropysoft.transmorph.signature.TypeArgSignature;
+import net.entropysoft.transmorph.signature.TypeSignature;
 
 /**
  * Format a type signature using java syntax
@@ -66,7 +66,7 @@ public class JavaSyntaxTypeSignatureFormatter implements
 		this.useSimpleNames = useSimpleNames;
 	}
 
-	public String format(Signature typeSignature) {
+	public String format(TypeSignature typeSignature) {
 		if (typeSignature.isPrimitiveType()) {
 			return formatPrimitiveTypeSignature((PrimitiveTypeSignature) typeSignature);
 		}

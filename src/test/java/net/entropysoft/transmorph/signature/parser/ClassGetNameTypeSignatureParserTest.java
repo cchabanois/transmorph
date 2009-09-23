@@ -1,7 +1,7 @@
 package net.entropysoft.transmorph.signature.parser;
 
 import junit.framework.TestCase;
-import net.entropysoft.transmorph.signature.TypeSignature;
+import net.entropysoft.transmorph.signature.FullTypeSignature;
 import samples.BeanWithInnerBean;
 
 public class ClassGetNameTypeSignatureParserTest extends TestCase {
@@ -9,7 +9,7 @@ public class ClassGetNameTypeSignatureParserTest extends TestCase {
 	public void testClassGetNameTypeSignatureParser() throws Exception {
 		ClassGetNameTypeSignatureParser typeSignatureParser = new ClassGetNameTypeSignatureParser();
 		typeSignatureParser.setTypeSignature(String.class.getName());
-		TypeSignature typeSignature = typeSignatureParser.parseTypeSignature();
+		FullTypeSignature typeSignature = typeSignatureParser.parseTypeSignature();
 		assertEquals("Ljava/lang/String;", typeSignature.getSignature());
 		
 		typeSignatureParser.setTypeSignature("int");

@@ -15,7 +15,7 @@
  */
 package net.entropysoft.transmorph.signature.parser;
 
-import net.entropysoft.transmorph.signature.TypeSignature;
+import net.entropysoft.transmorph.signature.FullTypeSignature;
 
 public interface ITypeSignatureParser {
 	/**
@@ -30,5 +30,5 @@ public interface ITypeSignatureParser {
 	 * 
 	 * @return
 	 */
-	public TypeSignature parseTypeSignature() throws InvalidSignatureException;
+	public FullTypeSignature parseTypeSignature() throws InvalidSignatureException;
 }

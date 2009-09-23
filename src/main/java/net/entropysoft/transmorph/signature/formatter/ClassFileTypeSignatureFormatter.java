@@ -21,8 +21,8 @@ import java.util.List;
 import net.entropysoft.transmorph.signature.ArrayTypeSignature;
 import net.entropysoft.transmorph.signature.ClassTypeSignature;
 import net.entropysoft.transmorph.signature.PrimitiveTypeSignature;
-import net.entropysoft.transmorph.signature.Signature;
 import net.entropysoft.transmorph.signature.TypeArgSignature;
+import net.entropysoft.transmorph.signature.TypeSignature;
 import net.entropysoft.transmorph.signature.TypeVarSignature;
 
 /**
@@ -61,7 +61,7 @@ public class ClassFileTypeSignatureFormatter implements ITypeSignatureFormatter 
 		}
 	}	
 	
-	public String format(Signature typeSignature) {
+	public String format(TypeSignature typeSignature) {
 		if (typeSignature.isPrimitiveType()) {
 			return formatPrimitiveTypeSignature((PrimitiveTypeSignature) typeSignature);
 		}

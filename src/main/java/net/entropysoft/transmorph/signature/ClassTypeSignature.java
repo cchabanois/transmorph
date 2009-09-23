@@ -29,7 +29,7 @@ public class ClassTypeSignature extends FieldTypeSignature {
 	private String binaryName;
 	private TypeArgSignature[] typeArgSignatures;
 	private ClassTypeSignature ownerTypeSignature;
-	private TypeSignature typeErasureSignature;
+	private FullTypeSignature typeErasureSignature;
 
 	/**
 	 * Creates a Class type signature
@@ -113,7 +113,7 @@ public class ClassTypeSignature extends FieldTypeSignature {
 	/**
 	 * get the type erasure signature
 	 */
-	public TypeSignature getTypeErasureSignature() {
+	public FullTypeSignature getTypeErasureSignature() {
 		if (typeErasureSignature == null) {
 			typeErasureSignature = new ClassTypeSignature(binaryName,
 					new TypeArgSignature[0], ownerTypeSignature == null ? null

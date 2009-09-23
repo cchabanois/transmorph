@@ -54,7 +54,7 @@ public class TypeFactory {
 		return classLoader;
 	}
 
-	public Type getType(TypeSignature typeSignature)
+	public Type getType(FullTypeSignature typeSignature)
 			throws ClassNotFoundException {
 		if (typeSignature.isPrimitiveType()) {
 			return getType((PrimitiveTypeSignature) typeSignature);

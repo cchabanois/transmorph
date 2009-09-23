@@ -22,7 +22,7 @@ package net.entropysoft.transmorph.signature;
  * @author Cedric Chabanois (cchabanois at gmail.com)
  * 
  */
-public class PrimitiveTypeSignature extends TypeSignature {
+public class PrimitiveTypeSignature extends FullTypeSignature {
 
 	public static final char PRIMITIVE_BOOLEAN = 'Z';
 	public static final char PRIMITIVE_BYTE = 'B';
@@ -99,7 +99,7 @@ public class PrimitiveTypeSignature extends TypeSignature {
 	}
 
 	@Override
-	public TypeSignature getTypeErasureSignature() {
+	public FullTypeSignature getTypeErasureSignature() {
 		return this;
 	}
 

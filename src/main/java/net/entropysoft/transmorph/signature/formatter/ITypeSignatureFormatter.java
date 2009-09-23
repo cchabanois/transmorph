@@ -15,7 +15,7 @@
  */
 package net.entropysoft.transmorph.signature.formatter;
 
-import net.entropysoft.transmorph.signature.Signature;
+import net.entropysoft.transmorph.signature.TypeSignature;
 
 /**
  * Format a type signature
@@ -25,6 +25,6 @@ import net.entropysoft.transmorph.signature.Signature;
  */
 public interface ITypeSignatureFormatter {
 
-	public String format(Signature typeSignature);
+	public String format(TypeSignature typeSignature);
 	
 }

@@ -73,8 +73,9 @@ public class MapToBeanInjector extends AbstractBeanInjector {
 		Class<?> targetTypeClass = targetType.getRawType();
 		setterMethods = BeanUtils.getSetters(targetTypeClass);
 
-		for (String key : sourceMap.keySet()) {
-			Object value = sourceMap.get(key);
+		for (Map.Entry<String, Object> entry : sourceMap.entrySet()) {
+			String key = entry.getKey();
+			Object value = entry.getValue();
 			Method method = setterMethods.get(key);
 			if (method == null) {
 				throw new ConverterException(MessageFormat.format(

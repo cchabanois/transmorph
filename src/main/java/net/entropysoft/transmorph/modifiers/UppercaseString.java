@@ -29,6 +29,10 @@ public class UppercaseString implements IModifier<String> {
 
 	private Locale locale;
 
+	public void setLocale(Locale locale) {
+		this.locale = locale;
+	}
+	
 	public String modify(ConversionContext context, String object) throws ModifierException {
 		if (object == null) {
 			return null;

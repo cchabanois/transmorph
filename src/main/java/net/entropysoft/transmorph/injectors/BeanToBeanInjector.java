@@ -53,6 +53,11 @@ public class BeanToBeanInjector extends AbstractBeanInjector {
 		return beanDestinationPropertyTypeProvider;
 	}
 
+	public void setBeanDestinationPropertyTypeProvider(
+			IBeanPropertyTypeProvider beanDestinationPropertyTypeProvider) {
+		this.beanDestinationPropertyTypeProvider = beanDestinationPropertyTypeProvider;
+	}
+	
 	/**
 	 * Add a mapping of properties between two beans
 	 * 
@@ -104,9 +109,9 @@ public class BeanToBeanInjector extends AbstractBeanInjector {
 		Map<String, Method> destinationSetters;
 		destinationSetters = BeanUtils.getSetters(destinationClass);
 
-		for (String destinationPropertyName : destinationSetters.keySet()) {
-			Method destinationMethod = destinationSetters
-					.get(destinationPropertyName);
+		for (Map.Entry<String,Method> entry : destinationSetters.entrySet()) {
+			String destinationPropertyName = entry.getKey();
+			Method destinationMethod = entry.getValue();
 
 			Method sourceMethod = getPropertySourceMethod(sourceObject,
 					targetBean, destinationPropertyName);

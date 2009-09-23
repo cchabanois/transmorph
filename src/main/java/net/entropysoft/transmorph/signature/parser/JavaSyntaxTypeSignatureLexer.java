@@ -48,7 +48,7 @@ public class JavaSyntaxTypeSignatureLexer {
 		PACKAGE_SEPARATOR, END_OF_TOKENS
 	}
 
-	public class Token {
+	public static class Token {
 		TokenType tokenType;
 		String text;
 		int tokenStart;

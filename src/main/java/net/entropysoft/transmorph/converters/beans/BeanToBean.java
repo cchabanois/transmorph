@@ -108,9 +108,9 @@ public class BeanToBean extends AbstractContainerConverter {
 					destinationType, resultBean);
 		}
 
-		for (String destinationPropertyName : destinationSetters.keySet()) {
-			Method destinationMethod = destinationSetters
-					.get(destinationPropertyName);
+		for (Map.Entry<String, Method> entry : destinationSetters.entrySet()) {
+			String destinationPropertyName = entry.getKey();
+			Method destinationMethod = entry.getValue();
 
 			Method sourceMethod = getPropertySourceMethod(sourceObject,
 					resultBean, destinationPropertyName);

@@ -77,8 +77,9 @@ public class MapToBean extends AbstractContainerConverter {
 					destinationType, resultBean);
 		}
 
-		for (String key : sourceMap.keySet()) {
-			Object value = sourceMap.get(key);
+		for (Map.Entry<String, Object> entry : sourceMap.entrySet()) {
+			String key = entry.getKey();
+			Object value = entry.getValue();
 			Method method = getSetterMethod(setterMethods, key);
 			if (method == null) {
 				throw new ConverterException(MessageFormat.format(

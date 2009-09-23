@@ -21,6 +21,14 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.lang.reflect.WildcardType;
 
+/**
+ * 
+ * This class is thread-safe
+ * 
+ * @author cedric
+ *
+ * @param <T>
+ */
 public abstract class TypeReference<T> implements Comparable<TypeReference<T>> {
 	private final Type type;
 	private final Class<? super T> rawType;
@@ -135,9 +143,6 @@ public abstract class TypeReference<T> implements Comparable<TypeReference<T>> {
 				typeReferences[i] = TypeReference.get(typeArguments[i]);
 			}
 			return typeReferences;
-		}
-		if (type instanceof WildcardType) {
-			// TODO
 		}
 		return new TypeReference<?>[0];
 	}

@@ -28,20 +28,20 @@ import net.entropysoft.transmorph.type.TypeReference;
  */
 public class ObjectToString extends AbstractConverter {
 
-	public final static Class[] ALL_SOURCE_CLASSES = new Class[] { Object.class };
+	public final static Class<?>[] ALL_SOURCE_CLASSES = new Class[] { Object.class };
 
-	private Class[] handledSourceClasses = ALL_SOURCE_CLASSES;
+	private Class<?>[] handledSourceClasses = ALL_SOURCE_CLASSES;
 	private boolean failIfDefaultObjectToString = true;
 
 	public ObjectToString() {
 		this.useObjectPool = false;
 	}
 
-	public Class[] getHandledSourceClasses() {
+	public Class<?>[] getHandledSourceClasses() {
 		return handledSourceClasses;
 	}
 
-	public void setHandledSourceClasses(Class[] handledSourceClasses) {
+	public void setHandledSourceClasses(Class<?>[] handledSourceClasses) {
 		this.handledSourceClasses = handledSourceClasses;
 	}
 
@@ -78,7 +78,7 @@ public class ObjectToString extends AbstractConverter {
 		if (sourceObject == null) {
 			return true;
 		}
-		for (Class handledClass : handledSourceClasses) {
+		for (Class<?> handledClass : handledSourceClasses) {
 			if (handledClass.isAssignableFrom(sourceObject.getClass())) {
 				return true;
 			}

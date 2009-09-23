@@ -7,11 +7,6 @@ import junit.framework.TestCase;
 import net.entropysoft.transmorph.converters.IdentityConverter;
 import net.entropysoft.transmorph.modifiers.IModifier;
 import net.entropysoft.transmorph.modifiers.TrimString;
-import net.entropysoft.transmorph.signature.TypeFactory;
-import net.entropysoft.transmorph.signature.TypeSignature;
-import net.entropysoft.transmorph.signature.parser.ClassFileTypeSignatureParser;
-import net.entropysoft.transmorph.signature.parser.ClassGetNameTypeSignatureParser;
-import net.entropysoft.transmorph.signature.parser.JavaSyntaxTypeSignatureParser;
 import net.entropysoft.transmorph.type.TypeReference;
 
 public class TransmorphTest extends TestCase {

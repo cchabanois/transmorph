@@ -10,7 +10,7 @@ import net.entropysoft.transmorph.type.ParameterizedTypeImpl;
 import net.entropysoft.transmorph.type.WildcardTypeImpl;
 
 public class TypeFactory {
-	private static Map<Character, Class> primitiveTypesMap = new HashMap<Character, Class>();
+	private static Map<Character, Class<?>> primitiveTypesMap = new HashMap<Character, Class<?>>();
 
 	static {
 		primitiveTypesMap.put(PrimitiveTypeSignature.PRIMITIVE_BOOLEAN,

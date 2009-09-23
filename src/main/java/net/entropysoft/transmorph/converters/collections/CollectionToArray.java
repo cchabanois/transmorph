@@ -45,7 +45,7 @@ public class CollectionToArray extends AbstractContainerConverter {
 
 		TypeReference<?> componentType = destinationType.getArrayComponentType();
 
-		Class componentTypeClass = componentType.getRawType();
+		Class<?> componentTypeClass = componentType.getRawType();
 
 		Object destinationArray = Array.newInstance(componentTypeClass,
 				collection.size());
@@ -73,7 +73,7 @@ public class CollectionToArray extends AbstractContainerConverter {
 		if (sourceObject == null) {
 			return true;
 		}
-		return sourceObject instanceof Collection;
+		return sourceObject instanceof Collection<?>;
 	}
 
 }

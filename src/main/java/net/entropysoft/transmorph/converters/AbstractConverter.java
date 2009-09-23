@@ -32,7 +32,7 @@ import net.entropysoft.transmorph.type.TypeReference;
 public abstract class AbstractConverter implements IConverter {
 	private final static IModifier[] EMPTY_MODIFIERS = new IModifier[0];
 
-	private IModifier[] modifiers = EMPTY_MODIFIERS;
+	private IModifier<?>[] modifiers = EMPTY_MODIFIERS;
 
 	protected boolean useObjectPool = false;
 
@@ -119,11 +119,11 @@ public abstract class AbstractConverter implements IConverter {
 		return object;
 	}
 
-	public IModifier[] getModifiers() {
+	public IModifier<?>[] getModifiers() {
 		return modifiers;
 	}
 
-	public void setModifiers(IModifier[] modifiers) {
+	public void setModifiers(IModifier<?>[] modifiers) {
 		this.modifiers = modifiers;
 	}
 

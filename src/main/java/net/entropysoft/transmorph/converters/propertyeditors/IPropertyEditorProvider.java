@@ -25,6 +25,6 @@ import java.beans.PropertyEditor;
  */
 public interface IPropertyEditorProvider {
 
-	public abstract PropertyEditor getPropertyEditor(Class targetType);
+	public abstract PropertyEditor getPropertyEditor(Class<?> targetType);
 
 }

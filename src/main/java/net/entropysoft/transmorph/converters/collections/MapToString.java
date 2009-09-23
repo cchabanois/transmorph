@@ -108,7 +108,7 @@ public class MapToString extends AbstractContainerConverter {
 			return true;
 		}
 
-		return sourceObject instanceof Map;
+		return sourceObject instanceof Map<?,?>;
 	}
 
 }

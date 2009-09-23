@@ -39,7 +39,7 @@ import net.entropysoft.transmorph.utils.BeanUtils;
  */
 public class BeanToBeanInjector extends AbstractBeanInjector {
 	private IBeanPropertyTypeProvider beanDestinationPropertyTypeProvider;
-	private Map<ClassPair, BeanToBeanMapping> beanToBeanMappings = new HashMap<ClassPair, BeanToBeanMapping>();
+	private Map<ClassPair<?,?>, BeanToBeanMapping> beanToBeanMappings = new HashMap<ClassPair<?,?>, BeanToBeanMapping>();
 	private boolean handleTargetClassSameAsSourceClass = true;
 	private boolean handleTargetClassIsSuperClassOfSourceClass = true;
 
@@ -91,7 +91,7 @@ public class BeanToBeanInjector extends AbstractBeanInjector {
 	public void inject(ConversionContext context, Object sourceObject,
 			Object targetBean, TypeReference<?> targetType)
 			throws ConverterException {
-		Class destinationClass = targetType.getRawType();
+		Class<?> destinationClass = targetType.getRawType();
 
 		if (!canHandle(sourceObject.getClass(), destinationClass)) {
 			throw new ConverterException(MessageFormat.format(
@@ -189,7 +189,7 @@ public class BeanToBeanInjector extends AbstractBeanInjector {
 		return propertyDestinationType;
 	}
 
-	private boolean canHandle(Class sourceObjectClass, Class destinationClass) {
+	private boolean canHandle(Class<?> sourceObjectClass, Class<?> destinationClass) {
 		if (handleTargetClassSameAsSourceClass
 				&& sourceObjectClass.equals(destinationClass)) {
 			return true;

@@ -2,10 +2,9 @@ package net.entropysoft.transmorph.utils;
 
 import java.util.List;
 
+import junit.framework.TestCase;
 import net.entropysoft.transmorph.signature.TypeSignatureFactory;
 import net.entropysoft.transmorph.type.TypeReference;
-
-import junit.framework.TestCase;
 
 public class TypeReferenceTest extends TestCase {
 

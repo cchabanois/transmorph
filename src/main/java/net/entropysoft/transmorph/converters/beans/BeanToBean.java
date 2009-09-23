@@ -40,7 +40,7 @@ import net.entropysoft.transmorph.utils.BeanUtils;
  */
 public class BeanToBean extends AbstractContainerConverter {
 	private IBeanPropertyTypeProvider beanDestinationPropertyTypeProvider;
-	private Map<ClassPair, BeanToBeanMapping> beanToBeanMappings = new HashMap<ClassPair, BeanToBeanMapping>();
+	private Map<ClassPair<?,?>, BeanToBeanMapping> beanToBeanMappings = new HashMap<ClassPair<?,?>, BeanToBeanMapping>();
 	private boolean handleTargetClassSameAsSourceClass = true;
 
 	public BeanToBean() {
@@ -80,7 +80,7 @@ public class BeanToBean extends AbstractContainerConverter {
 
 	public Object doConvert(ConversionContext context, Object sourceObject,
 			TypeReference<?> destinationType) throws ConverterException {
-		Class destinationClass = destinationType.getRawType();
+		Class<?> destinationClass = destinationType.getRawType();
 
 		if (sourceObject == null) {
 			return null;
@@ -184,7 +184,7 @@ public class BeanToBean extends AbstractContainerConverter {
 	 * @param originalType
 	 * @return
 	 */
-	protected TypeReference<?> getBeanPropertyType(Class clazz, String propertyName,
+	protected TypeReference<?> getBeanPropertyType(Class<?> clazz, String propertyName,
 			TypeReference<?> originalType) {
 		TypeReference<?> propertyDestinationType = null;
 		if (beanDestinationPropertyTypeProvider != null) {
@@ -223,7 +223,7 @@ public class BeanToBean extends AbstractContainerConverter {
 		return true;
 	}
 
-	private boolean canHandle(Class sourceObjectClass, Class destinationClass) {
+	private boolean canHandle(Class<?> sourceObjectClass, Class<?> destinationClass) {
 		if (handleTargetClassSameAsSourceClass
 				&& sourceObjectClass.equals(destinationClass)) {
 			return true;

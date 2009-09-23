@@ -54,10 +54,10 @@ public class MapToBeanInjector extends AbstractBeanInjector {
 	}
 
 	public boolean canHandle(Object sourceObject, TypeReference<?> targetType) {
-		if (!(sourceObject instanceof Map)) {
+		if (!(sourceObject instanceof Map<?,?>)) {
 			return false;
 		}
-		for (Object object : ((Map) sourceObject).keySet()) {
+		for (Object object : ((Map<?,?>) sourceObject).keySet()) {
 			if (!(object instanceof String)) {
 				return false;
 			}
@@ -70,7 +70,7 @@ public class MapToBeanInjector extends AbstractBeanInjector {
 			throws ConverterException {
 		Map<String, Object> sourceMap = (Map<String, Object>) sourceObject;
 		Map<String, Method> setterMethods;
-		Class targetTypeClass = targetType.getRawType();
+		Class<?> targetTypeClass = targetType.getRawType();
 		setterMethods = BeanUtils.getSetters(targetTypeClass);
 
 		for (String key : sourceMap.keySet()) {
@@ -99,7 +99,7 @@ public class MapToBeanInjector extends AbstractBeanInjector {
 		}
 	}
 
-	protected TypeReference<?> getBeanPropertyType(Class targetClass,
+	protected TypeReference<?> getBeanPropertyType(Class<?> targetClass,
 			String propertyName, TypeReference<?> originalType) {
 		TypeReference<?> propertyDestinationType = null;
 		if (beanDestinationPropertyTypeProvider != null) {

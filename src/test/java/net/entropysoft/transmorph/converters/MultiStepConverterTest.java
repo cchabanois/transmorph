@@ -28,7 +28,6 @@ import net.entropysoft.transmorph.Transmorph;
 import net.entropysoft.transmorph.converters.collections.ArrayToCollection;
 import net.entropysoft.transmorph.modifiers.IModifier;
 import net.entropysoft.transmorph.modifiers.UppercaseString;
-import net.entropysoft.transmorph.signature.TypeFactory;
 import net.entropysoft.transmorph.type.TypeReference;
 
 public class MultiStepConverterTest extends TestCase {

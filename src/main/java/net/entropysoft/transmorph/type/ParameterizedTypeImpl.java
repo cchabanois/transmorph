@@ -61,8 +61,8 @@ public final class ParameterizedTypeImpl implements ParameterizedType {
 		StringBuilder sb = new StringBuilder();
 
 		if (owner != null) {
-			if (owner instanceof Class)
-				sb.append(((Class) owner).getName());
+			if (owner instanceof Class<?>)
+				sb.append(((Class<?>) owner).getName());
 			else
 				sb.append(owner.toString());
 			sb.append('.');
@@ -71,7 +71,7 @@ public final class ParameterizedTypeImpl implements ParameterizedType {
 				// shared prefix with owner.
 				ParameterizedType parameterizedOwnerType = (ParameterizedType) owner;
 				String simpleName = rawType.getName().replace(
-						((Class) parameterizedOwnerType.getRawType()).getName()
+						((Class<?>) parameterizedOwnerType.getRawType()).getName()
 								+ "$", "");
 				sb.append(simpleName);
 			} else {
@@ -87,8 +87,8 @@ public final class ParameterizedTypeImpl implements ParameterizedType {
 				Type type = actualTypeArguments[i];
 				if (i > 0)
 					sb.append(", ");
-				if (type instanceof Class)
-					sb.append(((Class) type).getName());
+				if (type instanceof Class<?>)
+					sb.append(((Class<?>) type).getName());
 				else
 					sb.append(type.toString());
 			}

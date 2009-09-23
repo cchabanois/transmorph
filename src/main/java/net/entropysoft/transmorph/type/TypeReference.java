@@ -49,7 +49,7 @@ public abstract class TypeReference<T> implements Comparable<TypeReference<T>> {
 	}
 
 	public boolean isArray() {
-		if (type instanceof Class) {
+		if (type instanceof Class<?>) {
 			return ((Class<?>) type).isArray();
 		} else if (type instanceof GenericArrayType) {
 			return true;
@@ -104,8 +104,8 @@ public abstract class TypeReference<T> implements Comparable<TypeReference<T>> {
 	 * @return
 	 */
 	public String getName() {
-		if (type instanceof Class) {
-			return ((Class)type).getName();
+		if (type instanceof Class<?>) {
+			return ((Class<?>)type).getName();
 		} else {
 			return type.toString();
 		}

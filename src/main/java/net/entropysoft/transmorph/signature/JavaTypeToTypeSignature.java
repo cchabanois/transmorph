@@ -4,7 +4,6 @@ import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.lang.reflect.WildcardType;
-import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,7 +15,7 @@ import java.util.Map;
  */
 public class JavaTypeToTypeSignature {
 
-	private static Map<Class, Character> primitiveTypesMap = new HashMap<Class, Character>();
+	private static Map<Class<?>, Character> primitiveTypesMap = new HashMap<Class<?>, Character>();
 
 	static {
 		primitiveTypesMap.put(Boolean.TYPE,
@@ -58,7 +57,7 @@ public class JavaTypeToTypeSignature {
 	 */
 	private ClassTypeSignature getClassTypeSignature(
 			ParameterizedType parameterizedType) {
-		Class rawType = (Class) parameterizedType.getRawType();
+		Class<?> rawType = (Class<?>) parameterizedType.getRawType();
 		Type[] typeArguments = parameterizedType.getActualTypeArguments();
 		TypeArgSignature[] typeArgSignatures = new TypeArgSignature[typeArguments.length];
 		for (int i = 0; i < typeArguments.length; i++) {
@@ -100,8 +99,8 @@ public class JavaTypeToTypeSignature {
 	 * @return
 	 */
 	private TypeSignature getTypeSignature(Type type) {
-		if (type instanceof Class) {
-			return getTypeSignature((Class) type);
+		if (type instanceof Class<?>) {
+			return getTypeSignature((Class<?>) type);
 		}
 		if (type instanceof GenericArrayType) {
 			return getArrayTypeSignature((GenericArrayType) type);
@@ -118,7 +117,7 @@ public class JavaTypeToTypeSignature {
 	 * @param clazz
 	 * @return
 	 */
-	private TypeSignature getTypeSignature(Class clazz) {
+	private TypeSignature getTypeSignature(Class<?> clazz) {
 		StringBuilder sb = new StringBuilder();
 		if (clazz.isArray()) {
 			sb.append(clazz.getName());

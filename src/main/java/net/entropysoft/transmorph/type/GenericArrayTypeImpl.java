@@ -37,7 +37,7 @@ public final class GenericArrayTypeImpl implements GenericArrayType {
       Type componentType = getGenericComponentType();
       StringBuilder sb = new StringBuilder();
 
-      if (componentType instanceof Class)
+      if (componentType instanceof Class<?>)
           sb.append(((Class<?>) componentType).getName());
       else
           sb.append(componentType.toString());

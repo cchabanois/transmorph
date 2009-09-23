@@ -156,7 +156,7 @@ public class JavaSyntaxTypeSignatureLexer {
 		int ch;
 		while (true) {
 			ch = characterBuffer.peekChar();
-			if (ch == characterBuffer.EOS || !isJavaIdentifierPart(ch)) {
+			if (ch == CharacterBuffer.EOS || !isJavaIdentifierPart(ch)) {
 				if (sb.length() == 0) {
 					return null;
 				}

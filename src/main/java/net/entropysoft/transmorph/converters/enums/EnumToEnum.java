@@ -37,7 +37,7 @@ public class EnumToEnum extends AbstractConverter {
 		this.useObjectPool = true;
 	}
 
-	public void addEnumToEnum(Enum source, Enum dest) {
+	public void addEnumToEnum(Enum<?> source, Enum<?> dest) {
 		Map<Class<? extends Enum>, Enum> mapDestEnum = enumToEnumMap.get(source);
 		if (mapDestEnum == null) {
 			mapDestEnum = new HashMap<Class<? extends Enum>, Enum>();
@@ -46,7 +46,7 @@ public class EnumToEnum extends AbstractConverter {
 		mapDestEnum.put(dest.getClass(), dest);
 	}
 
-	public void addEnumToNull(Enum source, Class<? extends Enum> enumClass) {
+	public void addEnumToNull(Enum<?> source, Class<? extends Enum> enumClass) {
 		Map<Class<? extends Enum>, Enum> mapDestEnum = enumToEnumMap.get(source);
 		if (mapDestEnum == null) {
 			mapDestEnum = new HashMap<Class<? extends Enum>, Enum>();
@@ -55,7 +55,7 @@ public class EnumToEnum extends AbstractConverter {
 		mapDestEnum.put(enumClass, null);
 	}
 
-	private Enum getDestinationEnum(Enum source, TypeReference<?> destinationType)
+	private Enum<?> getDestinationEnum(Enum<?> source, TypeReference<?> destinationType)
 			throws ClassNotFoundException, ConverterException {
 		Map<Class<? extends Enum>, Enum> mapDestEnum = enumToEnumMap.get(source);
 		if (mapDestEnum != null) {
@@ -82,7 +82,7 @@ public class EnumToEnum extends AbstractConverter {
 		if (sourceObject == null) {
 			return null;
 		}
-		Enum sourceEnum = (Enum) sourceObject;
+		Enum<?> sourceEnum = (Enum<?>) sourceObject;
 
 		try {
 			return getDestinationEnum(sourceEnum, destinationType);

@@ -15,8 +15,6 @@
  */
 package net.entropysoft.transmorph.signature.parser;
 
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Default implementation for IImportedClassesProvider
@@ -25,7 +23,6 @@ import java.util.Map;
  * 
  */
 public class ImportedClassesProvider extends AbstractImportedClassesProvider {
-	private Map<String, String> importedClasses = new HashMap<String, String>();
 
 	public void importClass(String fullyQualifiedClassName) {
 		super.importClass(fullyQualifiedClassName);

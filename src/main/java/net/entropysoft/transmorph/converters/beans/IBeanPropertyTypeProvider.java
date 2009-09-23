@@ -29,7 +29,7 @@ import net.entropysoft.transmorph.type.TypeReference;
  */
 public interface IBeanPropertyTypeProvider {
 
-	public TypeReference<?> getPropertyType(Class clazz, String propertyName,
+	public TypeReference<?> getPropertyType(Class<?> clazz, String propertyName,
 			TypeReference<?> originalType);
 
 }

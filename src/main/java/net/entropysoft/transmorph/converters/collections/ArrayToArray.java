@@ -46,7 +46,7 @@ public class ArrayToArray extends AbstractContainerConverter {
 		TypeReference<?> componentType = destinationType.getArrayComponentType();
 		int arrayLength = Array.getLength(array);
 
-		Class componentTypeClass = componentType.getRawType();
+		Class<?> componentTypeClass = componentType.getRawType();
 
 		Object destinationArray = Array.newInstance(componentTypeClass,
 				arrayLength);

@@ -51,7 +51,7 @@ public class CollectionToString extends AbstractContainerConverter {
 		if (sourceObject == null) {
 			return true;
 		}
-		return sourceObject instanceof Collection;
+		return sourceObject instanceof Collection<?>;
 	}
 
 }

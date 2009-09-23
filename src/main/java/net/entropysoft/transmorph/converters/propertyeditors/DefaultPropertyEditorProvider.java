@@ -26,7 +26,7 @@ import java.beans.PropertyEditorManager;
  */
 public class DefaultPropertyEditorProvider implements IPropertyEditorProvider {
 
-	public PropertyEditor getPropertyEditor(Class targetType) {
+	public PropertyEditor getPropertyEditor(Class<?> targetType) {
 		return PropertyEditorManager.findEditor(targetType);
 	}
 

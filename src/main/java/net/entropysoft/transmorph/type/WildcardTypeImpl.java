@@ -65,8 +65,8 @@ public final class WildcardTypeImpl implements WildcardType {
 				if (i != 0) {
 					sb.append(" & ");
 				}
-				if (type instanceof Class) {
-					sb.append(((Class) type).getName());
+				if (type instanceof Class<?>) {
+					sb.append(((Class<?>) type).getName());
 				} else {
 					sb.append(type.toString());
 				}

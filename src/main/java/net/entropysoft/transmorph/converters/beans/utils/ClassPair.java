@@ -15,11 +15,11 @@
  */
 package net.entropysoft.transmorph.converters.beans.utils;
 
-public class ClassPair {
-	private Class sourceClass;
-	private Class destinationClass;
+public class ClassPair<U,V> {
+	private Class<U> sourceClass;
+	private Class<V> destinationClass;
 	
-	public ClassPair(Class sourceClass, Class destinationClass) {
+	public ClassPair(Class<U> sourceClass, Class<V> destinationClass) {
 		super();
 		this.sourceClass = sourceClass;
 		this.destinationClass = destinationClass;
@@ -45,7 +45,7 @@ public class ClassPair {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		ClassPair other = (ClassPair) obj;
+		ClassPair<?,?> other = (ClassPair<?,?>) obj;
 		if (destinationClass == null) {
 			if (other.destinationClass != null)
 				return false;

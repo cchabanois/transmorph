@@ -3,9 +3,9 @@ package net.entropysoft.transmorph.converters.collections;
 import java.util.ArrayList;
 import java.util.List;
 
+import junit.framework.TestCase;
 import net.entropysoft.transmorph.DefaultConverters;
 import net.entropysoft.transmorph.Transmorph;
-import junit.framework.TestCase;
 
 public class CollectionToStringTest extends TestCase {
 

@@ -37,33 +37,26 @@ public class BeanPropertyTypeProvider implements IBeanPropertyTypeProvider {
 	 * @param propertyName
 	 * @param destinationType
 	 */
-	public void setPropertyDestinationType(Class clazz, String propertyName,
+	public void setPropertyDestinationType(Class<?> clazz, String propertyName,
 			TypeReference<?> destinationType) {
 		propertiesDestinationTypes.put(new ClassProperty(clazz, propertyName), destinationType);
 	}
 
-	public TypeReference<?> getPropertyType(Class clazz, String propertyName,
+	public TypeReference<?> getPropertyType(Class<?> clazz, String propertyName,
 			TypeReference<?> originalType) {
 		return propertiesDestinationTypes.get(new ClassProperty(clazz, propertyName));
 	}
 
 	private static class ClassProperty {
-		private Class clazz;
-		private String propertyName;
+		final private Class<?> clazz;
+		final private String propertyName;
 
-		public ClassProperty(Class clazz, String propertyName) {
+		public ClassProperty(Class<?> clazz, String propertyName) {
 			super();
 			this.clazz = clazz;
 			this.propertyName = propertyName;
 		}
 		
-		public Class getClazz() {
-			return clazz;
-		}
-		public String getPropertyName() {
-			return propertyName;
-		}
-
 		@Override
 		public int hashCode() {
 			final int prime = 31;

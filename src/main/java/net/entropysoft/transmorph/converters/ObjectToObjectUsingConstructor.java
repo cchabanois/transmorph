@@ -31,20 +31,20 @@ import net.entropysoft.transmorph.type.TypeReference;
  */
 public class ObjectToObjectUsingConstructor extends AbstractConverter {
 
-	public final static Class[] ALL_DESTINATION_CLASSES = null;
-	public final static Class[] NO_DESTINATION_CLASSES = new Class[0];
+	public final static Class<?>[] ALL_DESTINATION_CLASSES = null;
+	public final static Class<?>[] NO_DESTINATION_CLASSES = new Class[0];
 
-	private Class[] handledDestinationClasses = NO_DESTINATION_CLASSES;
+	private Class<?>[] handledDestinationClasses = NO_DESTINATION_CLASSES;
 
 	public ObjectToObjectUsingConstructor() {
 		this.useObjectPool = true;
 	}
 
-	public Class[] getHandledDestinationClasses() {
+	public Class<?>[] getHandledDestinationClasses() {
 		return handledDestinationClasses;
 	}
 
-	public void setHandledDestinationClasses(Class[] handledDestinationClasses) {
+	public void setHandledDestinationClasses(Class<?>[] handledDestinationClasses) {
 		this.handledDestinationClasses = handledDestinationClasses;
 	}
 
@@ -84,12 +84,12 @@ public class ObjectToObjectUsingConstructor extends AbstractConverter {
 	 *            Argument type for constructor
 	 * @return the compatible constructor or null if none found
 	 */
-	public Constructor getCompatibleConstructor(Class type, Class argumentType) {
+	public Constructor getCompatibleConstructor(Class<?> type, Class<?> argumentType) {
 		try {
 			return type.getConstructor(new Class[] { argumentType });
 		} catch (Exception e) {
 			// get public classes and interfaces
-			Class[] types = type.getClasses();
+			Class<?>[] types = type.getClasses();
 
 			for (int i = 0; i < types.length; i++) {
 				try {
@@ -105,7 +105,7 @@ public class ObjectToObjectUsingConstructor extends AbstractConverter {
 		if (handledDestinationClasses == ALL_DESTINATION_CLASSES) {
 			return true;
 		}
-		for (Class handledClass : handledDestinationClasses) {
+		for (Class<?> handledClass : handledDestinationClasses) {
 			if (destinationType.isType(handledClass)) {
 				return true;
 			}

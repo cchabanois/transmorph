@@ -274,8 +274,7 @@ public class ClassFileTypeSignatureParser implements ITypeSignatureParser {
 	private String parseOuterClassName() {
 		StringBuilder sb = new StringBuilder();
 		sb.append(parseJavaId());
-		int ch;
-		while ((ch = peekChar()) == packageSeparator) { // '/' or '.'
+		while (peekChar() == packageSeparator) { // '/' or '.'
 			nextChar(packageSeparator);
 			sb.append('.');
 			sb.append(parseJavaId());

@@ -31,7 +31,7 @@ public class ClassFactory {
 	private ClassLoader classLoader;
 	private ClassGetNameSignatureFormatter classGetNameSignatureFormatter = new ClassGetNameSignatureFormatter();
 	
-	private static Map<Character, Class> primitiveTypesMap = new HashMap<Character, Class>();
+	private static Map<Character, Class<?>> primitiveTypesMap = new HashMap<Character, Class<?>>();
 
 	static {
 		primitiveTypesMap.put(PrimitiveTypeSignature.PRIMITIVE_BOOLEAN,
@@ -66,7 +66,7 @@ public class ClassFactory {
 	 * @return
 	 * @throws ClassNotFoundException
 	 */
-	public Class getClass(TypeSignature typeSignature)
+	public Class<?> getClass(TypeSignature typeSignature)
 			throws ClassNotFoundException {
 		if (typeSignature.isPrimitiveType()) {
 			PrimitiveTypeSignature primitiveTypeSignature = (PrimitiveTypeSignature) typeSignature;

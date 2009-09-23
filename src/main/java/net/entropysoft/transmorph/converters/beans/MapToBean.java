@@ -105,7 +105,7 @@ public class MapToBean extends AbstractContainerConverter {
 		return resultBean;
 	}
 
-	protected TypeReference<?> getBeanPropertyType(Class clazz,
+	protected TypeReference<?> getBeanPropertyType(Class<?> clazz,
 			String propertyName, TypeReference<?> originalType) {
 		TypeReference<?> propertyDestinationType = null;
 		if (beanDestinationPropertyTypeProvider != null) {
@@ -125,7 +125,7 @@ public class MapToBean extends AbstractContainerConverter {
 		return setterMethods.get(methodName);
 	}
 
-	private Map<String, Method> getSetterMethods(Class clazz) {
+	private Map<String, Method> getSetterMethods(Class<?> clazz) {
 		Map<String, Method> setters = new HashMap<String, Method>();
 		Method[] methods = clazz.getMethods();
 		for (Method method : methods) {
@@ -151,10 +151,10 @@ public class MapToBean extends AbstractContainerConverter {
 		if (sourceObject == null) {
 			return true;
 		}
-		if (!(sourceObject instanceof Map)) {
+		if (!(sourceObject instanceof Map<?,?>)) {
 			return false;
 		}
-		for (Object object : ((Map) sourceObject).keySet()) {
+		for (Object object : ((Map<?,?>) sourceObject).keySet()) {
 			if (!(object instanceof String)) {
 				return false;
 			}

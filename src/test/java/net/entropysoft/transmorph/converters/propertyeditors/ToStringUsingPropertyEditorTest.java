@@ -16,7 +16,6 @@
 package net.entropysoft.transmorph.converters.propertyeditors;
 
 import junit.framework.TestCase;
-import net.entropysoft.transmorph.Transmorph;
 
 public class ToStringUsingPropertyEditorTest extends TestCase {
 

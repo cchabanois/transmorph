@@ -152,7 +152,7 @@ public class ArrayToCollection extends AbstractContainerConverter {
 		if (sourceObject == null) {
 			return true;
 		}
-		Class sourceObjectClass = sourceObject.getClass();
+		Class<?> sourceObjectClass = sourceObject.getClass();
 		return sourceObjectClass.isArray();
 	}
 }

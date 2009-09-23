@@ -52,7 +52,7 @@ public class BeanUtils {
 	 * @param parameterTypes
 	 * @return
 	 */
-	public static Method getMethod(Class clazz, String name,
+	public static Method getMethod(Class<?> clazz, String name,
 			Class<?>... parameterTypes) {
 		try {
 			return clazz.getMethod(name, parameterTypes);
@@ -69,7 +69,7 @@ public class BeanUtils {
 	 * @param clazz
 	 * @return
 	 */
-	public static Map<String, Method> getSetters(Class clazz) {
+	public static Map<String, Method> getSetters(Class<?> clazz) {
 		Map<String, Method> setters = new HashMap<String, Method>();
 		Method[] methods = clazz.getMethods();
 		for (Method method : methods) {
@@ -91,7 +91,7 @@ public class BeanUtils {
 	 * get the getter method corresponding to given property
 	 * 
 	 */
-	public static Method getGetterPropertyMethod(Class type, String propertyName) {
+	public static Method getGetterPropertyMethod(Class<?> type, String propertyName) {
 		String sourceMethodName = "get"
 				+ BeanUtils.capitalizePropertyName(propertyName);
 
@@ -113,7 +113,7 @@ public class BeanUtils {
 	 * get the setter method corresponding to given property
 	 * 
 	 */
-	public static Method getSetterPropertyMethod(Class type, String propertyName) {
+	public static Method getSetterPropertyMethod(Class<?> type, String propertyName) {
 		String sourceMethodName = "set"
 				+ BeanUtils.capitalizePropertyName(propertyName);
 

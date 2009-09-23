@@ -106,14 +106,14 @@ public class MapToMap extends AbstractContainerConverter {
 	}
 
 	protected TypeReference<?>[] getDestinationTypeArguments(
-			TypeReference mapDestinationType) {
+			TypeReference<?> mapDestinationType) {
 		if (mapDestinationType.isRawTypeSubOf(Properties.class)) {
 			// Properties extends Hashtable<Object,Object> but should contain
 			// only strings
 			return new TypeReference<?>[] { TypeReference.get(String.class),
 					TypeReference.get(String.class) };
 		}
-		TypeReference[] destinationTypeArguments = mapDestinationType
+		TypeReference<?>[] destinationTypeArguments = mapDestinationType
 				.getTypeArguments();
 		if (destinationTypeArguments.length == 0) {
 			destinationTypeArguments = new TypeReference[] {

@@ -94,7 +94,7 @@ public class TypeSignatureFactory {
 	 * @param typeArgs
 	 * @return
 	 */
-	public static TypeSignature getTypeSignature(Class clazz, Class[] typeArgs) {
+	public static TypeSignature getTypeSignature(Class<?> clazz, Class<?>[] typeArgs) {
 		ClassTypeSignature rawClassTypeSignature = (ClassTypeSignature) javaTypeToTypeSignature
 				.getSignature(clazz);
 		TypeArgSignature[] typeArgSignatures = new TypeArgSignature[typeArgs.length];

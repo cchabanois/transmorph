@@ -21,6 +21,9 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.lang.reflect.WildcardType;
 
+import net.entropysoft.transmorph.signature.TypeSignature;
+import net.entropysoft.transmorph.signature.TypeSignatureFactory;
+
 /**
  * 
  * This class is thread-safe
@@ -32,7 +35,8 @@ import java.lang.reflect.WildcardType;
 public abstract class TypeReference<T> implements Comparable<TypeReference<T>> {
 	private final Type type;
 	private final Class<? super T> rawType;
-
+	private volatile TypeSignature typeSignature; 
+	
 	@SuppressWarnings("unchecked")
 	protected TypeReference() {
 		this.type = getSuperclassTypeParameter(getClass());
@@ -104,6 +108,13 @@ public abstract class TypeReference<T> implements Comparable<TypeReference<T>> {
 		return superClass.isAssignableFrom(rawType);
 	}
 
+	public TypeSignature getTypeSignature() {
+		if (typeSignature == null) {
+			typeSignature = TypeSignatureFactory.getTypeSignature(type);
+		}
+		return typeSignature;
+	}
+	
 	/**
 	 * check if type is a number type (either primitive or instance of Number)
 	 * 

@@ -3,7 +3,7 @@ package net.entropysoft.transmorph.signature.parser;
 import junit.framework.TestCase;
 import net.entropysoft.transmorph.signature.FullTypeSignature;
 
-public class TypeSignatureParserTest extends TestCase {
+public class ClassFileTypeSignatureParserTest extends TestCase {
 
 	public void testParse() {
 		ClassFileTypeSignatureParser typeSignatureParser = new ClassFileTypeSignatureParser(

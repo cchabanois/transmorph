@@ -12,7 +12,7 @@ public class AllTests {
 		suite.addTestSuite(ClassGetNameTypeSignatureParserTest.class);
 		suite.addTestSuite(JavaTypeSignatureParserTest.class);
 		suite.addTestSuite(JavaTypeSignatureLexerTest.class);
-		suite.addTestSuite(TypeSignatureParserTest.class);
+		suite.addTestSuite(ClassFileTypeSignatureParserTest.class);
 		//$JUnit-END$
 		return suite;
 	}

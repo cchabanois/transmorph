@@ -25,8 +25,8 @@ import net.entropysoft.transmorph.signature.formatter.ClassFileTypeSignatureForm
  */
 public class TypeArgSignature extends TypeSignature {
 
-	public static char NO_WILDCARD = ' ';         // <Type>
-	public static char UNBOUNDED_WILDCARD = '*';  // <?>
+	public static char NO_WILDCARD = ' '; // <Type>
+	public static char UNBOUNDED_WILDCARD = '*'; // <?>
 	public static char UPPERBOUND_WILDCARD = '+'; // <N extends Type>
 	public static char LOWERBOUND_WILDCARD = '-'; // <N super Type>
 	private char wildcard;
@@ -44,6 +44,7 @@ public class TypeArgSignature extends TypeSignature {
 
 	/**
 	 * get the signature of the type. Null if unbounded
+	 * 
 	 * @return
 	 */
 	public FieldTypeSignature getFieldTypeSignature() {
@@ -64,7 +65,20 @@ public class TypeArgSignature extends TypeSignature {
 	}
 
 	@Override
+	public boolean isTypeArgument() {
+		return true;
+	}
+
+	@Override
 	public FullTypeSignature getTypeErasureSignature() {
+		if (wildcard == NO_WILDCARD)
+			return getFieldTypeSignature().getTypeErasureSignature();
+		if (wildcard == UNBOUNDED_WILDCARD)
+			return TypeSignatureFactory.getTypeSignature(Object.class);
+		if (wildcard == UPPERBOUND_WILDCARD)
+			return getFieldTypeSignature().getTypeErasureSignature();
+		if (wildcard == LOWERBOUND_WILDCARD)
+			return TypeSignatureFactory.getTypeSignature(Object.class);
 		return null;
 	}
 

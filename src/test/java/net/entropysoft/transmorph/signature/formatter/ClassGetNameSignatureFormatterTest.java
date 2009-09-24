@@ -1,9 +1,11 @@
 package net.entropysoft.transmorph.signature.formatter;
 
+import java.util.List;
 import java.util.Map;
 
 import junit.framework.TestCase;
 import net.entropysoft.transmorph.signature.TypeSignatureFactory;
+import net.entropysoft.transmorph.type.TypeReference;
 
 public class ClassGetNameSignatureFormatterTest extends TestCase {
 
@@ -41,4 +43,13 @@ public class ClassGetNameSignatureFormatterTest extends TestCase {
 
 	}
 
+	public void testFormatWildcardType() throws Exception {
+		ClassGetNameSignatureFormatter typeSignatureFormatter = new ClassGetNameSignatureFormatter();
+		TypeReference<List<? extends Number>> typeReference = new TypeReference<List<? extends Number>>() {
+		};
+		TypeReference<?> wildardTypeRef = typeReference.getTypeArguments()[0];
+		assertEquals("java.lang.Number", typeSignatureFormatter.format(TypeSignatureFactory
+				.getTypeSignature(wildardTypeRef.getType())));
+	}	
+	
 }

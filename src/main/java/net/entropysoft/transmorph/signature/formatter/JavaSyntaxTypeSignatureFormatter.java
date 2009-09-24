@@ -76,6 +76,9 @@ public class JavaSyntaxTypeSignatureFormatter implements
 		if (typeSignature.isClassType()) {
 			return formatClassTypeSignature((ClassTypeSignature) typeSignature);
 		}
+		if (typeSignature.isTypeArgument()) {
+			return formatTypeArgSignature((TypeArgSignature) typeSignature);
+		}
 		return null;
 	}
 

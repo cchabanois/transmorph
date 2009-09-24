@@ -29,21 +29,22 @@ import net.entropysoft.transmorph.signature.TypeVarSignature;
  * Format a type signature using internal java type descriptor format
  * 
  * @author Cedric Chabanois (cchabanois at gmail.com)
- *
+ * 
  */
 public class ClassFileTypeSignatureFormatter implements ITypeSignatureFormatter {
 
 	private char packageSeparator = '/';
-	private char innerClassPrefix = '.';	
-	
+	private char innerClassPrefix = '.';
+
 	public ClassFileTypeSignatureFormatter() {
-		
+
 	}
-	
-	public ClassFileTypeSignatureFormatter(boolean useInternalFormFullyQualifiedName) {
+
+	public ClassFileTypeSignatureFormatter(
+			boolean useInternalFormFullyQualifiedName) {
 		setUseInternalFormFullyQualifiedName(useInternalFormFullyQualifiedName);
-	}	
-	
+	}
+
 	/**
 	 * By default we use the Internal Form of Fully Qualified Name where
 	 * identifiers are separated by '/' but you can use the familiar form where
@@ -59,8 +60,8 @@ public class ClassFileTypeSignatureFormatter implements ITypeSignatureFormatter 
 			packageSeparator = '.';
 			innerClassPrefix = '$';
 		}
-	}	
-	
+	}
+
 	public String format(TypeSignature typeSignature) {
 		if (typeSignature.isPrimitiveType()) {
 			return formatPrimitiveTypeSignature((PrimitiveTypeSignature) typeSignature);
@@ -74,6 +75,9 @@ public class ClassFileTypeSignatureFormatter implements ITypeSignatureFormatter 
 		if (typeSignature.isTypeVar()) {
 			return formatTypeVarSignature((TypeVarSignature) typeSignature);
 		}
+		if (typeSignature.isTypeArgument()) {
+			return formatTypeArgSignature((TypeArgSignature) typeSignature);
+		}
 		return null;
 	}
 
@@ -81,7 +85,8 @@ public class ClassFileTypeSignatureFormatter implements ITypeSignatureFormatter 
 		return '[' + format(typeSignature.getComponentTypeSignature());
 	}
 
-	private String formatPrimitiveTypeSignature(PrimitiveTypeSignature primitiveTypeSignature) {
+	private String formatPrimitiveTypeSignature(
+			PrimitiveTypeSignature primitiveTypeSignature) {
 		return new String(new char[] { primitiveTypeSignature
 				.getPrimitiveTypeChar() });
 	}
@@ -105,7 +110,8 @@ public class ClassFileTypeSignatureFormatter implements ITypeSignatureFormatter 
 		for (int i = 0; i < classTypeSignatures.length; i++) {
 			ClassTypeSignature classTypeSignature = classTypeSignatures[i];
 			if (i == 0) {
-				sb.append(classTypeSignature.getBinaryName().replace('.', packageSeparator));
+				sb.append(classTypeSignature.getBinaryName().replace('.',
+						packageSeparator));
 			} else {
 				sb.append(innerClassPrefix);
 				sb.append(classTypeSignature.getBinaryName());
@@ -141,6 +147,6 @@ public class ClassFileTypeSignatureFormatter implements ITypeSignatureFormatter 
 			sb.append(format(typeArgSignature.getFieldTypeSignature()));
 		}
 		return sb.toString();
-	}	
-	
+	}
+
 }

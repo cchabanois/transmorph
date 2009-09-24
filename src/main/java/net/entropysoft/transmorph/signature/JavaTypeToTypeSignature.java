@@ -42,7 +42,7 @@ public class JavaTypeToTypeSignature {
 	 */
 	private ArrayTypeSignature getArrayTypeSignature(
 			GenericArrayType genericArrayType) {
-		FullTypeSignature componentTypeSignature = getTypeSignature(genericArrayType
+		FullTypeSignature componentTypeSignature = getFullTypeSignature(genericArrayType
 				.getGenericComponentType());
 		ArrayTypeSignature arrayTypeSignature = new ArrayTypeSignature(
 				componentTypeSignature);
@@ -68,7 +68,7 @@ public class JavaTypeToTypeSignature {
 				: rawType.getName();
 		ClassTypeSignature ownerTypeSignature = parameterizedType
 				.getOwnerType() == null ? null
-				: (ClassTypeSignature) getTypeSignature(parameterizedType
+				: (ClassTypeSignature) getFullTypeSignature(parameterizedType
 						.getOwnerType());
 		ClassTypeSignature classTypeSignature = new ClassTypeSignature(
 				binaryName, typeArgSignatures, ownerTypeSignature);
@@ -81,8 +81,8 @@ public class JavaTypeToTypeSignature {
 	 * @param type
 	 * @return
 	 */	
-	public TypeSignature getSignature(Type type) {
-		FullTypeSignature typeSignature = getTypeSignature(type);
+	public TypeSignature getTypeSignature(Type type) {
+		FullTypeSignature typeSignature = getFullTypeSignature(type);
 		if (typeSignature != null) {
 			return typeSignature;
 		}
@@ -98,7 +98,7 @@ public class JavaTypeToTypeSignature {
 	 * @param type
 	 * @return
 	 */
-	private FullTypeSignature getTypeSignature(Type type) {
+	private FullTypeSignature getFullTypeSignature(Type type) {
 		if (type instanceof Class<?>) {
 			return getTypeSignature((Class<?>) type);
 		}
@@ -147,21 +147,21 @@ public class JavaTypeToTypeSignature {
 			if (lowerBound == null && Object.class.equals(upperBound)) {
 				return new TypeArgSignature(
 						TypeArgSignature.UNBOUNDED_WILDCARD,
-						(FieldTypeSignature) getTypeSignature(upperBound));
+						(FieldTypeSignature) getFullTypeSignature(upperBound));
 			} else if (lowerBound == null && upperBound != null) {
 				return new TypeArgSignature(
 						TypeArgSignature.UPPERBOUND_WILDCARD,
-						(FieldTypeSignature) getTypeSignature(upperBound));
+						(FieldTypeSignature) getFullTypeSignature(upperBound));
 			} else if (lowerBound != null) {
 				return new TypeArgSignature(
 						TypeArgSignature.LOWERBOUND_WILDCARD,
-						(FieldTypeSignature) getTypeSignature(lowerBound));
+						(FieldTypeSignature) getFullTypeSignature(lowerBound));
 			} else {
 				throw new RuntimeException("Invalid type");
 			}
 		} else {
 			return new TypeArgSignature(TypeArgSignature.NO_WILDCARD,
-					(FieldTypeSignature) getTypeSignature(type));
+					(FieldTypeSignature) getFullTypeSignature(type));
 		}
 	}
 

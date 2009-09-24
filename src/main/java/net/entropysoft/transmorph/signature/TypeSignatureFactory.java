@@ -83,9 +83,19 @@ public class TypeSignatureFactory {
 	 * @return
 	 */
 	public static TypeSignature getTypeSignature(Type type) {
-		return javaTypeToTypeSignature.getSignature(type);
+		return javaTypeToTypeSignature.getTypeSignature(type);
 	}
 
+	/**
+	 * get the TypeSignature corresponding to given class
+	 * 
+	 * @param clazz
+	 * @return
+	 */
+	public static FullTypeSignature getTypeSignature(Class<?> type) {
+		return (FullTypeSignature)javaTypeToTypeSignature.getTypeSignature(type);
+	}
+	
 	/**
 	 * get the TypeSignature corresponding to given class with given type
 	 * arguments
@@ -96,13 +106,13 @@ public class TypeSignatureFactory {
 	 */
 	public static FullTypeSignature getTypeSignature(Class<?> clazz, Class<?>[] typeArgs) {
 		ClassTypeSignature rawClassTypeSignature = (ClassTypeSignature) javaTypeToTypeSignature
-				.getSignature(clazz);
+				.getTypeSignature(clazz);
 		TypeArgSignature[] typeArgSignatures = new TypeArgSignature[typeArgs.length];
 		for (int i = 0; i < typeArgs.length; i++) {
 			typeArgSignatures[i] = new TypeArgSignature(
 					TypeArgSignature.NO_WILDCARD,
 					(FieldTypeSignature) javaTypeToTypeSignature
-							.getSignature(typeArgs[i]));
+							.getTypeSignature(typeArgs[i]));
 		}
 		ClassTypeSignature classTypeSignature = new ClassTypeSignature(
 				rawClassTypeSignature.getBinaryName(), typeArgSignatures,

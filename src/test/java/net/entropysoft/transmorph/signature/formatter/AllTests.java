@@ -10,7 +10,7 @@ public class AllTests {
 				"Test for net.entropysoft.transmorph.signature.formatter");
 		//$JUnit-BEGIN$
 		suite.addTestSuite(ClassGetNameSignatureFormatterTest.class);
-		suite.addTestSuite(TypeSignatureFormatterTest.class);
+		suite.addTestSuite(ClassFileTypeSignatureFormatterTest.class);
 		suite.addTestSuite(JavaSyntaxTypeSignatureFormatterTest.class);
 		//$JUnit-END$
 		return suite;

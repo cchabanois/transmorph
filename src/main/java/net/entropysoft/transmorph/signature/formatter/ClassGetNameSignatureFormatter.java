@@ -21,6 +21,7 @@ import java.util.Map;
 import net.entropysoft.transmorph.signature.ArrayTypeSignature;
 import net.entropysoft.transmorph.signature.ClassTypeSignature;
 import net.entropysoft.transmorph.signature.PrimitiveTypeSignature;
+import net.entropysoft.transmorph.signature.TypeArgSignature;
 import net.entropysoft.transmorph.signature.TypeSignature;
 import net.entropysoft.transmorph.signature.FullTypeSignature;
 
@@ -28,14 +29,14 @@ import net.entropysoft.transmorph.signature.FullTypeSignature;
  * Format a TypeSignature using the same format than Class.getName()
  * 
  * @author Cedric Chabanois (cchabanois at gmail.com)
- *
+ * 
  */
 public class ClassGetNameSignatureFormatter implements ITypeSignatureFormatter {
 
 	private static Map<Character, String> primitiveTypesMap = new HashMap<Character, String>();
-	private ClassFileTypeSignatureFormatter typeSignatureFormatter = new ClassFileTypeSignatureFormatter(false);
-	
-	
+	private ClassFileTypeSignatureFormatter typeSignatureFormatter = new ClassFileTypeSignatureFormatter(
+			false);
+
 	static {
 		primitiveTypesMap.put(PrimitiveTypeSignature.PRIMITIVE_BOOLEAN,
 				Boolean.TYPE.getName());
@@ -69,6 +70,9 @@ public class ClassGetNameSignatureFormatter implements ITypeSignatureFormatter {
 			// TODO
 			// return format((TypeVarSignature) typeSignature);
 		}
+		if (typeSignature.isTypeArgument()) {
+			return format((TypeArgSignature) typeSignature);
+		}
 		return null;
 	}
 
@@ -77,12 +81,17 @@ public class ClassGetNameSignatureFormatter implements ITypeSignatureFormatter {
 	}
 
 	private String format(ArrayTypeSignature typeSignature) {
-		FullTypeSignature typeErasureSignature = typeSignature.getTypeErasureSignature();
+		FullTypeSignature typeErasureSignature = typeSignature
+				.getTypeErasureSignature();
 		return typeSignatureFormatter.format(typeErasureSignature);
 	}
 
 	private String format(ClassTypeSignature typeSignature) {
 		return typeSignature.getClassName();
+	}
+
+	private String format(TypeArgSignature typeSignature) {
+		return format(typeSignature.getTypeErasureSignature());
 	}
 
 }

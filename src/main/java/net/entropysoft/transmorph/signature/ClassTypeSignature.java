@@ -21,15 +21,17 @@ import java.util.List;
 /**
  * signature for a class type
  * 
+ * This class is thread-safe
+ * 
  * @author Cedric Chabanois (cchabanois at gmail.com)
  * 
  */
 public class ClassTypeSignature extends FieldTypeSignature {
 
-	private String binaryName;
-	private TypeArgSignature[] typeArgSignatures;
-	private ClassTypeSignature ownerTypeSignature;
-	private FullTypeSignature typeErasureSignature;
+	private final String binaryName;
+	private final TypeArgSignature[] typeArgSignatures;
+	private final ClassTypeSignature ownerTypeSignature;
+	private volatile FullTypeSignature typeErasureSignature;
 
 	/**
 	 * Creates a Class type signature

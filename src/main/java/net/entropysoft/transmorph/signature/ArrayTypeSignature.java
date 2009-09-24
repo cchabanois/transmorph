@@ -17,14 +17,16 @@ package net.entropysoft.transmorph.signature;
 
 /**
  * Signature for an array type
+ *
+ * This class is thread-safe
  * 
  * @author Cedric Chabanois (cchabanois at gmail.com)
  *
  */
 public class ArrayTypeSignature extends FieldTypeSignature {
 
-	private FullTypeSignature componentTypeSignature;
-	private FullTypeSignature typeErasureSignature;
+	private final FullTypeSignature componentTypeSignature;
+	private volatile FullTypeSignature typeErasureSignature;
 
 	public ArrayTypeSignature(FullTypeSignature componentTypeSignature) {
 		this.componentTypeSignature = componentTypeSignature;

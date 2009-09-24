@@ -19,12 +19,15 @@ import net.entropysoft.transmorph.signature.formatter.ClassFileTypeSignatureForm
 
 /**
  * Signature for type (primitive, array or class)
+ * 
+ * This class is thread-safe
+ * 
  * @author Cedric Chabanois (cchabanois at gmail.com)
  *
  */
 public abstract class FullTypeSignature extends TypeSignature {
 
-	private String signature;
+	private volatile String signature;
 	
 	public String getSignature() {
 		if (signature == null) {

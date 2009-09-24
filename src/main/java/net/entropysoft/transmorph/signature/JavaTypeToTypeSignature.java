@@ -7,6 +7,8 @@ import java.lang.reflect.WildcardType;
 import java.util.HashMap;
 import java.util.Map;
 
+import net.entropysoft.transmorph.type.TypeReference;
+
 /**
  * get the type signature of a java type
  * 
@@ -90,6 +92,10 @@ public class JavaTypeToTypeSignature {
 			return getTypeArgSignature((WildcardType) type);
 		}
 		return null;
+	}
+	
+	public TypeSignature getTypeSignature(TypeReference<?> type) {
+		return getTypeSignature(type.getType());
 	}
 	
 	/**

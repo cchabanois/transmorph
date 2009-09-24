@@ -17,10 +17,18 @@ package net.entropysoft.transmorph.signature;
 
 import net.entropysoft.transmorph.signature.formatter.ClassFileTypeSignatureFormatter;
 
+/**
+ * 
+ * 
+ * This class is thread-safe
+ * 
+ * @author cedric
+ *
+ */
 public class TypeVarSignature extends FieldTypeSignature {
 
-	private String id;
-	private String signature;
+	private final String id;
+	private volatile String signature;
 
 	public TypeVarSignature(String id) {
 		this.id = id;

@@ -22,8 +22,8 @@ import net.entropysoft.transmorph.signature.PrimitiveTypeSignature;
 
 public class PrimitiveTypeUtils {
 
-	private final static Map<String, Character> nameToPrimitiveChar = new HashMap<String, Character>();	
-	
+	private final static Map<String, Character> nameToPrimitiveChar = new HashMap<String, Character>();
+
 	static {
 		nameToPrimitiveChar.put("boolean",
 				PrimitiveTypeSignature.PRIMITIVE_BOOLEAN);
@@ -37,11 +37,16 @@ public class PrimitiveTypeUtils {
 		nameToPrimitiveChar.put("long", PrimitiveTypeSignature.PRIMITIVE_LONG);
 		nameToPrimitiveChar.put("double",
 				PrimitiveTypeSignature.PRIMITIVE_DOUBLE);
-	}	
+	}
 
+	/**
+	 * get the character corresponding to given primitive name or null if none
+	 * 
+	 * @param primitiveName
+	 * @return
+	 */
 	public static Character getChar(String primitiveName) {
 		return nameToPrimitiveChar.get(primitiveName);
 	}
-	
-	
+
 }

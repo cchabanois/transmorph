@@ -20,6 +20,8 @@ import net.entropysoft.transmorph.signature.formatter.ClassFileTypeSignatureForm
 /**
  * Signature for a type argument
  * 
+ * This class is thread-safe
+ * 
  * @author Cedric Chabanois (cchabanois at gmail.com)
  * 
  */
@@ -29,9 +31,9 @@ public class TypeArgSignature extends TypeSignature {
 	public static char UNBOUNDED_WILDCARD = '*'; // <?>
 	public static char UPPERBOUND_WILDCARD = '+'; // <N extends Type>
 	public static char LOWERBOUND_WILDCARD = '-'; // <N super Type>
-	private char wildcard;
-	private FieldTypeSignature fieldTypeSignature;
-	private String signature;
+	private final char wildcard;
+	private final FieldTypeSignature fieldTypeSignature;
+	private volatile String signature;
 
 	public TypeArgSignature(char wildcard, FieldTypeSignature fieldTypeSignature) {
 		this.wildcard = wildcard;

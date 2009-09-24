@@ -19,6 +19,8 @@ package net.entropysoft.transmorph.signature;
 /**
  * Signature for a primitive type
  * 
+ * This class is thread-safe
+ * 
  * @author Cedric Chabanois (cchabanois at gmail.com)
  * 
  */
@@ -33,7 +35,7 @@ public class PrimitiveTypeSignature extends FullTypeSignature {
 	public static final char PRIMITIVE_LONG = 'J';
 	public static final char PRIMITIVE_SHORT = 'S';
 
-	private char primitiveChar;
+	private final char primitiveChar;
 
 	public PrimitiveTypeSignature(char primitiveChar) {
 		this.primitiveChar = primitiveChar;

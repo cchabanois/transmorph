@@ -21,6 +21,7 @@ import java.util.Map;
 
 import net.entropysoft.transmorph.cache.LRUMap;
 import net.entropysoft.transmorph.signature.parser.ClassFileTypeSignatureParser;
+import net.entropysoft.transmorph.type.TypeReference;
 
 /**
  * Factory for TypeSignature
@@ -86,6 +87,10 @@ public class TypeSignatureFactory {
 		return javaTypeToTypeSignature.getTypeSignature(type);
 	}
 
+	public static TypeSignature getTypeSignature(TypeReference<?> type) {
+		return javaTypeToTypeSignature.getTypeSignature(type);
+	}
+	
 	/**
 	 * get the TypeSignature corresponding to given class
 	 * 

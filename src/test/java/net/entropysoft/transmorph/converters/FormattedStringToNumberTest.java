@@ -15,15 +15,22 @@
  */
 package net.entropysoft.transmorph.converters;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.fail;
+
 import java.text.NumberFormat;
 import java.util.Locale;
 
-import junit.framework.TestCase;
 import net.entropysoft.transmorph.ConverterException;
 import net.entropysoft.transmorph.Transmorph;
 
-public class FormattedStringToNumberTest extends TestCase {
+import org.junit.Test;
 
+public class FormattedStringToNumberTest {
+
+	@Test
 	public void testFormattedStringToNumber() throws Exception {
 		FormattedStringToNumber formattedStringToNumberConverter = new FormattedStringToNumber();
 		NumberFormat numberFormat = NumberFormat

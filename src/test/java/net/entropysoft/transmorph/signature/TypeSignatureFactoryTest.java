@@ -1,11 +1,15 @@
 package net.entropysoft.transmorph.signature;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 import java.util.Map;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 
-public class TypeSignatureFactoryTest extends TestCase {
+public class TypeSignatureFactoryTest {
 
+	@Test
 	public void testClassTypeSignature() {
 		TypeSignature typeSignature = TypeSignatureFactory
 				.getTypeSignature(String.class);
@@ -13,6 +17,7 @@ public class TypeSignatureFactoryTest extends TestCase {
 		assertEquals("Ljava/lang/String;", typeSignature.getSignature());
 	}
 
+	@Test
 	public void testArrayTypeSignature() {
 		TypeSignature typeSignature = TypeSignatureFactory
 				.getTypeSignature((new String[5][5]).getClass());
@@ -20,6 +25,7 @@ public class TypeSignatureFactoryTest extends TestCase {
 		assertEquals("[[Ljava/lang/String;", typeSignature.getSignature());
 	}
 
+	@Test
 	public void testPrimitiveTypeSignature() {
 		TypeSignature typeSignature = TypeSignatureFactory
 				.getTypeSignature(Integer.TYPE);
@@ -27,6 +33,7 @@ public class TypeSignatureFactoryTest extends TestCase {
 		assertEquals("I", typeSignature.getSignature());
 	}
 
+	@Test
 	public void testParameterizedTypeSignature() {
 		TypeSignature typeSignature = TypeSignatureFactory.getTypeSignature(
 				Map.class, new Class[] { String.class, Integer.class });
@@ -35,6 +42,7 @@ public class TypeSignatureFactoryTest extends TestCase {
 				typeSignature.getSignature());
 	}
 
+	@Test
 	public void testParseFromString() {
 		TypeSignature typeSignature = TypeSignatureFactory
 				.getTypeSignature("Ljava/util/Map<Ljava/lang/String;Ljava/util/List<Ljava/lang/String;>;>;", true);

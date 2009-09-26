@@ -15,13 +15,16 @@
  */
 package net.entropysoft.transmorph.converters;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.assertEquals;
 import net.entropysoft.transmorph.DefaultConverters;
 import net.entropysoft.transmorph.Transmorph;
 import net.entropysoft.transmorph.TransmorphTest;
 
-public class ClassToStringTest extends TestCase {
+import org.junit.Test;
 
+public class ClassToStringTest {
+
+	@Test
 	public void testClassToString() throws Exception {
 		Transmorph converter = new Transmorph(new DefaultConverters());
 		String str = converter.convert(TransmorphTest.class,

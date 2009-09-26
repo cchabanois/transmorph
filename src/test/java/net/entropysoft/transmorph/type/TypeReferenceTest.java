@@ -1,13 +1,18 @@
 package net.entropysoft.transmorph.type;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 
-public class TypeReferenceTest extends TestCase {
+public class TypeReferenceTest {
 
+	@Test
 	public void testPrimitive() {
 		TypeReference<?> typeReference = TypeReference.get(Integer.TYPE);
 		assertEquals("int",typeReference.getName());
@@ -20,6 +25,7 @@ public class TypeReferenceTest extends TestCase {
 		assertFalse(typeReference.isRawTypeSubOf(Number.class));
 	}
 	
+	@Test
 	public void testPrimitiveWrapper() {
 		TypeReference<Integer> typeReference = TypeReference.get(Integer.class);
 		assertEquals("java.lang.Integer",typeReference.getName());
@@ -32,6 +38,7 @@ public class TypeReferenceTest extends TestCase {
 		assertTrue(typeReference.isRawTypeSubOf(Number.class));
 	}
 	
+	@Test
 	public void testRawClass() {
 		TypeReference<String> typeReference = TypeReference.get(String.class);
 		assertEquals("java.lang.String",typeReference.getName());
@@ -43,6 +50,7 @@ public class TypeReferenceTest extends TestCase {
 		assertTrue(typeReference.isRawTypeSubOf(String.class));
 	}
 	
+	@Test
 	public void testParameterizedClass() {
 		TypeReference<List<String>> typeReference = new TypeReference<List<String>>() {
 		};
@@ -63,6 +71,7 @@ public class TypeReferenceTest extends TestCase {
 		assertEquals(String.class,typeReference.getTypeArguments()[0].getType());
 	}
 	
+	@Test
 	public void testArray() {
 		TypeReference<?> typeReference = TypeReference.get(int[][].class);
 		assertEquals("[[I",typeReference.getName());
@@ -77,6 +86,7 @@ public class TypeReferenceTest extends TestCase {
 		assertEquals(2, typeReference.getArrayNumDimensions());
 	}
 	
+	@Test
 	public void testGenericArray() {
 		TypeReference<ArrayList<String>[]> typeReference = new TypeReference<ArrayList<String>[]>() {
 		};
@@ -89,6 +99,7 @@ public class TypeReferenceTest extends TestCase {
 		assertEquals(1, typeReference.getArrayNumDimensions());
 	}
 	
+	@Test
 	public void testUnboundedWildcardType() {
 		TypeReference<ArrayList<?>> typeReference1 = new TypeReference<ArrayList<?>>() {
 		};
@@ -97,6 +108,7 @@ public class TypeReferenceTest extends TestCase {
 		assertTrue(typeReference.hasRawType(Object.class));
 	}
 	
+	@Test
 	public void testUpperboundWildcardType() {
 		TypeReference<ArrayList<? extends Number>> typeReference1 = new TypeReference<ArrayList<? extends Number>>() {
 		};
@@ -105,6 +117,7 @@ public class TypeReferenceTest extends TestCase {
 		assertTrue(typeReference.hasRawType(Number.class));
 	}
 
+	@Test
 	public void testLowerboundWildcardType() {
 		TypeReference<ArrayList<? super Number>> typeReference1 = new TypeReference<ArrayList<? super Number>>() {
 		};

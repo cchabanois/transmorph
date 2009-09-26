@@ -1,12 +1,16 @@
 package net.entropysoft.transmorph.utils;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 
-public class NumberInRangeTest extends TestCase {
+public class NumberInRangeTest {
 
+	@Test
 	public void testIsInByteRange() {
 		assertTrue(NumberInRange.isInByteRange(0));
 		assertTrue(NumberInRange.isInByteRange(-128));
@@ -20,6 +24,7 @@ public class NumberInRangeTest extends TestCase {
 		assertFalse(NumberInRange.isInByteRange(Float.POSITIVE_INFINITY));
 	}
 
+	@Test
 	public void testIsInShortRange() {
 		assertTrue(NumberInRange.isInShortRange(0));
 		assertTrue(NumberInRange.isInShortRange(-32768));
@@ -32,6 +37,7 @@ public class NumberInRangeTest extends TestCase {
 		assertFalse(NumberInRange.isInShortRange(Float.POSITIVE_INFINITY));
 	}
 
+	@Test
 	public void testIsInIntegerRange() {
 		assertTrue(NumberInRange.isInIntegerRange(0));
 		assertTrue(NumberInRange.isInIntegerRange(Integer.MIN_VALUE));
@@ -43,6 +49,7 @@ public class NumberInRangeTest extends TestCase {
 		assertFalse(NumberInRange.isInIntegerRange(Float.POSITIVE_INFINITY));
 	}
 	
+	@Test
 	public void testIsInLongRange() {
 		assertTrue(NumberInRange.isInLongRange(0));
 		assertTrue(NumberInRange.isInLongRange(Long.MIN_VALUE));

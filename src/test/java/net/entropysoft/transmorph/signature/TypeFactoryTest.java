@@ -1,23 +1,29 @@
 package net.entropysoft.transmorph.signature;
 
+import static org.junit.Assert.assertEquals;
+
 import java.util.List;
 import java.util.Map;
 
-import junit.framework.TestCase;
 import net.entropysoft.transmorph.signature.parser.ClassFileTypeSignatureParser;
 import net.entropysoft.transmorph.signature.parser.JavaSyntaxTypeSignatureParser;
 import net.entropysoft.transmorph.type.TypeReference;
 
-public class TypeFactoryTest extends TestCase {
+import org.junit.Before;
+import org.junit.Test;
+
+public class TypeFactoryTest {
 
 	private TypeFactory typeFactory;
 
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
+//	@Override
+	@Before
+	public void setUp() throws Exception {
+//		super.setUp();
 		typeFactory = new TypeFactory(getClass().getClassLoader());
 	}
 
+	@Test
 	public void testPrimitive() throws Exception {
 		ClassFileTypeSignatureParser typeSignatureParser = new ClassFileTypeSignatureParser(
 				"I");
@@ -27,6 +33,7 @@ public class TypeFactoryTest extends TestCase {
 				.getType(typeSignature).toString());
 	}
 
+	@Test
 	public void testClass() throws Exception {
 		ClassFileTypeSignatureParser typeSignatureParser = new ClassFileTypeSignatureParser(
 				"Ljava.lang.String;");
@@ -37,6 +44,7 @@ public class TypeFactoryTest extends TestCase {
 				.getType(typeSignature).toString());
 	}
 
+	@Test
 	public void testParameterizedClass() throws Exception {
 		JavaSyntaxTypeSignatureParser typeSignatureParser = new JavaSyntaxTypeSignatureParser(
 				"java.util.Map<java.lang.String, java.util.List<java.lang.String>>");
@@ -49,6 +57,7 @@ public class TypeFactoryTest extends TestCase {
 				typeSignature).toString());
 	}
 
+	@Test
 	public void testParameterizedInnerClass() throws Exception {
 		JavaSyntaxTypeSignatureParser typeSignatureParser = new JavaSyntaxTypeSignatureParser(
 				"net.entropysoft.transmorph.signature.TypeFactoryTest$InnerClass<java.lang.String>");
@@ -61,6 +70,7 @@ public class TypeFactoryTest extends TestCase {
 				typeSignature).toString());
 	}
 
+	@Test
 	public void testUnboundedWilcard() throws Exception {
 		JavaSyntaxTypeSignatureParser typeSignatureParser = new JavaSyntaxTypeSignatureParser(
 				"java.util.List<?>");
@@ -73,6 +83,7 @@ public class TypeFactoryTest extends TestCase {
 				.getType(typeSignature).toString());
 	}
 
+	@Test
 	public void testUpperBoundWilcard() throws Exception {
 		JavaSyntaxTypeSignatureParser typeSignatureParser = new JavaSyntaxTypeSignatureParser(
 				"java.util.List<? extends java.lang.Number>");
@@ -85,6 +96,7 @@ public class TypeFactoryTest extends TestCase {
 				.getType(typeSignature).toString());
 	}
 
+	@Test
 	public void testLowerBoundWilcard() throws Exception {
 		JavaSyntaxTypeSignatureParser typeSignatureParser = new JavaSyntaxTypeSignatureParser(
 				"java.util.List<? super java.lang.Number>");

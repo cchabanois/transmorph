@@ -1,12 +1,16 @@
 package net.entropysoft.transmorph.signature;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
 import java.lang.reflect.Method;
 import java.util.List;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 
-public class JavaTypeToTypeSignatureTest extends TestCase {
+public class JavaTypeToTypeSignatureTest {
 
+	@Test
 	public void testGenericJavaType() throws Exception {
 		JavaTypeToTypeSignature javaTypeToTypeSignature = new JavaTypeToTypeSignature();
 		Method method = JavaTypeToTypeSignatureTest.class.getMethod("methodWithGenericParameter", List.class);
@@ -15,6 +19,7 @@ public class JavaTypeToTypeSignatureTest extends TestCase {
 		assertEquals("Ljava/util/List<Ljava/lang/String;>;", typeSignature.getSignature());
 	}
 
+	@Test
 	public void testNonGenericJavaType() throws Exception {
 		JavaTypeToTypeSignature javaTypeToTypeSignature = new JavaTypeToTypeSignature();
 		Method method = JavaTypeToTypeSignatureTest.class.getMethod("methodWithNonGenericParameter", List.class);
@@ -23,6 +28,7 @@ public class JavaTypeToTypeSignatureTest extends TestCase {
 		assertEquals("Ljava/util/List;", typeSignature.getSignature());
 	}
 	
+	@Test
 	public void testGenericArray() throws Exception {
 		JavaTypeToTypeSignature javaTypeToTypeSignature = new JavaTypeToTypeSignature();
 		Method method = JavaTypeToTypeSignatureTest.class.getMethod("methodWithGenericArray", List[].class);
@@ -31,6 +37,7 @@ public class JavaTypeToTypeSignatureTest extends TestCase {
 		assertEquals("[Ljava/util/List<Ljava/lang/String;>;", typeSignature.getSignature());		
 	}
 
+	@Test
 	public void testNonGenericArray() throws Exception {
 		JavaTypeToTypeSignature javaTypeToTypeSignature = new JavaTypeToTypeSignature();
 		Method method = JavaTypeToTypeSignatureTest.class.getMethod("methodWithNonGenericArray", int[].class);
@@ -39,6 +46,7 @@ public class JavaTypeToTypeSignatureTest extends TestCase {
 		assertEquals("[I", typeSignature.getSignature());		
 	}
 	
+	@Test
 	public void testUnboundedWildcard() throws Exception {
 		JavaTypeToTypeSignature javaTypeToTypeSignature = new JavaTypeToTypeSignature();
 		Method method = JavaTypeToTypeSignatureTest.class.getMethod("methodWithUnboundedWildcard", List.class);
@@ -47,6 +55,7 @@ public class JavaTypeToTypeSignatureTest extends TestCase {
 		assertEquals("Ljava/util/List<*Ljava/lang/Object;>;", typeSignature.getSignature());
 	}
 	
+	@Test
 	public void testExtendsWildcard() throws Exception {
 		JavaTypeToTypeSignature javaTypeToTypeSignature = new JavaTypeToTypeSignature();
 		Method method = JavaTypeToTypeSignatureTest.class.getMethod("methodWithExtendsWildcard", List.class);
@@ -55,6 +64,7 @@ public class JavaTypeToTypeSignatureTest extends TestCase {
 		assertEquals("Ljava/util/List<+Ljava/lang/Number;>;", typeSignature.getSignature());
 	}
 	
+	@Test
 	public void testSuperWildcard() throws Exception {
 		JavaTypeToTypeSignature javaTypeToTypeSignature = new JavaTypeToTypeSignature();
 		Method method = JavaTypeToTypeSignatureTest.class.getMethod("methodWithSuperWildcard", List.class);
@@ -63,6 +73,7 @@ public class JavaTypeToTypeSignatureTest extends TestCase {
 		assertEquals("Ljava/util/List<-Ljava/lang/Integer;>;", typeSignature.getSignature());
 	}	
 	
+	@Test
 	public void testInnerClass() throws Exception {
 		JavaTypeToTypeSignature javaTypeToTypeSignature = new JavaTypeToTypeSignature();
 		Method method = JavaTypeToTypeSignatureTest.class.getMethod("methodWithInnerClass", InnerClass.class);
@@ -71,6 +82,7 @@ public class JavaTypeToTypeSignatureTest extends TestCase {
 		assertEquals("Lnet/entropysoft/transmorph/signature/JavaTypeToTypeSignatureTest.InnerClass<Ljava/lang/Integer;>;", typeSignature.getSignature());
 	}
 	
+	@Test
 	public void testInnerInnerClass() throws Exception {
 		JavaTypeToTypeSignature javaTypeToTypeSignature = new JavaTypeToTypeSignature();
 		Method method = JavaTypeToTypeSignatureTest.class.getMethod("methodWithInnerInnerClass", InnerClass.InnerInnerClass.class);

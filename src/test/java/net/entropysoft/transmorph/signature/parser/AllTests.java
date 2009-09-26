@@ -1,20 +1,14 @@
 package net.entropysoft.transmorph.signature.parser;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
+import org.junit.runners.Suite.SuiteClasses;
 
+@RunWith(Suite.class)
+@SuiteClasses(value = { ClassGetNameTypeSignatureParserTest.class,
+		JavaSyntaxTypeSignatureParserTest.class,
+		JavaTypeSignatureLexerTest.class,
+		ClassFileTypeSignatureParserTest.class })
 public class AllTests {
-
-	public static Test suite() {
-		TestSuite suite = new TestSuite(
-				"Test for net.entropysoft.transmorph.signature.parser");
-		//$JUnit-BEGIN$
-		suite.addTestSuite(ClassGetNameTypeSignatureParserTest.class);
-		suite.addTestSuite(JavaSyntaxTypeSignatureParserTest.class);
-		suite.addTestSuite(JavaTypeSignatureLexerTest.class);
-		suite.addTestSuite(ClassFileTypeSignatureParserTest.class);
-		//$JUnit-END$
-		return suite;
-	}
 
 }

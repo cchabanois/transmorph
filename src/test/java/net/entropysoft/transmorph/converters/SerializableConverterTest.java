@@ -1,13 +1,19 @@
 package net.entropysoft.transmorph.converters;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
 import java.util.Arrays;
 
-import junit.framework.TestCase;
 import net.entropysoft.transmorph.Transmorph;
+
+import org.junit.Test;
+
 import samples.SerializableBean;
 
-public class SerializableConverterTest extends TestCase {
+public class SerializableConverterTest {
 
+	@Test
 	public void testSerializableConverter() throws Exception {
 		Transmorph converter = new Transmorph(new SerializableConverter());
 

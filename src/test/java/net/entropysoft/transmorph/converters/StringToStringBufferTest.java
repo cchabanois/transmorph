@@ -15,12 +15,15 @@
  */
 package net.entropysoft.transmorph.converters;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.assertEquals;
 import net.entropysoft.transmorph.DefaultConverters;
 import net.entropysoft.transmorph.Transmorph;
 
-public class StringToStringBufferTest extends TestCase {
+import org.junit.Test;
 
+public class StringToStringBufferTest {
+
+	@Test
 	public void testStringToStringBuffer() throws Exception {
 		Transmorph converter = new Transmorph(new DefaultConverters());
 		StringBuffer sb = converter.convert("My string",

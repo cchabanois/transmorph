@@ -15,17 +15,22 @@
  */
 package net.entropysoft.transmorph.converters.collections;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
-import junit.framework.TestCase;
 import net.entropysoft.transmorph.DefaultConverters;
 import net.entropysoft.transmorph.Transmorph;
 
-public class CollectionToCollectionTest extends TestCase {
+import org.junit.Test;
 
+public class CollectionToCollectionTest {
+
+	@Test
 	public void testListToSet() throws Exception {
 		Transmorph converter = new Transmorph(new DefaultConverters());
 
@@ -43,6 +48,7 @@ public class CollectionToCollectionTest extends TestCase {
 		set.contains("50");
 	}
 
+	@Test
 	public void testListToConcreteSet() throws Exception {
 		Transmorph converter = new Transmorph(new DefaultConverters());
 		

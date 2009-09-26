@@ -15,15 +15,22 @@
  */
 package net.entropysoft.transmorph.converters;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 import java.math.BigDecimal;
 
-import junit.framework.TestCase;
 import net.entropysoft.transmorph.ConverterException;
 import net.entropysoft.transmorph.DefaultConverters;
 import net.entropysoft.transmorph.Transmorph;
 
-public class StringToNumberTest extends TestCase {
+import org.junit.Test;
 
+public class StringToNumberTest {
+
+	@Test
 	public void testStringToPrimitive() throws Exception {
 		Transmorph converter = new Transmorph(new DefaultConverters());
 
@@ -43,6 +50,7 @@ public class StringToNumberTest extends TestCase {
 		}
 	}
 
+	@Test
 	public void testStringToBigDecimal() throws Exception {
 		Transmorph converter = new Transmorph(new DefaultConverters());
 
@@ -54,6 +62,7 @@ public class StringToNumberTest extends TestCase {
 				.toString());
 	}
 
+	@Test
 	public void testStringToNumber() throws Exception {
 		Transmorph converter = new Transmorph(new DefaultConverters());
 

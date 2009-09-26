@@ -15,11 +15,15 @@
  */
 package net.entropysoft.transmorph.converters;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import net.entropysoft.transmorph.Transmorph;
 
-public class SingleElementToArrayTest extends TestCase {
+import org.junit.Test;
 
+public class SingleElementToArrayTest {
+
+	@Test
 	public void testSingleElementToArray() throws Exception {
 		Transmorph converter = new Transmorph(new SingleElementToArray(), new StringToNumber());
 

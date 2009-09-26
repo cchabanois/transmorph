@@ -15,16 +15,20 @@
  */
 package net.entropysoft.transmorph.converters;
 
+import static org.junit.Assert.assertNotNull;
+
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-import junit.framework.TestCase;
 import net.entropysoft.transmorph.DefaultConverters;
 import net.entropysoft.transmorph.Transmorph;
 
-public class CalendarToDateTest extends TestCase {
+import org.junit.Test;
 
+public class CalendarToDateTest {
+
+	@Test
 	public void testCalendarToDate() throws Exception {
 		Transmorph transmorph = new Transmorph(new DefaultConverters());
 		

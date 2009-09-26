@@ -15,12 +15,16 @@
  */
 package net.entropysoft.transmorph.converters;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import net.entropysoft.transmorph.DefaultConverters;
 import net.entropysoft.transmorph.Transmorph;
 
-public class CharacterArrayToStringTest extends TestCase {
+import org.junit.Test;
 
+public class CharacterArrayToStringTest {
+
+	@Test
 	public void testCharacterArrayToString() throws Exception {
 		Transmorph transmorph = new Transmorph(new DefaultConverters());
 

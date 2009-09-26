@@ -15,15 +15,20 @@
  */
 package net.entropysoft.transmorph.converters;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
 import java.net.URI;
 import java.net.URL;
 
-import junit.framework.TestCase;
 import net.entropysoft.transmorph.DefaultConverters;
 import net.entropysoft.transmorph.Transmorph;
 
-public class URIToURLTest extends TestCase {
+import org.junit.Test;
 
+public class URIToURLTest {
+
+	@Test
 	public void testURIToURL() throws Exception {
 		Transmorph converter = new Transmorph(new DefaultConverters());
 

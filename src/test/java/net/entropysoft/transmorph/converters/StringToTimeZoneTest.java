@@ -15,14 +15,18 @@
  */
 package net.entropysoft.transmorph.converters;
 
+import static org.junit.Assert.assertNotNull;
+
 import java.util.TimeZone;
 
-import junit.framework.TestCase;
 import net.entropysoft.transmorph.DefaultConverters;
 import net.entropysoft.transmorph.Transmorph;
 
-public class StringToTimeZoneTest extends TestCase {
+import org.junit.Test;
 
+public class StringToTimeZoneTest {
+
+	@Test
 	public void testStringToTimeZone() throws Exception {
 		Transmorph converter = new Transmorph(new DefaultConverters());
 

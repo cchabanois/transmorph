@@ -15,15 +15,20 @@
  */
 package net.entropysoft.transmorph.converters;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
+
 import java.math.BigInteger;
 
-import junit.framework.TestCase;
 import net.entropysoft.transmorph.ConverterException;
 import net.entropysoft.transmorph.DefaultConverters;
 import net.entropysoft.transmorph.Transmorph;
 
-public class NumberToNumberTest extends TestCase {
+import org.junit.Test;
 
+public class NumberToNumberTest {
+
+	@Test
 	public void testNumberPrimitiveToNumberPrimitive() throws Exception {
 		DefaultConverters defaultConverters = new DefaultConverters();
 		Transmorph converter = new Transmorph(defaultConverters);
@@ -51,6 +56,7 @@ public class NumberToNumberTest extends TestCase {
 
 	}
 
+	@Test
 	public void testNumberWrapperToNumberWrapper() throws Exception {
 		Transmorph converter = new Transmorph(new DefaultConverters());
 
@@ -62,6 +68,7 @@ public class NumberToNumberTest extends TestCase {
 		assertEquals(null, myLongWrapper);
 	}
 
+	@Test
 	public void testNumberPrimitiveToNumberWrapper() throws Exception {
 		Transmorph converter = new Transmorph(new DefaultConverters());
 
@@ -73,6 +80,7 @@ public class NumberToNumberTest extends TestCase {
 				BigInteger.class));
 	}
 
+	@Test
 	public void testNullReplacementForPrimitive() throws Exception {
 		DefaultConverters defaultConverters = new DefaultConverters();
 		NumberToNumber numberToNumber = defaultConverters.getNumberToNumber();

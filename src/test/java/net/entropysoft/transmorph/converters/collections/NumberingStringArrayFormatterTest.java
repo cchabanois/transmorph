@@ -1,9 +1,12 @@
 package net.entropysoft.transmorph.converters.collections;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.assertEquals;
 
-public class NumberingStringArrayFormatterTest extends TestCase {
+import org.junit.Test;
 
+public class NumberingStringArrayFormatterTest {
+
+	@Test
 	public void testNumberingStringArrayFormatter() throws Exception {
 		NumberingStringArrayFormatter formatter = new NumberingStringArrayFormatter();
 		

@@ -1,15 +1,21 @@
 package net.entropysoft.transmorph.converters;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotSame;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 
-import junit.framework.TestCase;
 import net.entropysoft.transmorph.Transmorph;
+
+import org.junit.Test;
+
 import samples.CloneableBean;
 
-public class CloneableConverterTest extends TestCase {
+public class CloneableConverterTest {
 
+	@Test
 	public void testIdentity() throws Exception {
 		Transmorph converter = new Transmorph(new CloneableConverter());
 

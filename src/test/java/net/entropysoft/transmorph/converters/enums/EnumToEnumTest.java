@@ -15,12 +15,15 @@
  */
 package net.entropysoft.transmorph.converters.enums;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 import net.entropysoft.transmorph.ConverterException;
 import net.entropysoft.transmorph.DefaultConverters;
 import net.entropysoft.transmorph.Transmorph;
 
-public class EnumToEnumTest extends TestCase {
+import org.junit.Test;
+
+public class EnumToEnumTest {
 
 	private enum Enum1 {
 		FIRST, SECOND, THIRD
@@ -34,6 +37,7 @@ public class EnumToEnumTest extends TestCase {
 		ONE, TWO, THREE
 	}
 
+	@Test
 	public void testEnumToEnumNoMapping() throws Exception {
 		Transmorph converter = new Transmorph(new DefaultConverters());
 
@@ -52,6 +56,7 @@ public class EnumToEnumTest extends TestCase {
 		}
 	}
 
+	@Test
 	public void testEnumToEnumWithMapping() throws Exception {
 		DefaultConverters defaultConverters = new DefaultConverters();
 		EnumToEnum enumToEnum = defaultConverters.getEnumToEnum();
@@ -69,6 +74,7 @@ public class EnumToEnumTest extends TestCase {
 		assertEquals(Enum3.THREE, arrayOfEnum3[3]);
 	}
 
+	@Test
 	public void testEnumToNull() throws Exception {
 		DefaultConverters defaultConverters = new DefaultConverters();
 		EnumToEnum enumToEnum = defaultConverters.getEnumToEnum();

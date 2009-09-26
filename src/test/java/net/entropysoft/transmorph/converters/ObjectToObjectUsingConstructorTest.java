@@ -15,15 +15,21 @@
  */
 package net.entropysoft.transmorph.converters;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
+
 import java.io.File;
 import java.net.URL;
 
-import junit.framework.TestCase;
 import net.entropysoft.transmorph.ConverterException;
 import net.entropysoft.transmorph.Transmorph;
 
-public class ObjectToObjectUsingConstructorTest extends TestCase {
+import org.junit.Test;
 
+public class ObjectToObjectUsingConstructorTest {
+
+	@Test
 	public void testStringToObjectUsingConstructor() throws Exception {
 		ObjectToObjectUsingConstructor objectToObjectUsingConstructor = new ObjectToObjectUsingConstructor();
 		objectToObjectUsingConstructor
@@ -38,6 +44,7 @@ public class ObjectToObjectUsingConstructorTest extends TestCase {
 		assertEquals("http://www.entropysoft.net", url.toString());
 	}
 
+	@Test
 	public void testStringToUrl() throws Exception {
 		ObjectToObjectUsingConstructor objectToObjectUsingConstructor = new ObjectToObjectUsingConstructor();
 

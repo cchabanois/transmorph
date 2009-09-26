@@ -15,19 +15,13 @@
  */
 package net.entropysoft.transmorph.converters.beans;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
+import org.junit.runners.Suite.SuiteClasses;
 
+@RunWith(Suite.class)
+@SuiteClasses(value = { BeanToBeanTest.class, MapToBeanTest.class })
 public class AllTests {
 
-	public static Test suite() {
-		TestSuite suite = new TestSuite(
-				"Test for net.entropysoft.transmorph.converters.beans");
-		//$JUnit-BEGIN$
-		suite.addTestSuite(BeanToBeanTest.class);
-		suite.addTestSuite(MapToBeanTest.class);
-		//$JUnit-END$
-		return suite;
-	}
 
 }

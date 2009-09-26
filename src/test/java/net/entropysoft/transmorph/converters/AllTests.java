@@ -15,62 +15,31 @@
  */
 package net.entropysoft.transmorph.converters;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
+import org.junit.runners.Suite.SuiteClasses;
 
+@RunWith(Suite.class)
+@SuiteClasses(value = { StringToURITest.class, IdentityConverterTest.class,
+		StringToDateTest.class, StringToURLTest.class, StringToQNameTest.class,
+		ObjectToStringTest.class, WrapperToPrimitiveTest.class,
+		StringToBooleanTest.class, URIToURLTest.class,
+		CalendarToDateTest.class, ObjectToFormattedStringTest.class,
+		ImmutableIdentityConverterTest.class, StringToInputStreamTest.class,
+		NumberToNumberTest.class, StringToNumberTest.class,
+		StringToStringBufferTest.class, MultiStepConverterTest.class,
+		FormattedStringToNumberTest.class, CharacterToStringTest.class,
+		StringToClassTest.class, StringToCharacterArrayTest.class,
+		CharacterArrayToStringTest.class, SingleElementToArrayTest.class,
+		StringToStringBuilderTest.class, ClassToStringTest.class,
+		SingleElementToCollectionTest.class, StringToTimeZoneTest.class,
+		StringToCalendarTest.class, DateToCalendarTest.class,
+		StringToFileTest.class, ObjectToObjectUsingConstructorTest.class,
+		URLToURITest.class,
+		net.entropysoft.transmorph.converters.beans.AllTests.class,
+		net.entropysoft.transmorph.converters.collections.AllTests.class,
+		net.entropysoft.transmorph.converters.enums.AllTests.class,
+		net.entropysoft.transmorph.converters.propertyeditors.AllTests.class })
 public class AllTests {
-
-	public static Test suite() {
-		TestSuite suite = new TestSuite(
-				"Test for net.entropysoft.transmorph.converters");
-		//$JUnit-BEGIN$
-		suite.addTestSuite(StringToURITest.class);
-		suite.addTestSuite(IdentityConverterTest.class);
-		suite.addTestSuite(StringToDateTest.class);
-		suite.addTestSuite(StringToURLTest.class);
-		suite.addTestSuite(StringToQNameTest.class);
-		suite.addTestSuite(ObjectToStringTest.class);
-		suite.addTestSuite(WrapperToPrimitiveTest.class);
-		suite.addTestSuite(StringToBooleanTest.class);
-		suite.addTestSuite(URIToURLTest.class);
-		suite.addTestSuite(CalendarToDateTest.class);
-		suite.addTestSuite(ObjectToFormattedStringTest.class);
-		suite.addTestSuite(ImmutableIdentityConverterTest.class);
-		suite.addTestSuite(StringToInputStreamTest.class);
-		suite.addTestSuite(NumberToNumberTest.class);
-		suite.addTestSuite(StringToNumberTest.class);
-		suite.addTestSuite(StringToStringBufferTest.class);
-		suite.addTestSuite(MultiStepConverterTest.class);
-		suite.addTestSuite(FormattedStringToNumberTest.class);
-		suite.addTestSuite(CharacterToStringTest.class);
-		suite.addTestSuite(StringToClassTest.class);
-		suite.addTestSuite(StringToCharacterArrayTest.class);
-		suite.addTestSuite(CharacterArrayToStringTest.class);
-		suite.addTestSuite(SingleElementToArrayTest.class);
-		suite.addTestSuite(StringToStringBuilderTest.class);
-		suite.addTestSuite(ClassToStringTest.class);
-		suite.addTestSuite(SingleElementToCollectionTest.class);
-		suite.addTestSuite(StringToTimeZoneTest.class);
-		suite.addTestSuite(StringToCalendarTest.class);
-		suite.addTestSuite(DateToCalendarTest.class);
-		suite.addTestSuite(StringToFileTest.class);
-		suite.addTestSuite(ObjectToObjectUsingConstructorTest.class);
-		suite.addTestSuite(URLToURITest.class);
-		//$JUnit-END$
-
-		suite.addTest(net.entropysoft.transmorph.converters.beans.AllTests
-				.suite());
-		suite
-				.addTest(net.entropysoft.transmorph.converters.collections.AllTests
-						.suite());
-		suite.addTest(net.entropysoft.transmorph.converters.enums.AllTests
-				.suite());
-
-		suite
-				.addTest(net.entropysoft.transmorph.converters.propertyeditors.AllTests
-						.suite());
-
-		return suite;
-	}
 
 }

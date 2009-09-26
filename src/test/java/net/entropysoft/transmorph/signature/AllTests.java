@@ -1,23 +1,14 @@
 package net.entropysoft.transmorph.signature;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
+import org.junit.runners.Suite.SuiteClasses;
 
+@RunWith(Suite.class)
+@SuiteClasses(value = { TypeFactoryTest.class,
+		JavaTypeToTypeSignatureTest.class, TypeSignatureFactoryTest.class,
+		net.entropysoft.transmorph.signature.formatter.AllTests.class,
+		net.entropysoft.transmorph.signature.parser.AllTests.class })
 public class AllTests {
-
-	public static Test suite() {
-		TestSuite suite = new TestSuite(
-				"Test for net.entropysoft.transmorph.signature");
-		//$JUnit-BEGIN$
-		suite.addTestSuite(TypeFactoryTest.class);
-		suite.addTestSuite(JavaTypeToTypeSignatureTest.class);
-		suite.addTestSuite(TypeSignatureFactoryTest.class);
-		//$JUnit-END$
-		suite.addTest(net.entropysoft.transmorph.signature.formatter.AllTests
-				.suite());
-		suite.addTest(net.entropysoft.transmorph.signature.parser.AllTests
-				.suite());
-		return suite;
-	}
 
 }

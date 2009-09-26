@@ -1,16 +1,21 @@
 package net.entropysoft.transmorph;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import junit.framework.TestCase;
 import net.entropysoft.transmorph.converters.IdentityConverter;
 import net.entropysoft.transmorph.modifiers.IModifier;
 import net.entropysoft.transmorph.modifiers.TrimString;
 import net.entropysoft.transmorph.type.TypeReference;
 
-public class TransmorphTest extends TestCase {
+import org.junit.Test;
 
+public class TransmorphTest {
+
+	@Test
 	public void testTrimString() throws Exception {
 		IdentityConverter identityConverter = new IdentityConverter();
 		identityConverter.setModifiers(new IModifier[] { new TrimString() });
@@ -23,6 +28,7 @@ public class TransmorphTest extends TestCase {
 				converted);
 	}
 
+	@Test
 	public void testConverterWithContext() throws Exception {
 		Transmorph transmorph = new Transmorph(new DefaultConverters());
 
@@ -44,6 +50,7 @@ public class TransmorphTest extends TestCase {
 		assertTrue(arrayOfStrings == arrayOfStrings2);
 	}
 
+	@Test
 	public void testTransmorphWithJavaTypeSignatureParser() throws Exception {
 		Transmorph transmorph = new Transmorph(new DefaultConverters());
 		Long longNumber = (Long) transmorph.convert(55, Long.class);
@@ -61,6 +68,7 @@ public class TransmorphTest extends TestCase {
 		assertEquals("5", listOfStrings.get(4));
 	}
 
+	@Test
 	public void testTransmorphWithClassGetNameTypeSignatureParser()
 			throws Exception {
 		Transmorph transmorph = new Transmorph(new DefaultConverters());

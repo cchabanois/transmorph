@@ -15,12 +15,15 @@
  */
 package net.entropysoft.transmorph.converters;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import junit.framework.TestCase;
 import net.entropysoft.transmorph.ConversionContext;
 import net.entropysoft.transmorph.ConverterException;
 import net.entropysoft.transmorph.IConverter;
@@ -30,8 +33,11 @@ import net.entropysoft.transmorph.modifiers.IModifier;
 import net.entropysoft.transmorph.modifiers.UppercaseString;
 import net.entropysoft.transmorph.type.TypeReference;
 
-public class MultiStepConverterTest extends TestCase {
+import org.junit.Test;
 
+public class MultiStepConverterTest {
+
+	@Test
 	public void testMultiStepConverter() throws Exception {
 		MultiStepConverter multiStepConverter = new MultiStepConverter(
 				new TypeReference[] { TypeReference.get(String.class),
@@ -62,6 +68,7 @@ public class MultiStepConverterTest extends TestCase {
 		assertFalse(converter.convert("0", Boolean.TYPE));
 	}
 
+	@Test
 	public void testMultiStepWithConverters() throws Exception {
 		// we will convert an array of Dates to a List of uppercased strings
 

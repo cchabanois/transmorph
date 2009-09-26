@@ -1,18 +1,11 @@
 package net.entropysoft.transmorph.injectors;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
+import org.junit.runners.Suite.SuiteClasses;
 
+@RunWith(Suite.class)
+@SuiteClasses(value = { BeanToBeanInjectorTest.class, MapToBeanTest.class })
 public class AllTests {
-
-	public static Test suite() {
-		TestSuite suite = new TestSuite(
-				"Test for net.entropysoft.transmorph.injectors");
-		//$JUnit-BEGIN$
-		suite.addTestSuite(BeanToBeanInjectorTest.class);
-		suite.addTestSuite(MapToBeanTest.class);
-		//$JUnit-END$
-		return suite;
-	}
 
 }

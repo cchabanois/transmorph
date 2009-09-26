@@ -1,5 +1,7 @@
 package net.entropysoft.transmorph;
 
+import static org.junit.Assert.fail;
+
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -8,13 +10,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-import junit.framework.TestCase;
 import net.entropysoft.transmorph.converters.StringToBoolean;
 import net.entropysoft.transmorph.type.TypeReference;
 
-public class ConverterPerformanceTest extends TestCase {
+import org.junit.Test;
+
+public class ConverterPerformanceTest {
 	private Random random = new Random();
 
+	@Test
 	public void testListOfStringToArrayOfBoolean() throws Exception {
 		DefaultConverters defaultConverters = new DefaultConverters();
 		Transmorph transmorph = new Transmorph(defaultConverters);
@@ -54,6 +58,7 @@ public class ConverterPerformanceTest extends TestCase {
 				});
 	}
 
+	@Test
 	public void testArrayOfIntsToListOfStrings() throws Exception {
 		// ArrayToCollection arrayToCollection = new ArrayToCollection();
 		// arrayToCollection.setElementConverter(new ObjectToString());
@@ -85,6 +90,7 @@ public class ConverterPerformanceTest extends TestCase {
 
 	}
 
+	@Test
 	public void testMapToMapArrayToList() throws Exception {
 		// MapToMap mapToMap = new MapToMap();
 		// mapToMap.setKeyConverter(new StringToNumber());

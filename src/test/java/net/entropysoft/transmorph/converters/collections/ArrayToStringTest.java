@@ -1,11 +1,14 @@
 package net.entropysoft.transmorph.converters.collections;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.assertEquals;
 import net.entropysoft.transmorph.Transmorph;
 import net.entropysoft.transmorph.converters.ObjectToString;
 
-public class ArrayToStringTest extends TestCase {
+import org.junit.Test;
 
+public class ArrayToStringTest {
+
+	@Test
 	public void testObjectArrayToString() throws Exception {
 		Transmorph converter = new Transmorph(new ArrayToString(), new ObjectToString());
 
@@ -15,6 +18,7 @@ public class ArrayToStringTest extends TestCase {
 		assertEquals("[one, two, three]", str);
 	}
 
+	@Test
 	public void testMultidimentionalArrayToString() throws Exception {
 		Transmorph converter = new Transmorph(new ArrayToString(), new ObjectToString());
 

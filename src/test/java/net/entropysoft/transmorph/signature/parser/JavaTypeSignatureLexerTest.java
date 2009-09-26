@@ -1,9 +1,12 @@
 package net.entropysoft.transmorph.signature.parser;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.assertEquals;
 
-public class JavaTypeSignatureLexerTest extends TestCase {
+import org.junit.Test;
 
+public class JavaTypeSignatureLexerTest {
+
+	@Test
 	public void testJavaTypeSignatureLexer() throws Exception {
 		JavaSyntaxTypeSignatureLexer lexer = new JavaSyntaxTypeSignatureLexer("java.util.Map<java.lang.String, java.lang.Integer>");
 		JavaSyntaxTypeSignatureLexer.Token token;

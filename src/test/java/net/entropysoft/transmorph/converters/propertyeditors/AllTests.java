@@ -1,18 +1,12 @@
 package net.entropysoft.transmorph.converters.propertyeditors;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
+import org.junit.runners.Suite.SuiteClasses;
 
+@RunWith(Suite.class)
+@SuiteClasses(value = { FromStringUsingPropertyEditorTest.class,
+		ToStringUsingPropertyEditorTest.class })
 public class AllTests {
-
-	public static Test suite() {
-		TestSuite suite = new TestSuite(
-				"Test for net.entropysoft.transmorph.converters.propertyeditors");
-		//$JUnit-BEGIN$
-		suite.addTestSuite(FromStringUsingPropertyEditorTest.class);
-		suite.addTestSuite(ToStringUsingPropertyEditorTest.class);
-		//$JUnit-END$
-		return suite;
-	}
 
 }

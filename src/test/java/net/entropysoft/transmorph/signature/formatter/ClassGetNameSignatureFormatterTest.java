@@ -1,14 +1,18 @@
 package net.entropysoft.transmorph.signature.formatter;
 
+import static org.junit.Assert.assertEquals;
+
 import java.util.List;
 import java.util.Map;
 
-import junit.framework.TestCase;
 import net.entropysoft.transmorph.signature.TypeSignatureFactory;
 import net.entropysoft.transmorph.type.TypeReference;
 
-public class ClassGetNameSignatureFormatterTest extends TestCase {
+import org.junit.Test;
 
+public class ClassGetNameSignatureFormatterTest {
+
+	@Test
 	public void testFormatPrimitive() throws Exception {
 		ClassGetNameSignatureFormatter typeSignatureFormatter = new ClassGetNameSignatureFormatter();
 
@@ -16,6 +20,7 @@ public class ClassGetNameSignatureFormatterTest extends TestCase {
 				.format(TypeSignatureFactory.getTypeSignature(Integer.TYPE)));
 	}
 
+	@Test
 	public void testFormatClass() throws Exception {
 		ClassGetNameSignatureFormatter typeSignatureFormatter = new ClassGetNameSignatureFormatter();
 
@@ -23,6 +28,7 @@ public class ClassGetNameSignatureFormatterTest extends TestCase {
 				.format(TypeSignatureFactory.getTypeSignature(String.class)));
 	}
 
+	@Test
 	public void testFormatArray() throws Exception {
 		ClassGetNameSignatureFormatter typeSignatureFormatter = new ClassGetNameSignatureFormatter();
 
@@ -33,6 +39,7 @@ public class ClassGetNameSignatureFormatterTest extends TestCase {
 				.getTypeSignature(int[][].class)));
 	}
 
+	@Test
 	public void testFormatWithGenerics() throws Exception {
 		ClassGetNameSignatureFormatter typeSignatureFormatter = new ClassGetNameSignatureFormatter();
 
@@ -43,6 +50,7 @@ public class ClassGetNameSignatureFormatterTest extends TestCase {
 
 	}
 
+	@Test
 	public void testFormatWildcardType() throws Exception {
 		ClassGetNameSignatureFormatter typeSignatureFormatter = new ClassGetNameSignatureFormatter();
 		TypeReference<List<? extends Number>> typeReference = new TypeReference<List<? extends Number>>() {

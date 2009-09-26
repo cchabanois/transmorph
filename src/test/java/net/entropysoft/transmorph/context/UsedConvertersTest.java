@@ -1,8 +1,9 @@
 package net.entropysoft.transmorph.context;
 
+import static org.junit.Assert.fail;
+
 import java.text.MessageFormat;
 
-import junit.framework.TestCase;
 import net.entropysoft.transmorph.ConversionContext;
 import net.entropysoft.transmorph.DefaultConverters;
 import net.entropysoft.transmorph.Transmorph;
@@ -10,8 +11,11 @@ import net.entropysoft.transmorph.converters.MultiConverter;
 import net.entropysoft.transmorph.converters.NumberToNumber;
 import net.entropysoft.transmorph.converters.collections.ArrayToArray;
 
-public class UsedConvertersTest extends TestCase {
+import org.junit.Test;
 
+public class UsedConvertersTest {
+
+	@Test
 	public void testUsedConverters() throws Exception {
 		DefaultConverters defaultConverters = new DefaultConverters();
 		NumberToNumber numberToNumber = defaultConverters.getNumberToNumber();
@@ -34,6 +38,22 @@ public class UsedConvertersTest extends TestCase {
 		assertConverterNotUsed(usedConverters, MultiConverter.class);
 	}
 
+	@Test
+	public void testUsedConvertersString() throws Exception {
+		DefaultConverters defaultConverters = new DefaultConverters();
+		NumberToNumber numberToNumber = defaultConverters.getNumberToNumber();
+		numberToNumber.setNullReplacementForPrimitive(0);
+
+		ConversionContext conversionContext = new ConversionContext();
+		conversionContext.setStoreUsedConverters(true);
+
+		Transmorph converter = new Transmorph(defaultConverters);
+		long[] longsArray = (long[]) converter.convert(conversionContext,
+				new Integer[] { 1, 2, null, 4 }, long[].class);
+
+		UsedConverters usedConverters = conversionContext.getUsedConverters();
+	}
+	
 	private void assertConverterUsed(UsedConverters usedConverters,
 			Class converterClass) {
 		for (UsedConverter usedConverter : usedConverters.getUsedConverters()) {

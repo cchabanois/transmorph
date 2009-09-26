@@ -15,13 +15,18 @@
  */
 package net.entropysoft.transmorph.converters;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.fail;
 import net.entropysoft.transmorph.ConverterException;
 import net.entropysoft.transmorph.DefaultConverters;
 import net.entropysoft.transmorph.Transmorph;
 
-public class StringToBooleanTest extends TestCase {
+import org.junit.Test;
 
+public class StringToBooleanTest {
+
+	@Test
 	public void testStringToBooleanPrimitive() throws Exception {
 		Transmorph converter = new Transmorph(new DefaultConverters());
 
@@ -38,6 +43,7 @@ public class StringToBooleanTest extends TestCase {
 		}
 	}
 
+	@Test
 	public void testOtherStringToBooleanPrimitive() throws Exception {
 		DefaultConverters defaultConverters = new DefaultConverters();
 		StringToBoolean stringToBoolean = defaultConverters
@@ -61,6 +67,7 @@ public class StringToBooleanTest extends TestCase {
 		assertEquals(true, myBoolean);
 	}
 
+	@Test
 	public void testBooleanToBooleanWrapper() throws Exception {
 		Transmorph converter = new Transmorph(new DefaultConverters());
 		Boolean booleanObject = converter.convert(null, Boolean.class);

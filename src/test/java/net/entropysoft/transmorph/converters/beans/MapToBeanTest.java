@@ -15,20 +15,26 @@
  */
 package net.entropysoft.transmorph.converters.beans;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import junit.framework.TestCase;
 import net.entropysoft.transmorph.DefaultConverters;
 import net.entropysoft.transmorph.Transmorph;
 import net.entropysoft.transmorph.type.TypeReference;
+
+import org.junit.Test;
+
 import samples.MyBean1;
 import samples.MyBean2;
 import samples.MyBean3;
 
-public class MapToBeanTest extends TestCase {
+public class MapToBeanTest {
 
+	@Test
 	public void testMapToBean() throws Exception {
 		DefaultConverters defaultConverters = new DefaultConverters();
 		

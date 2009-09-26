@@ -15,13 +15,17 @@
  */
 package net.entropysoft.transmorph.converters;
 
+import static org.junit.Assert.assertNotNull;
+
 import javax.xml.namespace.QName;
 
-import junit.framework.TestCase;
 import net.entropysoft.transmorph.Transmorph;
 
-public class StringToQNameTest extends TestCase {
+import org.junit.Test;
 
+public class StringToQNameTest {
+
+	@Test
 	public void testStringToQName() throws Exception {
 		Transmorph converter = new Transmorph(new StringToQName());
 

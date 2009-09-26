@@ -15,13 +15,17 @@
  */
 package net.entropysoft.transmorph.converters.collections;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 import net.entropysoft.transmorph.ConverterException;
 import net.entropysoft.transmorph.DefaultConverters;
 import net.entropysoft.transmorph.Transmorph;
 
-public class ArrayToArrayTest extends TestCase {
+import org.junit.Test;
 
+public class ArrayToArrayTest {
+
+	@Test
 	public void testObjectArrayToStringArray() throws Exception {
 		Transmorph converter = new Transmorph(new DefaultConverters());
 
@@ -34,6 +38,7 @@ public class ArrayToArrayTest extends TestCase {
 		assertEquals("three", arrayOfStrings[2]);
 	}
 
+	@Test
 	public void testMultidimentionalArray() throws Exception {
 		Transmorph converter = new Transmorph(new DefaultConverters());
 

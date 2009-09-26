@@ -15,10 +15,11 @@
  */
 package net.entropysoft.transmorph.converters.propertyeditors;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 
-public class ToStringUsingPropertyEditorTest extends TestCase {
+public class ToStringUsingPropertyEditorTest {
 
+	@Test
 	public void testToStringUsingPropertyEditor() throws Exception {
 //		Transmorph transmorph = new Transmorph(
 //				ToStringUsingPropertyEditorTest.class.getClassLoader(),

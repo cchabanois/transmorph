@@ -1,11 +1,14 @@
 package net.entropysoft.transmorph;
 
+import static org.junit.Assert.assertEquals;
+
 import java.util.Arrays;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 
-public class DefaultToStringConvertersTest extends TestCase {
+public class DefaultToStringConvertersTest {
 
+	@Test
 	public void testDefaultToStringConverters() throws Exception {
 		Transmorph transmorph = new Transmorph(new DefaultToStringConverters());
 		

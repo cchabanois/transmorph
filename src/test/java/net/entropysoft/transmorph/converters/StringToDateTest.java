@@ -15,15 +15,20 @@
  */
 package net.entropysoft.transmorph.converters;
 
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import junit.framework.TestCase;
 import net.entropysoft.transmorph.ConverterException;
 import net.entropysoft.transmorph.Transmorph;
 
-public class StringToDateTest extends TestCase {
+import org.junit.Test;
 
+public class StringToDateTest {
+
+	@Test
 	public void testStringToDate() throws Exception {
 		// parse date with format dd/MM/yyyy or yyyy
 		StringToDate stringToDateConverter1 = new StringToDate();

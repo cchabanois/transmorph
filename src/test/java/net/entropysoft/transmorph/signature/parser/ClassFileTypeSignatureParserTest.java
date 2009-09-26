@@ -1,10 +1,14 @@
 package net.entropysoft.transmorph.signature.parser;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 import net.entropysoft.transmorph.signature.FullTypeSignature;
 
-public class ClassFileTypeSignatureParserTest extends TestCase {
+import org.junit.Test;
 
+public class ClassFileTypeSignatureParserTest {
+
+	@Test
 	public void testParse() {
 		ClassFileTypeSignatureParser typeSignatureParser = new ClassFileTypeSignatureParser(
 				"Ljava/util/Map<Ljava/lang/String;Ljava/util/List<Ljava/lang/String;>;>;");
@@ -14,12 +18,14 @@ public class ClassFileTypeSignatureParserTest extends TestCase {
 				typeSignature.getSignature());
 	}
 
+	@Test
 	public void testParseGenericsWildcard() {
 		ClassFileTypeSignatureParser typeSignatureParser = new ClassFileTypeSignatureParser(
 				"Ljava/util/List<*>;");
 		FullTypeSignature typeSignature = typeSignatureParser.parseTypeSignature();
 	}
 
+	@Test
 	public void testParseNotUsingInternalFQN() {
 		ClassFileTypeSignatureParser typeSignatureParser = new ClassFileTypeSignatureParser(
 				"Ljava/util/Map<Ljava/lang/String;Ljava/util/List<Ljava/lang/String;>;>;");
@@ -39,6 +45,7 @@ public class ClassFileTypeSignatureParserTest extends TestCase {
 				typeSignature.getSignature());
 	}
 
+	@Test
 	public void testParseWithExcessiveChars() {
 		ClassFileTypeSignatureParser typeSignatureParser = new ClassFileTypeSignatureParser(
 				"Ljava/util/Map<Ljava/lang/String;Ljava/util/List<Ljava/lang/String;>;>;ABC");

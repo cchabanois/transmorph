@@ -15,11 +15,14 @@
  */
 package net.entropysoft.transmorph.converters.propertyeditors;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.assertEquals;
 import net.entropysoft.transmorph.Transmorph;
 
-public class FromStringUsingPropertyEditorTest extends TestCase {
+import org.junit.Test;
 
+public class FromStringUsingPropertyEditorTest {
+
+	@Test
 	public void testFromStringUsingPropertyEditor() throws Exception {
 		Transmorph transmorph = new Transmorph(new FromStringUsingPropertyEditor());
 		int myInt = transmorph.convert("56", Integer.TYPE);

@@ -15,13 +15,18 @@
  */
 package net.entropysoft.transmorph.converters;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
 import java.util.List;
 
-import junit.framework.TestCase;
 import net.entropysoft.transmorph.Transmorph;
 
-public class SingleElementToCollectionTest extends TestCase {
+import org.junit.Test;
 
+public class SingleElementToCollectionTest {
+
+	@Test
 	public void testSingleElementToCollection() throws Exception {
 		Transmorph converter = new Transmorph(new SingleElementToCollection(), new StringToNumber());
 

@@ -1,10 +1,13 @@
 package net.entropysoft.transmorph.signature.parser;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.assertEquals;
 import net.entropysoft.transmorph.signature.FullTypeSignature;
 
-public class JavaTypeSignatureParserTest extends TestCase {
+import org.junit.Test;
 
+public class JavaTypeSignatureParserTest {
+
+	@Test
 	public void testParsePrimitive() {
 		JavaSyntaxTypeSignatureParser typeSignatureParser = new JavaSyntaxTypeSignatureParser(
 				"long");
@@ -12,6 +15,7 @@ public class JavaTypeSignatureParserTest extends TestCase {
 		assertEquals("J", typeSignature.getSignature());
 	}
 
+	@Test
 	public void testParseArrayOfPrimitives() {
 		JavaSyntaxTypeSignatureParser typeSignatureParser = new JavaSyntaxTypeSignatureParser(
 				"long[][]");
@@ -19,6 +23,7 @@ public class JavaTypeSignatureParserTest extends TestCase {
 		assertEquals("[[J", typeSignature.getSignature());
 	}
 
+	@Test
 	public void testParseClassName() {
 		JavaSyntaxTypeSignatureParser typeSignatureParser = new JavaSyntaxTypeSignatureParser(
 				"String");
@@ -26,6 +31,7 @@ public class JavaTypeSignatureParserTest extends TestCase {
 		assertEquals("Ljava/lang/String;", typeSignature.getSignature());
 	}
 
+	@Test
 	public void testParseArrayOfClasses() {
 		JavaSyntaxTypeSignatureParser typeSignatureParser = new JavaSyntaxTypeSignatureParser(
 				"java.lang.String[][][]");
@@ -33,6 +39,7 @@ public class JavaTypeSignatureParserTest extends TestCase {
 		assertEquals("[[[Ljava/lang/String;", typeSignature.getSignature());
 	}
 
+	@Test
 	public void testParseWithGenerics() {
 		JavaSyntaxTypeSignatureParser typeSignatureParser = new JavaSyntaxTypeSignatureParser(
 				"java.util.Map<java.lang.String, java.util.List<java.lang.String>>");
@@ -42,6 +49,7 @@ public class JavaTypeSignatureParserTest extends TestCase {
 				typeSignature.getSignature());
 	}
 
+	@Test
 	public void testParseGenericsWildcard() {
 		JavaSyntaxTypeSignatureParser typeSignatureParser = new JavaSyntaxTypeSignatureParser(
 				"java.util.List<?>");
@@ -55,6 +63,7 @@ public class JavaTypeSignatureParserTest extends TestCase {
 				.getSignature());
 	}
 
+	@Test
 	public void testImports() {
 		JavaSyntaxTypeSignatureParser typeSignatureParser = new JavaSyntaxTypeSignatureParser(
 				"List<String>");

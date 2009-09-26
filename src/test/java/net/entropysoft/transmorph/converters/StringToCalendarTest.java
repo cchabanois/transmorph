@@ -15,15 +15,21 @@
  */
 package net.entropysoft.transmorph.converters;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-import junit.framework.TestCase;
 import net.entropysoft.transmorph.ConverterException;
 import net.entropysoft.transmorph.Transmorph;
 
-public class StringToCalendarTest extends TestCase {
+import org.junit.Test;
 
+public class StringToCalendarTest {
+
+	@Test
 	public void testStringToCalendar() throws Exception {
 		StringToCalendar stringToCalendarConverter1 = new StringToCalendar();
 		SimpleDateFormat simpleDateFormat1 = new SimpleDateFormat("dd/MM/yyyy");

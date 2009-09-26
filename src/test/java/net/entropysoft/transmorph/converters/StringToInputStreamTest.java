@@ -15,13 +15,17 @@
  */
 package net.entropysoft.transmorph.converters;
 
+import static org.junit.Assert.assertNotNull;
+
 import java.io.InputStream;
 
-import junit.framework.TestCase;
 import net.entropysoft.transmorph.Transmorph;
 
-public class StringToInputStreamTest extends TestCase {
+import org.junit.Test;
 
+public class StringToInputStreamTest {
+
+	@Test
 	public void testStringToInputStream() throws Exception {
 		Transmorph converter = new Transmorph(new StringToInputStream());
 

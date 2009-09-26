@@ -15,15 +15,20 @@
  */
 package net.entropysoft.transmorph.converters;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import junit.framework.TestCase;
 import net.entropysoft.transmorph.DefaultConverters;
 import net.entropysoft.transmorph.Transmorph;
 
-public class IdentityConverterTest extends TestCase {
+import org.junit.Test;
 
+public class IdentityConverterTest {
+
+	@Test
 	public void testIdentity() throws Exception {
 		Transmorph converter = new Transmorph(new DefaultConverters());
 

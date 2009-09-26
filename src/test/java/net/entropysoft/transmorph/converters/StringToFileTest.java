@@ -15,16 +15,21 @@
  */
 package net.entropysoft.transmorph.converters;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
 import java.io.File;
 
-import junit.framework.TestCase;
 import net.entropysoft.transmorph.DefaultConverters;
 import net.entropysoft.transmorph.Transmorph;
 import net.entropysoft.transmorph.modifiers.CanonicalizeFile;
 import net.entropysoft.transmorph.modifiers.IModifier;
 
-public class StringToFileTest extends TestCase {
+import org.junit.Test;
 
+public class StringToFileTest {
+
+	@Test
 	public void testStringToFile() throws Exception {
 		Transmorph converter = new Transmorph(new DefaultConverters());
 
@@ -33,6 +38,7 @@ public class StringToFileTest extends TestCase {
 		assertEquals("c:\\temp", file.toString());
 	}
 
+	@Test
 	public void testStringToFileCanonical() throws Exception {
 		DefaultConverters defaultConverters = new DefaultConverters();
 		StringToFile stringToFile = defaultConverters.getStringToFile();

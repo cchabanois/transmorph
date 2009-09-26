@@ -1,9 +1,12 @@
 package net.entropysoft.transmorph;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.assertEquals;
 
-public class DefaultFromStringConvertersTest extends TestCase {
+import org.junit.Test;
 
+public class DefaultFromStringConvertersTest {
+
+	@Test
 	public void testDefaultFromStringConverters() throws Exception {
 		Transmorph transmorph = new Transmorph(
 				new DefaultFromStringConverters());

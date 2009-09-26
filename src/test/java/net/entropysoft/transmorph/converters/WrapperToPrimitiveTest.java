@@ -15,12 +15,15 @@
  */
 package net.entropysoft.transmorph.converters;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.assertEquals;
 import net.entropysoft.transmorph.DefaultConverters;
 import net.entropysoft.transmorph.Transmorph;
 
-public class WrapperToPrimitiveTest extends TestCase {
+import org.junit.Test;
 
+public class WrapperToPrimitiveTest {
+
+	@Test
 	public void testWrapperToPrimitive() throws Exception {
 		Transmorph converter = new Transmorph(new DefaultConverters());
 		Boolean[] booleanWrappers = new Boolean[] { true, false };

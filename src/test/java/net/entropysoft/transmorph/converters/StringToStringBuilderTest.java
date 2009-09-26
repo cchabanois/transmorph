@@ -15,12 +15,15 @@
  */
 package net.entropysoft.transmorph.converters;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.assertEquals;
 import net.entropysoft.transmorph.DefaultConverters;
 import net.entropysoft.transmorph.Transmorph;
 
-public class StringToStringBuilderTest extends TestCase {
+import org.junit.Test;
 
+public class StringToStringBuilderTest {
+
+	@Test
 	public void testStringToStringBuilder() throws Exception {
 		Transmorph converter = new Transmorph(new DefaultConverters());
 		StringBuilder sb = converter.convert("My string", StringBuilder.class);

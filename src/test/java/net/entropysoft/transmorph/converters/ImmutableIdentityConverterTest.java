@@ -1,12 +1,15 @@
 package net.entropysoft.transmorph.converters;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.assertEquals;
 import net.entropysoft.transmorph.ConversionContext;
 import net.entropysoft.transmorph.DefaultConverters;
 import net.entropysoft.transmorph.Transmorph;
 
-public class ImmutableIdentityConverterTest extends TestCase {
+import org.junit.Test;
 
+public class ImmutableIdentityConverterTest {
+
+	@Test
 	public void testPrimitiveToWrapper() throws Exception {
 		Transmorph converter = new Transmorph(new DefaultConverters());
 		ConversionContext conversionContext = new ConversionContext();
@@ -21,6 +24,7 @@ public class ImmutableIdentityConverterTest extends TestCase {
 				.getClass());
 	}
 
+	@Test
 	public void testImmutableToObject() throws Exception {
 		Transmorph converter = new Transmorph(new ImmutableIdentityConverter());
 		assertEquals(45, converter.convert(45, Object.class));

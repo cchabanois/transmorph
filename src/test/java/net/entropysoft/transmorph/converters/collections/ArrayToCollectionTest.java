@@ -15,21 +15,27 @@
  */
 package net.entropysoft.transmorph.converters.collections;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
-import junit.framework.TestCase;
 import net.entropysoft.transmorph.DefaultConverters;
 import net.entropysoft.transmorph.Transmorph;
-import net.entropysoft.transmorph.signature.TypeFactory;
 import net.entropysoft.transmorph.signature.FullTypeSignature;
+import net.entropysoft.transmorph.signature.TypeFactory;
 import net.entropysoft.transmorph.signature.parser.ClassFileTypeSignatureParser;
 import net.entropysoft.transmorph.type.TypeReference;
 
-public class ArrayToCollectionTest extends TestCase {
+import org.junit.Test;
 
+public class ArrayToCollectionTest {
+
+	@Test
 	public void testArrayOfPrimitivesToGenericList() throws Exception {
 		Transmorph converter = new Transmorph(new DefaultConverters());
 
@@ -43,6 +49,7 @@ public class ArrayToCollectionTest extends TestCase {
 		}
 	}
 
+	@Test
 	public void testArrayOfPrimitivesToListInstance() throws Exception {
 		Transmorph converter = new Transmorph(new DefaultConverters());
 		int[] arrayOfInts = new int[] { 0, 1, 2, 3, 4, 5 };
@@ -57,6 +64,7 @@ public class ArrayToCollectionTest extends TestCase {
 
 	}
 
+	@Test
 	public void testArrayToGenericListUnbounded() throws Exception {
 		ClassFileTypeSignatureParser classFileTypeSignatureParser = new ClassFileTypeSignatureParser(false);
 		classFileTypeSignatureParser.setTypeSignature("Ljava.util.List<*>;");
@@ -79,6 +87,7 @@ public class ArrayToCollectionTest extends TestCase {
 		arrayOfSomething = converter.convert(arrayOfInts, typeRef);
 	}
 
+	@Test
 	public void testArrayOfObjectsToGenericListUnbounded() throws Exception {
 		Transmorph converter = new Transmorph(new DefaultConverters());
 		Object[] objects = new Object[] { 0, 1, 2, 3, 4, 5 };
@@ -95,6 +104,7 @@ public class ArrayToCollectionTest extends TestCase {
 		arrayOfSomething = converter.convert(objects, typeRef);
 	}
 
+	@Test
 	public void testArrayToGenericListUpperbound() throws Exception {
 		Transmorph converter = new Transmorph(new DefaultConverters());
 		// String[] => List<? extends Number> (ArrayToCollectionConverter)
@@ -110,6 +120,7 @@ public class ArrayToCollectionTest extends TestCase {
 		}
 	}
 
+	@Test
 	public void testArrayToCollection() throws Exception {
 		Transmorph converter = new Transmorph(new DefaultConverters());
 
@@ -125,6 +136,7 @@ public class ArrayToCollectionTest extends TestCase {
 		}
 	}
 
+	@Test
 	public void testArrayToGenericSet() throws Exception {
 		Transmorph converter = new Transmorph(new DefaultConverters());
 

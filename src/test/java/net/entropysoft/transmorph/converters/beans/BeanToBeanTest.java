@@ -15,10 +15,14 @@
  */
 package net.entropysoft.transmorph.converters.beans;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import junit.framework.TestCase;
 import net.entropysoft.transmorph.ConversionContext;
 import net.entropysoft.transmorph.DefaultConverters;
 import net.entropysoft.transmorph.Transmorph;
@@ -28,6 +32,9 @@ import net.entropysoft.transmorph.converters.collections.ArrayToArray;
 import net.entropysoft.transmorph.converters.collections.CollectionToCollection;
 import net.entropysoft.transmorph.converters.collections.MapToMap;
 import net.entropysoft.transmorph.signature.formatter.JavaSyntaxTypeSignatureFormatter;
+
+import org.junit.Test;
+
 import samples.MyBean4;
 import samples.MyBean4TransferObject;
 import samples.MyBeanAB;
@@ -37,8 +44,9 @@ import samples.MyBeanBATransferObject;
 import samples.PrivatePropertyBean;
 import samples.PrivatePropertyBeanTransferObject;
 
-public class BeanToBeanTest extends TestCase {
+public class BeanToBeanTest {
 
+	@Test
 	public void testBiDirectionalBean() throws Exception {
 		DefaultConverters defaultConverters = new DefaultConverters();
 		Transmorph converter = new Transmorph(defaultConverters);
@@ -78,6 +86,7 @@ public class BeanToBeanTest extends TestCase {
 				.getMyBeanBA().getMyBeanAB());
 	}
 
+	@Test
 	public void testBeanToBean() throws Exception {
 		DefaultConverters defaultConverters = new DefaultConverters();
 		Transmorph converter = new Transmorph(defaultConverters);
@@ -112,6 +121,7 @@ public class BeanToBeanTest extends TestCase {
 		assertEquals(55, myBean4TransferObject.getLength());
 	}
 
+	@Test
 	public void testBeanToBeanWithPrivateProperties() throws Exception {
 		DefaultConverters defaultConverters = new DefaultConverters();
 		Transmorph converter = new Transmorph(defaultConverters);
@@ -132,6 +142,7 @@ public class BeanToBeanTest extends TestCase {
 				.toString());
 	}
 
+	@Test
 	public void testCopyBean() throws Exception {
 		Transmorph converter = new Transmorph(new BeanToBean(),
 				new ImmutableIdentityConverter(), new WrapperToPrimitive(),

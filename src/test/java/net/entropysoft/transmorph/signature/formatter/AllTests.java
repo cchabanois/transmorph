@@ -1,19 +1,13 @@
 package net.entropysoft.transmorph.signature.formatter;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
+import org.junit.runners.Suite.SuiteClasses;
 
+@RunWith(Suite.class)
+@SuiteClasses(value = { ClassGetNameSignatureFormatterTest.class,
+		ClassFileTypeSignatureFormatterTest.class,
+		JavaSyntaxTypeSignatureFormatterTest.class })
 public class AllTests {
-
-	public static Test suite() {
-		TestSuite suite = new TestSuite(
-				"Test for net.entropysoft.transmorph.signature.formatter");
-		//$JUnit-BEGIN$
-		suite.addTestSuite(ClassGetNameSignatureFormatterTest.class);
-		suite.addTestSuite(ClassFileTypeSignatureFormatterTest.class);
-		suite.addTestSuite(JavaSyntaxTypeSignatureFormatterTest.class);
-		//$JUnit-END$
-		return suite;
-	}
 
 }

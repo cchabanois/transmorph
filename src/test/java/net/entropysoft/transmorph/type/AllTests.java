@@ -1,17 +1,11 @@
 package net.entropysoft.transmorph.type;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
+import org.junit.runners.Suite.SuiteClasses;
 
+@RunWith(Suite.class)
+@SuiteClasses(value = { TypeReferenceTest.class })
 public class AllTests {
-
-	public static Test suite() {
-		TestSuite suite = new TestSuite(
-				"Test for net.entropysoft.transmorph.type");
-		//$JUnit-BEGIN$
-		suite.addTestSuite(TypeReferenceTest.class);
-		//$JUnit-END$
-		return suite;
-	}
 
 }

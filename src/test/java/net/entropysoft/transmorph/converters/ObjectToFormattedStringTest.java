@@ -15,16 +15,21 @@
  */
 package net.entropysoft.transmorph.converters;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
 import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-import junit.framework.TestCase;
 import net.entropysoft.transmorph.Transmorph;
 
-public class ObjectToFormattedStringTest extends TestCase {
+import org.junit.Test;
 
+public class ObjectToFormattedStringTest {
+
+	@Test
 	public void testObjectToFormattedString() throws Exception {
 		DateFormat df = DateFormat.getDateInstance(DateFormat.SHORT,
 				Locale.FRANCE);
@@ -42,6 +47,7 @@ public class ObjectToFormattedStringTest extends TestCase {
 
 	}
 
+	@Test
 	public void testIndirectObjectToFormattedString() throws Exception {
 		DateFormat df = DateFormat.getDateInstance(DateFormat.SHORT,
 				Locale.FRANCE);

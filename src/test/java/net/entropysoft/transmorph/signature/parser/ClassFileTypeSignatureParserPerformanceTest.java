@@ -1,15 +1,17 @@
 package net.entropysoft.transmorph.signature.parser;
 
+import static org.junit.Assert.fail;
+
 import java.text.MessageFormat;
 
-import junit.framework.TestCase;
-
-import net.entropysoft.transmorph.signature.JavaTypeToTypeSignature;
 import net.entropysoft.transmorph.signature.TypeSignature;
 import net.entropysoft.transmorph.signature.TypeSignatureFactory;
 
-public class ClassFileTypeSignatureParserPerformanceTest extends TestCase {
+import org.junit.Test;
 
+public class ClassFileTypeSignatureParserPerformanceTest {
+
+	@Test
 	public void testClassFileTypeSignatureParserPerformance() throws Exception {
 		runParser("Ljava/lang/String;",
 				1000000, 0);

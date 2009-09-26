@@ -15,16 +15,21 @@
  */
 package net.entropysoft.transmorph.converters;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
+
 import java.io.File;
 import java.net.URL;
 
-import junit.framework.TestCase;
 import net.entropysoft.transmorph.ConverterException;
 import net.entropysoft.transmorph.DefaultConverters;
 import net.entropysoft.transmorph.Transmorph;
 
-public class ObjectToStringTest extends TestCase {
+import org.junit.Test;
 
+public class ObjectToStringTest {
+
+	@Test
 	public void testObjectToString() throws Exception {
 		DefaultConverters defaultConverters = new DefaultConverters();
 		ObjectToString objectToString = defaultConverters.getObjectToString();
@@ -49,6 +54,7 @@ public class ObjectToStringTest extends TestCase {
 		assertEquals("http://www.entropysoft.net", str);
 	}
 
+	@Test
 	public void testObjectToStringNotOverridden() throws Exception {
 		DefaultConverters defaultConverters = new DefaultConverters();
 		ObjectToString objectToString = defaultConverters.getObjectToString();

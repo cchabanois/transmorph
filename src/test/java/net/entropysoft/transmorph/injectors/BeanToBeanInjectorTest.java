@@ -1,9 +1,12 @@
 package net.entropysoft.transmorph.injectors;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import junit.framework.TestCase;
 import net.entropysoft.transmorph.DefaultConverters;
 import net.entropysoft.transmorph.TransmorphBeanInjector;
 import net.entropysoft.transmorph.converters.ImmutableIdentityConverter;
@@ -13,14 +16,18 @@ import net.entropysoft.transmorph.converters.beans.BeanToBean;
 import net.entropysoft.transmorph.converters.beans.BeanToBeanMapping;
 import net.entropysoft.transmorph.converters.collections.CollectionToCollection;
 import net.entropysoft.transmorph.converters.collections.MapToMap;
+
+import org.junit.Test;
+
 import samples.MyBean4;
 import samples.MyBean4Ancestor;
 import samples.MyBean4TransferObject;
 import samples.MyBeanAB;
 import samples.MyBeanBA;
 
-public class BeanToBeanInjectorTest extends TestCase {
+public class BeanToBeanInjectorTest {
 
+	@Test
 	public void testBeanToBeanInjectorNoConversion() throws Exception {
 		BeanToBeanInjector beanInjector = new BeanToBeanInjector();
 		TransmorphBeanInjector transmorphBeanInjector = new TransmorphBeanInjector(
@@ -43,6 +50,7 @@ public class BeanToBeanInjectorTest extends TestCase {
 		assertEquals(myStrings, myBean4Injected.getMyStrings());
 	}
 
+	@Test
 	public void testBeanToBeanSubClassToAncestor() throws Exception {
 		BeanToBeanInjector beanInjector = new BeanToBeanInjector();
 		TransmorphBeanInjector transmorphBeanInjector = new TransmorphBeanInjector(
@@ -63,6 +71,7 @@ public class BeanToBeanInjectorTest extends TestCase {
 		assertEquals(55, myBean4Injected.getSize());
 	}
 
+	@Test
 	public void testBeanToBeanInjector() throws Exception {
 		DefaultConverters defaultConverters = new DefaultConverters();
 		BeanToBeanInjector beanInjector = new BeanToBeanInjector();
@@ -95,6 +104,7 @@ public class BeanToBeanInjectorTest extends TestCase {
 		assertEquals(55, myBean4TransferObject.getLength());
 	}
 
+	@Test
 	public void testCopyBeanUsingInjector() throws Exception {
 		TransmorphBeanInjector transmorphBeanInjector = new TransmorphBeanInjector(
 				new BeanToBeanInjector());

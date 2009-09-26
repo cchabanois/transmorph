@@ -15,15 +15,20 @@
  */
 package net.entropysoft.transmorph.converters.enums;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
+
 import java.lang.annotation.RetentionPolicy;
 
-import junit.framework.TestCase;
 import net.entropysoft.transmorph.ConverterException;
 import net.entropysoft.transmorph.DefaultConverters;
 import net.entropysoft.transmorph.Transmorph;
 
-public class StringToEnumTest extends TestCase {
+import org.junit.Test;
 
+public class StringToEnumTest {
+
+	@Test
 	public void testStringToEnum() throws Exception {
 		Transmorph converter = new Transmorph(new DefaultConverters());
 

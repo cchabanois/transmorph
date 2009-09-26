@@ -1,11 +1,15 @@
 package net.entropysoft.transmorph.signature.parser;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.assertEquals;
 import net.entropysoft.transmorph.signature.FullTypeSignature;
+
+import org.junit.Test;
+
 import samples.BeanWithInnerBean;
 
-public class ClassGetNameTypeSignatureParserTest extends TestCase {
+public class ClassGetNameTypeSignatureParserTest {
 
+	@Test
 	public void testClassGetNameTypeSignatureParser() throws Exception {
 		ClassGetNameTypeSignatureParser typeSignatureParser = new ClassGetNameTypeSignatureParser();
 		typeSignatureParser.setTypeSignature(String.class.getName());

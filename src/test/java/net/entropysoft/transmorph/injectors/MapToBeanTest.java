@@ -1,18 +1,24 @@
 package net.entropysoft.transmorph.injectors;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import junit.framework.TestCase;
 import net.entropysoft.transmorph.ConverterException;
 import net.entropysoft.transmorph.DefaultConverters;
 import net.entropysoft.transmorph.IBeanInjector;
 import net.entropysoft.transmorph.TransmorphBeanInjector;
+
+import org.junit.Test;
+
 import samples.MyBean1;
 
-public class MapToBeanTest extends TestCase {
+public class MapToBeanTest {
 
+	@Test
 	public void testMapToBean() throws Exception {
 		MyBean1 myBean1 = new MyBean1();
 		IBeanInjector beanInjector = new MapToBeanInjector();
@@ -33,6 +39,7 @@ public class MapToBeanTest extends TestCase {
 		assertEquals(null, myBean1.getMyBean2());
 	}
 
+	@Test
 	public void testMapToBeanTooManyProperties() throws Exception {
 		MyBean1 myBean1 = new MyBean1();
 		IBeanInjector beanInjector = new MapToBeanInjector();

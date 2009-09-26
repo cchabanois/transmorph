@@ -15,19 +15,25 @@
  */
 package net.entropysoft.transmorph.converters.collections;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import junit.framework.TestCase;
 import net.entropysoft.transmorph.ConversionContext;
 import net.entropysoft.transmorph.DefaultConverters;
 import net.entropysoft.transmorph.Transmorph;
 import net.entropysoft.transmorph.type.TypeReference;
 
-public class MapToMapTest extends TestCase {
+import org.junit.Test;
 
+public class MapToMapTest {
+
+	@Test
 	public void testMapToMap() throws Exception {
 		Transmorph converter = new Transmorph(new DefaultConverters());
 
@@ -62,6 +68,7 @@ public class MapToMapTest extends TestCase {
 		assertEquals("value5-2", list5.get(1));
 	}
 
+	@Test
 	public void testMapToProperties() throws Exception {
 		Transmorph converter = new Transmorph(new DefaultConverters());
 

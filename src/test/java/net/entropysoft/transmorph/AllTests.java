@@ -1,23 +1,17 @@
 package net.entropysoft.transmorph;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
-import net.entropysoft.transmorph.context.UsedConvertersTest;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
+import org.junit.runners.Suite.SuiteClasses;
 
+@RunWith(Suite.class)
+@SuiteClasses(value = { net.entropysoft.transmorph.converters.AllTests.class,
+		net.entropysoft.transmorph.injectors.AllTests.class,
+		net.entropysoft.transmorph.signature.AllTests.class,
+		net.entropysoft.transmorph.type.AllTests.class,
+		net.entropysoft.transmorph.utils.AllTests.class,
+		DefaultFromStringConvertersTest.class,
+		DefaultToStringConvertersTest.class, TransmorphTest.class })
 public class AllTests {
-
-    public static Test suite() {
-        TestSuite suite = new TestSuite("Test for net.entropysoft.transformers");
-        suite.addTestSuite(UsedConvertersTest.class);
-        suite.addTest(net.entropysoft.transmorph.converters.AllTests.suite());
-        suite.addTest(net.entropysoft.transmorph.injectors.AllTests.suite());
-        suite.addTest(net.entropysoft.transmorph.signature.AllTests.suite());
-        suite.addTest(net.entropysoft.transmorph.type.AllTests.suite());
-        suite.addTest(net.entropysoft.transmorph.utils.AllTests.suite());
-        suite.addTestSuite(DefaultFromStringConvertersTest.class);
-        suite.addTestSuite(DefaultToStringConvertersTest.class);
-        suite.addTestSuite(TransmorphTest.class);
-        return suite;
-    }
 
 }

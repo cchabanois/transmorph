@@ -1,14 +1,18 @@
 package net.entropysoft.transmorph.converters.collections;
 
+import static org.junit.Assert.assertEquals;
+
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import junit.framework.TestCase;
 import net.entropysoft.transmorph.Transmorph;
 import net.entropysoft.transmorph.converters.ObjectToString;
 
-public class MapToStringTest extends TestCase {
+import org.junit.Test;
 
+public class MapToStringTest {
+
+	@Test
 	public void testMapToString() throws Exception {
 		Transmorph converter = new Transmorph(new MapToString(), new ArrayToString(),
 				new ObjectToString());

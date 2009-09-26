@@ -23,6 +23,7 @@ import java.util.Set;
 
 import net.entropysoft.transmorph.IConverter;
 import net.entropysoft.transmorph.signature.formatter.ITypeSignatureFormatter;
+import net.entropysoft.transmorph.signature.formatter.JavaSyntaxTypeSignatureFormatter;
 import net.entropysoft.transmorph.type.TypeReference;
 
 /**
@@ -75,43 +76,45 @@ public class UsedConverters {
 
 	@Override
 	public String toString() {
-		StringBuilder sb = new StringBuilder();
-		for (UsedConverter usedConverter : usedConvertersList) {
-			sb
-					.append(MessageFormat
-							.format(
-									"Converter ''{0}'' used to convert from ''{1}'' to destination type ''{2}''.",
-									usedConverter.getConverter().getClass()
-											.getSimpleName(),
-									usedConverter.getSourceObjectClass() == null ? "null"
-											: usedConverter
-													.getSourceObjectClass()
-													.getName(), usedConverter
-											.getDestinationType().toString()));
-			sb.append('\n');
-		}
-		return sb.toString();
+		return toString(new JavaSyntaxTypeSignatureFormatter());
 	}
 
 	public String toString(ITypeSignatureFormatter formatter) {
 		StringBuilder sb = new StringBuilder();
 		for (UsedConverter usedConverter : usedConvertersList) {
-//			String destinationName = formatter.format(usedConverter
-//					.getDestinationType().getTypeSignature());
-			String destinationName = usedConverter.getDestinationType().getName();
+			String sourceName = getUsedConverterSourceName(usedConverter,
+					formatter);
+			String destinationName = getUsedConverterDestinationName(
+					usedConverter, formatter);
 			sb
 					.append(MessageFormat
 							.format(
 									"Converter ''{0}'' used to convert from ''{1}'' to destination type ''{2}''.",
 									usedConverter.getConverter().getClass()
 											.getSimpleName(),
-									usedConverter.getSourceObjectClass() == null ? "null"
-											: usedConverter
-													.getSourceObjectClass()
-													.getName(), destinationName));
+									sourceName, destinationName));
 			sb.append('\n');
 		}
 		return sb.toString();
+	}
+
+	private String getUsedConverterDestinationName(UsedConverter usedConverter,
+			ITypeSignatureFormatter typeSignatureFormatter) {
+		String destinationName = typeSignatureFormatter.format(usedConverter
+				.getDestinationType().getTypeSignature());
+		return destinationName;
+	}
+
+	private String getUsedConverterSourceName(UsedConverter usedConverter,
+			ITypeSignatureFormatter typeSignatureFormatter) {
+		if (usedConverter.getSourceObjectClass() == null) {
+			return "null";
+		}
+		TypeReference<?> sourceTypeReference = TypeReference.get(usedConverter
+				.getSourceObjectClass());
+		String sourceName = typeSignatureFormatter.format(sourceTypeReference
+				.getTypeSignature());
+		return sourceName;
 	}
 
 }

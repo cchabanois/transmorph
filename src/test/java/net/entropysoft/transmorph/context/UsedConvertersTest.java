@@ -1,5 +1,7 @@
 package net.entropysoft.transmorph.context;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.text.MessageFormat;
@@ -52,8 +54,15 @@ public class UsedConvertersTest {
 				new Integer[] { 1, 2, null, 4 }, long[].class);
 
 		UsedConverters usedConverters = conversionContext.getUsedConverters();
+		String str = usedConverters.toString();
+		assertTrue(str
+				.contains("Converter 'NumberToNumber' used to convert from 'java.lang.Integer' to destination type 'long'."));
+		assertTrue(str
+				.contains("Converter 'NumberToNumber' used to convert from 'null' to destination type 'long'."));
+		assertTrue(str
+				.contains("Converter 'ArrayToArray' used to convert from 'java.lang.Integer[]' to destination type 'long[]'."));
 	}
-	
+
 	private void assertConverterUsed(UsedConverters usedConverters,
 			Class converterClass) {
 		for (UsedConverter usedConverter : usedConverters.getUsedConverters()) {

@@ -23,20 +23,22 @@ import java.lang.reflect.WildcardType;
 
 import net.entropysoft.transmorph.signature.TypeSignature;
 import net.entropysoft.transmorph.signature.TypeSignatureFactory;
+import net.entropysoft.transmorph.signature.formatter.ITypeSignatureFormatter;
+import net.entropysoft.transmorph.signature.formatter.JavaSyntaxTypeSignatureFormatter;
 
 /**
  * 
  * This class is thread-safe
  * 
  * @author cedric
- *
+ * 
  * @param <T>
  */
 public abstract class TypeReference<T> implements Comparable<TypeReference<T>> {
 	private final Type type;
 	private final Class<? super T> rawType;
-	private volatile TypeSignature typeSignature; 
-	
+	private volatile TypeSignature typeSignature;
+
 	@SuppressWarnings("unchecked")
 	protected TypeReference() {
 		this.type = getSuperclassTypeParameter(getClass());
@@ -114,7 +116,7 @@ public abstract class TypeReference<T> implements Comparable<TypeReference<T>> {
 		}
 		return typeSignature;
 	}
-	
+
 	/**
 	 * check if type is a number type (either primitive or instance of Number)
 	 * 
@@ -133,16 +135,13 @@ public abstract class TypeReference<T> implements Comparable<TypeReference<T>> {
 	}
 
 	/**
-	 * get the type name (similar to Class.getName())
+	 * get a human representation for the type
 	 * 
 	 * @return
 	 */
-	public String getName() {
-		if (type instanceof Class<?>) {
-			return ((Class<?>)type).getName();
-		} else {
-			return type.toString();
-		}
+	public String toHumanString() {
+		ITypeSignatureFormatter typeSignatureFormatter = new JavaSyntaxTypeSignatureFormatter();
+		return typeSignatureFormatter.format(getTypeSignature());
 	}
 
 	public TypeReference<?>[] getTypeArguments() {

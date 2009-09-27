@@ -61,7 +61,7 @@ public class ObjectToObjectUsingConstructor extends AbstractConverter {
 								.format(
 										"Could not convert ''{0}'' to destination type ''{1}''",
 										sourceObject.getClass(),
-										destinationType.getName()));
+										destinationType.toHumanString()));
 			}
 
 			return compatibleConstructor
@@ -69,7 +69,7 @@ public class ObjectToObjectUsingConstructor extends AbstractConverter {
 		} catch (Exception e) {
 			throw new ConverterException(
 					"Could not create an object with type '"
-							+ destinationType.getName() + "' from object '"
+							+ destinationType.toHumanString() + "' from object '"
 							+ sourceObject.getClass().getName()
 							+ "' using a constructor");
 		}

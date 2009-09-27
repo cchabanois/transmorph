@@ -70,7 +70,7 @@ public class MapToBean extends AbstractContainerConverter {
 		} catch (Exception e) {
 			throw new ConverterException(MessageFormat.format(
 					"Could not create instance of ''{0}''", destinationType
-							.getName()), e);
+							.toHumanString()), e);
 		}
 		if (useObjectPool) {
 			context.getConvertedObjectPool().add(this, sourceObject,
@@ -83,8 +83,8 @@ public class MapToBean extends AbstractContainerConverter {
 			Method method = getSetterMethod(setterMethods, key);
 			if (method == null) {
 				throw new ConverterException(MessageFormat.format(
-						"Could not find property ''{0}'' in {1}", key,
-						destinationType.getName()));
+						"Could not find property ''{0}'' in ''{1}''", key,
+						destinationType.toHumanString()));
 			}
 			java.lang.reflect.Type parameterType = method
 					.getGenericParameterTypes()[0];

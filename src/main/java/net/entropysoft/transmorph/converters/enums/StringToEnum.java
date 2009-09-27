@@ -50,7 +50,7 @@ public class StringToEnum extends AbstractConverter {
 					MessageFormat
 							.format(
 									"Enum type ''{0}'' has no constant with the specified name ''{1}''",
-									destinationType.getName(), sourceString), e);
+									destinationType.toHumanString(), sourceString), e);
 		}
 	}
 

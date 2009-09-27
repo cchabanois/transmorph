@@ -112,7 +112,7 @@ public class ArrayToCollection extends AbstractContainerConverter {
 			throw new ConverterException(MessageFormat
 					.format(
 							"Cannot find a concrete class for destination collection ''{0}''",
-							destinationType.getName()));
+							destinationType.toHumanString()));
 		}
 		return clazz.newInstance();
 	}

@@ -79,8 +79,8 @@ public class MapToBeanInjector extends AbstractBeanInjector {
 			Method method = setterMethods.get(key);
 			if (method == null) {
 				throw new ConverterException(MessageFormat.format(
-						"Could not find property ''{0}'' in {1}", key,
-						targetType.getName()));
+						"Could not find property ''{0}'' in ''{1}''", key,
+						targetType.toHumanString()));
 			}
 			java.lang.reflect.Type parameterType = method
 					.getGenericParameterTypes()[0];

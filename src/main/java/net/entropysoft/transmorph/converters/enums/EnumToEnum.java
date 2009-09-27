@@ -38,7 +38,8 @@ public class EnumToEnum extends AbstractConverter {
 	}
 
 	public void addEnumToEnum(Enum<?> source, Enum<?> dest) {
-		Map<Class<? extends Enum>, Enum> mapDestEnum = enumToEnumMap.get(source);
+		Map<Class<? extends Enum>, Enum> mapDestEnum = enumToEnumMap
+				.get(source);
 		if (mapDestEnum == null) {
 			mapDestEnum = new HashMap<Class<? extends Enum>, Enum>();
 			enumToEnumMap.put(source, mapDestEnum);
@@ -47,7 +48,8 @@ public class EnumToEnum extends AbstractConverter {
 	}
 
 	public void addEnumToNull(Enum<?> source, Class<? extends Enum> enumClass) {
-		Map<Class<? extends Enum>, Enum> mapDestEnum = enumToEnumMap.get(source);
+		Map<Class<? extends Enum>, Enum> mapDestEnum = enumToEnumMap
+				.get(source);
 		if (mapDestEnum == null) {
 			mapDestEnum = new HashMap<Class<? extends Enum>, Enum>();
 			enumToEnumMap.put(source, mapDestEnum);
@@ -55,9 +57,11 @@ public class EnumToEnum extends AbstractConverter {
 		mapDestEnum.put(enumClass, null);
 	}
 
-	private Enum<?> getDestinationEnum(Enum<?> source, TypeReference<?> destinationType)
-			throws ClassNotFoundException, ConverterException {
-		Map<Class<? extends Enum>, Enum> mapDestEnum = enumToEnumMap.get(source);
+	private Enum<?> getDestinationEnum(Enum<?> source,
+			TypeReference<?> destinationType) throws ClassNotFoundException,
+			ConverterException {
+		Map<Class<? extends Enum>, Enum> mapDestEnum = enumToEnumMap
+				.get(source);
 		if (mapDestEnum != null) {
 			if (mapDestEnum.containsKey(destinationType.getType())) {
 				Enum destEnum = mapDestEnum.get(destinationType.getType());
@@ -65,14 +69,15 @@ public class EnumToEnum extends AbstractConverter {
 			}
 		}
 		try {
-			return Enum.valueOf((Class<Enum>)destinationType.getRawType(), source.name());
+			return Enum.valueOf((Class<Enum>) destinationType.getRawType(),
+					source.name());
 		} catch (IllegalArgumentException e) {
 			throw new ConverterException(
 					MessageFormat
 							.format(
 									"Enum type ''{0}'' has no constant with the specified name ''{1}''",
-									destinationType.getName(), source.name()),
-					e);
+									destinationType.toHumanString(), source
+											.name()), e);
 		}
 	}
 
@@ -87,8 +92,9 @@ public class EnumToEnum extends AbstractConverter {
 		try {
 			return getDestinationEnum(sourceEnum, destinationType);
 		} catch (ClassNotFoundException e) {
-			throw new ConverterException("Could not find class for "
-					+ destinationType.getName());
+			throw new ConverterException(MessageFormat.format(
+					"Could not find class for ''{0}''", destinationType
+							.toHumanString()));
 		}
 	}
 

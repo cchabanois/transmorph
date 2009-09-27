@@ -15,7 +15,7 @@ public class TypeReferenceTest {
 	@Test
 	public void testPrimitive() {
 		TypeReference<?> typeReference = TypeReference.get(Integer.TYPE);
-		assertEquals("int",typeReference.getName());
+		assertEquals("int",typeReference.toHumanString());
 		assertTrue(typeReference.isPrimitive());
 		assertTrue(typeReference.isNumber());
 		assertFalse(typeReference.isRawTypeInstance(55));
@@ -28,7 +28,7 @@ public class TypeReferenceTest {
 	@Test
 	public void testPrimitiveWrapper() {
 		TypeReference<Integer> typeReference = TypeReference.get(Integer.class);
-		assertEquals("java.lang.Integer",typeReference.getName());
+		assertEquals("java.lang.Integer",typeReference.toHumanString());
 		assertFalse(typeReference.isPrimitive());
 		assertTrue(typeReference.isNumber());
 		assertTrue(typeReference.isRawTypeInstance(55));
@@ -41,7 +41,7 @@ public class TypeReferenceTest {
 	@Test
 	public void testRawClass() {
 		TypeReference<String> typeReference = TypeReference.get(String.class);
-		assertEquals("java.lang.String",typeReference.getName());
+		assertEquals("java.lang.String",typeReference.toHumanString());
 		assertFalse(typeReference.isPrimitive());
 		assertFalse(typeReference.isNumber());
 		assertTrue(typeReference.isRawTypeInstance("hello"));
@@ -54,7 +54,7 @@ public class TypeReferenceTest {
 	public void testParameterizedClass() {
 		TypeReference<List<String>> typeReference = new TypeReference<List<String>>() {
 		};
-		assertEquals("java.util.List<java.lang.String>",typeReference.getName());
+		assertEquals("java.util.List<java.lang.String>",typeReference.toHumanString());
 		assertFalse(typeReference.isPrimitive());
 		assertFalse(typeReference.isNumber());
 		ArrayList<String> arrayOfStrings = new ArrayList<String>();
@@ -74,7 +74,7 @@ public class TypeReferenceTest {
 	@Test
 	public void testArray() {
 		TypeReference<?> typeReference = TypeReference.get(int[][].class);
-		assertEquals("[[I",typeReference.getName());
+		assertEquals("int[][]",typeReference.toHumanString());
 		assertFalse(typeReference.isPrimitive());
 		assertFalse(typeReference.isNumber());
 		assertTrue(typeReference.isRawTypeInstance(new int[][] { { 1, 2 }} ));
@@ -90,7 +90,7 @@ public class TypeReferenceTest {
 	public void testGenericArray() {
 		TypeReference<ArrayList<String>[]> typeReference = new TypeReference<ArrayList<String>[]>() {
 		};
-		assertEquals("java.util.ArrayList<java.lang.String>[]",typeReference.getName());
+		assertEquals("java.util.ArrayList<java.lang.String>[]",typeReference.toHumanString());
 		assertFalse(typeReference.isPrimitive());
 		assertFalse(typeReference.isNumber());
 		assertTrue(typeReference.isRawTypeInstance(new ArrayList[0]));

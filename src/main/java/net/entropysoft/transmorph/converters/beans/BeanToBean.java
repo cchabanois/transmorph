@@ -101,7 +101,7 @@ public class BeanToBean extends AbstractContainerConverter {
 		} catch (Exception e) {
 			throw new ConverterException(MessageFormat.format(
 					"Could not create instance of ''{0}''", destinationType
-							.getName()), e);
+							.toHumanString()), e);
 		}
 		if (useObjectPool) {
 			context.getConvertedObjectPool().add(this, sourceObject,

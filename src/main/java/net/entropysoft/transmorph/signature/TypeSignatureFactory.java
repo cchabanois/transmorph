@@ -19,9 +19,9 @@ import java.lang.reflect.Type;
 import java.util.Collections;
 import java.util.Map;
 
-import net.entropysoft.transmorph.cache.LRUMap;
 import net.entropysoft.transmorph.signature.parser.ClassFileTypeSignatureParser;
 import net.entropysoft.transmorph.type.TypeReference;
+import net.entropysoft.transmorph.utils.LRUMap;
 
 /**
  * Factory for TypeSignature

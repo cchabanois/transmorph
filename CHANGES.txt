@@ -1,0 +1,105 @@
+transmorph 3.0.0 Release
+
+Cédric Chabanois, cchabanois at gmail com
+
+CHANGES
+
+September 27,2009 -- transmorph v3.0.0
+* transmorph does not need a classloader anymore
+* overcome type erasure using TypeReference (based on Neal Gafter's Super Type Tokens)
+This makes transmorph easier to use
+* dropped support for JDK 1.4
+
+September 7, 2009 -- transmorph v2.2.2
+* added new converters :
+ ** SerializableConverter 
+ To be used when source object type and destination type are compatible and source object is serializable. Note that serialization is hugely expensive.
+ ** CloneableConverter
+ To be used when source object type and destination type are compatible and source object is cloneable.
+* modified converters :
+ ** BeanToBeanInjector : it will now inject from a subclass bean to a superclass bean without needing a mapping 
+* Some changes to Transmorph class (more methods using generics)
+
+August 24, 2009 -- transmorph v2.2.1
+* Thanks to generics, no more cast is necessary when converting to a given class
+URL url = converter.convert(new URI("http://www.entropysoft.net"), URL.class);
+This works also when converting to a parameterized class :
+LinkedHashSet<String> linkedHashSet = converter.convert(source, LinkedHashSet.class, new Class[] { String.class });
+* transmorph is now OSGi compliant 
+
+May 12, 2009 -- transmorph v2.2.0
+* transmorph : changed signature 'Object convert(Object source, Class clazz)' to Object convert(Object source, java.lang.reflect.Type clazz)
+* modifications to existing converters :
+ ** corrected bug in ImmutableIdentityConverter : it did not handle all the cases it should have
+ ** added handleTargetClassSameAsSourceClass property (set to true by default) to BeanToBean. 
+    If set you don't have to add a BeanToBeanMapping when source class is the same than target class.
+* added TransmorphBeanInjector. With this class, you can inject values into a bean using an IBeanInjector.
+ ** added IBeanInjector implementations : BeanToBeanInjector and MapToBeanInjector 
+
+April 26, 2009 -- transmorph v2.1.2
+* added new converters :
+ ** FromStringUsingPropertyEditor
+ ** ToStringUsingPropertyEditor
+ ** StringToInputStream
+* NumberToNumber can now check for out of range conversions (enabled by default)
+* ObjectToString will now fail by default if toString() method has not been overridden on the object to convert
+* added a class containing default converters to convert from String and a class containing default converters to 
+convert to String 
+
+March 20, 2009 -- transmorph v2.1.1
+* corrected bug in MultiConverter : converters were reordered even if canReorder was false
+* added new converters :
+ ** ArrayToString
+ ** CollectionToString
+ ** MapToString
+ ** AbstractSimpleContainerConverter : extends AbstractSimpleConverter but also implements IContainerConverter
+
+March 6, 2009 -- transmorph v2.1.0
+* MultiConverter and its descendants are not added anymore to the used converters as they do not do any conversions by themselves.
+* It is now possible to use any class implementing ITypeSignatureParser to parse type signature
+There are 3 parsers available for now :
+ ** ClassFileTypeSignatureParser for parsing type signatures using java class file signature specification
+ ** ClassGetNameTypeSignatureParser for parsing type signatures returned by Class.getName()
+ ** JavaSyntaxTypeSignatureParser for parsing type signatures as in java source code. This parser also supports imports.
+* Formatters for type signatures are now available :
+ ** ClassFileTypeSignatureFormatter
+ ** ClassGetNameTypeSignatureFormatter
+ ** JavaSyntaxTypeSignatureFormatter
+
+February 3, 2009 -- transmorph v2.0.0
+* Transmorph : 
+ ** Converters class renamed to Transmorph
+ ** no more static factory methods : use public constructors instead
+ ** It is now possible to use 'Ljava.util.Map<Ljava.lang.String;Ljava.util.List<Ljava.lang.String;>;>;'
+ instead of 'Ljava/util/Map<Ljava/lang/String;Ljava/util/List<Ljava/lang/String;>;>;'
+ when converting using signatures
+ ** convert(Object source, Type destinationType) did not handle other 
+exceptions from its converters than ConverterException
+* IConverter changed
+ ** IConverter.convert does not take an element converter anymore. Instead, 
+there is another interface IContainerConverter with setElementConverter and 
+getElementConverter methods. This allows the user to have a fine grained 
+control of the converters that he wants to use.
+ ** replaced canHandleDestinationType and canHandleSourceObject by canHandle
+* new ConversionContext :
+ ** contain a pool of created objects to support data objects that contain bi-directional 
+relationships
+ ** contain the used converters (useful for debugging)
+* new converters : 
+ ** BeanToBean
+ ** EnumToEnum
+ ** ImmutableIdentityConverter
+ ** StringToQName
+ ** StringToTimeZone
+* added the notion of modifiers than can be applied after conversion :
+ ** CanonicalizeFile
+ ** LowerCaseString
+ ** ResolveFile
+ ** TrimString
+ ** UppercaseString
+* moved primitive related code from IdentityConverter to WrapperToPrimitive
+* MapToBean : added interface IBeanDestinationPropertyTypeProvider that can provides the destination type for some properties to MapToBean converter 
+
+
+January 8, 2009 -- transmorph v1.0.0
+Initial early access release

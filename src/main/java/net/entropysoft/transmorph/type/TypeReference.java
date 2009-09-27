@@ -27,6 +27,21 @@ import net.entropysoft.transmorph.signature.formatter.ITypeSignatureFormatter;
 import net.entropysoft.transmorph.signature.formatter.JavaSyntaxTypeSignatureFormatter;
 
 /**
+ * This class is based on Neal Gafter's Super Type Tokens to overcome type
+ * erasure. (http://gafter.blogspot.com/2006/12/super-type-tokens.html)
+ * 
+ * Usage is by sub-classing: here is one way to instantiate reference to generic
+ * type <code>List&lt;Integer></code>:
+ * 
+ * <pre>
+ * TypeReference ref = new TypeReference&lt;List&lt;Integer&gt;&gt;() {
+ * };
+ *</pre>
+ * 
+ * We implement Comparable to ensure that a Type argument is given.
+ * 
+ * Some ideas and code come from gson (http://code.google.com/p/google-gson/)
+ * and some from Jackson Json-processor (http://jackson.codehaus.org)
  * 
  * This class is thread-safe
  * 

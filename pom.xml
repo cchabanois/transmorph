@@ -18,17 +18,42 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<parent>
-		<groupId>net.sf.transmorph</groupId>
-		<artifactId>transmorph-parent</artifactId>
-		<version>2.2.2</version>
-	</parent>
-
-
 	<groupId>net.sf.transmorph</groupId>
 	<artifactId>transmorph</artifactId>
 	<packaging>jar</packaging>
+	<version>3.0.0</version>
 	<name>transmorph</name>
+
+	<inceptionYear>2008</inceptionYear>
+	<description>Java library to convert a Java object of one type into
+		an object of another type (with another signature, possibly
+		parameterized).</description>
+
+	<url>http://transmorph.sourceforge.net/
+	</url>
+
+	<developers>
+		<developer>
+			<name>Cedric Chabanois</name>
+			<id>cchabanois</id>
+			<email>cchabanois@gmail.com</email>
+			<organization>Entropysoft</organization>
+		</developer>
+	</developers>
+
+	<licenses>
+		<license>
+			<name>The Apache Software License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt
+			</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+
+	<organization>
+		<name>EntropySoft</name>
+		<url>http://www.entropysoft.net</url>
+	</organization>
 
 	<scm>
 		<developerConnection>
@@ -41,12 +66,19 @@
 		</url>
 	</scm>
 
+	<distributionManagement>
+		<repository>
+			<id>transmorph.sf.net</id>
+			<name>SF.net repository mirror</name>
+			<url>sftp://web.sourceforge.net/home/groups/t/tr/transmorph/htdocs/m2repo</url>
+		</repository>
+	</distributionManagement>
 
 	<dependencies>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>3.8.1</version>
+			<version>4.7.0</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>

@@ -55,7 +55,6 @@ public abstract class AbstractSimpleConverter<S, D> implements IConverter {
 		return destinationClass;
 	}
 
-	@Override
 	public boolean canHandle(ConversionContext context, Object sourceObject,
 			TypeReference<?> destinationType) {
 		return canHandleDestinationType(destinationType)
@@ -73,7 +72,6 @@ public abstract class AbstractSimpleConverter<S, D> implements IConverter {
 		return sourceClass.isInstance(sourceObject);
 	}
 
-	@Override
 	public Object convert(ConversionContext context, Object sourceObject,
 			TypeReference<?> destinationType) throws ConverterException {
 		if (sourceObject == null) {

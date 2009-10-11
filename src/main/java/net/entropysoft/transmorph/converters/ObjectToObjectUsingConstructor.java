@@ -52,7 +52,7 @@ public class ObjectToObjectUsingConstructor extends AbstractConverter {
 			TypeReference<?> destinationType) throws ConverterException {
 
 		try {
-			Constructor compatibleConstructor = getCompatibleConstructor(
+			Constructor<?> compatibleConstructor = getCompatibleConstructor(
 					destinationType.getRawType(), sourceObject.getClass());
 
 			if (compatibleConstructor == null) {
@@ -84,7 +84,7 @@ public class ObjectToObjectUsingConstructor extends AbstractConverter {
 	 *            Argument type for constructor
 	 * @return the compatible constructor or null if none found
 	 */
-	public Constructor getCompatibleConstructor(Class<?> type, Class<?> argumentType) {
+	public Constructor<?> getCompatibleConstructor(Class<?> type, Class<?> argumentType) {
 		try {
 			return type.getConstructor(new Class[] { argumentType });
 		} catch (Exception e) {

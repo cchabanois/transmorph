@@ -79,16 +79,16 @@ public class Transmorph {
 		return (T) convert(new ConversionContext(), source, typeReference);
 	}
 
-	public <T> T convert(Object source, Class<T> clazz, Class[] typeArgs)
+	public <T> T convert(Object source, Class<T> clazz, Class<?>[] typeArgs)
 			throws ConverterException {
-		return (T) convert(new ConversionContext(), source, TypeReference.get(clazz, typeArgs));
+		return clazz.cast(convert(new ConversionContext(), source,
+				TypeReference.get(clazz, typeArgs)));
 	}
 
-	public Object convert(Object source,
-			Type type) throws ConverterException {
+	public Object convert(Object source, Type type) throws ConverterException {
 		return convert(new ConversionContext(), source, TypeReference.get(type));
 	}
-	
+
 	/**
 	 * Convert an object to another object with given class
 	 * 
@@ -124,11 +124,11 @@ public class Transmorph {
 		return (T) convert(context, source, TypeReference.get(clazz));
 	}
 
-	public Object convert(ConversionContext context, Object source,
-			Type type) throws ConverterException {
+	public Object convert(ConversionContext context, Object source, Type type)
+			throws ConverterException {
 		return convert(context, source, TypeReference.get(type));
 	}
-	
+
 	/**
 	 * Convert an object to another object given a parameterized type signature
 	 * 

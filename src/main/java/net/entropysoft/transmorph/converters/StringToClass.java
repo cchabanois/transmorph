@@ -45,7 +45,7 @@ public class StringToClass extends AbstractSimpleConverter<String, Class> {
 	}
 	
 	@Override
-	public Class doConvert(ConversionContext context, String sourceObject, TypeReference<?> destinationType) throws ConverterException {
+	public Class<?> doConvert(ConversionContext context, String sourceObject, TypeReference<?> destinationType) throws ConverterException {
 		try {
 			return classLoader.loadClass(sourceObject);
 		} catch (ClassNotFoundException e) {

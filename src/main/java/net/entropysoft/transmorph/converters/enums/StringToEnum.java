@@ -43,14 +43,15 @@ public class StringToEnum extends AbstractConverter {
 		String sourceString = (String) sourceObject;
 
 		try {
-			return Enum.valueOf((Class<Enum>) destinationType.getRawType(),
-					sourceString);
+			Class<Enum> enumType = (Class<Enum>) destinationType.getRawType();
+			return Enum.valueOf(enumType, sourceString);
 		} catch (IllegalArgumentException e) {
 			throw new ConverterException(
 					MessageFormat
 							.format(
 									"Enum type ''{0}'' has no constant with the specified name ''{1}''",
-									destinationType.toHumanString(), sourceString), e);
+									destinationType.toHumanString(),
+									sourceString), e);
 		}
 	}
 

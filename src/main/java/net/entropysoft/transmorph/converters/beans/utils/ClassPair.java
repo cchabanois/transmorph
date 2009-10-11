@@ -25,6 +25,10 @@ public class ClassPair<U,V> {
 		this.destinationClass = destinationClass;
 	}
 	
+	public static <U,V> ClassPair<U,V> get(Class<U> sourceClass, Class<V> destinationClass) {
+		return new ClassPair<U, V>(sourceClass, destinationClass);
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;

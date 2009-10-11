@@ -47,10 +47,10 @@ public class MapToMapTest {
 		map.put(null, new String[] { "value5-1", "value5-2" });
 		ConversionContext context = new ConversionContext();
 		context.setStoreUsedConverters(true);
-		TypeReference<Map<String,List<String>>> typeReference = new TypeReference<Map<String,List<String>>>() {
+		TypeReference<Map<String, List<String>>> typeReference = new TypeReference<Map<String, List<String>>>() {
 		};
-		Map<String, List<String>> converted = (Map<String, List<String>>) converter
-				.convert(context, map, typeReference);
+		Map<String, List<String>> converted = converter.convert(context, map,
+				typeReference);
 		List<String> list1 = converted.get("key1");
 		assertEquals("value1-1", list1.get(0));
 		assertEquals("value1-2", list1.get(1));

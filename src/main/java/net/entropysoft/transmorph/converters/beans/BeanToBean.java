@@ -40,7 +40,7 @@ import net.entropysoft.transmorph.utils.BeanUtils;
  */
 public class BeanToBean extends AbstractContainerConverter {
 	private IBeanPropertyTypeProvider beanDestinationPropertyTypeProvider;
-	private Map<ClassPair<?,?>, BeanToBeanMapping> beanToBeanMappings = new HashMap<ClassPair<?,?>, BeanToBeanMapping>();
+	private Map<ClassPair<?, ?>, BeanToBeanMapping> beanToBeanMappings = new HashMap<ClassPair<?, ?>, BeanToBeanMapping>();
 	private boolean handleTargetClassSameAsSourceClass = true;
 
 	public BeanToBean() {
@@ -130,10 +130,10 @@ public class BeanToBean extends AbstractContainerConverter {
 
 			java.lang.reflect.Type parameterType = destinationMethod
 					.getGenericParameterTypes()[0];
-			TypeReference<?> originalType = TypeReference.get(
-					parameterType);
-			TypeReference<?> propertyDestinationType = getBeanPropertyType(resultBean
-					.getClass(), destinationPropertyName, originalType);
+			TypeReference<?> originalType = TypeReference.get(parameterType);
+			TypeReference<?> propertyDestinationType = getBeanPropertyType(
+					resultBean.getClass(), destinationPropertyName,
+					originalType);
 
 			Object destinationPropertyValue = elementConverter.convert(context,
 					sourcePropertyValue, propertyDestinationType);
@@ -160,8 +160,8 @@ public class BeanToBean extends AbstractContainerConverter {
 	 */
 	private Method getPropertySourceMethod(Object sourceObject,
 			Object destinationObject, String destinationProperty) {
-		BeanToBeanMapping beanToBeanMapping = beanToBeanMappings
-				.get(new ClassPair(sourceObject.getClass(), destinationObject
+		BeanToBeanMapping beanToBeanMapping = beanToBeanMappings.get(ClassPair
+				.get(sourceObject.getClass(), destinationObject
 						.getClass()));
 		String sourceProperty = null;
 		if (beanToBeanMapping != null) {
@@ -184,8 +184,8 @@ public class BeanToBean extends AbstractContainerConverter {
 	 * @param originalType
 	 * @return
 	 */
-	protected TypeReference<?> getBeanPropertyType(Class<?> clazz, String propertyName,
-			TypeReference<?> originalType) {
+	protected TypeReference<?> getBeanPropertyType(Class<?> clazz,
+			String propertyName, TypeReference<?> originalType) {
 		TypeReference<?> propertyDestinationType = null;
 		if (beanDestinationPropertyTypeProvider != null) {
 			propertyDestinationType = beanDestinationPropertyTypeProvider
@@ -203,9 +203,9 @@ public class BeanToBean extends AbstractContainerConverter {
 	 * @param beanToBeanMapping
 	 */
 	public void addBeanToBeanMapping(BeanToBeanMapping beanToBeanMapping) {
-		beanToBeanMappings.put(new ClassPair(
-				beanToBeanMapping.getSourceClass(), beanToBeanMapping
-						.getDestinationClass()), beanToBeanMapping);
+		beanToBeanMappings.put(ClassPair.get(beanToBeanMapping
+				.getSourceClass(), beanToBeanMapping.getDestinationClass()),
+				beanToBeanMapping);
 	}
 
 	protected boolean canHandleDestinationType(TypeReference<?> destinationType) {
@@ -223,13 +223,14 @@ public class BeanToBean extends AbstractContainerConverter {
 		return true;
 	}
 
-	private boolean canHandle(Class<?> sourceObjectClass, Class<?> destinationClass) {
+	private boolean canHandle(Class<?> sourceObjectClass,
+			Class<?> destinationClass) {
 		if (handleTargetClassSameAsSourceClass
 				&& sourceObjectClass.equals(destinationClass)) {
 			return true;
 		}
 		BeanToBeanMapping beanToBeanMapping = beanToBeanMappings
-				.get(new ClassPair(sourceObjectClass, destinationClass));
+				.get(ClassPair.get(sourceObjectClass, destinationClass));
 		return beanToBeanMapping != null;
 	}
 

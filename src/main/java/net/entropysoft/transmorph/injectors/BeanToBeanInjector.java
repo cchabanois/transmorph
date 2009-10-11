@@ -39,7 +39,7 @@ import net.entropysoft.transmorph.utils.BeanUtils;
  */
 public class BeanToBeanInjector extends AbstractBeanInjector {
 	private IBeanPropertyTypeProvider beanDestinationPropertyTypeProvider;
-	private Map<ClassPair<?,?>, BeanToBeanMapping> beanToBeanMappings = new HashMap<ClassPair<?,?>, BeanToBeanMapping>();
+	private Map<ClassPair<?, ?>, BeanToBeanMapping> beanToBeanMappings = new HashMap<ClassPair<?, ?>, BeanToBeanMapping>();
 	private boolean handleTargetClassSameAsSourceClass = true;
 	private boolean handleTargetClassIsSuperClassOfSourceClass = true;
 
@@ -57,16 +57,16 @@ public class BeanToBeanInjector extends AbstractBeanInjector {
 			IBeanPropertyTypeProvider beanDestinationPropertyTypeProvider) {
 		this.beanDestinationPropertyTypeProvider = beanDestinationPropertyTypeProvider;
 	}
-	
+
 	/**
 	 * Add a mapping of properties between two beans
 	 * 
 	 * @param beanToBeanMapping
 	 */
 	public void addBeanToBeanMapping(BeanToBeanMapping beanToBeanMapping) {
-		beanToBeanMappings.put(new ClassPair(
-				beanToBeanMapping.getSourceClass(), beanToBeanMapping
-						.getDestinationClass()), beanToBeanMapping);
+		beanToBeanMappings.put(ClassPair.get(beanToBeanMapping
+				.getSourceClass(), beanToBeanMapping.getDestinationClass()),
+				beanToBeanMapping);
 	}
 
 	public boolean isHandleTargetClassSameAsSourceClass() {
@@ -109,7 +109,7 @@ public class BeanToBeanInjector extends AbstractBeanInjector {
 		Map<String, Method> destinationSetters;
 		destinationSetters = BeanUtils.getSetters(destinationClass);
 
-		for (Map.Entry<String,Method> entry : destinationSetters.entrySet()) {
+		for (Map.Entry<String, Method> entry : destinationSetters.entrySet()) {
 			String destinationPropertyName = entry.getKey();
 			Method destinationMethod = entry.getValue();
 
@@ -159,7 +159,7 @@ public class BeanToBeanInjector extends AbstractBeanInjector {
 	private Method getPropertySourceMethod(Object sourceObject,
 			Object destinationObject, String destinationProperty) {
 		BeanToBeanMapping beanToBeanMapping = beanToBeanMappings
-				.get(new ClassPair(sourceObject.getClass(), destinationObject
+				.get(ClassPair.get(sourceObject.getClass(), destinationObject
 						.getClass()));
 		String sourceProperty = null;
 		if (beanToBeanMapping != null) {
@@ -181,7 +181,7 @@ public class BeanToBeanInjector extends AbstractBeanInjector {
 	 * @param originalType
 	 * @return
 	 */
-	protected TypeReference<?> getBeanPropertyType(Class clazz,
+	protected TypeReference<?> getBeanPropertyType(Class<?> clazz,
 			String propertyName, TypeReference<?> originalType) {
 		TypeReference<?> propertyDestinationType = null;
 		if (beanDestinationPropertyTypeProvider != null) {
@@ -194,7 +194,8 @@ public class BeanToBeanInjector extends AbstractBeanInjector {
 		return propertyDestinationType;
 	}
 
-	private boolean canHandle(Class<?> sourceObjectClass, Class<?> destinationClass) {
+	private boolean canHandle(Class<?> sourceObjectClass,
+			Class<?> destinationClass) {
 		if (handleTargetClassSameAsSourceClass
 				&& sourceObjectClass.equals(destinationClass)) {
 			return true;
@@ -204,7 +205,7 @@ public class BeanToBeanInjector extends AbstractBeanInjector {
 			return true;
 		}
 		BeanToBeanMapping beanToBeanMapping = beanToBeanMappings
-				.get(new ClassPair(sourceObjectClass, destinationClass));
+				.get(ClassPair.get(sourceObjectClass, destinationClass));
 		return beanToBeanMapping != null;
 	}
 

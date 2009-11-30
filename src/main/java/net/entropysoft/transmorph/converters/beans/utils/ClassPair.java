@@ -16,8 +16,8 @@
 package net.entropysoft.transmorph.converters.beans.utils;
 
 public class ClassPair<U,V> {
-	private Class<U> sourceClass;
-	private Class<V> destinationClass;
+	private final Class<U> sourceClass;
+	private final Class<V> destinationClass;
 	
 	public ClassPair(Class<U> sourceClass, Class<V> destinationClass) {
 		super();

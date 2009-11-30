@@ -15,11 +15,9 @@
  */
 package net.entropysoft.transmorph.type;
 
-import java.lang.reflect.Array;
 import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import java.lang.reflect.WildcardType;
 
 import net.entropysoft.transmorph.signature.TypeSignature;
 import net.entropysoft.transmorph.signature.TypeSignatureFactory;
@@ -45,7 +43,7 @@ import net.entropysoft.transmorph.signature.formatter.JavaSyntaxTypeSignatureFor
  * 
  * This class is thread-safe
  * 
- * @author cedric
+ * @author Cedric Chabanois (cchabanois at gmail.com)
  * 
  * @param <T>
  */
@@ -57,13 +55,13 @@ public abstract class TypeReference<T> implements Comparable<TypeReference<T>> {
 	@SuppressWarnings("unchecked")
 	protected TypeReference() {
 		this.type = getSuperclassTypeParameter(getClass());
-		this.rawType = (Class<? super T>) getRawType(type);
+		this.rawType = (Class<? super T>) TypeUtils.getRawType(type);
 	}
 
 	@SuppressWarnings("unchecked")
 	private TypeReference(Type type) {
 		this.type = type;
-		this.rawType = (Class<? super T>) getRawType(type);
+		this.rawType = (Class<? super T>) TypeUtils.getRawType(type);
 	}
 
 	/**
@@ -125,6 +123,10 @@ public abstract class TypeReference<T> implements Comparable<TypeReference<T>> {
 		return superClass.isAssignableFrom(rawType);
 	}
 
+	public boolean isAssignableFrom(TypeReference<?> typeReference) {
+		return TypeUtils.isAssignableFrom(this, typeReference);
+	}
+	
 	public TypeSignature getTypeSignature() {
 		if (typeSignature == null) {
 			typeSignature = TypeSignatureFactory.getTypeSignature(type);
@@ -265,34 +267,6 @@ public abstract class TypeReference<T> implements Comparable<TypeReference<T>> {
 			throw new RuntimeException("Missing type parameter.");
 		}
 		return ((ParameterizedType) superclass).getActualTypeArguments()[0];
-	}
-
-	/**
-	 * This method returns the actual raw class associated with the specified
-	 * type.
-	 */
-	@SuppressWarnings("unchecked")
-	public static Class<?> getRawType(Type type) {
-		if (type instanceof Class) {
-			return (Class<?>) type;
-		} else if (type instanceof ParameterizedType) {
-			ParameterizedType actualType = (ParameterizedType) type;
-			return getRawType(actualType.getRawType());
-		} else if (type instanceof GenericArrayType) {
-			GenericArrayType genericArrayType = (GenericArrayType) type;
-			Object rawArrayType = Array.newInstance(getRawType(genericArrayType
-					.getGenericComponentType()), 0);
-			return rawArrayType.getClass();
-		} else if (type instanceof WildcardType) {
-			WildcardType castedType = (WildcardType) type;
-			return getRawType(castedType.getUpperBounds()[0]);
-		} else {
-			throw new IllegalArgumentException(
-					"Type \'"
-							+ type
-							+ "\' is not a Class, "
-							+ "ParameterizedType, or GenericArrayType. Can't extract class.");
-		}
 	}
 
 	private static class SimpleTypeReference<T> extends TypeReference<T> {

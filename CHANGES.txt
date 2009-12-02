@@ -1,10 +1,15 @@
-transmorph 3.0.0 Release
+transmorph 3.0.1 Release
 
 Cédric Chabanois, cchabanois at gmail com
 
 CHANGES
+December 2, 2009 -- transmorph v3.0.1
+* added new converters :
+ ** StaticConverter : 
+ Use it to associate a converter to a Class->Class conversion
+ ** ArrayToSingleElement and CollectionToSingleElement
 
-September 27,2009 -- transmorph v3.0.0
+September 27, 2009 -- transmorph v3.0.0
 * transmorph does not need a classloader anymore
 * overcome type erasure using TypeReference (based on Neal Gafter's Super Type Tokens)
 This makes transmorph easier to use

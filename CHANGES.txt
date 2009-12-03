@@ -8,6 +8,7 @@ December 2, 2009 -- transmorph v3.0.1
  ** StaticConverter : 
  Use it to associate a converter to a Class->Class conversion
  ** ArrayToSingleElement and CollectionToSingleElement
+ Use to convert a collection with a single element to this element
 
 September 27, 2009 -- transmorph v3.0.0
 * transmorph does not need a classloader anymore

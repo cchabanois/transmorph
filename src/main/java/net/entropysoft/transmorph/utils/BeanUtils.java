@@ -64,7 +64,7 @@ public class BeanUtils {
 	}
 
 	/**
-	 * get a map of setters (propertyName -> Method)
+	 * get a map of public setters (propertyName -> Method)
 	 * 
 	 * @param clazz
 	 * @return
@@ -88,10 +88,45 @@ public class BeanUtils {
 	}
 
 	/**
+	 * get a map of public getters (propertyName -> Method)
+	 * 
+	 * @param clazz
+	 * @return
+	 */
+	public static Map<String, Method> getGetters(Class<?> clazz) {
+		Map<String, Method> getters = new HashMap<String, Method>();
+		Method[] methods = clazz.getMethods();
+		for (Method method : methods) {
+			String methodName = method.getName();
+			if (method.getParameterTypes().length == 0) {
+				if (methodName.startsWith("get") && methodName.length() > 3) {
+					String propertyName = methodName.substring(3, 4)
+							.toLowerCase();
+					if (methodName.length() > 4) {
+						propertyName += methodName.substring(4);
+					}
+					getters.put(propertyName, method);
+				} else if (methodName.startsWith("is")
+						&& methodName.length() > 2
+						&& Boolean.TYPE.equals(method.getReturnType())) {
+					String propertyName = methodName.substring(2, 3)
+							.toLowerCase();
+					if (methodName.length() > 3) {
+						propertyName += methodName.substring(3);
+					}
+					getters.put(propertyName, method);
+				}
+			}
+		}
+		return getters;
+	}
+
+	/**
 	 * get the getter method corresponding to given property
 	 * 
 	 */
-	public static Method getGetterPropertyMethod(Class<?> type, String propertyName) {
+	public static Method getGetterPropertyMethod(Class<?> type,
+			String propertyName) {
 		String sourceMethodName = "get"
 				+ BeanUtils.capitalizePropertyName(propertyName);
 
@@ -113,7 +148,8 @@ public class BeanUtils {
 	 * get the setter method corresponding to given property
 	 * 
 	 */
-	public static Method getSetterPropertyMethod(Class<?> type, String propertyName) {
+	public static Method getSetterPropertyMethod(Class<?> type,
+			String propertyName) {
 		String sourceMethodName = "set"
 				+ BeanUtils.capitalizePropertyName(propertyName);
 

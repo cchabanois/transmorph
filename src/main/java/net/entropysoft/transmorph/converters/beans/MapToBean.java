@@ -61,8 +61,7 @@ public class MapToBean extends AbstractContainerConverter {
 			return null;
 		}
 		Map<String, Object> sourceMap = (Map<String, Object>) sourceObject;
-		Map<String, Method> setterMethods;
-		setterMethods = getSetterMethods(destinationType.getRawType());
+		Map<String, Method> setterMethods = BeanUtils.getSetters(destinationType.getRawType());
 
 		Object resultBean;
 		try {
@@ -80,7 +79,7 @@ public class MapToBean extends AbstractContainerConverter {
 		for (Map.Entry<String, Object> entry : sourceMap.entrySet()) {
 			String key = entry.getKey();
 			Object value = entry.getValue();
-			Method method = getSetterMethod(setterMethods, key);
+			Method method = setterMethods.get(key);
 			if (method == null) {
 				throw new ConverterException(MessageFormat.format(
 						"Could not find property ''{0}'' in ''{1}''", key,
@@ -117,26 +116,6 @@ public class MapToBean extends AbstractContainerConverter {
 			propertyDestinationType = originalType;
 		}
 		return propertyDestinationType;
-	}
-
-	protected Method getSetterMethod(Map<String, Method> setterMethods,
-			String propertyName) {
-		String methodName = "set"
-				+ BeanUtils.capitalizePropertyName(propertyName);
-		return setterMethods.get(methodName);
-	}
-
-	private Map<String, Method> getSetterMethods(Class<?> clazz) {
-		Map<String, Method> setters = new HashMap<String, Method>();
-		Method[] methods = clazz.getMethods();
-		for (Method method : methods) {
-			if (method.getParameterTypes().length == 1
-					&& method.getName().startsWith("set")
-					&& method.getReturnType() == Void.TYPE) {
-				setters.put(method.getName(), method);
-			}
-		}
-		return setters;
 	}
 
 	protected boolean canHandleDestinationType(TypeReference<?> destinationType) {

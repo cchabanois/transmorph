@@ -15,7 +15,9 @@
  */
 package net.entropysoft.transmorph.converters;
 
+import java.io.File;
 import java.lang.reflect.Constructor;
+import java.net.URL;
 import java.text.MessageFormat;
 
 import net.entropysoft.transmorph.ConversionContext;
@@ -24,7 +26,10 @@ import net.entropysoft.transmorph.type.TypeReference;
 
 /**
  * Converter that converts an Object to another Object that has a constructor
- * that takes the object to be converted as parameter
+ * that takes the object to be converted as parameter.
+ * 
+ * It can be used to convert a {@link String} to an {@link URL} or to a
+ * {@link File} for example although there are already converters for that.
  * 
  * @author Cedric Chabanois (cchabanois at gmail.com)
  * 
@@ -44,7 +49,8 @@ public class ObjectToObjectUsingConstructor extends AbstractConverter {
 		return handledDestinationClasses;
 	}
 
-	public void setHandledDestinationClasses(Class<?>[] handledDestinationClasses) {
+	public void setHandledDestinationClasses(
+			Class<?>[] handledDestinationClasses) {
 		this.handledDestinationClasses = handledDestinationClasses;
 	}
 
@@ -69,7 +75,8 @@ public class ObjectToObjectUsingConstructor extends AbstractConverter {
 		} catch (Exception e) {
 			throw new ConverterException(
 					"Could not create an object with type '"
-							+ destinationType.toHumanString() + "' from object '"
+							+ destinationType.toHumanString()
+							+ "' from object '"
 							+ sourceObject.getClass().getName()
 							+ "' using a constructor");
 		}
@@ -84,7 +91,8 @@ public class ObjectToObjectUsingConstructor extends AbstractConverter {
 	 *            Argument type for constructor
 	 * @return the compatible constructor or null if none found
 	 */
-	public Constructor<?> getCompatibleConstructor(Class<?> type, Class<?> argumentType) {
+	public Constructor<?> getCompatibleConstructor(Class<?> type,
+			Class<?> argumentType) {
 		try {
 			return type.getConstructor(new Class[] { argumentType });
 		} catch (Exception e) {

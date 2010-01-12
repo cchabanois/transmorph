@@ -31,9 +31,10 @@ public interface IBeanPropertyFilter {
 	 * @param propertyName
 	 * @param getterMethod
 	 * @param setterMethod
+	 * @param propertyValue
 	 * @return true to keep the property, false otherwise
 	 */
 	public boolean filter(String propertyName, Method getterMethod,
-			Method setterMethod);
+			Method setterMethod, Object propertyValue);
 
 }

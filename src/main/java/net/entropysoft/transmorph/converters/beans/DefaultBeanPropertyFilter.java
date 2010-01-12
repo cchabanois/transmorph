@@ -27,8 +27,11 @@ public class DefaultBeanPropertyFilter implements IBeanPropertyFilter {
 
 	
 	public boolean filter(String propertyName, Method getterMethod,
-			Method setterMethod) {
+			Method setterMethod, Object propertyValue) {
 		if ("class".equals(propertyName)) {
+			return false;
+		}
+		if (propertyValue == null) {
 			return false;
 		}
 		return setterMethod != null;

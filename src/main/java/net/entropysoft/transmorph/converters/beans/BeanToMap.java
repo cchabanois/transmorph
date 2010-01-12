@@ -120,7 +120,7 @@ public class BeanToMap extends AbstractContainerConverter {
 			}
 
 			if (beanPropertyFilter.filter(propertyName, getterMethod,
-					setterMethod)) {
+					setterMethod, sourcePropertyValue)) {
 				Object value = elementConverter.convert(context,
 						sourcePropertyValue, destinationTypeArguments[1]);
 				destinationMap.put(propertyName, value);

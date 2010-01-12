@@ -26,8 +26,10 @@ import net.entropysoft.transmorph.type.TypeReference;
 
 /**
  * Converter that converts a source object to a destination type using one of
- * its given subtypes. This can be used to convert a source object to
- * {@link Object} that is either {@link String} or {@link Number} for example.
+ * its given subtypes.
+ * 
+ * This can be used to convert a source object to Object using {@link String} or
+ * {@link Number} as possible destination type.
  * 
  * @author Cedric Chabanois (cchabanois at gmail.com)
  * 

@@ -20,8 +20,8 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses(value = { BeanToBeanTest.class, MapToBeanTest.class })
+@SuiteClasses(value = { BeanToBeanTest.class, BeanToMapTest.class,
+		MapToBeanTest.class })
 public class AllTests {
-
 
 }

@@ -37,9 +37,14 @@ import net.entropysoft.transmorph.utils.BeanUtils;
  */
 public class BeanToMap extends AbstractContainerConverter {
 	private Class<? extends Map> defaultMapClass = HashMap.class;
+	private IBeanPropertyFilter beanPropertyFilter = new DefaultBeanPropertyFilter();
 
 	public BeanToMap() {
 		this.useObjectPool = true;
+	}
+
+	public void setBeanPropertyFilter(IBeanPropertyFilter beanPropertyFilter) {
+		this.beanPropertyFilter = beanPropertyFilter;
 	}
 
 	@Override
@@ -96,18 +101,33 @@ public class BeanToMap extends AbstractContainerConverter {
 		}
 
 		TypeReference<?>[] destinationTypeArguments = getDestinationTypeArguments(destinationType);
-		Map<String, Method> getterMethods = BeanUtils
-				.getGetters(destinationType.getRawType());
+		Map<String, Method> getterMethods = BeanUtils.getGetters(sourceObject
+				.getClass());
+		Map<String, Method> setterMethods = BeanUtils.getSetters(sourceObject
+				.getClass());
 
 		for (Map.Entry<String, Method> entry : getterMethods.entrySet()) {
 			String propertyName = entry.getKey();
-			Object value = elementConverter.convert(context, entry.getValue(),
-					destinationTypeArguments[1]);
+			Method getterMethod = entry.getValue();
+			Method setterMethod = setterMethods.get(propertyName);
 
-			destinationMap.put(propertyName, value);
+			Object sourcePropertyValue;
+			try {
+				sourcePropertyValue = getterMethod.invoke(sourceObject);
+			} catch (Exception e) {
+				throw new ConverterException("Could not get property for bean",
+						e);
+			}
+
+			if (beanPropertyFilter.filter(propertyName, getterMethod,
+					setterMethod)) {
+				Object value = elementConverter.convert(context,
+						sourcePropertyValue, destinationTypeArguments[1]);
+				destinationMap.put(propertyName, value);
+			}
 		}
 
-		return null;
+		return destinationMap;
 	}
 
 	private Map<Object, Object> createDestinationMap(

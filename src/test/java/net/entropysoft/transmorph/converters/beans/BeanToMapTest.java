@@ -18,6 +18,7 @@ package net.entropysoft.transmorph.converters.beans;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.text.NumberFormat;
 import java.util.Arrays;
@@ -26,6 +27,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import net.entropysoft.transmorph.ConverterException;
 import net.entropysoft.transmorph.DefaultConverters;
 import net.entropysoft.transmorph.Transmorph;
 import net.entropysoft.transmorph.converters.IdentityConverter;
@@ -62,6 +64,45 @@ public class BeanToMapTest {
 		assertEquals("my string", map.get("myString"));
 		List<String> listOfStrings = (List<String>) map.get("myStrings");
 		assertEquals("[first, second, third]", listOfStrings.toString());
+	}
+
+	@Test
+	public void testExclusion() throws Exception {
+		Transmorph converter = new Transmorph(new BeanToMap(),
+				new IdentityConverter());
+		String str = "my string";
+
+		try {
+			converter.convert("my string",
+					new TypeReference<Map<String, Object>>() {
+					});
+			fail("It should not be possible to convert a string to a map");
+		} catch (ConverterException e) {
+
+		}
+	}
+
+	@Test
+	public void testFailIfNoGetters() throws Exception {
+		ObjectWithNoGetters objectWithNoGetters = new ObjectWithNoGetters();
+		objectWithNoGetters.setStr("a string");
+		BeanToMap beanToMap = new BeanToMap();
+		Transmorph converter = new Transmorph(beanToMap,
+				new IdentityConverter());
+		try {
+			converter.convert(objectWithNoGetters,
+					new TypeReference<Map<String, Object>>() {
+					});
+			fail("It should not be possible to convert a string to a map");
+		} catch (ConverterException e) {
+
+		}
+
+		beanToMap.setFailIfNoGetters(false);
+		Map<String, Object> map = converter.convert(objectWithNoGetters,
+				new TypeReference<Map<String, Object>>() {
+				});
+		assertTrue(map.isEmpty());
 	}
 
 	@Test
@@ -184,6 +225,19 @@ public class BeanToMapTest {
 
 		public void setMySetOfIntegers(Set<Integer> mySetOfIntegers) {
 			this.mySetOfIntegers = mySetOfIntegers;
+		}
+
+	}
+
+	public static class ObjectWithNoGetters {
+		private String str;
+
+		public ObjectWithNoGetters() {
+
+		}
+
+		public void setStr(String str) {
+			this.str = str;
 		}
 
 	}

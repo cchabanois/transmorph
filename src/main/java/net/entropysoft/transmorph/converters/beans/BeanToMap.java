@@ -17,9 +17,15 @@ package net.entropysoft.transmorph.converters.beans;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
 
 import net.entropysoft.transmorph.ConversionContext;
 import net.entropysoft.transmorph.ConverterException;
@@ -36,8 +42,15 @@ import net.entropysoft.transmorph.utils.BeanUtils;
  * 
  */
 public class BeanToMap extends AbstractContainerConverter {
+	@SuppressWarnings("unchecked")
 	private Class<? extends Map> defaultMapClass = HashMap.class;
 	private IBeanPropertyFilter beanPropertyFilter = new DefaultBeanPropertyFilter();
+
+	@SuppressWarnings("unchecked")
+	private Set<Class<?>> excludedClasses = new HashSet<Class<?>>(Arrays
+			.asList(String.class, Map.class, Collection.class, Calendar.class,
+					Date.class));
+	private boolean failIfNoGetters = true;
 
 	public BeanToMap() {
 		this.useObjectPool = true;
@@ -72,10 +85,20 @@ public class BeanToMap extends AbstractContainerConverter {
 		}
 		try {
 			sourceObject.getClass().getConstructor(new Class[0]);
-			return true;
 		} catch (Exception e) {
 			return false;
 		}
+
+		if (sourceObject.getClass().isArray()) {
+			return false;
+		}
+		for (Class<?> excludedClass : excludedClasses) {
+			if (excludedClass.isInstance(sourceObject)) {
+				return false;
+			}
+		}
+
+		return true;
 	}
 
 	@Override
@@ -105,6 +128,10 @@ public class BeanToMap extends AbstractContainerConverter {
 				.getClass());
 		Map<String, Method> setterMethods = BeanUtils.getSetters(sourceObject
 				.getClass());
+		if (failIfNoGetters && getterMethods.size() == 1) {
+			// only getClass()
+			throw new ConverterException("No getters defined for source object");
+		}
 
 		for (Map.Entry<String, Method> entry : getterMethods.entrySet()) {
 			String propertyName = entry.getKey();
@@ -119,8 +146,8 @@ public class BeanToMap extends AbstractContainerConverter {
 						e);
 			}
 
-			if (beanPropertyFilter.filter(sourceObject, propertyName, sourcePropertyValue, getterMethod,
-					setterMethod)) {
+			if (beanPropertyFilter.filter(sourceObject, propertyName,
+					sourcePropertyValue, getterMethod, setterMethod)) {
 				Object value = elementConverter.convert(context,
 						sourcePropertyValue, destinationTypeArguments[1]);
 				destinationMap.put(propertyName, value);
@@ -130,6 +157,7 @@ public class BeanToMap extends AbstractContainerConverter {
 		return destinationMap;
 	}
 
+	@SuppressWarnings("unchecked")
 	private Map<Object, Object> createDestinationMap(
 			TypeReference<?> destinationType) throws InstantiationException,
 			IllegalAccessException, ClassNotFoundException {
@@ -140,6 +168,7 @@ public class BeanToMap extends AbstractContainerConverter {
 		return clazz.newInstance();
 	}
 
+	@SuppressWarnings("unchecked")
 	protected Class<? extends Map> getConcreteMapDestinationClass(
 			TypeReference<?> destinationType) throws ClassNotFoundException {
 		if (destinationType.hasRawType(Map.class)) {
@@ -174,6 +203,39 @@ public class BeanToMap extends AbstractContainerConverter {
 					TypeReference.get(Object.class) };
 		}
 		return destinationTypeArguments;
+	}
+
+	/**
+	 * Get the set of classes that will not be considered by this converter.
+	 * 
+	 * @return
+	 */
+	public Set<Class<?>> getExcludedClasses() {
+		return excludedClasses;
+	}
+
+	/**
+	 * Set the set of classes that will not be considered by this converter. All
+	 * classes that do not have a public default constructor will not be
+	 * considered and should not be be added there.
+	 * 
+	 * @param excludedClasses
+	 */
+	public void setExcludedClasses(Set<Class<?>> excludedClasses) {
+		this.excludedClasses = excludedClasses;
+	}
+
+	/**
+	 * Set whether this converter should fail if there are no getters
+	 * 
+	 * @param failIfNoGetters
+	 */
+	public void setFailIfNoGetters(boolean failIfNoGetters) {
+		this.failIfNoGetters = failIfNoGetters;
+	}
+
+	public boolean isFailIfNoGetters() {
+		return failIfNoGetters;
 	}
 
 }

@@ -28,13 +28,14 @@ public interface IBeanPropertyFilter {
 	/**
 	 * Whether to keep the property or not
 	 * 
+	 * @param bean
 	 * @param propertyName
+	 * @param propertyValue
 	 * @param getterMethod
 	 * @param setterMethod
-	 * @param propertyValue
 	 * @return true to keep the property, false otherwise
 	 */
-	public boolean filter(String propertyName, Method getterMethod,
-			Method setterMethod, Object propertyValue);
+	public boolean filter(Object bean, String propertyName,
+			Object propertyValue, Method getterMethod, Method setterMethod);
 
 }

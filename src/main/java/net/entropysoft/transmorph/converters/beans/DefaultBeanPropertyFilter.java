@@ -26,8 +26,8 @@ import java.lang.reflect.Method;
 public class DefaultBeanPropertyFilter implements IBeanPropertyFilter {
 
 	
-	public boolean filter(String propertyName, Method getterMethod,
-			Method setterMethod, Object propertyValue) {
+	public boolean filter(Object bean, String propertyName,
+			Object propertyValue, Method getterMethod, Method setterMethod) {
 		if ("class".equals(propertyName)) {
 			return false;
 		}

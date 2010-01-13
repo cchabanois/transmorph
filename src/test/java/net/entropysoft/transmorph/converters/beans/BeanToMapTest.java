@@ -121,7 +121,7 @@ public class BeanToMapTest {
 		assertTrue(myBean1AsMap.get("myBean2") instanceof Map);
 		Map<String, Object> myBean2AsMap = (Map<String, Object>) myBean1AsMap
 				.get("myBean2");
-		assertEquals("112 312", myBean2AsMap.get("myLong"));
+		assertEquals("112Â 312", myBean2AsMap.get("myLong"));
 		assertTrue(myBean2AsMap.get("mySetOfIntegers") instanceof List);
 		List<String> mySetOfIntegersAsStrings = (List<String>) myBean2AsMap
 				.get("mySetOfIntegers");

@@ -8,6 +8,7 @@ January 14, 2010 -- transmorph v3.0.2
  ** BeanToMap : used to convert a Bean to a map. Map keys will be the property names
  ** SubTypeConverter : converts a source object to a destination type using one of its given subtypes. 
  This can be used to convert a source object to Object using String or Number as possible destination type.
+* don't call hashCode() for URLs as this is a slow operation
 
 December 2, 2009 -- transmorph v3.0.1
 * added new converters :

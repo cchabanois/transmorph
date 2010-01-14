@@ -15,6 +15,8 @@
  */
 package net.entropysoft.transmorph.converters;
 
+import java.net.URL;
+
 import net.entropysoft.transmorph.ConversionContext;
 import net.entropysoft.transmorph.ConverterException;
 import net.entropysoft.transmorph.type.TypeReference;
@@ -62,12 +64,20 @@ public class ObjectToString extends AbstractConverter {
 
 		String result = sourceObject.toString();
 		if (failIfDefaultObjectToString
-				&& result.equals(getDefaultObjectToString(sourceObject))) {
+				&& isDefaultObjectToString(sourceObject, result)) {
 			throw new ConverterException(
 					"Cannot convert to string : toString() method has not been overridden");
 		}
 
 		return result;
+	}
+
+	protected boolean isDefaultObjectToString(Object sourceObject, String str) {
+		if (sourceObject instanceof URL) {
+			// URL.hashCode() was very slow as it triggers DNS lookups for the URL hosts.
+			return false;
+		}
+		return str.equals(getDefaultObjectToString(sourceObject));
 	}
 
 	protected boolean canHandleDestinationType(TypeReference<?> destinationType) {

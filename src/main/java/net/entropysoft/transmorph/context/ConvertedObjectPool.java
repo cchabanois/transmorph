@@ -89,6 +89,9 @@ public class ConvertedObjectPool {
 			this.destinationType = destinationType;
 		}
 
+		/**
+		 * Note we use System.identityHashCode for sourceObject
+		 */
 		@Override
 		public int hashCode() {
 			final int prime = 31;
@@ -100,10 +103,13 @@ public class ConvertedObjectPool {
 					+ ((destinationType == null) ? 0 : destinationType
 							.hashCode());
 			result = prime * result
-					+ ((sourceObject == null) ? 0 : sourceObject.hashCode());
+					+ ((sourceObject == null) ? 0 : System.identityHashCode(sourceObject));
 			return result;
 		}
 
+		/**
+		 * Note we compare sourceObject by identity 
+		 */
 		@Override
 		public boolean equals(Object obj) {
 			if (this == obj)

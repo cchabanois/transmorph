@@ -1,9 +1,9 @@
-transmorph 3.0.1 Release
+transmorph 3.0.2 Release
 
 Cédric Chabanois, cchabanois at gmail com
 
 CHANGES
-January 12, 2010 -- transmorph v3.0.2
+January 14, 2010 -- transmorph v3.0.2
 * added new converters :
  ** BeanToMap : used to convert a Bean to a map. Map keys will be the property names
  ** SubTypeConverter : converts a source object to a destination type using one of its given subtypes. 

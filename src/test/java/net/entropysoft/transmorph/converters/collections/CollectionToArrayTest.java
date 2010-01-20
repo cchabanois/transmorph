@@ -83,4 +83,28 @@ public class CollectionToArrayTest {
 		String[] arrayOfStrings = (String[]) transmorph.convert(list, String[].class);
 	}
 
+	@Test
+	public void test4DArrayListTo4DArrayString() throws Exception {
+		// see http://stackoverflow.com/questions/1922530/how-to-convert-nested-list-into-multidimensional-array
+		ArrayList<ArrayList<ArrayList<ArrayList<String>>>> arrayList = new ArrayList<ArrayList<ArrayList<ArrayList<String>>>>();
+		
+		for (int i = 0; i < 10; i++) {
+			ArrayList<ArrayList<ArrayList<String>>> arrayListI = new ArrayList<ArrayList<ArrayList<String>>>();
+			arrayList.add(arrayListI);
+			for (int j = 0; j < 5; j++) {
+				ArrayList<ArrayList<String>> arrayListJ = new ArrayList<ArrayList<String>>();
+				arrayListI.add(arrayListJ);
+				for (int k = 0; k < 5; k++) {
+					ArrayList<String> arrayListK = new ArrayList<String>();
+					arrayListJ.add(arrayListK);
+					for (int l = 0; l < 20; l++) {
+						arrayListK.add("i="+i+",j="+j+",k="+k+",l="+l);
+					}	
+				}
+			}
+		}
+		Transmorph transmorph = new Transmorph(new DefaultConverters());
+		String[][][][] array = transmorph.convert(arrayList, String[][][][].class);
+	}
+	
 }

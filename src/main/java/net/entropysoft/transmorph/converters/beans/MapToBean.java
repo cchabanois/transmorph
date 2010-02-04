@@ -17,7 +17,6 @@ package net.entropysoft.transmorph.converters.beans;
 
 import java.lang.reflect.Method;
 import java.text.MessageFormat;
-import java.util.HashMap;
 import java.util.Map;
 
 import net.entropysoft.transmorph.ConversionContext;

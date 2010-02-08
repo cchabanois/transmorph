@@ -35,9 +35,14 @@ import net.entropysoft.transmorph.utils.BeanUtils;
  */
 public class MapToBean extends AbstractContainerConverter {
 	private IBeanPropertyTypeProvider beanDestinationPropertyTypeProvider;
+	private IMapToBeanMapping mapToBeanMapping = new DefaultMapToBeanMapping();
 
 	public MapToBean() {
 		this.useObjectPool = true;
+	}
+
+	public void setMapToBeanMapping(IMapToBeanMapping mapToBeanMapping) {
+		this.mapToBeanMapping = mapToBeanMapping;
 	}
 
 	public IBeanPropertyTypeProvider getBeanDestinationPropertyTypeProvider() {
@@ -60,16 +65,17 @@ public class MapToBean extends AbstractContainerConverter {
 			return null;
 		}
 		Map<String, Object> sourceMap = (Map<String, Object>) sourceObject;
-		Map<String, Method> setterMethods = BeanUtils.getSetters(destinationType.getRawType());
-
-		Object resultBean;
-		try {
-			resultBean = destinationType.getRawType().newInstance();
-		} catch (Exception e) {
-			throw new ConverterException(MessageFormat.format(
-					"Could not create instance of ''{0}''", destinationType
-							.toHumanString()), e);
+		TypeReference<?> concreteDestinationType = mapToBeanMapping
+				.getConcreteDestinationType(sourceMap, destinationType);
+		if (concreteDestinationType == null) {
+			throw new ConverterException(
+					"Could not find concrete destination type for '"
+							+ destinationType.toHumanString() + "'");
 		}
+		Map<String, Method> setterMethods = BeanUtils
+				.getSetters(concreteDestinationType.getRawType());
+
+		Object resultBean = newBeanInstance(concreteDestinationType);
 		if (useObjectPool) {
 			context.getConvertedObjectPool().add(this, sourceObject,
 					destinationType, resultBean);
@@ -78,23 +84,29 @@ public class MapToBean extends AbstractContainerConverter {
 		for (Map.Entry<String, Object> entry : sourceMap.entrySet()) {
 			String key = entry.getKey();
 			Object value = entry.getValue();
-			Method method = setterMethods.get(key);
+
+			String propertyName = mapToBeanMapping.getPropertyName(sourceMap,
+					key, setterMethods);
+			if (propertyName == null) {
+				continue;
+			}
+			Method method = setterMethods.get(propertyName);
 			if (method == null) {
 				throw new ConverterException(MessageFormat.format(
-						"Could not find property ''{0}'' in ''{1}''", key,
-						destinationType.toHumanString()));
+						"Could not find property ''{0}'' in ''{1}''",
+						propertyName, concreteDestinationType.toHumanString()));
 			}
 			java.lang.reflect.Type parameterType = method
 					.getGenericParameterTypes()[0];
 			TypeReference<?> originalType = TypeReference.get(parameterType);
 			TypeReference<?> propertyDestinationType = getBeanPropertyType(
-					resultBean.getClass(), key, originalType);
+					resultBean.getClass(), propertyName, originalType);
 
-			Object valueConverterd = elementConverter.convert(context, value,
+			Object valueConverted = elementConverter.convert(context, value,
 					propertyDestinationType);
 
 			try {
-				method.invoke(resultBean, valueConverterd);
+				method.invoke(resultBean, valueConverted);
 			} catch (Exception e) {
 				throw new ConverterException("Could not set property for bean",
 						e);
@@ -102,6 +114,17 @@ public class MapToBean extends AbstractContainerConverter {
 		}
 
 		return resultBean;
+	}
+
+	protected Object newBeanInstance(TypeReference<?> destinationType)
+			throws ConverterException {
+		try {
+			return destinationType.getRawType().newInstance();
+		} catch (Exception e) {
+			throw new ConverterException(MessageFormat.format(
+					"Could not create instance of ''{0}''", destinationType
+							.toHumanString()), e);
+		}
 	}
 
 	protected TypeReference<?> getBeanPropertyType(Class<?> clazz,
@@ -118,22 +141,17 @@ public class MapToBean extends AbstractContainerConverter {
 	}
 
 	protected boolean canHandleDestinationType(TypeReference<?> destinationType) {
-		try {
-			destinationType.getRawType().getConstructor(new Class[0]);
-			return true;
-		} catch (Exception e) {
-			return false;
-		}
+		return true;
 	}
 
 	protected boolean canHandleSourceObject(Object sourceObject) {
 		if (sourceObject == null) {
 			return true;
 		}
-		if (!(sourceObject instanceof Map<?,?>)) {
+		if (!(sourceObject instanceof Map<?, ?>)) {
 			return false;
 		}
-		for (Object object : ((Map<?,?>) sourceObject).keySet()) {
+		for (Object object : ((Map<?, ?>) sourceObject).keySet()) {
 			if (!(object instanceof String)) {
 				return false;
 			}

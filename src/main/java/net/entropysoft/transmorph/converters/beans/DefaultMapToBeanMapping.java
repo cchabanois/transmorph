@@ -16,26 +16,32 @@
 package net.entropysoft.transmorph.converters.beans;
 
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
+import java.util.Map;
+
+import net.entropysoft.transmorph.type.TypeReference;
 
 /**
- * Filter for bean properties
+ * Default implementation for {@link IMapToBeanMapping}
  * 
- * @author Cedric Chabanois (cchabanois at gmail.com)
+ * @author cedric
  * 
  */
-public interface IBeanPropertyFilter {
+public class DefaultMapToBeanMapping implements IMapToBeanMapping {
 
-	/**
-	 * Whether to keep the property or not
-	 * 
-	 * @param bean
-	 * @param propertyName
-	 * @param propertyValue
-	 * @param getterMethod
-	 * @param setterMethod
-	 * @return true to keep the property, false otherwise
-	 */
-	public boolean filter(Object bean, String propertyName,
-			Object propertyValue, Method getterMethod, Method setterMethod);
+	public String getPropertyName(Map<String, Object> map, String key,
+			Map<String, Method> setterMethods) {
+		return key;
+	}
+
+	public TypeReference<?> getConcreteDestinationType(Map<String, Object> map,
+			TypeReference<?> destinationType) {
+		Class<?> rawType = destinationType.getRawType();
+		if (rawType.isInterface()
+				|| Modifier.isAbstract(rawType.getModifiers())) {
+			return null;
+		}
+		return destinationType;
+	}
 
 }

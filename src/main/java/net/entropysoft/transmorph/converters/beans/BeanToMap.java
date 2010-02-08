@@ -36,7 +36,7 @@ import net.entropysoft.transmorph.utils.BeanUtils;
 /**
  * Converter used to convert a Bean to a map.
  * 
- * Map keys will be the property names
+ * By default, map keys will be the property names
  * 
  * @author Cedric Chabanois (cchabanois at gmail.com)
  * 
@@ -44,7 +44,7 @@ import net.entropysoft.transmorph.utils.BeanUtils;
 public class BeanToMap extends AbstractContainerConverter {
 	@SuppressWarnings("unchecked")
 	private Class<? extends Map> defaultMapClass = HashMap.class;
-	private IBeanPropertyFilter beanPropertyFilter = new DefaultBeanPropertyFilter();
+	private IBeanToMapMapping beanPropertyToMapKey = new DefaultBeanToMapMapping();
 
 	@SuppressWarnings("unchecked")
 	private Set<Class<?>> excludedClasses = new HashSet<Class<?>>(Arrays
@@ -56,8 +56,9 @@ public class BeanToMap extends AbstractContainerConverter {
 		this.useObjectPool = true;
 	}
 
-	public void setBeanPropertyFilter(IBeanPropertyFilter beanPropertyFilter) {
-		this.beanPropertyFilter = beanPropertyFilter;
+	public void setBeanPropertyToMapKey(
+			IBeanToMapMapping beanPropertyToMapKey) {
+		this.beanPropertyToMapKey = beanPropertyToMapKey;
 	}
 
 	@Override
@@ -146,11 +147,11 @@ public class BeanToMap extends AbstractContainerConverter {
 						e);
 			}
 
-			if (beanPropertyFilter.filter(sourceObject, propertyName,
-					sourcePropertyValue, getterMethod, setterMethod)) {
+			String mapKey = beanPropertyToMapKey.getMapKey(sourceObject, propertyName, sourcePropertyValue, getterMethod, setterMethod);
+			if (mapKey != null) {
 				Object value = elementConverter.convert(context,
 						sourcePropertyValue, destinationTypeArguments[1]);
-				destinationMap.put(propertyName, value);
+				destinationMap.put(mapKey, value);
 			}
 		}
 

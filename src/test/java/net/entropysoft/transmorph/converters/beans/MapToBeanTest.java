@@ -18,6 +18,7 @@ package net.entropysoft.transmorph.converters.beans;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -74,5 +75,76 @@ public class MapToBeanTest {
 		assertEquals("3", listOfStrings.get(2));
 	}
 	
+	@Test
+	public void testMapToInterface() throws Exception {
+		DefaultConverters defaultConverters = new DefaultConverters();
+		defaultConverters.getMapToBean().setMapToBeanMapping(new MapToBeanMapping());
+		
+		Map<String, Object> firstMap = new HashMap<String, Object>();
+		firstMap.put("myString", "This is my string");
+		firstMap.put("interfaceType", "first");
+		
+		Transmorph converter = new Transmorph(defaultConverters);
+		IMyInterface myInterface = converter.convert(firstMap, IMyInterface.class);
+		assertEquals("This is my string", myInterface.getMyString());
+		
+		Map<String, Object> secondMap = new HashMap<String, Object>();
+		secondMap.put("myInt", 22);
+		secondMap.put("interfaceType", "second");
+		myInterface = converter.convert(secondMap, IMyInterface.class);
+		assertEquals("22", myInterface.getMyString());
+	}
+	
+	private static class MapToBeanMapping implements IMapToBeanMapping {
+
+		public TypeReference<?> getConcreteDestinationType(
+				Map<String, Object> map, TypeReference<?> destinationType) {
+			String interfaceType = (String)map.get("interfaceType");
+			if ("first".equals(interfaceType)) {
+				return TypeReference.get(MyFirstImplementation.class) ;
+			}
+			if ("second".equals(interfaceType)) {
+				return TypeReference.get(MySecondImplementation.class) ;
+			}
+			return null;
+		}
+
+		public String getPropertyName(Map<String, Object> map, String key,
+				Map<String, Method> setterMethods) {
+			if ("interfaceType".equals(key)) {
+				return null;
+			}
+			return key;
+		}
+		
+	}
+	
+	public static interface IMyInterface {
+		public String getMyString();
+	}
+	
+	public static class MyFirstImplementation implements IMyInterface {
+		private String myString;
+		
+		public String getMyString() {
+			return myString;
+		}
+		
+		public void setMyString(String myString) {
+			this.myString = myString;
+		}
+	}
+	
+	public static class MySecondImplementation implements IMyInterface {
+		private int myInt;
+		
+		public String getMyString() {
+			return Integer.toString(myInt);
+		}
+
+		public void setMyInt(int myInt) {
+			this.myInt = myInt;
+		}
+	}	
 	
 }

@@ -18,23 +18,26 @@ package net.entropysoft.transmorph.converters.beans;
 import java.lang.reflect.Method;
 
 /**
- * Default filter for bean properties. It only considers properties that have both a setter and a getter
+ * Default mapper for bean properties. It only considers properties that have
+ * both a setter and a getter
  * 
  * @author Cedric Chabanois (cchabanois at gmail.com)
  * 
  */
-public class DefaultBeanPropertyFilter implements IBeanPropertyFilter {
+public class DefaultBeanToMapMapping implements IBeanToMapMapping {
 
-	
-	public boolean filter(Object bean, String propertyName,
+	public String getMapKey(Object bean, String propertyName,
 			Object propertyValue, Method getterMethod, Method setterMethod) {
 		if ("class".equals(propertyName)) {
-			return false;
+			return null;
 		}
 		if (propertyValue == null) {
-			return false;
+			return null;
 		}
-		return setterMethod != null;
-	}
+		if (setterMethod == null) {
+			return null;
+		}
+		return propertyName;
 
+	}
 }

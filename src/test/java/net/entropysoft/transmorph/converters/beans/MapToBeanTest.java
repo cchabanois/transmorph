@@ -109,7 +109,7 @@ public class MapToBeanTest {
 			return null;
 		}
 
-		public String getPropertyName(Map<String, Object> map, String key,
+		public String getPropertyName(Map<String, Object> map, String key, Object bean,
 				Map<String, Method> setterMethods) {
 			if ("interfaceType".equals(key)) {
 				return null;

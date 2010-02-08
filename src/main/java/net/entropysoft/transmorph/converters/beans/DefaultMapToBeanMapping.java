@@ -29,13 +29,13 @@ import net.entropysoft.transmorph.type.TypeReference;
  */
 public class DefaultMapToBeanMapping implements IMapToBeanMapping {
 
-	public String getPropertyName(Map<String, Object> map, String key,
+	public String getPropertyName(Map<String, Object> map, String key, Object bean,
 			Map<String, Method> setterMethods) {
 		return key;
 	}
 
 	public TypeReference<?> getConcreteDestinationType(Map<String, Object> map,
-			TypeReference<?> destinationType) {
+			 TypeReference<?> destinationType) {
 		Class<?> rawType = destinationType.getRawType();
 		if (rawType.isInterface()
 				|| Modifier.isAbstract(rawType.getModifiers())) {

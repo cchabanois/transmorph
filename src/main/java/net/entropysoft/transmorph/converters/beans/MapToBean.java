@@ -86,7 +86,7 @@ public class MapToBean extends AbstractContainerConverter {
 			Object value = entry.getValue();
 
 			String propertyName = mapToBeanMapping.getPropertyName(sourceMap,
-					key, setterMethods);
+					key, resultBean, setterMethods);
 			if (propertyName == null) {
 				continue;
 			}

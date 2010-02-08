@@ -34,7 +34,7 @@ public interface IMapToBeanMapping {
 	 * @return the property name or null to ignore this map key
 	 */
 	public String getPropertyName(Map<String, Object> map, String key,
-			Map<String, Method> setterMethods);
+			Object bean, Map<String, Method> setterMethods);
 
 	/**
 	 * get the concrete destination type.

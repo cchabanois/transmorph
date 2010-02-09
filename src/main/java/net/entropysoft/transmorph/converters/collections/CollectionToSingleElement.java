@@ -47,7 +47,12 @@ public class CollectionToSingleElement extends AbstractContainerConverter {
 	public Object doConvert(ConversionContext context, Object sourceObject,
 			TypeReference<?> destinationType) throws ConverterException {
 		if (sourceObject == null) {
-			return null;
+			if (destinationType.isPrimitive()) {
+				throw new ConverterException(
+						"Could not convert null to primitive type");
+			} else {
+				return null;
+			}
 		}
 		Collection<?> collection = (Collection<?>)sourceObject;
 		Object firstElement = collection.toArray()[0];

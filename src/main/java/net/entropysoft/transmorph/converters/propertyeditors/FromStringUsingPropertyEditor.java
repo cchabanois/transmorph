@@ -59,7 +59,12 @@ public class FromStringUsingPropertyEditor extends AbstractConverter {
 	public Object doConvert(ConversionContext context, Object sourceObject,
 			TypeReference<?> destinationType) throws ConverterException {
 		if (sourceObject == null) {
-			return null;
+			if (destinationType.isPrimitive()) {
+				throw new ConverterException(
+						"Could not convert null to primitive type");
+			} else {
+				return null;
+			}
 		}
 		PropertyEditor propertyEditor;
 		propertyEditor = propertyEditorProvider

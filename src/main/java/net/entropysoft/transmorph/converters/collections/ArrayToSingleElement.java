@@ -28,8 +28,7 @@ import net.entropysoft.transmorph.type.TypeReference;
  * @author Cedric Chabanois (cchabanois at gmail.com)
  * 
  */
-public class ArrayToSingleElement extends
-		AbstractContainerConverter {
+public class ArrayToSingleElement extends AbstractContainerConverter {
 
 	@Override
 	protected boolean canHandleDestinationType(TypeReference<?> destinationType) {
@@ -49,7 +48,12 @@ public class ArrayToSingleElement extends
 	public Object doConvert(ConversionContext context, Object sourceObject,
 			TypeReference<?> destinationType) throws ConverterException {
 		if (sourceObject == null) {
-			return null;
+			if (destinationType.isPrimitive()) {
+				throw new ConverterException(
+						"Could not convert null to primitive type");
+			} else {
+				return null;
+			}
 		}
 		Object firstElement = Array.get(sourceObject, 0);
 		Object elementConverted = elementConverter.convert(context,

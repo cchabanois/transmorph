@@ -24,6 +24,7 @@ import net.entropysoft.transmorph.ConverterException;
 import net.entropysoft.transmorph.converters.AbstractContainerConverter;
 import net.entropysoft.transmorph.type.TypeReference;
 import net.entropysoft.transmorph.utils.BeanUtils;
+import net.entropysoft.transmorph.utils.ImmutableClasses;
 
 /**
  * Converter used to convert a Map to a bean.
@@ -141,7 +142,11 @@ public class MapToBean extends AbstractContainerConverter {
 	}
 
 	protected boolean canHandleDestinationType(TypeReference<?> destinationType) {
-		return true;
+		// don't try in these cases
+		return !destinationType.isPrimitive()
+				&& !destinationType.isArray()
+				&& !ImmutableClasses.isKnownImmutableClass(destinationType
+						.getRawType());
 	}
 
 	protected boolean canHandleSourceObject(Object sourceObject) {

@@ -18,7 +18,6 @@ package net.entropysoft.transmorph.converters.beans;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.Type;
-import java.text.MessageFormat;
 import java.util.Map;
 
 import net.entropysoft.transmorph.ConverterException;
@@ -80,8 +79,7 @@ public class MapWithClassToBeanMapping implements IMapToBeanMapping {
 				Class<?> type = classLoader.loadClass(className);
 				return TypeReference.get(type);
 			} catch (ClassNotFoundException e) {
-				throw new ConverterException(MessageFormat.format(
-						"Could not find class for ''{0}''", className), e);
+				return null;
 			}
 
 		}

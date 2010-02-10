@@ -18,6 +18,7 @@ package net.entropysoft.transmorph.converters.beans;
 import java.lang.reflect.Method;
 import java.util.Map;
 
+import net.entropysoft.transmorph.ConverterException;
 import net.entropysoft.transmorph.type.TypeReference;
 
 /**
@@ -34,7 +35,8 @@ public interface IMapToBeanMapping {
 	 * @return the property name or null to ignore this map key
 	 */
 	public String getPropertyName(Map<String, Object> map, String key,
-			Object bean, Map<String, Method> setterMethods);
+			Object bean, Map<String, Method> setterMethods)
+			throws ConverterException;
 
 	/**
 	 * get the concrete destination type.
@@ -47,5 +49,5 @@ public interface IMapToBeanMapping {
 	 * @return the concrete destination type
 	 */
 	public TypeReference<?> getConcreteDestinationType(Map<String, Object> map,
-			TypeReference<?> destinationType);
+			TypeReference<?> destinationType) throws ConverterException;
 }

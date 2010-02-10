@@ -26,18 +26,42 @@ import java.lang.reflect.Method;
  */
 public class DefaultBeanToMapMapping implements IBeanToMapMapping {
 
+	private boolean ignorePropertiesWithNoSetter = true;
+	private boolean keepClass = false;
+	
 	public String getMapKey(Object bean, String propertyName,
 			Object propertyValue, Method getterMethod, Method setterMethod) {
 		if ("class".equals(propertyName)) {
-			return null;
+			if (keepClass) {
+				return propertyName;
+			} else {
+				return null;
+			}
 		}
 		if (propertyValue == null) {
 			return null;
 		}
-		if (setterMethod == null) {
+		if (ignorePropertiesWithNoSetter && setterMethod == null) {
 			return null;
 		}
 		return propertyName;
-
 	}
+	
+	public void setIgnorePropertiesWithNoSetter(
+			boolean ignorePropertiesWithNoSetter) {
+		this.ignorePropertiesWithNoSetter = ignorePropertiesWithNoSetter;
+	}
+	
+	public boolean isIgnorePropertiesWithNoSetter() {
+		return ignorePropertiesWithNoSetter;
+	}
+	
+	public void setKeepClass(boolean keepClass) {
+		this.keepClass = keepClass;
+	}
+	
+	public boolean isKeepClass() {
+		return keepClass;
+	}
+	
 }

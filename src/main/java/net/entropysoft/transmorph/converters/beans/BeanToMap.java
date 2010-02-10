@@ -44,7 +44,7 @@ import net.entropysoft.transmorph.utils.BeanUtils;
 public class BeanToMap extends AbstractContainerConverter {
 	@SuppressWarnings("unchecked")
 	private Class<? extends Map> defaultMapClass = HashMap.class;
-	private IBeanToMapMapping beanPropertyToMapKey = new DefaultBeanToMapMapping();
+	private IBeanToMapMapping beanToMapMapping = new DefaultBeanToMapMapping();
 
 	@SuppressWarnings("unchecked")
 	private Set<Class<?>> excludedClasses = new HashSet<Class<?>>(Arrays
@@ -56,9 +56,9 @@ public class BeanToMap extends AbstractContainerConverter {
 		this.useObjectPool = true;
 	}
 
-	public void setBeanPropertyToMapKey(
-			IBeanToMapMapping beanPropertyToMapKey) {
-		this.beanPropertyToMapKey = beanPropertyToMapKey;
+	public void setBeanToMapMapping(
+			IBeanToMapMapping beanToMapMapping) {
+		this.beanToMapMapping = beanToMapMapping;
 	}
 
 	@Override
@@ -147,7 +147,7 @@ public class BeanToMap extends AbstractContainerConverter {
 						e);
 			}
 
-			String mapKey = beanPropertyToMapKey.getMapKey(sourceObject, propertyName, sourcePropertyValue, getterMethod, setterMethod);
+			String mapKey = beanToMapMapping.getMapKey(sourceObject, propertyName, sourcePropertyValue, getterMethod, setterMethod);
 			if (mapKey != null) {
 				Object value = elementConverter.convert(context,
 						sourcePropertyValue, destinationTypeArguments[1]);

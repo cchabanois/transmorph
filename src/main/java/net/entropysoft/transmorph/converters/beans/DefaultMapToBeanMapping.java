@@ -24,13 +24,16 @@ import net.entropysoft.transmorph.type.TypeReference;
 /**
  * Default implementation for {@link IMapToBeanMapping}
  * 
- * @author cedric
+ * @author Cedric Chabanois (cchabanois at gmail.com)
  * 
  */
 public class DefaultMapToBeanMapping implements IMapToBeanMapping {
 
 	public String getPropertyName(Map<String, Object> map, String key, Object bean,
 			Map<String, Method> setterMethods) {
+		if ("class".equals(key)) {
+			return null;
+		}
 		return key;
 	}
 

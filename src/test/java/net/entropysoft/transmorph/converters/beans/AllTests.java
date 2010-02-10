@@ -21,7 +21,7 @@ import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
 @SuiteClasses(value = { BeanToBeanTest.class, BeanToMapTest.class,
-		MapToBeanTest.class })
+		MapToBeanTest.class, MapWithClassToBeanMappingTest.class })
 public class AllTests {
 
 }

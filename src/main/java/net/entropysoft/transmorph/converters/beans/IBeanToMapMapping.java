@@ -17,6 +17,14 @@ package net.entropysoft.transmorph.converters.beans;
 
 import java.lang.reflect.Method;
 
+import net.entropysoft.transmorph.ConverterException;
+
+/**
+ * Defines rules for Bean to Map mapping
+ * 
+ * @author Cedric Chabanois (cchabanois at gmail.com)
+ * 
+ */
 public interface IBeanToMapMapping {
 
 	/**
@@ -30,6 +38,7 @@ public interface IBeanToMapMapping {
 	 * @return the map key or null to ignore this property
 	 */
 	public String getMapKey(Object bean, String propertyName,
-			Object propertyValue, Method getterMethod, Method setterMethod);
+			Object propertyValue, Method getterMethod, Method setterMethod)
+			throws ConverterException;
 
 }

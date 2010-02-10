@@ -154,6 +154,12 @@ public class BeanToMap extends AbstractContainerConverter {
 				destinationMap.put(mapKey, value);
 			}
 		}
+		Map<String, Object> otherValues = beanToMapMapping.getOtherValues(sourceObject);
+		for (Map.Entry<String, Object> entry : otherValues.entrySet()) { 
+			Object value = elementConverter.convert(context,
+					entry.getValue(), destinationTypeArguments[1]);
+			destinationMap.put(entry.getKey(), value);
+		}
 
 		return destinationMap;
 	}

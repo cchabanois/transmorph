@@ -16,6 +16,7 @@
 package net.entropysoft.transmorph.converters.beans;
 
 import java.lang.reflect.Method;
+import java.util.Map;
 
 import net.entropysoft.transmorph.ConverterException;
 
@@ -40,5 +41,14 @@ public interface IBeanToMapMapping {
 	public String getMapKey(Object bean, String propertyName,
 			Object propertyValue, Method getterMethod, Method setterMethod)
 			throws ConverterException;
+
+	/**
+	 * get values that are not from the bean properties. It can be used to keep
+	 * the bean type.
+	 * 
+	 * @param bean
+	 * @return
+	 */
+	public Map<String, Object> getOtherValues(Object bean);
 
 }

@@ -16,6 +16,9 @@
 package net.entropysoft.transmorph.converters.beans;
 
 import java.lang.reflect.Method;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Default mapper for bean properties. It only considers properties that have
@@ -29,14 +32,21 @@ public class DefaultBeanToMapMapping implements IBeanToMapMapping {
 	private boolean ignorePropertiesWithNoSetter = true;
 	private boolean keepClass = false;
 	
+	
+	public Map<String, Object> getOtherValues(Object bean) {
+		if (keepClass) {
+			Map<String, Object> otherValues = new HashMap<String, Object>(1);
+			otherValues.put("class", bean.getClass());
+			return otherValues;
+		} else {
+			return Collections.emptyMap();
+		}
+	}
+	
 	public String getMapKey(Object bean, String propertyName,
 			Object propertyValue, Method getterMethod, Method setterMethod) {
 		if ("class".equals(propertyName)) {
-			if (keepClass) {
-				return propertyName;
-			} else {
 				return null;
-			}
 		}
 		if (propertyValue == null) {
 			return null;

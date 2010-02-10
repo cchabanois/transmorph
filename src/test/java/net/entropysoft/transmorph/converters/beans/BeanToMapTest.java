@@ -24,11 +24,11 @@ import java.text.NumberFormat;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
 import net.entropysoft.transmorph.ConverterException;
-import net.entropysoft.transmorph.DefaultConverters;
 import net.entropysoft.transmorph.Transmorph;
 import net.entropysoft.transmorph.converters.IdentityConverter;
 import net.entropysoft.transmorph.converters.MultiConverter;
@@ -130,7 +130,7 @@ public class BeanToMapTest {
 
 		MultiConverter toStringConverter = new MultiConverter(
 				new ObjectToFormattedString(Number.class, NumberFormat
-						.getInstance()), new IdentityConverter());
+						.getInstance(Locale.US)), new IdentityConverter());
 		toStringConverter.setElementConverter(subTypeConverter);
 		subTypeConverter.setConverter(TypeReference.get(String.class),
 				toStringConverter);
@@ -162,7 +162,7 @@ public class BeanToMapTest {
 		assertTrue(myBean1AsMap.get("myBean2") instanceof Map);
 		Map<String, Object> myBean2AsMap = (Map<String, Object>) myBean1AsMap
 				.get("myBean2");
-		assertEquals("112 312", myBean2AsMap.get("myLong"));
+		assertEquals("112,312", myBean2AsMap.get("myLong"));
 		assertTrue(myBean2AsMap.get("mySetOfIntegers") instanceof List);
 		List<String> mySetOfIntegersAsStrings = (List<String>) myBean2AsMap
 				.get("mySetOfIntegers");

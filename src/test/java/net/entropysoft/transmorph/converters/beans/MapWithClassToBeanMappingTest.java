@@ -51,6 +51,8 @@ public class MapWithClassToBeanMappingTest {
 				});
 		myInterface = converter.convert(mapOfStrings, IMyInterface.class);
 		assertEquals("22", myInterface.getMyString());
+		myInterface = converter.convert(mapOfStrings, MySecondImplementation.class);
+		assertEquals("22", myInterface.getMyString());
 	}
 
 	private Transmorph createConverter() {

@@ -36,6 +36,7 @@ import org.junit.runners.Suite.SuiteClasses;
 		StringToTimeZoneTest.class, StringToCalendarTest.class,
 		DateToCalendarTest.class, StringToFileTest.class,
 		ObjectToObjectUsingConstructorTest.class, URLToURITest.class,
+		SameTypeConverterTest.class,
 		SubTypeConverterTest.class,
 		net.entropysoft.transmorph.converters.beans.AllTests.class,
 		net.entropysoft.transmorph.converters.collections.AllTests.class,

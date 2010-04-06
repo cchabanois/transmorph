@@ -26,6 +26,7 @@ import java.util.List;
 import net.entropysoft.transmorph.ConversionContext;
 import net.entropysoft.transmorph.DefaultConverters;
 import net.entropysoft.transmorph.Transmorph;
+import net.entropysoft.transmorph.converters.IdentityConverter;
 import net.entropysoft.transmorph.converters.ImmutableIdentityConverter;
 import net.entropysoft.transmorph.converters.WrapperToPrimitive;
 import net.entropysoft.transmorph.converters.collections.ArrayToArray;
@@ -174,4 +175,31 @@ public class BeanToBeanTest {
 
 	}
 
+	@Test
+	public void testShallowCopy() throws Exception {
+		BeanToBean beanToBean = new BeanToBean();
+		beanToBean.setElementConverter(new IdentityConverter());
+		Transmorph converter = new Transmorph(beanToBean);
+		
+		MyBeanAB myBeanAB = new MyBeanAB();
+		myBeanAB.setId(55L);
+		List<Integer> listOfInteger = new ArrayList<Integer>();
+		listOfInteger.add(1);
+		listOfInteger.add(2);
+		listOfInteger.add(3);
+		myBeanAB.setMyIntegers(listOfInteger);
+		MyBeanBA myBeanBA = new MyBeanBA();
+		myBeanBA.setId(56L);
+		myBeanBA.setMyNumber(75);
+		myBeanAB.setMyBeanBA(myBeanBA);
+		myBeanBA.setMyBeanAB(myBeanAB);
+
+		MyBeanAB myBeanABCopy = converter.convert(myBeanAB, myBeanAB
+				.getClass());
+		assertFalse(myBeanAB == myBeanABCopy);
+		assertEquals(listOfInteger, myBeanABCopy.getMyIntegers());
+		assertNotNull(myBeanABCopy.getMyBeanBA());
+		assertEquals(myBeanBA, myBeanABCopy.getMyBeanBA());
+	}
+	
 }

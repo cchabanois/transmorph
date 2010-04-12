@@ -18,6 +18,7 @@ package net.entropysoft.transmorph.converters;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
 
 import net.entropysoft.transmorph.ConverterException;
@@ -94,4 +95,14 @@ public class NumberToNumberTest {
 		assertEquals(4, longsArray[3]);
 	}
 
+	@Test
+	public void testToBigDecimal() throws Exception {
+		DefaultConverters defaultConverters = new DefaultConverters();
+		Transmorph converter = new Transmorph(defaultConverters);
+		BigDecimal number = converter.convert(150, BigDecimal.class);
+		assertEquals(BigDecimal.valueOf(150), number);
+		number = converter.convert(1.0/3.0, BigDecimal.class);
+		assertEquals(BigDecimal.valueOf(1.0/3.0), number);
+	}
+	
 }

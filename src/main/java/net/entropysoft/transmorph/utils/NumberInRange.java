@@ -68,22 +68,7 @@ public class NumberInRange {
 	public static boolean isInRange(Number number, BigInteger min,
 			BigInteger max) {
 		try {
-			BigInteger bigInteger = null;
-			if (number instanceof Byte || number instanceof Short
-					|| number instanceof Integer || number instanceof Long) {
-				bigInteger = BigInteger.valueOf(number.longValue());
-			} else if (number instanceof Float || number instanceof Double) {
-				bigInteger = new BigDecimal(number.doubleValue())
-						.toBigInteger();
-			} else if (number instanceof BigInteger) {
-				bigInteger = (BigInteger) number;
-			} else if (number instanceof BigDecimal) {
-				bigInteger = ((BigDecimal) number).toBigInteger();
-			} else {
-				// not a standard number
-				bigInteger = new BigDecimal(number.doubleValue())
-						.toBigInteger();
-			}
+			BigInteger bigInteger = BigNumberUtils.getBigInteger(number);
 			return max.compareTo(bigInteger) >= 0
 					&& min.compareTo(bigInteger) <= 0;
 		} catch (NumberFormatException e) {
@@ -94,19 +79,7 @@ public class NumberInRange {
 	public static boolean isInRange(Number number, BigDecimal min,
 			BigDecimal max) {
 		try {
-			BigDecimal bigDecimal = null;
-			if (number instanceof Byte || number instanceof Short
-					|| number instanceof Integer || number instanceof Long) {
-				bigDecimal = new BigDecimal(number.longValue());
-			} else if (number instanceof Float || number instanceof Double) {
-				bigDecimal = new BigDecimal(number.doubleValue());
-			} else if (number instanceof BigInteger) {
-				bigDecimal = new BigDecimal((BigInteger) number);
-			} else if (number instanceof BigDecimal) {
-				bigDecimal = (BigDecimal) number;
-			} else {
-				bigDecimal = new BigDecimal(number.doubleValue());
-			}
+			BigDecimal bigDecimal = BigNumberUtils.getBigDecimal(number);
 			return max.compareTo(bigDecimal) >= 0
 					&& min.compareTo(bigDecimal) <= 0;
 		} catch (NumberFormatException e) {

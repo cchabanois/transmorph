@@ -37,7 +37,6 @@ public class NumberComparator implements Comparator<Number> {
 	}
 
 	@SuppressWarnings("unchecked")
-	@Override
 	public int compare(Number number1, Number number2) {
 		Class<? extends Number> commonClass = NumberUtils.getCommonNumberClass(
 				number1.getClass(), number2.getClass());

@@ -22,7 +22,7 @@ import java.text.MessageFormat;
 import net.entropysoft.transmorph.ConversionContext;
 import net.entropysoft.transmorph.ConverterException;
 import net.entropysoft.transmorph.type.TypeReference;
-import net.entropysoft.transmorph.utils.BigNumberUtils;
+import net.entropysoft.transmorph.utils.NumberUtils;
 import net.entropysoft.transmorph.utils.NumberInRange;
 
 /**
@@ -111,10 +111,10 @@ public class NumberToNumber extends AbstractConverter {
 				return sourceNumber.shortValue();
 			}
 			if (destinationType.hasRawType(BigInteger.class)) {
-				return BigNumberUtils.getBigInteger(sourceNumber);
+				return NumberUtils.getBigInteger(sourceNumber);
 			}
 			if (destinationType.hasRawType(BigDecimal.class)) {
-				return BigNumberUtils.getBigDecimal(sourceNumber);
+				return NumberUtils.getBigDecimal(sourceNumber);
 			}
 			throw new ConverterException("Could not convert");
 		} catch (NumberFormatException e) {

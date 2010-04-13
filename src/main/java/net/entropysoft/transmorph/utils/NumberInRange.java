@@ -68,7 +68,7 @@ public class NumberInRange {
 	public static boolean isInRange(Number number, BigInteger min,
 			BigInteger max) {
 		try {
-			BigInteger bigInteger = BigNumberUtils.getBigInteger(number);
+			BigInteger bigInteger = NumberUtils.getBigInteger(number);
 			return max.compareTo(bigInteger) >= 0
 					&& min.compareTo(bigInteger) <= 0;
 		} catch (NumberFormatException e) {
@@ -79,7 +79,7 @@ public class NumberInRange {
 	public static boolean isInRange(Number number, BigDecimal min,
 			BigDecimal max) {
 		try {
-			BigDecimal bigDecimal = BigNumberUtils.getBigDecimal(number);
+			BigDecimal bigDecimal = NumberUtils.getBigDecimal(number);
 			return max.compareTo(bigDecimal) >= 0
 					&& min.compareTo(bigDecimal) <= 0;
 		} catch (NumberFormatException e) {

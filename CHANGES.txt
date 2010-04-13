@@ -1,8 +1,19 @@
-transmorph 3.0.2 Release
+transmorph 3.1.0 Release
 
 Cédric Chabanois, cchabanois at gmail com
 
 CHANGES
+
+April 13, 2010 -- transmorph v3.1.0
+* Some changes to MapToBean :
+** can now handle an interface as a destination type as long as IMapToBeanMapping can provide
+ a concrete type from the map and destination type
+** new implementation for IMapToBeanMapping that can use map "class" key if present
+* make sure that converters do not return null when converting to primitive type
+* added SameTypeConverter converter that can be used to clone an objet
+* improved NumberToNumber converter : conversion to BigInteger and BigDecimal have been improved
+* added comparator NumberComparator to compare numbers (to compare an Integer to a Long, an Integer to a Float ...)
+
 January 14, 2010 -- transmorph v3.0.2
 * added new converters :
  ** BeanToMap : used to convert a Bean to a map. Map keys will be the property names

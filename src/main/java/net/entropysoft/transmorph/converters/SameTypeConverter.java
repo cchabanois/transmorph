@@ -67,13 +67,17 @@ public class SameTypeConverter extends AbstractContainerConverter {
 		if (!super.canHandle(context, sourceObject, destinationType)) {
 			return false;
 		}
-		return destinationType.isRawTypeInstance(sourceObject);
+		return sourceObject == null || destinationType.isRawTypeInstance(sourceObject);
 	}
 	
 	@Override
 	public Object doConvert(ConversionContext context, Object sourceObject,
 			TypeReference<?> destinationType) throws ConverterException {
 
+		if (sourceObject == null) {
+			return null;
+		}
+		
 		TypeReference<?> sourceObjectTypeReference = TypeReference
 				.get(sourceObject.getClass());
 		try {

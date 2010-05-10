@@ -16,6 +16,7 @@
 package net.entropysoft.transmorph.converters;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import net.entropysoft.transmorph.DefaultConverters;
 import net.entropysoft.transmorph.Transmorph;
 
@@ -30,6 +31,7 @@ public class SameTypeConverterTest {
 		sameTypeConverter.setElementConverter(new DefaultConverters());
 		Transmorph converter = new Transmorph(sameTypeConverter);
 		assertEquals(55,converter.convert(new Integer(55), Object.class));
+		assertNull(converter.convert(null, Object.class));
 	}
 	
 }

@@ -78,8 +78,8 @@ public class ConversionContext {
 	 * 
 	 * @param key
 	 */
-	public void get(String key) {
-		map.get(key);
+	public Object get(String key) {
+		return map.get(key);
 	}
 
 	/**

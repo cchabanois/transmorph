@@ -1,8 +1,13 @@
-transmorph 3.1.0 Release
+transmorph 3.1.1 Release
 
 Cédric Chabanois, cchabanois at gmail com
 
 CHANGES
+
+February 4, 2011 -- transmorph v3.1.1
+* bug correction :
+** #0000001: Cannot convert a bean to map when a getter with no setter throws an exception even when we call setIgnorePropertiesWithNoSetter
+* do not ignore null values for bean properties anymore in MapToBean
 
 April 13, 2010 -- transmorph v3.1.0
 * Some changes to MapToBean :

@@ -1,4 +1,4 @@
-transmorph v3.1.0
+transmorph v3.1.1
 
 Cédric Chabanois, cchabanois at gmail com
 

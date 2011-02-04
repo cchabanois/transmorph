@@ -21,7 +21,7 @@
 	<groupId>net.sf.transmorph</groupId>
 	<artifactId>transmorph</artifactId>
 	<packaging>jar</packaging>
-	<version>3.1.0</version>
+	<version>3.1.1</version>
 	<name>transmorph</name>
 
 	<inceptionYear>2008</inceptionYear>

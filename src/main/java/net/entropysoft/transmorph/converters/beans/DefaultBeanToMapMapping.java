@@ -27,10 +27,11 @@ import java.util.Map;
  * @author Cedric Chabanois (cchabanois at gmail.com)
  * 
  */
-public class DefaultBeanToMapMapping implements IBeanToMapMapping {
+public class DefaultBeanToMapMapping implements IBeanToMapMapping2 {
 
 	private boolean ignorePropertiesWithNoSetter = true;
 	private boolean keepClass = false;
+	private boolean ignoreNullValues = false;
 	
 	
 	public Map<String, Object> getOtherValues(Object bean) {
@@ -43,15 +44,19 @@ public class DefaultBeanToMapMapping implements IBeanToMapMapping {
 		}
 	}
 	
-	public String getMapKey(Object bean, String propertyName,
-			Object propertyValue, Method getterMethod, Method setterMethod) {
+	public boolean select(Object bean, String propertyName, Method getterMethod, Method setterMethod) {
 		if ("class".equals(propertyName)) {
-				return null;
-		}
-		if (propertyValue == null) {
-			return null;
+			return false;
 		}
 		if (ignorePropertiesWithNoSetter && setterMethod == null) {
+			return false;
+		}
+		return true;
+	}
+	
+	public String getMapKey(Object bean, String propertyName,
+			Object propertyValue, Method getterMethod, Method setterMethod) {
+		if (propertyValue == null && ignoreNullValues) {
 			return null;
 		}
 		return propertyName;
@@ -60,6 +65,10 @@ public class DefaultBeanToMapMapping implements IBeanToMapMapping {
 	public void setIgnorePropertiesWithNoSetter(
 			boolean ignorePropertiesWithNoSetter) {
 		this.ignorePropertiesWithNoSetter = ignorePropertiesWithNoSetter;
+	}
+	
+	public void setIgnoreNullValues(boolean ignoreNullValues) {
+		this.ignoreNullValues = ignoreNullValues;
 	}
 	
 	public boolean isIgnorePropertiesWithNoSetter() {

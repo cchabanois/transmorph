@@ -15,6 +15,7 @@
  */
 package net.entropysoft.transmorph.converters.beans;
 
+import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -110,10 +111,11 @@ public class BeanToMapTest {
 		// we want to convert a bean to a Map that can contain only Map, List or
 		// String (which also only contain Map, List, String ...)
 		BeanToMap beanToMap = new BeanToMap();
-		SubTypeConverter subTypeConverter = new SubTypeConverter(TypeReference
-				.get(Object.class), new TypeReference[] {
-				TypeReference.get(List.class), TypeReference.get(Map.class),
-				TypeReference.get(String.class) });
+		SubTypeConverter subTypeConverter = new SubTypeConverter(
+				TypeReference.get(Object.class), new TypeReference[] {
+						TypeReference.get(List.class),
+						TypeReference.get(Map.class),
+						TypeReference.get(String.class) });
 		beanToMap.setElementConverter(subTypeConverter);
 
 		MultiConverter toListConverter = new MultiConverter(
@@ -129,8 +131,9 @@ public class BeanToMapTest {
 				toMapConverter);
 
 		MultiConverter toStringConverter = new MultiConverter(
-				new ObjectToFormattedString(Number.class, NumberFormat
-						.getInstance(Locale.US)), new IdentityConverter());
+				new ObjectToFormattedString(Number.class,
+						NumberFormat.getInstance(Locale.US)),
+				new IdentityConverter());
 		toStringConverter.setElementConverter(subTypeConverter);
 		subTypeConverter.setConverter(TypeReference.get(String.class),
 				toStringConverter);
@@ -142,8 +145,7 @@ public class BeanToMapTest {
 		myBean1.setMyInts(new int[] { 1, 2, 3 });
 		MyBean2 myBean2 = new MyBean2();
 		myBean2.setMyLong(112312);
-		myBean2
-				.setMySetOfIntegers(new HashSet<Integer>(Arrays.asList(1, 2, 3)));
+		myBean2.setMySetOfIntegers(new HashSet<Integer>(Arrays.asList(1, 2, 3)));
 
 		myBean1.setMyBean2(myBean2);
 
@@ -171,6 +173,60 @@ public class BeanToMapTest {
 		assertTrue(mySetOfIntegersAsStrings.contains("3"));
 	}
 
+	@Test
+	public void testIgnoreGettersWithNoSetters() throws Exception {
+		// make sure we don't call getters if ignorePropertiesWithNoSetter is true (see bug #0000001) 
+		BeanToMap beanToMap = new BeanToMap();
+		DefaultBeanToMapMapping beanToMapMapping = new DefaultBeanToMapMapping();
+		beanToMapMapping.setIgnorePropertiesWithNoSetter(true);
+		beanToMap.setBeanToMapMapping(beanToMapMapping);
+		Transmorph converter = new Transmorph(beanToMap,
+				new IdentityConverter());
+		BeanWithGetterThrowingException beanWithGetterThrowingException = new BeanWithGetterThrowingException();
+		beanWithGetterThrowingException.setValue(22);
+		converter.convert(beanWithGetterThrowingException,
+				new TypeReference<Map<String, Object>>() {
+				});
+	}
+
+	@Test
+	public void testDoNotAddNullProperties() throws Exception {
+		BeanToMap beanToMap = new BeanToMap();
+		DefaultBeanToMapMapping beanToMapMapping = new DefaultBeanToMapMapping();
+		beanToMapMapping.setIgnoreNullValues(true);
+		beanToMap.setBeanToMapMapping(beanToMapMapping);
+		Transmorph converter = new Transmorph(beanToMap,
+				new IdentityConverter());
+		
+		MyBean1 myBean1 = new MyBean1();
+		myBean1.setMyInt(22);
+		Map<String, Object> myBean1AsMap = converter.convert(myBean1,
+				new TypeReference<Map<String, Object>>() {
+				});
+		assertTrue(myBean1AsMap.containsKey("myInt"));
+		assertFalse(myBean1AsMap.containsKey("myBean2"));
+		assertFalse(myBean1AsMap.containsKey("myInts"));
+	}
+	
+	@Test
+	public void testAddNullProperties() throws Exception {
+		BeanToMap beanToMap = new BeanToMap();
+		DefaultBeanToMapMapping beanToMapMapping = new DefaultBeanToMapMapping();
+		beanToMapMapping.setIgnoreNullValues(false);
+		beanToMap.setBeanToMapMapping(beanToMapMapping);
+		Transmorph converter = new Transmorph(beanToMap,
+				new IdentityConverter());
+		
+		MyBean1 myBean1 = new MyBean1();
+		myBean1.setMyInt(22);
+		Map<String, Object> myBean1AsMap = converter.convert(myBean1,
+				new TypeReference<Map<String, Object>>() {
+				});
+		assertTrue(myBean1AsMap.containsKey("myInt"));
+		assertTrue(myBean1AsMap.containsKey("myBean2"));
+		assertTrue(myBean1AsMap.containsKey("myInts"));
+	}
+	
 	public static class MyBean1 {
 		private int[] myInts;
 		private int myInt;
@@ -238,6 +294,23 @@ public class BeanToMapTest {
 
 		public void setStr(String str) {
 			this.str = str;
+		}
+
+	}
+
+	public static class BeanWithGetterThrowingException {
+		private int value;
+
+		public int getSomethingButThrowsException() {
+			throw new RuntimeException();
+		}
+
+		public int getValue() {
+			return value;
+		}
+
+		public void setValue(int value) {
+			this.value = value;
 		}
 
 	}

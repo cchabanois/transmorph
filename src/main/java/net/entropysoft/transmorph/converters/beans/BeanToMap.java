@@ -17,6 +17,7 @@ package net.entropysoft.transmorph.converters.beans;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collection;
@@ -47,17 +48,16 @@ public class BeanToMap extends AbstractContainerConverter {
 	private IBeanToMapMapping beanToMapMapping = new DefaultBeanToMapMapping();
 
 	@SuppressWarnings("unchecked")
-	private Set<Class<?>> excludedClasses = new HashSet<Class<?>>(Arrays
-			.asList(String.class, Map.class, Collection.class, Calendar.class,
-					Date.class));
+	private Set<Class<?>> excludedClasses = new HashSet<Class<?>>(
+			Arrays.asList(String.class, Map.class, Collection.class,
+					Calendar.class, Date.class));
 	private boolean failIfNoGetters = true;
 
 	public BeanToMap() {
 		this.useObjectPool = true;
 	}
 
-	public void setBeanToMapMapping(
-			IBeanToMapMapping beanToMapMapping) {
+	public void setBeanToMapMapping(IBeanToMapMapping beanToMapMapping) {
 		this.beanToMapMapping = beanToMapMapping;
 	}
 
@@ -139,29 +139,48 @@ public class BeanToMap extends AbstractContainerConverter {
 			Method getterMethod = entry.getValue();
 			Method setterMethod = setterMethods.get(propertyName);
 
-			Object sourcePropertyValue;
-			try {
-				sourcePropertyValue = getterMethod.invoke(sourceObject);
-			} catch (Exception e) {
-				throw new ConverterException("Could not get property for bean",
-						e);
-			}
+			if (selectProperty(sourceObject, propertyName, getterMethod,
+					setterMethod)) {
+				Object sourcePropertyValue;
+				try {
+					sourcePropertyValue = getterMethod.invoke(sourceObject);
+				} catch (Exception e) {
+					throw new ConverterException(
+							MessageFormat.format(
+									"Could not get property ''{0}'' for bean with class ''{1}''",
+									propertyName, sourceObject.getClass()
+											.getName()), e);
+				}
 
-			String mapKey = beanToMapMapping.getMapKey(sourceObject, propertyName, sourcePropertyValue, getterMethod, setterMethod);
-			if (mapKey != null) {
-				Object value = elementConverter.convert(context,
-						sourcePropertyValue, destinationTypeArguments[1]);
-				destinationMap.put(mapKey, value);
+				String mapKey = beanToMapMapping.getMapKey(sourceObject,
+						propertyName, sourcePropertyValue, getterMethod,
+						setterMethod);
+				if (mapKey != null) {
+					Object value = elementConverter.convert(context,
+							sourcePropertyValue, destinationTypeArguments[1]);
+					destinationMap.put(mapKey, value);
+				}
 			}
 		}
-		Map<String, Object> otherValues = beanToMapMapping.getOtherValues(sourceObject);
-		for (Map.Entry<String, Object> entry : otherValues.entrySet()) { 
-			Object value = elementConverter.convert(context,
-					entry.getValue(), destinationTypeArguments[1]);
+		Map<String, Object> otherValues = beanToMapMapping
+				.getOtherValues(sourceObject);
+		for (Map.Entry<String, Object> entry : otherValues.entrySet()) {
+			Object value = elementConverter.convert(context, entry.getValue(),
+					destinationTypeArguments[1]);
 			destinationMap.put(entry.getKey(), value);
 		}
 
 		return destinationMap;
+	}
+
+	private boolean selectProperty(Object bean, String propertyName,
+			Method getterMethod, Method setterMethod) {
+		if (beanToMapMapping instanceof IBeanToMapMapping2) {
+			return ((IBeanToMapMapping2) beanToMapMapping).select(bean,
+					propertyName, getterMethod, setterMethod);
+		} else {
+			return true;
+		}
 	}
 
 	@SuppressWarnings("unchecked")

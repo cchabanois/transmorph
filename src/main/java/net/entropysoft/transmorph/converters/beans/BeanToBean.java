@@ -40,7 +40,7 @@ import net.entropysoft.transmorph.utils.BeanUtils;
  */
 public class BeanToBean extends AbstractContainerConverter {
 	private IBeanPropertyTypeProvider beanDestinationPropertyTypeProvider;
-	private Map<ClassPair<?, ?>, BeanToBeanMapping> beanToBeanMappings = new HashMap<ClassPair<?, ?>, BeanToBeanMapping>();
+	private final Map<ClassPair<?, ?>, BeanToBeanMapping> beanToBeanMappings = new HashMap<ClassPair<?, ?>, BeanToBeanMapping>();
 	private boolean handleTargetClassSameAsSourceClass = true;
 
 	public BeanToBean() {

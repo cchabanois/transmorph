@@ -34,7 +34,7 @@ import net.entropysoft.transmorph.type.TypeReference;
  * 
  */
 public class SameTypeConverter extends AbstractContainerConverter {
-	private Map<TypeReference<?>, IConverter> typeReferenceToConverter = new HashMap<TypeReference<?>, IConverter>();
+	private final Map<TypeReference<?>, IConverter> typeReferenceToConverter = new HashMap<TypeReference<?>, IConverter>();
 
 	public SameTypeConverter() {
 	}

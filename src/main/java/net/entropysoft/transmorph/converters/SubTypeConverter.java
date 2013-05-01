@@ -35,9 +35,9 @@ import net.entropysoft.transmorph.type.TypeReference;
  * 
  */
 public class SubTypeConverter extends AbstractContainerConverter {
-	private TypeReference<?> destinationType;
-	private TypeReference<?>[] destinationSubTypes;
-	private Map<TypeReference<?>, IConverter> typeReferenceToConverter = new HashMap<TypeReference<?>, IConverter>();
+	private final TypeReference<?> destinationType;
+	private final TypeReference<?>[] destinationSubTypes;
+	private final Map<TypeReference<?>, IConverter> typeReferenceToConverter = new HashMap<TypeReference<?>, IConverter>();
 
 	public SubTypeConverter(TypeReference<?> destinationType,
 			TypeReference<?>[] destinationSubTypes) {

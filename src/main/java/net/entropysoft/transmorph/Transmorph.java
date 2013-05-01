@@ -33,7 +33,7 @@ import net.entropysoft.transmorph.type.TypeReference;
  */
 public class Transmorph {
 
-	private MultiConverter multiConverter;
+	private final MultiConverter multiConverter;
 
 	/**
 	 * Creates Transmorph object

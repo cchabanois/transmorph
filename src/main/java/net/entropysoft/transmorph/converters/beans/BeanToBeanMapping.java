@@ -27,9 +27,9 @@ import java.util.Map;
  */
 public class BeanToBeanMapping {
 
-	private Class<?> sourceClass;
-	private Class<?> destinationClass;
-	private Map<String, String> destinationPropertyName2SourcePropertyNameMap = new HashMap<String, String>();
+	private final Class<?> sourceClass;
+	private final Class<?> destinationClass;
+	private final Map<String, String> destinationPropertyName2SourcePropertyNameMap = new HashMap<String, String>();
 
 	public BeanToBeanMapping(Class<?> sourceClass, Class<?> destinationClass) {
 		this.sourceClass = sourceClass;

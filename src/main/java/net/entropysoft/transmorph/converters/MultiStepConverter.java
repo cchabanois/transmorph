@@ -29,7 +29,7 @@ import net.entropysoft.transmorph.type.TypeReference;
  */
 public class MultiStepConverter extends AbstractContainerConverter {
 
-	private TypeReference<?>[] types;
+	private final TypeReference<?>[] types;
 	private IConverter[] stepConverters;
 
 	/**

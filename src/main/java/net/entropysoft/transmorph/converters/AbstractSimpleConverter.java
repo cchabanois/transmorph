@@ -38,8 +38,8 @@ public abstract class AbstractSimpleConverter<S, D> implements ISimpleConverter<
 	private final static IModifier[] EMPTY_MODIFIERS = new IModifier[0];
 
 	private IModifier<D>[] modifiers = EMPTY_MODIFIERS;
-	private Class<S> sourceClass;
-	private Class<D> destinationClass;
+	private final Class<S> sourceClass;
+	private final Class<D> destinationClass;
 	protected boolean useObjectPool = false;
 
 	protected AbstractSimpleConverter(Class<S> sourceClass, Class<D> destinationClass) {

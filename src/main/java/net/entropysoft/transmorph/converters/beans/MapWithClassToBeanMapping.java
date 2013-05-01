@@ -31,7 +31,7 @@ import net.entropysoft.transmorph.type.TypeReference;
  */
 public class MapWithClassToBeanMapping implements IMapToBeanMapping {
 
-	private ClassLoader classLoader;
+	private final ClassLoader classLoader;
 
 	public MapWithClassToBeanMapping(ClassLoader classLoader) {
 		this.classLoader = classLoader;

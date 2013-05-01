@@ -26,9 +26,9 @@ import net.entropysoft.transmorph.type.TypeReference;
  */
 public class UsedConverter {
 
-	private IConverter converter;
-	private Class<?> sourceObjectClass;
-	private TypeReference<?> destinationType;
+	private final IConverter converter;
+	private final Class<?> sourceObjectClass;
+	private final TypeReference<?> destinationType;
 
 	public UsedConverter(IConverter converter, Class<?> sourceObjectClass,
 			TypeReference<?> destinationType) {

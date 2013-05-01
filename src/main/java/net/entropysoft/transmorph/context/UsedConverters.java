@@ -34,8 +34,8 @@ import net.entropysoft.transmorph.type.TypeReference;
  */
 public class UsedConverters {
 	// we use both a list and a set to keep order
-	private List<UsedConverter> usedConvertersList = new ArrayList<UsedConverter>();
-	private Set<UsedConverter> usedConvertersSet = new HashSet<UsedConverter>();
+	private final List<UsedConverter> usedConvertersList = new ArrayList<UsedConverter>();
+	private final Set<UsedConverter> usedConvertersSet = new HashSet<UsedConverter>();
 
 	/**
 	 * Removes all the elements

@@ -17,7 +17,7 @@ package net.entropysoft.transmorph.context;
 
 public class ConversionWarning implements IConversionWarning {
 
-	private String message;
+	private final String message;
 	
 	public ConversionWarning(String message) {
 		this.message = message;

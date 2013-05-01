@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ConversionWarnings {
-	private List<IConversionWarningsListener> conversionWarningListeners = new ArrayList<IConversionWarningsListener>();
+	private final List<IConversionWarningsListener> conversionWarningListeners = new ArrayList<IConversionWarningsListener>();
 	
 	public void addWarningListener(IConversionWarningsListener conversionWarningsListener) {
 		conversionWarningListeners.add(conversionWarningsListener);

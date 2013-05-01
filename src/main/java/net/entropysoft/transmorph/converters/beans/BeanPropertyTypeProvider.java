@@ -29,7 +29,7 @@ import net.entropysoft.transmorph.type.TypeReference;
  */
 public class BeanPropertyTypeProvider implements IBeanPropertyTypeProvider {
 
-	private Map<ClassProperty, TypeReference<?>> propertiesDestinationTypes = new HashMap<ClassProperty, TypeReference<?>>();
+	private final Map<ClassProperty, TypeReference<?>> propertiesDestinationTypes = new HashMap<ClassProperty, TypeReference<?>>();
 
 	/**
 	 * set the property destination type for given property

@@ -29,7 +29,7 @@ import net.entropysoft.transmorph.type.TypeReference;
  */
 public class ConvertedObjectPool {
 
-	private Map<ConvertedObjectsKey, Object> convertedObjects = new HashMap<ConvertedObjectsKey, Object>();
+	private final Map<ConvertedObjectsKey, Object> convertedObjects = new HashMap<ConvertedObjectsKey, Object>();
 
 	/**
 	 * get the converted object corresponding to sourceObject as converted to

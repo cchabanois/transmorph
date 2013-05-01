@@ -36,7 +36,6 @@ public class TypeUtils {
 	 * This method returns the actual raw class associated with the specified
 	 * type.
 	 */
-	@SuppressWarnings("unchecked")
 	public static Class<?> getRawType(Type type) {
 		if (type instanceof Class) {
 			return (Class<?>) type;
@@ -64,7 +63,6 @@ public class TypeUtils {
 	/**
 	 * Check if this type is assignable from the given Type.
 	 */
-	@SuppressWarnings("unchecked")
 	public static boolean isAssignableFrom(TypeReference<?> from, TypeReference<?> to) {
 		if (from == null) {
 			return false;
@@ -92,7 +90,6 @@ public class TypeUtils {
 	 * Private recursive helper function to actually do the type-safe checking
 	 * of assignability.
 	 */
-	@SuppressWarnings("unchecked")
 	private static boolean isAssignableFrom(Type from, ParameterizedType to,
 			Map<String, Type> typeVarMap) {
 
@@ -170,7 +167,6 @@ public class TypeUtils {
 	 * Checks if two types are the same or are equivalent under a variable
 	 * mapping given in the type map that was provided.
 	 */
-	@SuppressWarnings("unchecked")
 	private static boolean matches(Type from, Type to, Map<String, Type> typeMap) {
 		if (to.equals(from))
 			return true;
@@ -186,7 +182,6 @@ public class TypeUtils {
 	 * Private helper function that performs some assignability checks for the
 	 * provided GenericArrayType.
 	 */
-	@SuppressWarnings("unchecked")
 	private static boolean isAssignableFrom(Type from, GenericArrayType to) {
 		Type toGenericComponentType = to.getGenericComponentType();
 		if (toGenericComponentType instanceof ParameterizedType) {

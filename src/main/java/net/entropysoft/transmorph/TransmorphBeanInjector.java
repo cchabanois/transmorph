@@ -30,7 +30,7 @@ import net.entropysoft.transmorph.type.TypeReference;
  * 
  */
 public class TransmorphBeanInjector implements IBeanInjector {
-	private IBeanInjector beanInjector;
+	private final IBeanInjector beanInjector;
 
 	public TransmorphBeanInjector(IBeanInjector beanInjector) {
 		this.beanInjector = beanInjector;

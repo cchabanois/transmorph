@@ -32,9 +32,9 @@ import net.entropysoft.transmorph.context.UsedConverters;
  * 
  */
 public class ConversionContext {
-	private ConvertedObjectPool convertedObjectPool = new ConvertedObjectPool();
-	private Map<String, Object> map = new HashMap<String, Object>();
-	private UsedConverters usedConverters = new UsedConverters();
+	private final ConvertedObjectPool convertedObjectPool = new ConvertedObjectPool();
+	private final Map<String, Object> map = new HashMap<String, Object>();
+	private final UsedConverters usedConverters = new UsedConverters();
 	private boolean storeUsedConverters = false;
 
 	public boolean isStoreUsedConverters() {

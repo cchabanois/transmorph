@@ -17,7 +17,7 @@ package net.entropysoft.transmorph.converters;
 
 import net.entropysoft.transmorph.ConversionContext;
 import net.entropysoft.transmorph.ConverterException;
-import net.entropysoft.transmorph.IConverter;
+import net.entropysoft.transmorph.ISimpleConverter;
 import net.entropysoft.transmorph.context.ConvertedObjectPool;
 import net.entropysoft.transmorph.modifiers.IModifier;
 import net.entropysoft.transmorph.modifiers.ModifierException;
@@ -34,7 +34,7 @@ import net.entropysoft.transmorph.type.TypeReference;
  * @param <D>
  *            The destination
  */
-public abstract class AbstractSimpleConverter<S, D> implements IConverter {
+public abstract class AbstractSimpleConverter<S, D> implements ISimpleConverter<S,D> {
 	private final static IModifier[] EMPTY_MODIFIERS = new IModifier[0];
 
 	private IModifier<D>[] modifiers = EMPTY_MODIFIERS;

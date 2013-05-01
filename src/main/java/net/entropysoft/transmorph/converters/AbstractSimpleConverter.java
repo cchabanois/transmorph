@@ -79,7 +79,6 @@ public abstract class AbstractSimpleConverter<S, D> implements IConverter {
 				throw new ConverterException(
 						"Cannot convert null to a primitive type");
 			}
-			return null;
 		}
 		D convertedObject;
 		ConvertedObjectPool objectPool = context.getConvertedObjectPool();

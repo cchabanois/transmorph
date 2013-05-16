@@ -56,14 +56,9 @@
 	</organization>
 
 	<scm>
-		<developerConnection>
-			scm:svn:https://transmorph.svn.sourceforge.net/svnroot/transmorph/trunk
-		</developerConnection>
-		<connection>
-			scm:svn:http://transmorph.svn.sourceforge.net/svnroot/transmorph/trunk
-		</connection>
-		<url>http://transmorph.svn.sourceforge.net/viewvc/transmorph/trunk
-		</url>
+		<developerConnection>scm:git:git@github.com:cchabanois/transmorph.git</developerConnection>
+		<connection>scm:git:git://github.com/cchabanois/transmorph.git</connection>
+		<url>https://github.com/cchabanois/transmorph</url>
 	</scm>
 
 	<distributionManagement>

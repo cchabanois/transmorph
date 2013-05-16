@@ -1,8 +1,13 @@
-transmorph 3.1.1 Release
+transmorph 3.1.3 Release
 
 Cédric Chabanois, cchabanois at gmail com
 
 CHANGES
+
+May 15, 2013 -- transmorph v3.1.3
+* bug correction : it was not possible to convert a null object to a non-null object
+* added new interface ISimpleConverter for converters for which source class and target class are known
+* added new abstract class AbstractSimpleBeanConverter as a base class to create converters for beans.
 
 February 4, 2011 -- transmorph v3.1.1
 * bug correction :

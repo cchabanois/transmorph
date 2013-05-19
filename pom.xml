@@ -21,15 +21,21 @@
 	<groupId>net.sf.transmorph</groupId>
 	<artifactId>transmorph</artifactId>
 	<packaging>jar</packaging>
-	<version>3.1.3</version>
+	<version>3.1.3-SNAPSHOT</version>
 	<name>transmorph</name>
+
+	<parent>
+		<groupId>org.sonatype.oss</groupId>
+		<artifactId>oss-parent</artifactId>
+		<version>7</version>
+	</parent>
 
 	<inceptionYear>2008</inceptionYear>
 	<description>Java library to convert a Java object of one type into
 		an object of another type (with another signature, possibly
 		parameterized).</description>
 
-	<url>http://transmorph.sourceforge.net/
+	<url>https://github.com/cchabanois/transmorph/wiki
 	</url>
 
 	<developers>
@@ -61,14 +67,6 @@
 		<url>https://github.com/cchabanois/transmorph</url>
 	</scm>
 
-	<distributionManagement>
-		<repository>
-			<id>transmorph.sf.net</id>
-			<name>SF.net repository mirror</name>
-			<url>sftp://web.sourceforge.net/home/groups/t/tr/transmorph/htdocs/m2repo</url>
-		</repository>
-	</distributionManagement>
-
 	<dependencies>
 		<dependency>
 			<groupId>junit</groupId>
@@ -88,7 +86,7 @@
 					<archive>
 						<manifestFile>META-INF/MANIFEST.MF</manifestFile>
 					</archive>
-	        	</configuration>
+				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -128,7 +126,6 @@
 					</execution>
 				</executions>
 			</plugin>
-
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
@@ -139,15 +136,27 @@
 					</excludes>
 				</configuration>
 			</plugin>
-
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-gpg-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>sign-artifacts</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>sign</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 
 		<extensions>
 			<extension>
-				<groupId>org.apache.maven.wagon</groupId> 
-				<artifactId>wagon-ssh</artifactId> 
-				<version>1.0-beta-6</version> 
-			</extension> 
+				<groupId>org.apache.maven.wagon</groupId>
+				<artifactId>wagon-ssh</artifactId>
+				<version>1.0-beta-6</version>
+			</extension>
 		</extensions>
 	</build>
 
@@ -171,7 +180,7 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-pmd-plugin</artifactId>
 				<configuration>
-					<targetJdk>${compileSource}</targetJdk>
+					<targetJdk>1.5</targetJdk>
 				</configuration>
 			</plugin>
 

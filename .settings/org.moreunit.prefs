@@ -1,6 +1,5 @@
-#Mon Jan 11 13:52:23 CET 2010
 eclipse.preferences.version=1
-org.moreunit.prefixes=
+org.moreunit.preferences.version=2
 org.moreunit.test_type=junit4
 org.moreunit.unitsourcefolder=transmorph\:src/main/java\:transmorph\:src/test/java
 org.moreunit.useprojectsettings=true

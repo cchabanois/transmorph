@@ -1,4 +1,5 @@
 # transmorph v3.1.3
+[![Build Status](https://buildhive.cloudbees.com/job/cchabanois/job/transmorph/badge/icon)](https://buildhive.cloudbees.com/job/cchabanois/job/transmorph/)
 
 Cédric Chabanois, cchabanois at gmail com
 
